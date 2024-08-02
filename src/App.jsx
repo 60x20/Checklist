@@ -8,6 +8,7 @@ import RootLayout from './layouts/RootLayout';
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={< RootLayout />}>
+      <Route path=":year/:month/:day" element={<h1 style={{'text-align': 'end'}}>1222</h1>} />
       <Route path="*" />
     </Route>
   )

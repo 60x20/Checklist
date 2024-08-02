@@ -1,0 +1,9 @@
+#menu {
+  background-color: rgb(80, 80, 120);
+  width: fit-content;
+  position: absolute;
+  /* position: fixed; */
+  height: 100%;
+  overflow-y: auto;
+  z-index: 1;
+}
