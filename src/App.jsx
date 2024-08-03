@@ -5,10 +5,13 @@ import { createBrowserRouter, createRoutesFromElements, RouterProvider, Route } 
 // layouts
 import RootLayout from './layouts/RootLayout';
 
+// components
+import Checklist from './components/Checklist';
+
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={< RootLayout />}>
-      <Route path=":year/:month/:day" element={<h1 style={{'text-align': 'end'}}>1222</h1>} />
+      <Route path=":year/:month/:day" element={<Checklist />} />
       <Route path="*" />
     </Route>
   )
