@@ -19,6 +19,13 @@ aside#menu {
   background-color: rgb(80, 80, 120);
 }
 
+#checklist {
+  margin: auto;
+  width: 60%;
+  min-height: 100%;
+  background-color: red;
+}
+
 footer {
   background-color: black;
 }
