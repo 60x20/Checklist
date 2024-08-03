@@ -1,5 +1,8 @@
 #menu {
   background-color: rgb(80, 80, 120);
+html, body {
+  margin: 0;
+  padding: 0;
   width: fit-content;
   position: absolute;
   /* position: fixed; */
