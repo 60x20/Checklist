@@ -9,6 +9,10 @@ div#root {
   min-height: 100vh;
 }
 
+main {
+  position: relative
+}
+
 aside#menu {
   width: fit-content;
   height: 100%;
