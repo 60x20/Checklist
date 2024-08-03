@@ -1,10 +1,10 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBars, faXmark } from '@fortawesome/free-solid-svg-icons'
-import { useMemo, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useContext } from 'react';
+import { menuStateContext } from '../layouts/RootLayout';
 
 const Navbar = () => {
-  const [menuState, setMenuState] = useState(!false);
   const navigate = useNavigate();  
 
   function goToRequestedDateHandler(e) {
@@ -25,12 +25,13 @@ const Navbar = () => {
       YMD: `${year}-${month}-${day}`
     });
   }
+  const { menuState, toggleMenuState } = useContext(menuStateContext);
   
   const dateOfToday = useMemo(returnCurrentDate);
   return ( 
     <nav>
       <button
-        onClick={() => setMenuState(!menuState)}
+        onClick={() => toggleMenuState()}
         title={menuState ? "Close menu" : "Open menu"}
         aria-expanded={menuState}
         aria-controls="menu"
