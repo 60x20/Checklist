@@ -1,6 +1,10 @@
 import { Outlet } from "react-router-dom";
 import Navbar from "../components/Navbar";
+import Menu from "../components/Menu";
 import { createContext, useState } from "react";
+import Footer from "../components/Footer";
+import Main from "../components/Main";
+
 export const menuStateContext = createContext();
 
 const RootLayout = () => {
@@ -12,7 +16,11 @@ const RootLayout = () => {
   return ( 
     <menuStateContext.Provider value={{ menuState, toggleMenuState }}>
       <Navbar />
-      <Outlet />
+      <Main>
+        <Menu />
+        <Outlet />
+      </Main>
+      <Footer />
     </menuStateContext.Provider>
   );
 }
