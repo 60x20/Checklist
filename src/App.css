@@ -9,6 +9,27 @@ div#root {
   min-height: 100vh;
 }
 
+nav#top-navigation-bar {
+  padding: 1rem;
+  display: flex;
+  flex-flow: row-reverse nowrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  background-color: purple;
+  border-bottom: 1rem solid black;
+
+  * {
+    margin: 0;
+  }
+
+  button {
+    box-sizing: border-box;
+    width: 2rem;
+    aspect-ratio: 1;
+  }
+}
+
 main {
   position: relative
 }
