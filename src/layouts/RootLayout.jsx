@@ -12,22 +12,27 @@ import returnCurrentDate from "../helpers/returnCurrentDate";
 
 // contexts
 export const menuStateContext = createContext();
+export const currentDateContext = createContext();
 
 const RootLayout = () => {
   const [menuState, setMenuState] = useState(false);
   function toggleMenuState() {
     setMenuState(!menuState);
   }
+
+  const [currentDate, setCurrentDateState] = useState(returnCurrentDate);
   return ( 
     <menuStateContext.Provider value={{ menuState, toggleMenuState }}>
-      <Navbar />
-      <Main>
-        <Menu />
-        <Outlet />
-      </Main>
-      <Footer />
+      <currentDateContext.Provider value={{ currentDate }}>
+        <Navbar />
+        <Main>
+          <Menu />
+          <Outlet />
+        </Main>
+        <Footer />
+      </currentDateContext.Provider>
     </menuStateContext.Provider>
   );
 }
- 
+
 export default RootLayout;
