@@ -9,6 +9,8 @@ import Footer from "../components/Footer";
 
 // helpers
 import returnCurrentDate from "../helpers/returnCurrentDate";
+
+// contexts
 export const menuStateContext = createContext();
 
 const RootLayout = () => {
