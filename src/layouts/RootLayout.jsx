@@ -21,6 +21,14 @@ const RootLayout = () => {
   }
 
   const [currentDate, setCurrentDateState] = useState(returnCurrentDate);
+  function refreshCurrentDate() {
+    const latestDate = returnCurrentDate();
+    // since returnCurentDate returns an object, validation is done manually
+    if (latestDate.YMD !== currentDate.YMD) {
+      setCurrentDateState(latestDate);
+    };
+  }
+
   return ( 
     <menuStateContext.Provider value={{ menuState, toggleMenuState }}>
       <currentDateContext.Provider value={{ currentDate }}>
