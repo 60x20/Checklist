@@ -1,9 +1,11 @@
 import { Outlet } from "react-router-dom";
+import { createContext, useEffect, useState } from "react";
+
+// components
 import Navbar from "../components/Navbar";
 import Menu from "../components/Menu";
-import { createContext, useState } from "react";
-import Footer from "../components/Footer";
 import Main from "../components/Main";
+import Footer from "../components/Footer";
 
 export const menuStateContext = createContext();
 
