@@ -15,7 +15,6 @@ export const menuStateContext = createContext();
 
 const RootLayout = () => {
   const [menuState, setMenuState] = useState(false);
-  
   function toggleMenuState() {
     setMenuState(!menuState);
   }
