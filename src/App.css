@@ -45,8 +45,8 @@ aside#menu {
 }
 
 #checklist {
-  margin: auto;
   width: 60%;
+  margin: 0 auto; /* horizontally centered */
   min-height: 100%;
   background-color: red;
 }
