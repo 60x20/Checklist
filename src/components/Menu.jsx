@@ -1,6 +1,8 @@
 import { Link, useNavigate } from "react-router-dom";
-import { menuStateContext } from "../layouts/RootLayout";
 import { useContext } from "react";
+
+// contexts
+import { currentDateContext, menuStateContext } from "../layouts/RootLayout";
 
 const Menu = () => {
   const navigate = useNavigate();
@@ -13,6 +15,7 @@ const Menu = () => {
   }
 
   const { menuState } = useContext(menuStateContext);
+  const { currentDate } = useContext(currentDateContext);
 
   return (
     <>
@@ -35,15 +38,12 @@ const Menu = () => {
           max="2100-12-31"
         />
       </label>
-      <p><Link to={dateOfToday.YMD.replaceAll('-', '/')}>today: {dateOfToday.DMY}</Link></p>
+      <p><Link to={currentDate.YMD.replaceAll('-', '/')}>today: {currentDate.DMY}</Link></p>
       <p>all</p>
     </aside>
     ) : false }
     </>
   );
 };
-
-
-const dateOfToday = returnCurrentDate();
 
 export default Menu;
