@@ -7,6 +7,8 @@ import Menu from "../components/Menu";
 import Main from "../components/Main";
 import Footer from "../components/Footer";
 
+// helpers
+import returnCurrentDate from "../helpers/returnCurrentDate";
 export const menuStateContext = createContext();
 
 const RootLayout = () => {
