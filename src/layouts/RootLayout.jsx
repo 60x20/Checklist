@@ -29,6 +29,16 @@ const RootLayout = () => {
     };
   }
 
+  useEffect(
+    () => {
+      // since currentDate gets changed, if we bind the func, we'll be using the older version, so rebind everytime it changes
+      const refreshRegularly = setInterval.bind(globalThis, refreshCurrentDate, 5000);
+      const intervalID = refreshRegularly();
+      // clean-up: clear the previous refresher, so that there's 1 refresher at a time
+      return clearInterval.bind(globalThis, intervalID);
+    }, [currentDate]
+  );
+
   return ( 
     <menuStateContext.Provider value={{ menuState, toggleMenuState }}>
       <currentDateContext.Provider value={{ currentDate }}>
