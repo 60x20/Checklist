@@ -5,7 +5,11 @@ import { useContext } from "react";
 const Menu = () => {
   const navigate = useNavigate();
   function goToRequestedDateHandler(e) {
-    navigate(e.currentTarget.value.replaceAll('-', '/'));
+    const requestedDate = e.currentTarget.value;
+    // requestedDate might be an empty string in case it's an invalid date
+    if (requestedDate) {
+      navigate(requestedDate.replaceAll('-', '/'));
+    }
   }
 
   const { menuState } = useContext(menuStateContext);
