@@ -31,9 +31,8 @@ const RootLayout = () => {
 
   useEffect(
     () => {
-      // since currentDate gets changed, if we bind the func, we'll be using the older version, so rebind everytime it changes
-      const refreshRegularly = setInterval.bind(globalThis, refreshCurrentDate, 5000);
-      const intervalID = refreshRegularly();
+      // since currentDate gets changed, if we don't re-set the interval with the new refreshCurrentDate, we'll be using the older version
+      const intervalID = setInterval(refreshCurrentDate, 5000);
       // clean-up: clear the previous refresher, so that there's 1 refresher at a time
       return clearInterval.bind(globalThis, intervalID);
     }, [currentDate]
