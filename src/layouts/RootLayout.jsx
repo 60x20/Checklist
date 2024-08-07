@@ -1,5 +1,4 @@
 import { Outlet } from "react-router-dom";
-import { createContext, useEffect, useState } from "react";
 
 // components
 import Navbar from "../components/Navbar";
@@ -7,49 +6,24 @@ import Menu from "../components/Menu";
 import Main from "../components/Main";
 import Footer from "../components/Footer";
 
-// helpers
-import returnCurrentDate from "../helpers/returnCurrentDate";
-
-// contexts
-export const menuStateContext = createContext();
-export const currentDateContext = createContext();
+// context providers
+import MenuStateProvider from "../providers/MenuStateProvider";
+import CurrentDateProvider from "../providers/CurrentDateProvider";
 
 const RootLayout = () => {
-  const [menuState, setMenuState] = useState(false);
-  function toggleMenuState() {
-    setMenuState(!menuState);
-  }
 
-  const [currentDate, setCurrentDateState] = useState(returnCurrentDate);
-  function refreshCurrentDate() {
-    const latestDate = returnCurrentDate();
-    // since returnCurentDate returns an object, validation is done manually
-    if (latestDate.YMD !== currentDate.YMD) {
-      setCurrentDateState(latestDate);
-    };
-  }
-
-  useEffect(
-    () => {
-      // since currentDate gets changed, if we don't re-set the interval with the new refreshCurrentDate, we'll be using the older version
-      const intervalID = setInterval(refreshCurrentDate, 5000);
-      // clean-up: clear the previous refresher, so that there's 1 refresher at a time
-      return clearInterval.bind(globalThis, intervalID);
-    }, [currentDate]
-  );
-
-  return ( 
-    <menuStateContext.Provider value={{ menuState, toggleMenuState }}>
-      <currentDateContext.Provider value={{ currentDate }}>
-        <Navbar />
+  return (<>
+    <MenuStateProvider>
+      <Navbar />
+      <CurrentDateProvider>
         <Main>
           <Menu />
           <Outlet />
         </Main>
-        <Footer />
-      </currentDateContext.Provider>
-    </menuStateContext.Provider>
-  );
+      </CurrentDateProvider>
+    </MenuStateProvider>
+    <Footer />
+  </>);
 }
 
 export default RootLayout;
