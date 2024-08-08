@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 // helpers
 import returnCurrentDate from "../helpers/returnCurrentDate";
+
 export const currentDateContext = createContext();
 const CurrentDateProvider = ({ children }) => {
   const [currentDate, setCurrentDateState] = useState(returnCurrentDate);
@@ -30,7 +31,6 @@ const CurrentDateProvider = ({ children }) => {
   useEffect(() => {
     navigate(currentDate.YMD.replaceAll('-', '/'));
   }, [currentDate]);
-
   return (
     <currentDateContext.Provider value={ currentDate }>
       { children }
