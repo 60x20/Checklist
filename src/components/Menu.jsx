@@ -2,7 +2,8 @@ import { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 // contexts
-import { currentDateContext, menuStateContext } from "../layouts/RootLayout";
+import { menuStateContext } from '../providers/MenuStateProvider';
+import { currentDateContext } from '../providers/CurrentDateProvider';
 
 const Menu = () => {
   const navigate = useNavigate();
@@ -15,7 +16,7 @@ const Menu = () => {
   }
 
   const { menuState } = useContext(menuStateContext);
-  const { currentDate } = useContext(currentDateContext);
+  const currentDate = useContext(currentDateContext);
 
   return (
     <>

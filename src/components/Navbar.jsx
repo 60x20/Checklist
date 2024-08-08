@@ -1,7 +1,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBars, faXmark } from '@fortawesome/free-solid-svg-icons'
 import { useContext } from 'react';
-import { menuStateContext } from '../layouts/RootLayout';
+import { menuStateContext } from '../providers/MenuStateProvider';
 
 const Navbar = () => {
   const { menuState, toggleMenuState } = useContext(menuStateContext);
