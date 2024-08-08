@@ -31,6 +31,7 @@ const CurrentDateProvider = ({ children }) => {
   useEffect(() => {
     navigate(currentDate.YMD.replaceAll('-', '/'));
   }, [currentDate]);
+  
   return (
     <currentDateContext.Provider value={ currentDate }>
       { children }
