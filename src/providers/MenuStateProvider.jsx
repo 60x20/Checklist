@@ -1,24 +1,15 @@
-import { createContext, useCallback, useMemo, useState } from "react";
+import { createContext, useState } from "react";
 
 export const menuStateContext = createContext();
 
-// memoization might be unnecessary
 const MenuStateProvider = ({ children }) => {
   const [menuState, setMenuState] = useState(false);
-  
-  // since recreated on every rerender, memoized; thanks to this react won't think provider value changed
-  const toggleMenuState = useCallback(() => {
+  function toggleMenuState() {
     setMenuState(!menuState);
-  }, [menuState]);
-
-  // memoized so that value has the same value
-  const menuStateBundle = useMemo(() => ({
-    menuState,
-    toggleMenuState
-  }), [menuState]);
+  }
 
   return ( 
-    <menuStateContext.Provider value={menuStateBundle}>
+    <menuStateContext.Provider value={{ menuState, toggleMenuState }}>
       {children}
     </menuStateContext.Provider>
   );
