@@ -1,4 +1,9 @@
+import { useContext } from "react";
 import { useParams } from "react-router-dom";
+
+// contexts
+import { currentDateContext } from "../providers/CurrentDateProvider";
+
 // helpers
 import validateUnitsFromDate from "../helpers/validateUnitsFromDate";
 
@@ -6,10 +11,14 @@ const Checklist = () => {
   const requestedDateAsParams = useParams();
   const requestedDate = validateUnitsFromDate(requestedDateAsParams);
   const { year, month, day } = requestedDate;
+
+  const currentDate = useContext(currentDateContext);
+  
   return (
     <div id="checklist">
       {`${day}-${month}-${year}`}
       <br></br>
+      {currentDate.DMY}
     </div>
   );
 }
