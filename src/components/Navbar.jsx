@@ -16,10 +16,7 @@ const Navbar = () => {
         aria-controls="menu"
         type="button"
       >
-        { menuState
-          ? <FontAwesomeIcon icon={faXmark} />
-          : <FontAwesomeIcon icon={faBars} />
-        }
+        <FontAwesomeIcon icon={menuState ? faXmark : faBars} />
       </button>
     </nav>
   );
