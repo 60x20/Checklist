@@ -7,7 +7,7 @@ export default function returnCurrentDate() {
   const day = String(currentDate.getDate()).padStart(2, '0');
   
   return ({
-    DMY: `${day}-${month}-${year}`,
-    YMD: `${year}-${month}-${day}`
+    DMY: [day, month, year].join('-'),
+    YMD: [year, month, day].join('-')
   });
 }
