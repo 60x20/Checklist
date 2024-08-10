@@ -26,6 +26,19 @@ const Checklist = () => {
     setCurrentToDoData(returnTodoData(...unitsAsInt));
   }, [day, month, year]);
   
+  function createTodoHandler(e) {
+    e.preventDefault();
+    const submittedFormData = new FormData(e.currentTarget);
+    const formDataReadable = Object.fromEntries(submittedFormData.entries());
+    const todoString = String(formDataReadable.todoName);
+    
+    const idAssigned = addToAllTodos(todoString);
+    if (currentDate.YMD === [year, month, day].join('-')) {
+      // if currentDate removes/adds a todo, template should adapt
+      addToTodosTemplate(idAssigned);
+    }
+    setCurrentToDoData({...currentToDoData, [idAssigned]: 0});
+  }
 
   // for rendering todos
   const allTodos = returnAllTodos();
