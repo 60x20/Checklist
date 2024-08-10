@@ -26,11 +26,34 @@ const Checklist = () => {
     setCurrentToDoData(returnTodoData(...unitsAsInt));
   }, [day, month, year]);
   
+
+  // for rendering todos
+  const allTodos = returnAllTodos();
+  const currentToDoDataAsArray = Object.entries(currentToDoData);
   return (
     <div id="checklist">
       {`${day}-${month}-${year}`}
       <br></br>
-      {currentDate.DMY}
+      {/* <CreateToDo /> */}
+      <form onSubmit={createTodoHandler}>
+        <input type="text" name="todoName" required />
+        <button>create</button>
+      </form>
+      <br></br>
+      { currentToDoDataAsArray.map((array, i) => {
+        // todos[todoId]
+        const [ todoId, checked ] = array;
+        return (
+          <div key={i}>
+            <p>{allTodos[todoId]}</p>
+            <button type="button">update todo</button>
+            <button type="button">remove</button>
+            <input type="checkbox" defaultChecked={checked} />
+          </div>
+        )
+      }) }
+      <br></br>
+      {/* {currentDate.DMY} */}
     </div>
   );
 }
