@@ -5,13 +5,30 @@ import { Link, useNavigate } from "react-router-dom";
 import { menuStateContext } from '../providers/MenuStateProvider';
 import { currentDateContext } from '../providers/CurrentDateProvider';
 
+// variables used for debouncing
+let oldDateToGo, dateToGo;
+let intervalID;
+
 const Menu = () => {
   const navigate = useNavigate();
   function goToRequestedDateHandler(e) {
     const requestedDate = e.currentTarget.value;
     // requestedDate might be an empty string in case it's an invalid date
     if (requestedDate) {
-      navigate(requestedDate.replaceAll('-', '/'));
+      dateToGo = requestedDate;
+    }
+    // debouncing, otherwise performance issues might occur
+    if (!intervalID) {
+      intervalID = setInterval(() => {
+        if (oldDateToGo === dateToGo) {
+          // if dateToGo didn't change, then clean-up
+          clearInterval(intervalID);
+          intervalID = undefined;
+          return; // short circuit
+        };
+        oldDateToGo = dateToGo;
+        navigate(dateToGo.replaceAll('-', '/'));
+      }, 100);
     }
   }
 
