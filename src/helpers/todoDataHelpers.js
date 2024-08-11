@@ -1,12 +1,16 @@
 import { returnTodosTemplate } from "./todosTemplateHelpers";
 
+function returnYearEntry(year) {
+  return JSON.parse(localStorage.getItem(year));
+}
+
 // make sure date exists in the localStorage
 export function validateToDoData(year, month, day) {
-  if (!localStorage.getItem(year)) {
     localStorage.setItem(year, JSON.stringify([])); // array for months
+  if (!returnYearEntry(year)) {
   }
 
-  const yearEntry = JSON.parse(localStorage.getItem(year));
+  const yearEntry = returnYearEntry(year);
 
   if (!yearEntry[month]) {
     yearEntry[month] = []; // array for days
@@ -19,12 +23,12 @@ export function validateToDoData(year, month, day) {
       yearEntry[month][day][todoId] = 0;
     }
 
-    // if any the time unit doesn't exist, day will be recreated, if all exist won't; so it's only set here
-    localStorage.setItem(year, JSON.stringify(yearEntry));
+    // if any time unit doesn't exist, day will be recreated, if all exist won't; so it's only set here
+    setYearEntry(year, yearEntry);
   }
 }
 
 export function returnTodoData(year, month, day) {
-  const yearEntry = JSON.parse(localStorage.getItem(year));
+  const yearEntry = returnYearEntry(year);
   return yearEntry[month][day];
 }
