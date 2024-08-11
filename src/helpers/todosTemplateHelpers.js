@@ -22,6 +22,7 @@ export function addToTodosTemplate(id) {
 
 export function removeFromTodosTemplate(idToRemove) {
   const todosTemplate = returnTodosTemplate();
+  // TODO: array indexes might be used for faster lookup
   const filteredTodosTemplate = todosTemplate.filter((id) => id !== idToRemove);
   setTodosTemplate(filteredTodosTemplate);
 }
