@@ -1,13 +1,17 @@
 import { returnTodosTemplate } from "./todosTemplateHelpers";
 
+function setYearEntry(year, toDoData) {
+  localStorage.setItem(year, JSON.stringify(toDoData));
+}
+
 function returnYearEntry(year) {
   return JSON.parse(localStorage.getItem(year));
 }
 
 // make sure date exists in the localStorage
 export function validateToDoData(year, month, day) {
-    localStorage.setItem(year, JSON.stringify([])); // array for months
   if (!returnYearEntry(year)) {
+    setYearEntry(year, []); // array for months
   }
 
   const yearEntry = returnYearEntry(year);
