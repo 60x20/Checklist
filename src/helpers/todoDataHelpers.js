@@ -36,3 +36,19 @@ export function returnTodoData(year, month, day) {
   const yearEntry = returnYearEntry(year);
   return yearEntry[month][day];
 }
+
+export function addToTodoData(todoId, year, month, day) {
+  updateTodoState(todoId, 0, year, month, day)
+}
+
+export function removeFromTodoData(todoId, year, month, day) {
+  const yearEntry = returnYearEntry(year);
+  delete yearEntry[month][day][todoId];
+  setYearEntry(year, yearEntry);
+}
+
+export function updateTodoState(todoId, checked, year, month, day) {
+  const yearEntry = returnYearEntry(year);
+  yearEntry[month][day][todoId] = checked;
+  setYearEntry(year, yearEntry);
+}
