@@ -20,7 +20,10 @@ export function validateToDoData(year, month, day) {
     yearEntry[month] = []; // array for days
   }
 
-  if (!yearEntry[month][day]) {
+  if (
+    !yearEntry[month][day] || // if empty, initialize it
+    !Object.keys(yearEntry[month][day]).length // if it's an empty object, try the template, it might be polluted
+  ) {
     yearEntry[month][day] = {}; // key-value pairs are used
     for (const todoId of returnTodosTemplate()) {
       // instead of equalizing to an empty object, use the latest one
