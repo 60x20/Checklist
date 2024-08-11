@@ -8,7 +8,7 @@ import { currentDateContext } from "../providers/CurrentDateProvider";
 import validateUnitsFromDate from "../helpers/validateUnitsFromDate";
 import { addToTodosTemplate, removeFromTodosTemplate } from "../helpers/todosTemplateHelpers";
 import { returnAllTodos, addToAllTodos, updateTodoString } from "../helpers/allTodosHelpers";
-import { returnTodoData, validateToDoData, addToTodoData } from "../helpers/todoDataHelpers";
+import { returnTodoData, validateToDoData, addToTodoData, removeFromTodoData, updateTodoState } from "../helpers/todoDataHelpers";
 
 const Checklist = () => {
   const requestedDateAsParams = useParams();
