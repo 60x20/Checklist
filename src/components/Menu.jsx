@@ -35,7 +35,7 @@ const Menu = () => {
           onChange={goToRequestedDateHandler}
           type="date"
           min="2000-01-01"
-          defaultValue="2020-1-1"
+          defaultValue={currentDate.YMD}
           max="2100-12-31"
         />
       </label>
