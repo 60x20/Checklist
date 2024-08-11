@@ -61,7 +61,7 @@ const Checklist = () => {
             <p>{allTodos[todoId]}</p>
             <button type="button">update todo</button>
             <button type="button">remove</button>
-            <input type="checkbox" defaultChecked={checked} />
+            <input name="todo-state" type="checkbox" defaultChecked={checked} />
           </div>
         )
       }) }
