@@ -9,7 +9,7 @@ import { currentDateContext } from "../providers/CurrentDateProvider";
 import validateUnitsFromDate from "../helpers/validateUnitsFromDate";
 import { addToTodosTemplate, removeFromTodosTemplate } from "../helpers/todosTemplateHelpers";
 import { returnAllTodos, addToAllTodos, updateTodoString } from "../helpers/allTodosHelpers";
-import { returnTodoData, validateToDoData } from "../helpers/todoDataHelpers";
+import { returnTodoData, validateToDoData, addToTodoData } from "../helpers/todoDataHelpers";
 
 const Checklist = () => {
   const requestedDateAsParams = useParams();
@@ -23,6 +23,11 @@ const Checklist = () => {
   // converted into numbers so that they are considered array indexes
   const unitsAsInt = [parseInt(year, 10), parseInt(month, 10), parseInt(day, 10)];
   
+  // currentToDoData should be in sync with localStorage entry
+  function addToCurrentToDoDataAndSync(todoId) {
+    addToTodoData(todoId, ...unitsAsInt)
+    setCurrentToDoData({...currentToDoData, [todoId]: 0});
+  }
   
   useEffect(() => {
     validateToDoData(...unitsAsInt);
@@ -40,7 +45,7 @@ const Checklist = () => {
       // if currentDate removes/adds a todo, template should adapt
       addToTodosTemplate(idAssigned);
     }
-    setCurrentToDoData({...currentToDoData, [idAssigned]: 0});
+    addToCurrentToDoDataAndSync(idAssigned);
   }
 
   // for rendering todos
