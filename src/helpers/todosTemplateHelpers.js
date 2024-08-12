@@ -1,12 +1,12 @@
 // todosTemplate: todos that used lastly, used as a template for vacant dates
 
-function setTodosTemplate(arrayOfIds) {
-  localStorage.setItem('todos-template', JSON.stringify(arrayOfIds));
+function setTodosTemplate(ObjectOfIds) {
+  localStorage.setItem('todos-template', JSON.stringify(ObjectOfIds));
 }
 
 export function validateTodosTemplate() {
   if (!localStorage.getItem('todos-template')) {
-    setTodosTemplate([]);
+    setTodosTemplate({});
   }
 }
 
@@ -16,13 +16,12 @@ export function returnTodosTemplate() {
 
 export function addToTodosTemplate(id) {
   const todosTemplate = returnTodosTemplate();
-  todosTemplate.push(id);
+  todosTemplate[id] = 0;
   setTodosTemplate(todosTemplate);
 }
 
 export function removeFromTodosTemplate(idToRemove) {
   const todosTemplate = returnTodosTemplate();
-  // TODO: array indexes might be used for faster lookup
-  const filteredTodosTemplate = todosTemplate.filter((id) => id !== idToRemove);
-  setTodosTemplate(filteredTodosTemplate);
+  delete todosTemplate[idToRemove];
+  setTodosTemplate(todosTemplate);
 }
