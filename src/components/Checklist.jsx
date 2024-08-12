@@ -38,6 +38,12 @@ const Checklist = () => {
     validateToDoData(...unitsAsInt);
     setCurrentToDoData(returnTodoData(...unitsAsInt));
   }, [day, month, year]);
+  function updateAndSyncTodoState(todoIdUpdate, checked) {
+    updateTodoState(todoIdUpdate, checked, ...unitsAsInt);
+    const dataUpdatedVersion = {...currentToDoData};
+    dataUpdatedVersion[todoIdUpdate] = checked;
+    setCurrentToDoData(dataUpdatedVersion);
+  }
   
   function createTodoHandler(e) {
     e.preventDefault();
@@ -72,6 +78,12 @@ const Checklist = () => {
     updateTodoString(todoIdToUpdate, todoString);
   }
 
+  function updateTodoStateHandler(e) {
+    const todoIdUpdate = e.currentTarget.dataset.idToUpdate;
+    const checked = e.currentTarget.checked;
+    updateAndSyncTodoState(todoIdUpdate, checked);
+  }
+
   // for rendering todos
   const allTodos = returnAllTodos();
   const currentToDoDataAsArray = Object.entries(currentToDoData);
@@ -97,7 +109,7 @@ const Checklist = () => {
               <button>update todo</button>
             </form>
             <button onClick={removeFromTodoHandler} type="button" data-id-to-remove={todoId}>remove</button>
-            <input name="todo-state" type="checkbox" defaultChecked={checked} />
+            <input name="todo-state" type="checkbox" data-id-to-update={todoId} onChange={updateTodoStateHandler} checked={checked} />
           </div>
         )
       }) }
