@@ -17,16 +17,16 @@ const Checklist = () => {
 
   const currentDate = useContext(currentDateContext);
 
-  const [currentToDoData, setCurrentToDoData] = useState({});
+  // converted into numbers so that they are considered array indexes
+  const unitsAsInt = [parseInt(year, 10), parseInt(month, 10), parseInt(day, 10)];
 
+  const [currentToDoData, setCurrentToDoData] = useState({});
+  
   // bring the stored data of date, or if it doesn't exist create it
   useEffect(() => {
     validateToDoData(...unitsAsInt);
     setCurrentToDoData(returnTodoData(...unitsAsInt));
   }, [day, month, year]);
-
-  // converted into numbers so that they are considered array indexes
-  const unitsAsInt = [parseInt(year, 10), parseInt(month, 10), parseInt(day, 10)];
   
   // currentToDoData should be in sync with localStorage entry
   function addToCurrentToDoDataAndSync(todoId) {
