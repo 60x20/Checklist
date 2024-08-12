@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState, useReducer } from "react";
 import { useParams } from "react-router-dom";
 
 // contexts
@@ -30,6 +30,9 @@ const Checklist = () => {
     validateToDoData(...unitsAsInt);
     setCurrentToDoData(returnTodoData(...unitsAsInt));
   }, [day, month, year, amountOfClears]);
+
+  // used when allTodos gets updated; this is used instead of a state because allTodos is always in sync with localStorage
+  const forceRender = useReducer(i => i + 1, 0)[1];
   
   // for rendering todos
   const allTodos = returnAllTodos();
@@ -81,6 +84,7 @@ const Checklist = () => {
     const todoString = String(formDataReadable.todoName);
     const todoIdToUpdate = e.currentTarget.dataset.idToUpdate;
     updateTodoString(todoIdToUpdate, todoString);
+    forceRender();
   }
   function updateTodoStateHandler(e) {
     const todoIdUpdate = e.currentTarget.dataset.idToUpdate;
