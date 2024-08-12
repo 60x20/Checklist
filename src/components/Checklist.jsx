@@ -19,6 +19,11 @@ const Checklist = () => {
 
   const [currentToDoData, setCurrentToDoData] = useState({});
 
+  useEffect(() => {
+    validateToDoData(...unitsAsInt);
+    setCurrentToDoData(returnTodoData(...unitsAsInt));
+  }, [day, month, year]);
+
   // converted into numbers so that they are considered array indexes
   const unitsAsInt = [parseInt(year, 10), parseInt(month, 10), parseInt(day, 10)];
   
@@ -33,11 +38,6 @@ const Checklist = () => {
     delete dataRemovedVersion[todoId];
     setCurrentToDoData(dataRemovedVersion);
   }
-  
-  useEffect(() => {
-    validateToDoData(...unitsAsInt);
-    setCurrentToDoData(returnTodoData(...unitsAsInt));
-  }, [day, month, year]);
   function updateAndSyncTodoState(todoIdUpdate, checked) {
     updateTodoState(todoIdUpdate, checked, ...unitsAsInt);
     const dataUpdatedVersion = {...currentToDoData};
