@@ -46,7 +46,6 @@ const Menu = () => {
     increaseAmountOfClears();
   }
 
-
   const { menuState } = useContext(menuStateContext);
   const currentDate = useContext(currentDateContext);
 
