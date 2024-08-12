@@ -31,6 +31,10 @@ const Checklist = () => {
     setCurrentToDoData(returnTodoData(...unitsAsInt));
   }, [day, month, year, amountOfClears]);
   
+  // for rendering todos
+  const allTodos = returnAllTodos();
+  const currentToDoDataAsArray = Object.entries(currentToDoData);
+  
   // currentToDoData should be in sync with localStorage entry
   function addToCurrentToDoDataAndSync(todoId) {
     addToTodoData(todoId, ...unitsAsInt)
@@ -83,10 +87,6 @@ const Checklist = () => {
     const checked = e.currentTarget.checked;
     updateAndSyncTodoState(todoIdUpdate, checked);
   }
-
-  // for rendering todos
-  const allTodos = returnAllTodos();
-  const currentToDoDataAsArray = Object.entries(currentToDoData);
 
   return (
     <div id="checklist">
