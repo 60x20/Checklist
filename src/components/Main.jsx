@@ -1,7 +1,12 @@
+// providers
+import AmountOfClearsProvider from "../providers/AmountOfClearsProvider";
+
 const Main = ({ children }) => {
   return (
     <main>
-      {children}
+      <AmountOfClearsProvider>
+        {children}
+      </AmountOfClearsProvider>
     </main>
   );
 }
