@@ -91,13 +91,11 @@ const Checklist = () => {
   return (
     <div id="checklist">
       {`${day}-${month}-${year}`}
-      {/* <CreateToDo /> */}
       <form onSubmit={createTodoHandler}>
         <input type="text" name="todoName" required />
         <button>create</button>
       </form>
       { currentToDoDataAsArray.map((array, i) => {
-        // todos[todoId]
         const [ todoId, checked ] = array;
         return (
           <div key={i}>
