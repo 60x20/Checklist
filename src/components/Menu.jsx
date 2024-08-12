@@ -4,12 +4,18 @@ import { Link, useNavigate } from "react-router-dom";
 // contexts
 import { menuStateContext } from '../providers/MenuStateProvider';
 import { currentDateContext } from '../providers/CurrentDateProvider';
+import { amountOfClearsContext } from "../providers/AmountOfClearsProvider";
+
+// helpers
+import resetAllData from "../helpers/resetAllData";
 
 // variables used for debouncing
 let oldDateToGo, dateToGo;
 let intervalID;
 
 const Menu = () => {
+  const { increaseAmountOfClears } = useContext(amountOfClearsContext);
+
   const navigate = useNavigate();
   function goToRequestedDateHandler(e) {
     const requestedDate = e.currentTarget.value;
@@ -31,6 +37,15 @@ const Menu = () => {
       }, 100);
     }
   }
+  
+  function resetAllDataHandler() {
+    const confirmed = window.confirm('Are you sure you want to permanently delete all your data? This action cannot be undone.');
+    if (!confirmed) return;
+    resetAllData();
+    // informing checklist that data is reset, allowing it to clean-up (otherwise old data will be seen)
+    increaseAmountOfClears();
+  }
+
 
   const { menuState } = useContext(menuStateContext);
   const currentDate = useContext(currentDateContext);
@@ -58,6 +73,7 @@ const Menu = () => {
       </label>
       <p><Link to={currentDate.YMD.replaceAll('-', '/')}>today: {currentDate.DMY}</Link></p>
       <p>all</p>
+      <button type="button" onClick={resetAllDataHandler}>reset all data</button>
     </aside>
     ) : false }
     </>
