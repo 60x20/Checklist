@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 
 // contexts
 import { currentDateContext } from "../providers/CurrentDateProvider";
+import { amountOfClearsContext } from "../providers/AmountOfClearsProvider";
 
 // helpers
 import validateUnitsFromDate from "../helpers/validateUnitsFromDate";
@@ -16,6 +17,7 @@ const Checklist = () => {
   const { year, month, day } = requestedDate;
 
   const currentDate = useContext(currentDateContext);
+  const { amountOfClears } = useContext(amountOfClearsContext);
 
   // converted into numbers so that they are considered array indexes
   const unitsAsInt = [parseInt(year, 10), parseInt(month, 10), parseInt(day, 10)];
@@ -23,10 +25,11 @@ const Checklist = () => {
   const [currentToDoData, setCurrentToDoData] = useState({});
   
   // bring the stored data of date, or if it doesn't exist create it
+  // if data is cleared, clean-up otherwise old data will be seen
   useEffect(() => {
     validateToDoData(...unitsAsInt);
     setCurrentToDoData(returnTodoData(...unitsAsInt));
-  }, [day, month, year]);
+  }, [day, month, year, amountOfClears]);
   
   // currentToDoData should be in sync with localStorage entry
   function addToCurrentToDoDataAndSync(todoId) {
