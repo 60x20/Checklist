@@ -27,6 +27,12 @@ const Checklist = () => {
     addToTodoData(todoId, ...unitsAsInt)
     setCurrentToDoData({...currentToDoData, [todoId]: 0});
   }
+  function removeFromCurrentToDoDataAndSync(todoId) {
+    removeFromTodoData(todoId, ...unitsAsInt)
+    const dataRemovedVersion = {...currentToDoData};
+    delete dataRemovedVersion[todoId];
+    setCurrentToDoData(dataRemovedVersion);
+  }
   
   useEffect(() => {
     validateToDoData(...unitsAsInt);
