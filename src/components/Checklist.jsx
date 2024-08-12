@@ -69,6 +69,7 @@ const Checklist = () => {
   // for rendering todos
   const allTodos = returnAllTodos();
   const currentToDoDataAsArray = Object.entries(currentToDoData);
+
   return (
     <div id="checklist">
       {`${day}-${month}-${year}`}
