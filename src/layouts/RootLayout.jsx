@@ -14,6 +14,13 @@ import CurrentDateProvider from "../providers/CurrentDateProvider";
 import { validateTodosTemplate } from "../helpers/todosTemplateHelpers";
 import { validateAllTodos } from "../helpers/allTodosHelpers";
 
+// make checkboxes interactable with 'enter'
+document.addEventListener('keyup', e => {
+  if (e.key === 'Enter' && e.target.matches('input[type="checkbox"]')) {
+    e.target.click();
+  }
+});
+
 const RootLayout = () => {
   // validation for localStorage entries of todosTemplate and allTodos; they must exist
   validateTodosTemplate();
