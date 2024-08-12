@@ -24,11 +24,8 @@ export function validateToDoData(year, month, day) {
     !yearEntry[month][day] || // if empty, initialize it
     !Object.keys(yearEntry[month][day]).length // if it's an empty object, try the template, it might be polluted
   ) {
-    yearEntry[month][day] = {}; // key-value pairs are used
-    for (const todoId of returnTodosTemplate()) {
-      // instead of equalizing to an empty object, use the latest one
-      yearEntry[month][day][todoId] = 0;
-    }
+    // use the latest one (might return an empty object)
+    yearEntry[month][day] = returnTodosTemplate(); // key-value pairs are used
 
     // if any time unit doesn't exist, day will be recreated, if all exist won't; so it's only set here
     setYearEntry(year, yearEntry);
