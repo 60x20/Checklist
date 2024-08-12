@@ -44,13 +44,13 @@ const Checklist = () => {
     dataUpdatedVersion[todoIdUpdate] = checked;
     setCurrentToDoData(dataUpdatedVersion);
   }
-  
+
+  // handlers
   function createTodoHandler(e) {
     e.preventDefault();
     const submittedFormData = new FormData(e.currentTarget);
     const formDataReadable = Object.fromEntries(submittedFormData.entries());
     const todoString = String(formDataReadable.todoName);
-    
     const idAssigned = addToAllTodos(todoString);
     if (currentDate.YMD === [year, month, day].join('-')) {
       // if currentDate removes/adds a todo, template should adapt
@@ -58,7 +58,6 @@ const Checklist = () => {
     }
     addToCurrentToDoDataAndSync(idAssigned);
   }
-
   function removeFromTodoHandler(e) {
     const todoIdToRemove = e.currentTarget.dataset.idToRemove;
     if (currentDate.YMD === [year, month, day].join('-')) {
@@ -67,17 +66,14 @@ const Checklist = () => {
     }
     removeFromCurrentToDoDataAndSync(todoIdToRemove);
   }
-
   function updateTodoHandler(e) {
     e.preventDefault();
     const submittedFormData = new FormData(e.currentTarget);
     const formDataReadable = Object.fromEntries(submittedFormData.entries());
     const todoString = String(formDataReadable.todoName);
-    
     const todoIdToUpdate = e.currentTarget.dataset.idToUpdate;
     updateTodoString(todoIdToUpdate, todoString);
   }
-
   function updateTodoStateHandler(e) {
     const todoIdUpdate = e.currentTarget.dataset.idToUpdate;
     const checked = e.currentTarget.checked;
