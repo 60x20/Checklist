@@ -19,6 +19,7 @@ const Checklist = () => {
 
   const [currentToDoData, setCurrentToDoData] = useState({});
 
+  // bring the stored data of date, or if it doesn't exist create it
   useEffect(() => {
     validateToDoData(...unitsAsInt);
     setCurrentToDoData(returnTodoData(...unitsAsInt));
