@@ -7,6 +7,8 @@ import returnCurrentDate from "../helpers/returnCurrentDate";
 
 export const currentDateContext = createContext();
 const CurrentDateProvider = ({ children }) => {
+  const navigate = useNavigate();
+
   const [currentDate, setCurrentDateState] = useState(returnCurrentDate);
   function refreshCurrentDate() {
     const latestDate = returnCurrentDate();
@@ -27,7 +29,6 @@ const CurrentDateProvider = ({ children }) => {
   );
 
   // initially go to current date, then if currentDate changes, go to the new date
-  const navigate = useNavigate();
   useEffect(() => {
     navigate(currentDate.YMD.replaceAll('-', '/'));
   }, [currentDate]);
