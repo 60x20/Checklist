@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState, useReducer } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 // contexts
@@ -30,12 +30,15 @@ const Checklist = () => {
     validateToDoData(...unitsAsInt);
     setCurrentToDoData(returnTodoData(...unitsAsInt));
   }, [day, month, year, amountOfClears]);
-
-  // used when allTodos gets updated; this is used instead of a state because allTodos is always in sync with localStorage
-  const forceRender = useReducer(i => i + 1, 0)[1];
   
+  // keeping allTodos in sync with localStorage
+  const [ allTodos, setAllTodos ] = useState(returnAllTodos);;
+  // if entry gets cleared, adapt to changes
+  useEffect(() => {
+    setAllTodos(returnAllTodos());
+  }, [amountOfClears]);
+
   // for rendering todos
-  const allTodos = returnAllTodos();
   const currentToDoDataAsArray = Object.entries(currentToDoData);
   
   // currentToDoData should be in sync with localStorage entry
@@ -54,13 +57,26 @@ const Checklist = () => {
     setCurrentToDoData({...currentToDoData, [todoIdUpdate]: checked});
   }
 
+  // allTodos should be in sync with localStorage entry
+  function addToAllTodosAndSync(todoString) {
+    const idAssigned = addToAllTodos(todoString);
+    setAllTodos([...allTodos, todoString]);
+    return idAssigned;
+  }
+  function updateTodoStringAndSync(todoIdToUpdate, todoString) {
+    updateTodoString(todoIdToUpdate, todoString);
+    const todosUpdatedVersion = [...allTodos];
+    todosUpdatedVersion[todoIdToUpdate] = todoString;
+    setAllTodos(todosUpdatedVersion);
+  }
+  
   // handlers
   function createTodoHandler(e) {
     e.preventDefault();
     const submittedFormData = new FormData(e.currentTarget);
     const formDataReadable = Object.fromEntries(submittedFormData.entries());
     const todoString = String(formDataReadable.todoName);
-    const idAssigned = addToAllTodos(todoString);
+    const idAssigned = addToAllTodosAndSync(todoString);
     if (currentDate.YMD === [year, month, day].join('-')) {
       // if currentDate removes/adds a todo, template should adapt
       addToTodosTemplate(idAssigned);
@@ -81,8 +97,7 @@ const Checklist = () => {
     const formDataReadable = Object.fromEntries(submittedFormData.entries());
     const todoString = String(formDataReadable.todoName);
     const todoIdToUpdate = e.currentTarget.dataset.idToUpdate;
-    updateTodoString(todoIdToUpdate, todoString);
-    forceRender();
+    updateTodoStringAndSync(todoIdToUpdate, todoString);
   }
   function updateTodoStateHandler(e) {
     const todoIdUpdate = e.currentTarget.dataset.idToUpdate;
