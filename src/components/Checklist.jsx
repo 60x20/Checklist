@@ -51,9 +51,7 @@ const Checklist = () => {
   }
   function updateAndSyncTodoState(todoIdUpdate, checked) {
     updateTodoState(todoIdUpdate, checked, ...unitsAsInt);
-    const dataUpdatedVersion = {...currentToDoData};
-    dataUpdatedVersion[todoIdUpdate] = checked;
-    setCurrentToDoData(dataUpdatedVersion);
+    setCurrentToDoData({...currentToDoData, [todoIdUpdate]: checked});
   }
 
   // handlers
