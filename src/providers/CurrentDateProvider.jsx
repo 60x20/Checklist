@@ -15,6 +15,8 @@ const CurrentDateProvider = ({ children }) => {
     // since returnCurentDate returns an object, validation is done manually
     if (latestDate.YMD !== currentDate.YMD) {
       setCurrentDateState(latestDate);
+      // if currentDate changes, go to the new date
+      navigate(latestDate.YMD.replaceAll('-', '/'));
     };
   }
 
@@ -28,10 +30,14 @@ const CurrentDateProvider = ({ children }) => {
     }, [currentDate]
   );
 
-  // initially go to current date, then if currentDate changes, go to the new date
+  // when the app renders for the first time, go to current date
   useEffect(() => {
-    navigate(currentDate.YMD.replaceAll('-', '/'));
-  }, [currentDate]);
+    // do it only once per date, otherwise url won't be changeable
+    if (sessionStorage.getItem(currentDate.YMD) !== 'true') {
+      sessionStorage.setItem(currentDate.YMD, 'true');
+      navigate(currentDate.YMD.replaceAll('-', '/'));
+    }
+  }, []);
   
   return (
     <currentDateContext.Provider value={ currentDate }>
