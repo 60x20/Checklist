@@ -88,7 +88,8 @@ const Checklist = () => {
   }
   function updateTodoStateHandler(e) {
     const todoIdUpdate = e.currentTarget.dataset.idToUpdate;
-    const checked = e.currentTarget.checked;
+    // boolean converted into 0 and 1 to save memory
+    const checked = Number(e.currentTarget.checked);
     updateAndSyncTodoState(todoIdUpdate, checked);
   }
 
