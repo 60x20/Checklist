@@ -8,6 +8,7 @@ import { amountOfClearsContext } from "../providers/AmountOfClearsProvider";
 
 // helpers
 import resetAllData from "../helpers/resetAllData";
+import { returnDateFromToday } from "../helpers/returnCurrentDate";
 
 // variables used for debouncing
 let oldDateToGo, dateToGo;
@@ -49,17 +50,27 @@ const Menu = () => {
   const { menuState } = useContext(menuStateContext);
   const currentDate = useContext(currentDateContext);
 
+  const prevDates = [];
+  const prevDayAmount = 3;
+  prevDates.length = prevDayAmount + 1; // 1 for today
+  prevDates.fill(''); // if they're empty, map will skip them 
+
   return (
     <>
     { menuState ? (
     <aside role="menu" id="menu">
       <h2>Previous Checklists</h2>
-      {/* get previous checklists */}
-      {[
-        <p key={1}>checklist3</p>,
-        <p key={2}>checklist2</p>,
-        <p key={3}>checklist1</p>
-      ]}
+      { prevDates.map((el, i) => {
+        const relativeDate = returnDateFromToday(-i);
+        return (
+          <p key={i}>
+            <Link to={relativeDate.YMD.replaceAll('-', '/')}>
+              {i === 0 ? 'today: ' : ''}
+              {relativeDate.DMY}
+            </Link>
+          </p>
+        );
+      }) }
       <label>
         <span>go to: </span>
         <input 
@@ -70,7 +81,6 @@ const Menu = () => {
           max="2100-12-31"
         />
       </label>
-      <p><Link to={currentDate.YMD.replaceAll('-', '/')}>today: {currentDate.DMY}</Link></p>
       <p>all</p>
       <button type="button" onClick={resetAllDataHandler}>reset all data</button>
     </aside>
