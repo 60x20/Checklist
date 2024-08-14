@@ -3,7 +3,7 @@ import { createContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 // helpers
-import returnCurrentDate from "../helpers/returnCurrentDate";
+import { returnCurrentDate } from "../helpers/returnCurrentDate";
 
 export const currentDateContext = createContext();
 const CurrentDateProvider = ({ children }) => {
