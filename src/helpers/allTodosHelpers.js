@@ -6,7 +6,7 @@ function setAllTodos(arrayOfTodoStrings) {
 }
 
 export function validateAllTodos() {
-  if (!localStorage.getItem('todos')) {
+  if (!returnAllTodos()) {
     setAllTodos([]);
   }
 }
