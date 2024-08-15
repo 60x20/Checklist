@@ -13,6 +13,7 @@ import CurrentDateProvider from "../providers/CurrentDateProvider";
 // validators
 import { validateTodosTemplate } from "../helpers/todosTemplateHelpers";
 import { validateAllTodos } from "../helpers/allTodosHelpers";
+import { validateAllYears } from "../helpers/allYearsHelpers";
 
 // make checkboxes interactable with 'enter'
 document.addEventListener('keyup', e => {
@@ -25,6 +26,7 @@ const RootLayout = () => {
   // validation for localStorage entries; they must exist
   validateTodosTemplate();
   validateAllTodos();
+  validateAllYears();
 
   return (<>
     <MenuStateProvider>
