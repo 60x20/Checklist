@@ -15,5 +15,7 @@ export default function validateUnitsFromDate(date) {
   const dayRegexResult = day.match(dayRegex)?.[0] || '1';
   day = dayRegexResult.padStart(2, '0');
 
-  return { year, month, day };
+  const isValid = !isNaN(Date.parse([year, month, day].join('-')));
+
+  return isValid ? { year, month, day } : { year: '2000', month: '01', day: '01' };
 }
