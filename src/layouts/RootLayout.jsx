@@ -10,7 +10,7 @@ import Footer from "../components/Footer";
 import MenuStateProvider from "../providers/MenuStateProvider";
 import CurrentDateProvider from "../providers/CurrentDateProvider";
 
-// helpers
+// validators
 import { validateTodosTemplate } from "../helpers/todosTemplateHelpers";
 import { validateAllTodos } from "../helpers/allTodosHelpers";
 
@@ -22,7 +22,7 @@ document.addEventListener('keyup', e => {
 });
 
 const RootLayout = () => {
-  // validation for localStorage entries of todosTemplate and allTodos; they must exist
+  // validation for localStorage entries; they must exist
   validateTodosTemplate();
   validateAllTodos();
 
