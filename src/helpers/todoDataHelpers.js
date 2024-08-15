@@ -1,4 +1,5 @@
 import { returnTodosTemplate } from "./todosTemplateHelpers";
+import { addToAllYears } from "./allYearsHelpers";
 
 function setYearEntry(year, toDoData) {
   localStorage.setItem(year, JSON.stringify(toDoData));
@@ -12,6 +13,7 @@ function returnYearEntry(year) {
 export function validateToDoData(year, month, day) {
   if (!returnYearEntry(year)) {
     setYearEntry(year, []); // array for months
+    addToAllYears(year);
   }
 
   const yearEntry = returnYearEntry(year);
