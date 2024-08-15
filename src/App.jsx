@@ -9,7 +9,7 @@ import Checklist from './components/Checklist';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path="/" element={< RootLayout />}>
+    <Route path="/" element={<RootLayout />}>
       <Route path=":year/:month/:day" element={<Checklist />} />
       <Route path="*" />
     </Route>
