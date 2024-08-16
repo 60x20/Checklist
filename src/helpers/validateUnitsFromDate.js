@@ -2,20 +2,42 @@
 const yearRegex = /\d{4}|\d{2}/;
 const monthRegex = /\d{1,2}/;
 const dayRegex = /\d{1,2}/;
-export default function validateUnitsFromDate(date) {
-  // validation, in case the date is not in the desired format
-  let { year, month, day } = date;
-  
-  const yearRegexResult = year.match(yearRegex)?.[0] || '1';
-  year = yearRegexResult.padStart(4, '20');
-  
-  const monthRegexResult = month.match(monthRegex)?.[0] || '1';
-  month = monthRegexResult.padStart(2, '0');
-  
-  const dayRegexResult = day.match(dayRegex)?.[0] || '1';
-  day = dayRegexResult.padStart(2, '0');
 
+
+export function validateUnitsFromDate({ year, month, day }) {
+  // validation, in case the date is not in the desired format (failsafe)
+  const validatedYear = validateYear(year);
+  const validatedMonth = validateMonth(month);
+  const validatedDay = validateDay(day);
+  const isValid = validateDate(validatedYear, validatedMonth, validatedDay);
+  return isValid 
+    ? { year: validatedYear, month: validatedMonth, day: validatedDay }
+    : { year: '2000', month: '01', day: '01' }
+  ;
+}
+
+export function validateYear(year) {
+  const yearRegexResult = year.match(yearRegex)?.[0];
+  const validatedYear = yearRegexResult ? yearRegexResult.padStart(4, '20') : NaN;
+  return validatedYear;
+}
+export function validateMonth(month) {
+  const monthRegexResult = month.match(monthRegex)?.[0];
+  const validatedMonth = monthRegexResult ? monthRegexResult.padStart(2, '0') : NaN;
+  return validatedMonth >= 1 && validatedMonth <= 12
+    ? validatedMonth
+    : NaN
+  ;
+}
+export function validateDay(day) {
+  const dayRegexResult = day.match(dayRegex)?.[0];
+  const validatedDay = dayRegexResult ? dayRegexResult.padStart(2, '0') : NaN;
+  return validatedDay >= 1 && validatedDay <= 31
+    ? validatedDay
+    : NaN
+  ;
+}
+export function validateDate(year = '2000', month = '01', day = '01') {
   const isValid = !isNaN(Date.parse([year, month, day].join('-')));
-
-  return isValid ? { year, month, day } : { year: '2000', month: '01', day: '01' };
+  return isValid;
 }

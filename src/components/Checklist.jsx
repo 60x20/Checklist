@@ -6,7 +6,7 @@ import { currentDateContext } from "../providers/CurrentDateProvider";
 import { amountOfClearsContext } from "../providers/AmountOfClearsProvider";
 
 // helpers
-import validateUnitsFromDate from "../helpers/validateUnitsFromDate";
+import { validateUnitsFromDate } from "../helpers/validateUnitsFromDate";
 import { addToTodosTemplate, removeFromTodosTemplate } from "../helpers/todosTemplateHelpers";
 import { returnAllTodos, addToAllTodos, updateTodoString } from "../helpers/allTodosHelpers";
 import { returnTodoData, validateToDoData, addToTodoData, removeFromTodoData, updateTodoState } from "../helpers/todoDataHelpers";
