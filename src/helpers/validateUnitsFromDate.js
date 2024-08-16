@@ -9,34 +9,34 @@ dateInput.type = 'date';
 
 export function validateUnitsFromDate({ year, month, day }) {
   // validation, in case the date is not in the desired format (failsafe)
-  const validatedYear = validateYear(year);
-  const validatedMonth = validateMonth(month);
-  const validatedDay = validateDay(day);
-  const isValid = validateDate(validatedYear, validatedMonth, validatedDay);
+  const extractedYear = extractYear(year);
+  const extractedMonth = extractMonth(month);
+  const extractedDay = extractDay(day);
+  const isValid = validateDate(extractedYear, extractedMonth, extractedDay);
   return isValid 
-    ? { year: validatedYear, month: validatedMonth, day: validatedDay }
+    ? { year: extractedYear, month: extractedMonth, day: extractedDay }
     : { year: '2000', month: '01', day: '01' }
   ;
 }
 
-export function validateYear(year) {
+export function extractYear(year) {
   const yearRegexResult = year.match(yearRegex)?.[0];
-  const validatedYear = yearRegexResult ? yearRegexResult.padStart(4, '20') : NaN;
-  return validatedYear;
+  const extractedYear = yearRegexResult ? yearRegexResult.padStart(4, '20') : NaN;
+  return extractedYear;
 }
-export function validateMonth(month) {
+export function extractMonth(month) {
   const monthRegexResult = month.match(monthRegex)?.[0];
-  const validatedMonth = monthRegexResult ? monthRegexResult.padStart(2, '0') : NaN;
-  return validatedMonth >= 1 && validatedMonth <= 12
-    ? validatedMonth
+  const extractedMonth = monthRegexResult ? monthRegexResult.padStart(2, '0') : NaN;
+  return extractedMonth >= 1 && extractedMonth <= 12
+    ? extractedMonth
     : NaN
   ;
 }
-export function validateDay(day) {
+export function extractDay(day) {
   const dayRegexResult = day.match(dayRegex)?.[0];
-  const validatedDay = dayRegexResult ? dayRegexResult.padStart(2, '0') : NaN;
-  return validatedDay >= 1 && validatedDay <= 31
-    ? validatedDay
+  const extractedDay = dayRegexResult ? dayRegexResult.padStart(2, '0') : NaN;
+  return extractedDay >= 1 && extractedDay <= 31
+    ? extractedDay
     : NaN
   ;
 }
