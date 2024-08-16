@@ -3,6 +3,9 @@ const yearRegex = /\d{4}|\d{2}/;
 const monthRegex = /\d{1,2}/;
 const dayRegex = /\d{1,2}/;
 
+// input date is used instead of Date.parse, because Date.parse is lenient
+const dateInput = document.createElement('input');
+dateInput.type = 'date';
 
 export function validateUnitsFromDate({ year, month, day }) {
   // validation, in case the date is not in the desired format (failsafe)
@@ -38,6 +41,7 @@ export function validateDay(day) {
   ;
 }
 export function validateDate(year = '2000', month = '01', day = '01') {
-  const isValid = !isNaN(Date.parse([year, month, day].join('-')));
+  dateInput.value = [year, month, day].join('-'); // returns '', if invalid
+  const isValid = Boolean(dateInput.value);
   return isValid;
 }
