@@ -13,8 +13,7 @@ import { returnTodoData, validateToDoData, addToTodoData, removeFromTodoData, up
 
 const Checklist = () => {
   const requestedDateAsParams = useParams();
-  const requestedDate = validateUnitsFromDate(requestedDateAsParams);
-  const { year, month, day } = requestedDate;
+  const { year, month, day } = validateUnitsFromDate(requestedDateAsParams);
 
   const currentDate = useContext(currentDateContext);
   const { amountOfClears } = useContext(amountOfClearsContext);
