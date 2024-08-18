@@ -5,7 +5,7 @@ function setYearEntry(year, toDoData) {
   localStorage.setItem(year, JSON.stringify(toDoData));
 }
 
-function returnYearEntry(year) {
+export function returnYearEntry(year) {
   return JSON.parse(localStorage.getItem(year));
 }
 
