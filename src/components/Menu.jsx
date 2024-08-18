@@ -81,7 +81,7 @@ const Menu = () => {
           max="2100-12-31"
         />
       </label>
-      <p>all</p>
+      <p><Link to='all'>all</Link></p>
       <button type="button" onClick={resetAllDataHandler}>reset all data</button>
     </aside>
     ) : false }
