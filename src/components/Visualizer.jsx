@@ -42,3 +42,28 @@ export const MonthVisualizer = () => {
     ) : false) }
   </>);
 }
+
+export const YearVisualizer = () => {
+  // a specific year requested
+  const { year } = useParams();
+
+  const extractedYear = extractYear(year);
+
+  const isValid = validateDate(extractedYear);
+  if (!isValid) return (<p>invalid date</p>);
+  
+  const yearAsInt = parseInt(extractedYear, 10);
+
+  const yearEntry = returnYearEntry(yearAsInt);
+
+  if (!yearEntry) return (<p>no data for year</p>);
+
+  return (<>
+    { yearEntry.map((monthArr, month) => monthArr ? (
+      // there are vacant indexes, so that months and indexes match
+      <p key={month} className="month">
+        <Link to={String(month).padStart(2, '0')}>{monthNames[month]}</Link>
+      </p>
+    ) : false) }
+  </>);
+}
