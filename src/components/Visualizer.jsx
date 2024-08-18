@@ -4,6 +4,10 @@ import { Link, Outlet, useParams } from "react-router-dom";
 import { returnAllYears } from "../helpers/allYearsHelpers";
 import { extractYear, extractMonth, validateDate } from "../helpers/validateUnitsFromDate";
 import { returnYearEntry } from "../helpers/todoDataHelpers";
+import { useContext } from "react";
+
+// contexts
+import { amountOfClearsContext } from "../providers/AmountOfClearsProvider";
 
 const monthNames = ['', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
@@ -16,6 +20,8 @@ export const VisualizerLayout = () => {
 }
 
 export const MonthVisualizer = () => {
+  useContext(amountOfClearsContext); // when data is cleared, re-render
+
   // a specific month requested
   const { year, month } = useParams();
 
@@ -47,6 +53,8 @@ export const MonthVisualizer = () => {
 }
 
 export const YearVisualizer = () => {
+  useContext(amountOfClearsContext); // when data is cleared, re-render
+
   // a specific year requested
   const { year } = useParams();
 
@@ -72,6 +80,8 @@ export const YearVisualizer = () => {
 }
 
 export const AllYearsVisualizer = () => {
+  useContext(amountOfClearsContext); // when data is cleared, re-render
+  
   // everyting requested
   const allYears = returnAllYears();
 
