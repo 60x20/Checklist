@@ -115,7 +115,7 @@ const Checklist = () => {
       { currentToDoDataAsArray.map((array, i) => {
         const [ todoId, checked ] = array;
         return (
-          <div key={i}>
+          <div className="todo" key={i}>
             <p>{allTodos[todoId]}</p>
             <form data-id-to-update={todoId} onSubmit={updateTodoHandler}>
               <input type="text" name="todoName" required />
