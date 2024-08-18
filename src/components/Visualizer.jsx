@@ -87,8 +87,10 @@ export const AllYearsVisualizer = () => {
 
   if (allYears.length === 0) return <p>no data</p>;
 
+  const allYearsDescending = allYears.sort((a, b) => b - a);
+
   return (<>
-    { allYears.map((year) => (
+    { allYearsDescending.map((year) => (
       // there aren't any vacant indexes, but years are unique
       <p key={year} className="year">
         <Link to={String(year).padStart(4, '0')}>{ year }</Link>
