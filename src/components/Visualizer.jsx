@@ -3,6 +3,7 @@ import { Link, Outlet, useParams } from "react-router-dom";
 // helpers
 import { extractYear, extractMonth, validateDate } from "../helpers/validateUnitsFromDate";
 import { returnYearEntry } from "../helpers/todoDataHelpers";
+const monthNames = ['', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 export const VisualizerLayout = () => {
   return (
     <div id="visualizer">
