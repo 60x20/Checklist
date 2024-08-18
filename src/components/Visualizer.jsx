@@ -1,6 +1,7 @@
 import { Link, Outlet, useParams } from "react-router-dom";
 
 // helpers
+import { returnAllYears } from "../helpers/allYearsHelpers";
 import { extractYear, extractMonth, validateDate } from "../helpers/validateUnitsFromDate";
 import { returnYearEntry } from "../helpers/todoDataHelpers";
 const monthNames = ['', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
@@ -65,5 +66,21 @@ export const YearVisualizer = () => {
         <Link to={String(month).padStart(2, '0')}>{monthNames[month]}</Link>
       </p>
     ) : false) }
+  </>);
+}
+
+export const AllYearsVisualizer = () => {
+  // everyting requested
+  const allYears = returnAllYears();
+
+  if (allYears.length === 0) return <p>no data</p>;
+
+  return (<>
+    { allYears.map((year) => (
+      // there aren't any vacant indexes, but years are unique
+      <p key={year} className="year">
+        <Link to={String(year).padStart(4, '0')}>{ year }</Link>
+      </p>
+    )) }
   </>);
 }
