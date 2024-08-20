@@ -109,13 +109,15 @@ const Checklist = () => {
     <div id="checklist">
       {`${day}-${month}-${year}`}
       <form onSubmit={createTodoHandler}>
-        <input type="text" name="todoName" required />
+        {/* reset text-input's value if date changes */}
+        <input key={year + month + day} type="text" name="todoName" required />
         <button>create</button>
       </form>
       { currentToDoDataAsArray.map((array) => {
         const [ todoId, checked ] = array;
         return (
-          <div className="todo" key={todoId}>
+          // todoId is concatenated with date, so that if data changes, uncontrolled inputs will be reset
+          <div className="todo" key={year + month + day + todoId}>
             <p>{allTodos[todoId]}</p>
             <form data-id-to-update={todoId} onSubmit={updateTodoHandler}>
               <input type="text" name="todoName" required />
