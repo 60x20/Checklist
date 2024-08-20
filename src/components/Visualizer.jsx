@@ -48,7 +48,7 @@ export const MonthVisualizer = () => {
           <p key={todoId}>{checked ? 'finished' : 'unfinished'}</p>
         )) }
       </div>
-    ) : false) }
+    ) : false).toReversed() }
   </>);
 }
 
@@ -75,7 +75,7 @@ export const YearVisualizer = () => {
       <p key={month} className="month">
         <Link to={String(month).padStart(2, '0')}>{monthNames[month]}</Link>
       </p>
-    ) : false) }
+    ) : false).toReversed() }
   </>);
 }
 
