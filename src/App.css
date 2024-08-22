@@ -17,6 +17,7 @@ nav#top-navigation-bar {
   align-items: center;
   gap: 1rem;
   background-color: purple;
+  color: white;
   border-bottom: 1rem solid black;
 
   * {
