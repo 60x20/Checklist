@@ -44,7 +44,7 @@ export const MonthVisualizer = () => {
   const monthEntry = yearEntry[monthAsInt];
   if (!monthEntry) return (<p>no data for month</p>);
 
-  return (<>
+  return (<div className="row-container">
     { monthEntry.map((dayData, day) => dayData ? (
       // there are vacant indexes, so that days and indexes match
       <div key={day} className="day">
@@ -63,7 +63,7 @@ export const MonthVisualizer = () => {
         )) }</div>
       </div>
     ) : false).toReversed() }
-  </>);
+  </div>);
 }
 
 export const YearVisualizer = () => {
@@ -83,14 +83,14 @@ export const YearVisualizer = () => {
 
   if (!yearEntry) return (<p>no data for year</p>);
 
-  return (<>
+  return (<div className="column-container">
     { yearEntry.map((monthArr, month) => monthArr ? (
       // there are vacant indexes, so that months and indexes match
       <p key={month} className="month">
         <Link to={String(month).padStart(2, '0')}>{monthNames[month]}</Link>
       </p>
     ) : false).toReversed() }
-  </>);
+  </div>);
 }
 
 export const AllYearsVisualizer = () => {
@@ -103,12 +103,12 @@ export const AllYearsVisualizer = () => {
 
   const allYearsDescending = allYears.sort((a, b) => b - a);
 
-  return (<>
+  return (<div className="column-container">
     { allYearsDescending.map((year) => (
       // there aren't any vacant indexes, but years are unique
       <p key={year} className="year">
         <Link to={String(year).padStart(4, '0')}>{ year }</Link>
       </p>
     )) }
-  </>);
+  </div>);
 }
