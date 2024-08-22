@@ -49,6 +49,22 @@ aside#menu {
   margin: 0 auto; /* horizontally centered */
   min-height: 100%;
   background-color: red;
+div.row-container, div.column-container {
+  display: flex;
+  gap: 1rem;
+  * {
+    margin: 0; /* gap used instead of margin */
+  }
+}
+div.row-container {
+  flex-flow: row wrap;
+  justify-content: center;
+}
+div.column-container {
+  flex-flow: column nowrap;
+  align-items: center;
+}
+
 #visualizer {
   div.day {
     padding: .25rem;
