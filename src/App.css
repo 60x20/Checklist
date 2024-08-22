@@ -44,11 +44,19 @@ aside#menu {
   background-color: rgb(80, 80, 120);
 }
 
-#checklist {
-  width: 60%;
+/* hero section */
+#checklist, #visualizer {
+  padding: 1rem 0;
+  box-sizing: border-box;
   margin: 0 auto; /* horizontally centered */
-  min-height: 100%;
-  background-color: red;
+  width: 90%;
+  max-width: 1000px;
+  text-align: center;
+  font-size: 1.5rem;
+  * {
+    font-size: inherit; /* some have values set by user agent, which overwrites inheritance */
+  }
+}
 div.row-container, div.column-container {
   display: flex;
   gap: 1rem;
