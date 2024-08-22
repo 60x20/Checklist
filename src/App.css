@@ -49,6 +49,18 @@ aside#menu {
   margin: 0 auto; /* horizontally centered */
   min-height: 100%;
   background-color: red;
+#visualizer {
+  div.day {
+    padding: .25rem;
+    border: 1px solid black;
+  }
+
+  .checked {
+    color: green;
+  }
+  .unchecked {
+    color: red;
+  }
 }
 
 footer {
