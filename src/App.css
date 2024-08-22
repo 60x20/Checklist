@@ -58,10 +58,10 @@ aside#menu {
 
 /* hero section */
 #checklist, #visualizer {
+  width: 90%;
   padding: 1rem 0;
   box-sizing: border-box;
   margin: 0 auto; /* horizontally centered */
-  width: 90%;
   max-width: 1000px;
   text-align: center;
   font-size: 1.5rem;
