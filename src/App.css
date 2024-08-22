@@ -60,7 +60,6 @@ aside#menu {
 #checklist, #visualizer {
   width: 90%;
   padding: 1rem 0;
-  box-sizing: border-box;
   margin: 0 auto; /* horizontally centered */
   max-width: 1000px;
   text-align: center;
