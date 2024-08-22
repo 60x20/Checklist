@@ -58,7 +58,7 @@ const Menu = () => {
   return (
     <>
     { menuState ? (
-    <aside role="menu" id="menu">
+    <aside role="menu" id="menu" className="column-stretch-container">
       <h2>Previous Checklists</h2>
       { prevDates.map((el, i) => {
         const relativeDate = returnDateFromToday(-i);
