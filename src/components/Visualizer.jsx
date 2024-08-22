@@ -1,5 +1,9 @@
 import { Link, Outlet, useParams } from "react-router-dom";
 
+// font awesome
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCheck, faXmark } from '@fortawesome/free-solid-svg-icons'
+
 // helpers
 import { returnAllYears } from "../helpers/allYearsHelpers";
 import { extractYear, extractMonth, validateDate } from "../helpers/validateUnitsFromDate";
@@ -44,9 +48,19 @@ export const MonthVisualizer = () => {
     { monthEntry.map((dayData, day) => dayData ? (
       // there are vacant indexes, so that days and indexes match
       <div key={day} className="day">
-        { Object.entries(dayData).map(([todoId, checked]) => (
-          <p key={todoId}>{checked ? 'finished' : 'unfinished'}</p>
-        )) }
+        <p>day: {String(day).padStart(2, '0')}</p>
+        <p>completion: { (() => {
+          const dayCheckedData = Object.values(dayData);
+          const amountOfTodos = dayCheckedData.length;
+          let amountOfCheckedTodos = 0;
+          for (const checked of dayCheckedData) checked ? amountOfCheckedTodos++ : '';
+          return `${amountOfCheckedTodos}/${amountOfTodos}`;
+        })() }</p>
+        <div>{ Object.entries(dayData).map(([todoId, checked]) => (
+          <p key={todoId} className={ checked ? 'checked' : 'unchecked' }>
+            <FontAwesomeIcon icon={checked ? faCheck : faXmark} />
+          </p>
+        )) }</div>
       </div>
     ) : false).toReversed() }
   </>);
