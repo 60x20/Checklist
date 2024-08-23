@@ -9,6 +9,26 @@ div#root {
   min-height: 100vh;
 }
 
+.column-stretch-container, div.row-container, div.column-container {
+  display: flex;
+  gap: 1rem;
+  * {
+    margin: 0; /* gap used instead of margin */
+  }
+}
+.column-stretch-container {
+  flex-flow: column nowrap;
+  align-items: stretch;
+}
+div.row-container {
+  flex-flow: row wrap;
+  justify-content: center;
+}
+div.column-container {
+  flex-flow: column nowrap;
+  align-items: center;
+}
+
 nav#top-navigation-bar {
   padding: 1rem;
   display: flex;
@@ -95,26 +115,6 @@ aside#menu {
     box-sizing: border-box; /* shouldn't be > 100%, otherwise overflows */
     background-color: tomato;
   }
-}
-
-.column-stretch-container, div.row-container, div.column-container {
-  display: flex;
-  gap: 1rem;
-  * {
-    margin: 0; /* gap used instead of margin */
-  }
-}
-.column-stretch-container {
-  flex-flow: column nowrap;
-  align-items: stretch;
-}
-div.row-container {
-  flex-flow: row wrap;
-  justify-content: center;
-}
-div.column-container {
-  flex-flow: column nowrap;
-  align-items: center;
 }
 
 #visualizer {
