@@ -114,6 +114,19 @@ aside#menu {
     padding: .5rem;
     box-sizing: border-box; /* shouldn't be > 100%, otherwise overflows */
     background-color: tomato;
+
+    .row-container {
+      width: 100%; /* for children to be placed correctly and consistently */
+      flex-flow: row nowrap; /* making sure it's always 1 row, otherwise elements can slip to the next line */
+      align-items: center;
+      p {
+        flex-grow: 1;
+      }
+      *:not(p) {
+        flex-shrink: 0; /* flex-grow can cause siblings to shrink */
+      }
+
+    }
   }
 }
 
