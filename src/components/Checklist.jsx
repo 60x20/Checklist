@@ -1,6 +1,10 @@
 import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
+// font awesome
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBars, faXmark } from '@fortawesome/free-solid-svg-icons';
+
 // contexts
 import { currentDateContext } from "../providers/CurrentDateProvider";
 import { amountOfClearsContext } from "../providers/AmountOfClearsProvider";
@@ -136,6 +140,7 @@ const Checklist = () => {
                 title={helpersState[todoId] ? "Close helpers" : "Open helpers"}
                 type="button"
               >
+                <FontAwesomeIcon icon={helpersState[todoId] ? faXmark : faBars} />
               </button>
             </div>
             { helpersState[todoId] ?
