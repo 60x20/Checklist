@@ -74,6 +74,14 @@ aside#menu {
     width: 75%;
   }
 }
+
+#checklist {
+  input[type="checkbox"] {
+    width: 1.5rem;
+    aspect-ratio: 1;
+  }
+}
+
 .column-stretch-container, div.row-container, div.column-container {
   display: flex;
   gap: 1rem;
