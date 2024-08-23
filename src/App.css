@@ -80,6 +80,16 @@ aside#menu {
     width: 1.5rem;
     aspect-ratio: 1;
   }
+
+  div.todo {
+    width: 100%; /* every to-do is the same size instead of fit-content */
+    > p {
+      word-break: break-all; /* instead of overflowing or enlarging the width, enlarge the height since it's the flow direction */
+    }
+    padding: .5rem;
+    box-sizing: border-box; /* shouldn't be > 100%, otherwise overflows */
+    background-color: tomato;
+  }
 }
 
 .column-stretch-container, div.row-container, div.column-container {
