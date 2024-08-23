@@ -108,7 +108,7 @@ aside#menu {
 
   div.todo {
     width: 100%; /* every to-do is the same size instead of fit-content */
-    > p {
+    p {
       word-break: break-all; /* instead of overflowing or enlarging the width, enlarge the height since it's the flow direction */
     }
     padding: .5rem;
