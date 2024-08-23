@@ -55,6 +55,9 @@ const Checklist = () => {
   function closeHelperState(todoId) {
     updateHelperState(todoId, false);
   }
+  function closeAllHelpers() {
+    setHelpersState({});
+  }
   
   // currentToDoData should be in sync with localStorage entry
   function addToCurrentToDoDataAndSync(todoId) {
@@ -124,7 +127,7 @@ const Checklist = () => {
   }
 
   return (
-    <div id="checklist" className="column-container">
+    <div id="checklist" className="column-container" tabIndex="1" onKeyUp={e => e.key === 'Escape' ? closeAllHelpers() : ''}>
       <h3>{`${day}-${month}-${year}`}</h3>
       <form onSubmit={createTodoHandler}>
         {/* reset text-input's value if date changes */}
