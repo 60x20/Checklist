@@ -59,6 +59,7 @@ aside#menu {
 /* hero section */
 #checklist, #visualizer {
   width: 90%;
+  min-width: min-content; /* if anything overflows, contain them */
   padding: 1rem 0;
   margin: 0 auto; /* horizontally centered */
   max-width: 1000px;
