@@ -107,7 +107,7 @@ const Checklist = () => {
 
   return (
     <div id="checklist">
-      {`${day}-${month}-${year}`}
+      <h3>{`${day}-${month}-${year}`}</h3>
       <form onSubmit={createTodoHandler}>
         {/* reset text-input's value if date changes */}
         <input key={year + month + day} type="text" name="todoName" required />
