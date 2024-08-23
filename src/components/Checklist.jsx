@@ -106,7 +106,7 @@ const Checklist = () => {
   }
 
   return (
-    <div id="checklist">
+    <div id="checklist" className="column-container">
       <h3>{`${day}-${month}-${year}`}</h3>
       <form onSubmit={createTodoHandler}>
         {/* reset text-input's value if date changes */}
@@ -117,14 +117,18 @@ const Checklist = () => {
         const [ todoId, checked ] = array;
         return (
           // todoId is concatenated with date, so that if data changes, uncontrolled inputs will be reset
-          <div className="todo" key={year + month + day + todoId}>
-            <p>{allTodos[todoId]}</p>
-            <form data-id-to-update={todoId} onSubmit={updateTodoHandler}>
-              <input type="text" name="todoName" required />
-              <button>update todo</button>
-            </form>
-            <button onClick={removeFromTodoHandler} type="button" data-id-to-remove={todoId}>remove</button>
-            <input name="todo-state" type="checkbox" data-id-to-update={todoId} onChange={updateTodoStateHandler} checked={checked} />
+          <div className="column-container todo" key={year + month + day + todoId}>
+            <div className="row-container">
+              <p>{allTodos[todoId]}</p>
+              <input name="todo-state" type="checkbox" data-id-to-update={todoId} onChange={updateTodoStateHandler} checked={checked} />
+            </div>
+            <div className="row-container helpers">
+              <form data-id-to-update={todoId} onSubmit={updateTodoHandler}>
+                <input size="10" type="text" name="todoName" required />
+                <button>update todo</button>
+              </form>
+              <button onClick={removeFromTodoHandler} type="button" data-id-to-remove={todoId}>remove</button>
+            </div>
           </div>
         )
       }) }
