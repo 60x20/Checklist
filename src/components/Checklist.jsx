@@ -39,6 +39,15 @@ const Checklist = () => {
 
   // for rendering todos
   const currentToDoDataAsArray = Object.entries(currentToDoData);
+
+  // for the appearance of helpers (individually)
+  const [helpersState, setHelpersState] = useState({}); // by default every helper is falsy (undefined)
+  function updateHelperState(todoId, value) {
+    setHelpersState({...helpersState, [todoId]: value});
+  }
+  function toggleHelperState(todoId) {
+    updateHelperState(todoId, !helpersState[todoId]);
+  }
   
   // currentToDoData should be in sync with localStorage entry
   function addToCurrentToDoDataAndSync(todoId) {
@@ -121,14 +130,22 @@ const Checklist = () => {
             <div className="row-container">
               <p>{allTodos[todoId]}</p>
               <input name="todo-state" type="checkbox" data-id-to-update={todoId} onChange={updateTodoStateHandler} checked={checked} />
+              <button
+                className="toggler"
+                onClick={() => toggleHelperState(todoId)}
+                title={helpersState[todoId] ? "Close helpers" : "Open helpers"}
+                type="button"
+              >
+              </button>
             </div>
+            { helpersState[todoId] ?
             <div className="row-container helpers">
               <form data-id-to-update={todoId} onSubmit={updateTodoHandler}>
                 <input size="10" type="text" name="todoName" required />
                 <button>update todo</button>
               </form>
               <button onClick={removeFromTodoHandler} type="button" data-id-to-remove={todoId}>remove</button>
-            </div>
+            </div> : false }
           </div>
         )
       }) }
