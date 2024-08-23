@@ -77,6 +77,10 @@ aside#menu {
 }
 
 #checklist {
+  &:focus-visible {
+    outline: none; /* element is focusable only to detect escape keypresses */
+  }
+
   input[type="checkbox"] {
     width: 1.5rem;
     aspect-ratio: 1;
