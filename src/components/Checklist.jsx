@@ -52,6 +52,9 @@ const Checklist = () => {
   function toggleHelperState(todoId) {
     updateHelperState(todoId, !helpersState[todoId]);
   }
+  function closeHelperState(todoId) {
+    updateHelperState(todoId, false);
+  }
   
   // currentToDoData should be in sync with localStorage entry
   function addToCurrentToDoDataAndSync(todoId) {
@@ -110,6 +113,8 @@ const Checklist = () => {
     const todoString = String(formDataReadable.todoName);
     const todoIdToUpdate = e.currentTarget.dataset.idToUpdate;
     updateTodoStringAndSync(todoIdToUpdate, todoString);
+    
+    closeHelperState(todoIdToUpdate); // close the helper menu
   }
   function updateTodoStateHandler(e) {
     const todoIdUpdate = e.currentTarget.dataset.idToUpdate;
@@ -145,6 +150,7 @@ const Checklist = () => {
             </div>
             { helpersState[todoId] ?
             <div className="row-container helpers">
+              {/* when any of the helpers are used, helper menu should be closed */}
               <form data-id-to-update={todoId} onSubmit={updateTodoHandler}>
                 <input size="10" type="text" name="todoName" required />
                 <button>update todo</button>
