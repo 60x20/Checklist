@@ -23,12 +23,12 @@ nav#top-navigation-bar {
   * {
     margin: 0;
   }
+}
 
-  button {
-    box-sizing: border-box;
-    width: 2rem;
-    aspect-ratio: 1;
-  }
+button.toggler {
+  box-sizing: border-box;
+  width: 2rem;
+  aspect-ratio: 1;
 }
 
 main {
