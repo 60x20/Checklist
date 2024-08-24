@@ -3,3 +3,7 @@ export function focusOnFirstLinkInsideVisualizer() {
   if (firstLink) firstLink.focus();
 }
 
+export function focusOnCreateTodoInsideChecklist() {
+  const createTodo = document.querySelector('#checklist #create-todo');
+  if (createTodo) createTodo.focus();
+}
