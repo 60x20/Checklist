@@ -1,5 +1,5 @@
 import './App.css';
-import { createBrowserRouter, createRoutesFromElements, RouterProvider, Route } from "react-router-dom";
+import { createHashRouter, createRoutesFromElements, RouterProvider, Route } from "react-router-dom";
 
 // layouts
 import RootLayout from './layouts/RootLayout';
@@ -9,7 +9,8 @@ import Checklist from './components/Checklist';
 import Home from './components/Home';
 import { VisualizerLayout, AllYearsVisualizer, YearVisualizer, MonthVisualizer } from './components/Visualizer';
 
-const router = createBrowserRouter(
+// TODO: don't use hash router
+const router = createHashRouter(
   createRoutesFromElements(
     <Route path="/" element={<RootLayout />}>
       <Route index element={<Home />} />
