@@ -127,7 +127,7 @@ const Checklist = () => {
   }
 
   return (
-    <div id="checklist" className="column-container" tabIndex="1" onKeyUp={e => e.key === 'Escape' ? closeAllHelpers() : ''}>
+    <div id="checklist" className="column-container" tabIndex="0" onKeyUp={e => e.key === 'Escape' ? closeAllHelpers() : ''}>
       <h3>{`${day}-${month}-${year}`}</h3>
       <form onSubmit={createTodoHandler}>
         {/* reset text-input's value if date changes */}
