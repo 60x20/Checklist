@@ -1,5 +1,5 @@
 import { Link, Outlet, useParams } from "react-router-dom";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 
 // font awesome
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -9,6 +9,7 @@ import { faCheck, faXmark } from '@fortawesome/free-solid-svg-icons'
 import { returnAllYears } from "../helpers/allYearsHelpers";
 import { extractYear, extractMonth, validateDate } from "../helpers/validateUnitsFromDate";
 import { returnYearEntry } from "../helpers/todoDataHelpers";
+import { focusOnFirstLinkInsideVisualizer } from "../helpers/focusHelpers";
 
 // contexts
 import { amountOfClearsContext } from "../providers/AmountOfClearsProvider";
@@ -72,6 +73,9 @@ export const YearVisualizer = () => {
   // a specific year requested
   const { year } = useParams();
 
+  // when rendered or URL changes focus on the first link
+  useEffect(focusOnFirstLinkInsideVisualizer, [year]);
+
   const extractedYear = extractYear(year);
 
   const isValid = validateDate(extractedYear);
@@ -96,6 +100,9 @@ export const YearVisualizer = () => {
 export const AllYearsVisualizer = () => {
   useContext(amountOfClearsContext); // when data is cleared, re-render
   
+  // when rendered focus on the first link
+  useEffect(focusOnFirstLinkInsideVisualizer, []);
+
   // everyting requested
   const allYears = returnAllYears();
 
