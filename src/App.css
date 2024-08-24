@@ -116,7 +116,7 @@ aside#menu {
     background-color: tomato;
 
     .row-container {
-      width: 100%; /* for children to be placed correctly and consistently */
+      width: 100%; /* for children to be placed correctly and consistent with other todos */
       flex-flow: row nowrap; /* making sure it's always 1 row, otherwise elements can slip to the next line */
       align-items: center;
       p {
