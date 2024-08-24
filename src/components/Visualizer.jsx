@@ -1,4 +1,5 @@
 import { Link, Outlet, useParams } from "react-router-dom";
+import { useContext } from "react";
 
 // font awesome
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -8,7 +9,6 @@ import { faCheck, faXmark } from '@fortawesome/free-solid-svg-icons'
 import { returnAllYears } from "../helpers/allYearsHelpers";
 import { extractYear, extractMonth, validateDate } from "../helpers/validateUnitsFromDate";
 import { returnYearEntry } from "../helpers/todoDataHelpers";
-import { useContext } from "react";
 
 // contexts
 import { amountOfClearsContext } from "../providers/AmountOfClearsProvider";
