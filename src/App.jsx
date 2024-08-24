@@ -6,18 +6,20 @@ import RootLayout from './layouts/RootLayout';
 
 // components
 import Checklist from './components/Checklist';
+import Home from './components/Home';
 import { VisualizerLayout, AllYearsVisualizer, YearVisualizer, MonthVisualizer } from './components/Visualizer';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<RootLayout />}>
+      <Route index element={<Home />} />
       <Route path="all" element={<VisualizerLayout />}>
         <Route index element={<AllYearsVisualizer />} />
         <Route path=":year" element={<YearVisualizer />} />
         <Route path=":year/:month" element={<MonthVisualizer />} />
       </Route>
       <Route path=":year/:month/:day" element={<Checklist />} />
-      <Route path="*" />
+      <Route path="*" element={<Home />} />
     </Route>
   )
 );
