@@ -11,6 +11,7 @@ import { amountOfClearsContext } from "../providers/AmountOfClearsProvider";
 
 // helpers
 import { validateUnitsFromDate } from "../helpers/validateUnitsFromDate";
+import { focusOnCreateTodoInsideChecklist } from "../helpers/focusHelpers";
 import { addToTodosTemplate, removeFromTodosTemplate } from "../helpers/todosTemplateHelpers";
 import { returnAllTodos, addToAllTodos, updateTodoString } from "../helpers/allTodosHelpers";
 import { returnTodoData, validateToDoData, addToTodoData, removeFromTodoData, updateTodoState } from "../helpers/todoDataHelpers";
@@ -21,6 +22,9 @@ const Checklist = () => {
 
   const currentDate = useContext(currentDateContext);
   const { amountOfClears } = useContext(amountOfClearsContext);
+
+  // when rendered or URL changes focus on the create todo input
+  useEffect(focusOnCreateTodoInsideChecklist, [day, month, year]);
 
   // converted into numbers so that they are considered array indexes
   const unitsAsInt = [parseInt(year, 10), parseInt(month, 10), parseInt(day, 10)];
