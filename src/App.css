@@ -125,7 +125,6 @@ aside#menu {
       *:not(p) {
         flex-shrink: 0; /* flex-grow can cause siblings to shrink */
       }
-
     }
   }
 }
