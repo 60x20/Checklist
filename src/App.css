@@ -115,7 +115,7 @@ aside#menu {
     box-sizing: border-box; /* shouldn't be > 100%, otherwise overflows */
     background-color: tomato;
 
-    .row-container {
+    .row-container.todo-data {
       width: 100%; /* for children to be placed correctly and consistent with other todos */
       flex-flow: row nowrap; /* making sure it's always 1 row, otherwise elements can slip to the next line */
       align-items: center;
