@@ -78,7 +78,7 @@ aside#menu {
 }
 
 /* hero section */
-#checklist, #visualizer {
+#checklist, #visualizer, #home {
   width: 90%;
   min-width: min-content; /* if anything overflows, contain them */
   padding: 1rem 0;
@@ -140,6 +140,12 @@ aside#menu {
   }
   .unchecked {
     color: red;
+  }
+}
+
+#home {
+  * {
+    margin: 0; /* padding used, margin unnecessary */
   }
 }
 
