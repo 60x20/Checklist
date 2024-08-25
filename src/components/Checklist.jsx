@@ -147,7 +147,7 @@ const Checklist = () => {
               <p>{allTodos[todoId]}</p>
               <input name="todo-state" type="checkbox" data-id-to-update={todoId} onChange={updateTodoStateHandler} checked={checked} />
               <button
-                className="toggler"
+                className="toggler-with-icon"
                 onClick={() => toggleHelperState(todoId)}
                 title={helpersState[todoId] ? "Close helpers" : "Open helpers"}
                 type="button"

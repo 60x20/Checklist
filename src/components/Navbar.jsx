@@ -14,7 +14,7 @@ const Navbar = () => {
     <nav id="top-navigation-bar">
       <h2>Checklist</h2>
       <button
-        className="toggler"
+        className="toggler-with-icon"
         onClick={() => toggleMenuState()}
         title={menuState ? "Close menu" : "Open menu"}
         aria-expanded={menuState}
