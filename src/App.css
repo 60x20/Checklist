@@ -9,7 +9,7 @@ div#root {
   min-height: 100vh;
 }
 
-.column-stretch-container, .row-container, .column-container {
+.column-stretch-container, .row-container, .column-container, .text-and-group-row-container {
   display: flex;
   gap: 1rem;
   * {
@@ -28,6 +28,18 @@ div#root {
   flex-flow: column nowrap;
   align-items: center;
 }
+.text-and-group-row-container {
+  /* first child takes all the space, hence others become groups */
+  flex-flow: row nowrap;
+  align-items: center;
+  > :first-child {
+    flex-grow: 1;
+  }
+  > *:not(:first-child) {
+    flex-shrink: 0; /* flex-grow can cause siblings to shrink */
+  }
+}
+
 
 nav#top-navigation-bar {
   padding: 1rem;
@@ -115,16 +127,8 @@ aside#menu {
     box-sizing: border-box; /* shouldn't be > 100%, otherwise overflows */
     background-color: tomato;
 
-    .row-container.todo-data {
+    .text-and-group-row-container {
       width: 100%; /* for children to be placed correctly and consistent with other todos */
-      flex-flow: row nowrap; /* making sure it's always 1 row, otherwise elements can slip to the next line */
-      align-items: center;
-      p {
-        flex-grow: 1;
-      }
-      *:not(p) {
-        flex-shrink: 0; /* flex-grow can cause siblings to shrink */
-      }
     }
   }
 }
