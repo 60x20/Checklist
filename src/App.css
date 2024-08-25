@@ -1,3 +1,7 @@
+:root {
+  --toggler-button-height: 2rem;
+}
+
 html, body {
   margin: 0;
   padding: 0;
@@ -57,9 +61,9 @@ nav#top-navigation-bar {
   }
 }
 
-  width: 2rem;
 button.toggler-with-icon {
   box-sizing: border-box; /* it might have padding set by UA */
+  width: var(--toggler-button-height);
   aspect-ratio: 1;
   font-size: 1rem !important;
 }
