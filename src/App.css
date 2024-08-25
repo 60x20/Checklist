@@ -9,7 +9,7 @@ div#root {
   min-height: 100vh;
 }
 
-.column-stretch-container, div.row-container, div.column-container {
+.column-stretch-container, .row-container, .column-container {
   display: flex;
   gap: 1rem;
   * {
@@ -20,11 +20,11 @@ div#root {
   flex-flow: column nowrap;
   align-items: stretch;
 }
-div.row-container {
+.row-container {
   flex-flow: row wrap;
   justify-content: center;
 }
-div.column-container {
+.column-container {
   flex-flow: column nowrap;
   align-items: center;
 }
