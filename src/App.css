@@ -44,6 +44,12 @@ div#root {
   }
 }
 
+nav#top-navigation-bar {
+  font-size: 1rem;
+  *:not(h1, h2, h3, h4, h5, h6) {
+    font-size: inherit; /* some have values set by user agent, which overwrites inheritance */
+  }
+}
 
 nav#top-navigation-bar {
   padding: 1rem;
