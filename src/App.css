@@ -58,8 +58,8 @@ nav#top-navigation-bar {
 }
 
 button.toggler {
-  box-sizing: border-box;
   width: 2rem;
+  box-sizing: border-box; /* it might have padding set by UA */
   aspect-ratio: 1;
   font-size: 1rem !important;
 }
