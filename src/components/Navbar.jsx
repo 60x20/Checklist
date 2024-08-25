@@ -11,7 +11,7 @@ const Navbar = () => {
   const { menuState, toggleMenuState } = useContext(menuStateContext);
   
   return (
-    <nav id="top-navigation-bar">
+    <nav id="top-navigation-bar" className="text-and-group-row-container">
       <h2>Checklist</h2>
       <button
         className="toggler-with-icon"
