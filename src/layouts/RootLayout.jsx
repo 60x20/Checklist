@@ -1,7 +1,7 @@
 import { Outlet } from "react-router-dom";
 
 // components
-import Navbar from "../components/Navbar";
+import Header from "../components/Header";
 import Menu from "../components/Menu";
 import Main from "../components/Main";
 import Footer from "../components/Footer";
@@ -32,7 +32,7 @@ const RootLayout = () => {
   return (<>
     <ThemeProvider>
       <MenuStateProvider>
-        <Navbar />
+        <Header />
         <CurrentDateProvider>
           <Main>
             <Menu />

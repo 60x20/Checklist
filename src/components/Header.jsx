@@ -9,12 +9,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBars, faXmark } from '@fortawesome/free-solid-svg-icons'
 import { faSun, faMoon } from '@fortawesome/free-solid-svg-icons'
 
-const Navbar = () => {
+const Header = () => {
   const { menuState, toggleMenuState } = useContext(menuStateContext);
   const { preferenceForDark, togglePreferenceForDark } = useContext(themeContext);
 
   return (
-    <nav id="top-navigation-bar" className="text-and-group-row-container">
+    <header id="top-header" className="text-and-group-row-container">
       <h2>Checklist</h2>
       <button
         className="toggler-with-icon"
@@ -36,8 +36,8 @@ const Navbar = () => {
         </span>
         theme
       </button>
-    </nav>
+    </header>
   );
 };
  
-export default Navbar;
+export default Header;
