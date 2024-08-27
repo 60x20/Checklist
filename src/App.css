@@ -38,10 +38,6 @@ html, body {
   }
 }
 
-#checklist, #visualizer, #home, #top-header {
-  *:not(h1, h2, h3, h4, h5, h6) {
-    font-size: inherit; /* some have values set by user agent, which overwrites inheritance */
-  }
 .sun-color {
   color: yellow;
 }
@@ -60,6 +56,12 @@ button.toggler-with-icon {
   display: grid;
   grid-template-rows: auto 1fr auto; /* header - main - footer */
   min-height: 100vh;
+}
+
+#checklist, #visualizer, #home, #top-header {
+  *:not(h1, h2, h3, h4, h5, h6) {
+    font-size: inherit; /* some have values set by user agent, which overwrites inheritance */
+  }
 }
 
 #top-header {
