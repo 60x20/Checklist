@@ -42,6 +42,13 @@ html, body {
   *:not(h1, h2, h3, h4, h5, h6) {
     font-size: inherit; /* some have values set by user agent, which overwrites inheritance */
   }
+.sun-color {
+  color: yellow;
+}
+.moon-color {
+  color: gray;
+}
+
 }
 
 #root {
