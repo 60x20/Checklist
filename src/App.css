@@ -44,8 +44,7 @@ div#root {
   }
 }
 
-header#top-header {
-  font-size: 1rem;
+#checklist, #visualizer, #home, #top-header {
   *:not(h1, h2, h3, h4, h5, h6) {
     font-size: inherit; /* some have values set by user agent, which overwrites inheritance */
   }
@@ -56,6 +55,7 @@ header#top-header {
   background-color: purple;
   color: white;
   border-bottom: 1rem solid black;
+  font-size: 1rem;
 
   > :first-child {
     /* text gets all the space, grouping siblings */
@@ -105,9 +105,6 @@ aside#menu {
   max-width: 1000px;
   text-align: center;
   font-size: 1.5rem;
-  *:not(h1, h2, h3, h4, h5, h6) {
-    font-size: inherit; /* some have values set by user agent, which overwrites inheritance */
-  }
 }
 @media (max-width: 1000px) {
   #checklist, #visualizer {
