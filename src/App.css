@@ -77,7 +77,21 @@ button.toggler-with-icon {
     order: 10;
   }
 }
+#theme-toggler {
+  background-color: transparent;
+  color: inherit;
+  border: 0; /* backgroung will be transparent */
+  transition: background-color .2s;
 
+  height: var(--toggler-button-height);
+  box-sizing: border-box; /* padding by UA should respect the height */
+
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+}
+#theme-toggler:hover {
+  background-color: pink;
 }
 
 main {
