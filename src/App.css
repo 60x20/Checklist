@@ -49,6 +49,11 @@ html, body {
   color: gray;
 }
 
+button.toggler-with-icon {
+  box-sizing: border-box; /* it might have padding set by UA */
+  width: var(--toggler-button-height);
+  aspect-ratio: 1;
+  font-size: 1rem !important;
 }
 
 #root {
@@ -71,11 +76,6 @@ html, body {
   }
 }
 
-button.toggler-with-icon {
-  box-sizing: border-box; /* it might have padding set by UA */
-  width: var(--toggler-button-height);
-  aspect-ratio: 1;
-  font-size: 1rem !important;
 }
 
 main {
