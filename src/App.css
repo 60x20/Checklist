@@ -7,7 +7,7 @@ html, body {
   padding: 0;
 }
 
-div#root {
+#root {
   display: grid;
   grid-template-rows: auto 1fr auto; /* header - main - footer */
   min-height: 100vh;
@@ -50,7 +50,7 @@ div#root {
   }
 }
 
-header#top-header {
+#top-header {
   padding: 1rem;
   background-color: purple;
   color: white;
@@ -75,7 +75,7 @@ main {
   position: relative
 }
 
-aside#menu {
+#menu {
   width: fit-content;
   height: 100%;
   padding: 1rem;
@@ -122,7 +122,7 @@ aside#menu {
     aspect-ratio: 1;
   }
 
-  div.todo {
+  .todo {
     width: 100%; /* every to-do is the same size instead of fit-content */
     p {
       overflow-wrap: anywhere; /* instead of overflowing or enlarging the width, enlarge the height since it's the flow direction */
@@ -138,7 +138,7 @@ aside#menu {
 }
 
 #visualizer {
-  div.day {
+  .day {
     padding: .25rem;
     border: 1px solid black;
   }
