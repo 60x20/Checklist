@@ -82,7 +82,7 @@ const Menu = () => {
         />
       </label>
       <p><Link to='all'>all</Link></p>
-      <div className="container">
+      <div className="place-content-at-the-end">
         <button type="button" onClick={resetAllDataHandler}>reset all data</button>
       </div>
     </aside>

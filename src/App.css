@@ -86,8 +86,7 @@ main {
   background-color: rgb(80, 80, 120);
   text-align: center;
 
-  div.container {
-    /* place the button at the end */
+  .place-content-at-the-end {
     flex-grow: 1;
     display: flex;
     flex-flow: column nowrap;
