@@ -30,6 +30,7 @@ const Header = () => {
         id="theme-toggler"
         onClick={() => togglePreferenceForDark()}
         title={preferenceForDark ? "Switch to light theme" : "Switch to dark theme"}
+        type="button"
       >
         <span className={preferenceForDark ? 'sun-color' : 'moon-color'}>
           <FontAwesomeIcon icon={preferenceForDark ? faSun : faMoon} />
