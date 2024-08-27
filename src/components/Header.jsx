@@ -17,20 +17,20 @@ const Header = () => {
     <header id="top-header" className="text-and-group-row-container">
       <h2>Checklist</h2>
       <button
+        type="button"
         className="toggler-with-icon"
         onClick={() => toggleMenuState()}
         title={menuState ? "Close menu" : "Open menu"}
         aria-expanded={menuState}
         aria-controls="menu"
-        type="button"
       >
         <FontAwesomeIcon icon={menuState ? faXmark : faBars} />
       </button>
       <button
+        type="button"
         id="theme-toggler"
         onClick={() => togglePreferenceForDark()}
         title={preferenceForDark ? "Switch to light theme" : "Switch to dark theme"}
-        type="button"
       >
         <span className={preferenceForDark ? 'sun-color' : 'moon-color'}>
           <FontAwesomeIcon icon={preferenceForDark ? faSun : faMoon} />
