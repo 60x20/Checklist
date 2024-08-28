@@ -7,6 +7,8 @@ function isDarkPreferred() {
   return colorSchemeMediaQuery.matches;
 }
 
+const bodyClassList = document.body.classList;
+
 const ThemeProvider = ({ children }) => {
   const [preferenceForDark, setPreferenceForDark] = useState(isDarkPreferred);
   function togglePreferenceForDark() {
@@ -19,6 +21,8 @@ const ThemeProvider = ({ children }) => {
     colorSchemeMediaQuery.addEventListener('change', changePreferenceFromEvent);
     return () => colorSchemeMediaQuery.removeEventListener('change', changePreferenceFromEvent);
   }, []);
+
+  preferenceForDark ? bodyClassList.add('dark-theme') : bodyClassList.remove('dark-theme');
 
   return (
     <themeContext.Provider value={{ preferenceForDark, togglePreferenceForDark }}>
