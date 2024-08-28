@@ -105,6 +105,8 @@ button.toggler-with-icon {
   display: flex;
   align-items: center;
   gap: .5rem;
+
+  border-radius: .25rem;
 }
 
 main {
