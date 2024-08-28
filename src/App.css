@@ -96,7 +96,6 @@ button.toggler-with-icon {
 }
 #theme-toggler {
   background-color: transparent;
-  color: inherit;
   border: 0; /* backgroung will be transparent */
   transition: background-color .2s;
 
