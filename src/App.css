@@ -188,6 +188,7 @@ main {
 #visualizer {
   .day {
     padding: .25rem;
+    
     border: 1px solid black;
     .dark-theme & {
       border-color: white;
