@@ -175,7 +175,9 @@ main {
     }
     padding: .5rem;
     box-sizing: border-box; /* shouldn't be > 100%, otherwise overflows */
-    background-color: tomato;
+    
+    /* if background is dark become darker, if light become lighter */
+    background-color: rgb(255, 40, 40, .5);
 
     .text-and-group-row-container {
       width: 100%; /* for children to be placed correctly and consistent with other todos */
