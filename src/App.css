@@ -123,8 +123,14 @@ main {
   
   --indigo-as-hsl: 240, 20%;
   background-color: hsl(var(--indigo-as-hsl), 60%);
+  p, label {
+    background-color: white;
+  }
   .dark-theme & {
     background-color: hsl(var(--indigo-as-hsl), 35%);
+    p, label {
+      background-color: black;
+    }
   }
 
   .place-content-at-the-end {
