@@ -79,10 +79,11 @@ button.toggler-with-icon {
 
 #top-header {
   padding: 1rem;
-  background-color: purple;
-  color: white;
   border-bottom: 1rem solid black;
   font-size: 1rem;
+  
+  /* if background is dark become darker, if light become lighter */
+  background-color: rgb(255, 0, 255, .5);
 
   > :first-child {
     /* text gets all the space, grouping siblings */
