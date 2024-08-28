@@ -84,6 +84,9 @@ button.toggler-with-icon {
   
   /* if background is dark become darker, if light become lighter */
   background-color: rgb(255, 0, 255, .5);
+  #theme-toggler:hover {
+    background-color: var(--slightly-brighten);
+  }
 
   > :first-child {
     /* text gets all the space, grouping siblings */
@@ -103,9 +106,6 @@ button.toggler-with-icon {
   display: flex;
   align-items: center;
   gap: .5rem;
-}
-#theme-toggler:hover {
-  background-color: pink;
 }
 
 main {
