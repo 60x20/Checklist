@@ -119,8 +119,13 @@ main {
   overflow-y: auto;
   position: absolute;
   top: 0;
-  background-color: rgb(80, 80, 120);
   text-align: center;
+  
+  --indigo-as-hsl: 240, 20%;
+  background-color: hsl(var(--indigo-as-hsl), 60%);
+  .dark-theme & {
+    background-color: hsl(var(--indigo-as-hsl), 35%);
+  }
 
   .place-content-at-the-end {
     flex-grow: 1;
