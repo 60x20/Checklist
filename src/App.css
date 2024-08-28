@@ -3,6 +3,16 @@
 
   --slightly-brighten: rgb(255, 255, 255, .25);
 
+  /* theme */
+  color-scheme: light;
+  background-color: #ccc;
+  color: black;
+
+  &:has(.dark-theme) {
+    color-scheme: dark;
+    background-color: #111;
+    color: white;
+  }
 }
 
 html, body {
