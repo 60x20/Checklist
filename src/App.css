@@ -1,5 +1,8 @@
 :root {
   --toggler-button-height: 2rem;
+
+  --slightly-brighten: rgb(255, 255, 255, .25);
+
 }
 
 html, body {
