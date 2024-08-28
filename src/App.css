@@ -96,7 +96,7 @@ button.toggler-with-icon {
 }
 #theme-toggler {
   background-color: transparent;
-  border: 0; /* backgroung will be transparent */
+  border: 0; /* background will be transparent */
   transition: background-color .2s;
 
   height: var(--toggler-button-height);
