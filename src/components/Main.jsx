@@ -1,11 +1,14 @@
 // providers
 import AmountOfClearsProvider from "../providers/AmountOfClearsProvider";
+import RequestedDateValidatedProvider from "../providers/RequestedDateValidatedProvider";
 
 const Main = ({ children }) => {
   return (
     <main>
       <AmountOfClearsProvider>
-        {children}
+          <RequestedDateValidatedProvider>
+            {children}
+          </RequestedDateValidatedProvider>
       </AmountOfClearsProvider>
     </main>
   );
