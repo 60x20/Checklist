@@ -93,7 +93,9 @@ const Menu = () => {
         <p><Link to='all'>all</Link></p>
       </nav>
       <div className="place-content-at-the-end">
+        { year && month && day ? 
         <button type="button" onClick={resetCurrentDayHandler}>reset current day</button>
+        : false }
         <button type="button" onClick={resetAllDataHandler}>reset all data</button>
       </div>
     </aside>
