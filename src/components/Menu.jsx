@@ -10,6 +10,7 @@ import { requestedDateValidatedContext } from "../providers/RequestedDateValidat
 // helpers
 import resetAllData from "../helpers/resetAllData";
 import { returnDateFromToday } from "../helpers/returnCurrentDate";
+import { resetTodoData } from "../helpers/todoDataHelpers";
 
 // variables used for debouncing
 let oldDateToGo, dateToGo;
@@ -51,6 +52,7 @@ const Menu = () => {
     increaseAmountOfClears();
   }
   function resetCurrentDayHandler() {
+    resetTodoData(...unitsAsInt);
   }
 
   const { menuState } = useContext(menuStateContext);
