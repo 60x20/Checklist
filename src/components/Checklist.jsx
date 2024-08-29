@@ -8,6 +8,7 @@ import { faBars, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { currentDateContext } from "../providers/CurrentDateProvider";
 import { amountOfClearsContext } from "../providers/AmountOfClearsProvider";
 import { requestedDateValidatedContext } from "../providers/RequestedDateValidatedProvider";
+import { todayClearedContext } from "../providers/TodayClearedProvider";
 
 // helpers
 import { focusOnCreateTodoInsideChecklist } from "../helpers/focusHelpers";
@@ -19,6 +20,7 @@ const Checklist = () => {
   const { year, month, day } = useContext(requestedDateValidatedContext);
   const currentDate = useContext(currentDateContext);
   const { amountOfClears } = useContext(amountOfClearsContext);
+  const { todayCleared } = useContext(todayClearedContext);
 
   // when rendered or URL changes focus on the create todo input
   useEffect(focusOnCreateTodoInsideChecklist, [day, month, year]);
@@ -33,7 +35,7 @@ const Checklist = () => {
   useEffect(() => {
     validateToDoData(...unitsAsInt);
     setCurrentToDoData(returnTodoData(...unitsAsInt));
-  }, [day, month, year, amountOfClears]);
+  }, [day, month, year, amountOfClears, todayCleared]);
   
   // keeping allTodos in sync with localStorage
   const [ allTodos, setAllTodos ] = useState(returnAllTodos);;
