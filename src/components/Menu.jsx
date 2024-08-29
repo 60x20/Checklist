@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { menuStateContext } from '../providers/MenuStateProvider';
 import { currentDateContext } from '../providers/CurrentDateProvider';
 import { amountOfClearsContext } from "../providers/AmountOfClearsProvider";
+import { todayClearedContext } from "../providers/TodayClearedProvider";
 import { requestedDateValidatedContext } from "../providers/RequestedDateValidatedProvider";
 
 // helpers
@@ -21,6 +22,7 @@ const Menu = () => {
   const unitsAsInt = [parseInt(year, 10), parseInt(month, 10), parseInt(day, 10)]; // used as array indexes
 
   const { increaseAmountOfClears } = useContext(amountOfClearsContext);
+  const { increaseTodayCleared } = useContext(todayClearedContext);
 
   const navigate = useNavigate();
   function goToRequestedDateHandler(e) {
@@ -53,6 +55,7 @@ const Menu = () => {
   }
   function resetCurrentDayHandler() {
     resetTodoData(...unitsAsInt);
+    increaseTodayCleared(); // informing checklist
   }
 
   const { menuState } = useContext(menuStateContext);
