@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { menuStateContext } from '../providers/MenuStateProvider';
 import { currentDateContext } from '../providers/CurrentDateProvider';
 import { amountOfClearsContext } from "../providers/AmountOfClearsProvider";
+import { requestedDateValidatedContext } from "../providers/RequestedDateValidatedProvider";
 
 // helpers
 import resetAllData from "../helpers/resetAllData";
@@ -15,6 +16,9 @@ let oldDateToGo, dateToGo;
 let intervalID;
 
 const Menu = () => {
+  const { year, month, day } = useContext(requestedDateValidatedContext);
+  const unitsAsInt = [parseInt(year, 10), parseInt(month, 10), parseInt(day, 10)]; // used as array indexes
+
   const { increaseAmountOfClears } = useContext(amountOfClearsContext);
 
   const navigate = useNavigate();
