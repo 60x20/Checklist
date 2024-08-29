@@ -111,6 +111,8 @@ const Checklist = () => {
       removeFromTodosTemplate(todoIdToRemove);
     }
     removeFromCurrentToDoDataAndSync(todoIdToRemove);
+
+    closeHelperState(todoIdToRemove); // close the helper menu
   }
   function updateTodoHandler(e) {
     e.preventDefault();
