@@ -60,28 +60,30 @@ const Menu = () => {
     { menuState ? (
     <aside role="menu" id="menu" className="column-stretch-container">
       <h2>Previous Checklists</h2>
-      { prevDates.map((el, i) => {
-        const relativeDate = returnDateFromToday(-i);
-        return (
-          <p key={i}>
-            <Link to={relativeDate.YMD.replaceAll('-', '/')}>
-              {i === 0 ? 'today: ' : ''}
-              {relativeDate.DMY}
-            </Link>
-          </p>
-        );
-      }) }
-      <label>
-        <span>go to: </span>
-        <input 
-          onChange={goToRequestedDateHandler}
-          type="date"
-          min="2000-01-01"
-          defaultValue={currentDate.YMD}
-          max="2100-12-31"
-        />
-      </label>
-      <p><Link to='all'>all</Link></p>
+      <nav className="column-stretch-container">
+        { prevDates.map((el, i) => {
+          const relativeDate = returnDateFromToday(-i);
+          return (
+            <p key={i}>
+              <Link to={relativeDate.YMD.replaceAll('-', '/')}>
+                {i === 0 ? 'today: ' : ''}
+                {relativeDate.DMY}
+              </Link>
+            </p>
+          );
+        }) }
+        <label>
+          <span>go to: </span>
+          <input 
+            onChange={goToRequestedDateHandler}
+            type="date"
+            min="2000-01-01"
+            defaultValue={currentDate.YMD}
+            max="2100-12-31"
+          />
+        </label>
+        <p><Link to='all'>all</Link></p>
+      </nav>
       <div className="place-content-at-the-end">
         <button type="button" onClick={resetAllDataHandler}>reset all data</button>
       </div>
