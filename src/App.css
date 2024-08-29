@@ -140,6 +140,7 @@ main {
     flex-grow: 1;
     display: flex;
     flex-flow: column nowrap;
+    gap: 1rem;
     justify-content: end;
     align-items: stretch;
   }
