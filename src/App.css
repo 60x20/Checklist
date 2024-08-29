@@ -136,6 +136,7 @@ main {
   }
 
   .place-content-at-the-end {
+    order: 10;
     flex-grow: 1;
     display: flex;
     flex-flow: column nowrap;
