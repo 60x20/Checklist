@@ -1,5 +1,4 @@
 import { useContext, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
 
 // font awesome
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -8,18 +7,16 @@ import { faBars, faXmark } from '@fortawesome/free-solid-svg-icons';
 // contexts
 import { currentDateContext } from "../providers/CurrentDateProvider";
 import { amountOfClearsContext } from "../providers/AmountOfClearsProvider";
+import { requestedDateValidatedContext } from "../providers/RequestedDateValidatedProvider";
 
 // helpers
-import { validateUnitsFromDate } from "../helpers/validateUnitsFromDate";
 import { focusOnCreateTodoInsideChecklist } from "../helpers/focusHelpers";
 import { addToTodosTemplate, removeFromTodosTemplate } from "../helpers/todosTemplateHelpers";
 import { returnAllTodos, addToAllTodos, updateTodoString } from "../helpers/allTodosHelpers";
 import { returnTodoData, validateToDoData, addToTodoData, removeFromTodoData, updateTodoState } from "../helpers/todoDataHelpers";
 
 const Checklist = () => {
-  const requestedDateAsParams = useParams();
-  const { year, month, day } = validateUnitsFromDate(requestedDateAsParams);
-
+  const { year, month, day } = useContext(requestedDateValidatedContext);
   const currentDate = useContext(currentDateContext);
   const { amountOfClears } = useContext(amountOfClearsContext);
 
