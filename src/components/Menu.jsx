@@ -46,6 +46,8 @@ const Menu = () => {
     // informing checklist that data is reset, allowing it to clean-up (otherwise old data will be seen)
     increaseAmountOfClears();
   }
+  function resetCurrentDayHandler() {
+  }
 
   const { menuState } = useContext(menuStateContext);
   const currentDate = useContext(currentDateContext);
@@ -85,6 +87,7 @@ const Menu = () => {
         <p><Link to='all'>all</Link></p>
       </nav>
       <div className="place-content-at-the-end">
+        <button type="button" onClick={resetCurrentDayHandler}>reset current day</button>
         <button type="button" onClick={resetAllDataHandler}>reset all data</button>
       </div>
     </aside>
