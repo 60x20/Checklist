@@ -54,3 +54,9 @@ export function updateTodoState(todoId, checked, year, month, day) {
   yearEntry[month][day][todoId] = checked;
   setYearEntry(year, yearEntry);
 }
+
+export function resetTodoData(year, month, day) {
+  const yearEntry = returnYearEntry(year);
+  yearEntry[month][day] = {};
+  setYearEntry(year, yearEntry);
+}
