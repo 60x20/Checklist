@@ -8,8 +8,6 @@ export const themeContext = createContext();
 const bodyClassList = document.body.classList;
 
 const ThemeProvider = ({ children }) => {
-  function togglePreferenceForDark() {
-    setPreferenceForDark(!preferenceForDark);
   const [themeMode, setThemeMode] = useState(() => returnThemeMode(returnThemeEntry()));
   function toggleThemeMode() {
     const nextThemeMode = returnThemeMode(themeMode + 1);
@@ -28,7 +26,7 @@ const ThemeProvider = ({ children }) => {
   preferenceForDark ? bodyClassList.add('dark-theme') : bodyClassList.remove('dark-theme');
 
   return (
-    <themeContext.Provider value={{ preferenceForDark, togglePreferenceForDark }}>
+    <themeContext.Provider value={{ preferenceForDark }}>
       {children}
     </themeContext.Provider>
   );
