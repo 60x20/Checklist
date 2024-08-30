@@ -11,7 +11,7 @@ import { faSun, faMoon } from '@fortawesome/free-solid-svg-icons'
 
 const Header = () => {
   const { menuState, toggleMenuState } = useContext(menuStateContext);
-  const { preferenceForDark, togglePreferenceForDark } = useContext(themeContext);
+  const { preferenceForDark, themeMode, toggleThemeMode } = useContext(themeContext);
 
   return (
     <header id="top-header" className="text-and-group-row-container">
@@ -29,8 +29,8 @@ const Header = () => {
       <button
         type="button"
         id="theme-toggler"
-        onClick={() => togglePreferenceForDark()}
         title={preferenceForDark ? "Switch to light theme" : "Switch to dark theme"}
+        onClick={() => toggleThemeMode()}
       >
         <span className={preferenceForDark ? 'sun-color' : 'moon-color'}>
           <FontAwesomeIcon icon={preferenceForDark ? faSun : faMoon} />
