@@ -1,7 +1,7 @@
 import { createContext, useEffect, useState } from "react";
 
 // helpers
-import { colorSchemeMediaQuery, returnThemeMode, returnThemeEntry } from "../helpers/themeHelpers";
+import { colorSchemeMediaQuery, changeThemeModeEntry, returnThemeMode, returnThemeEntry } from "../helpers/themeHelpers";
 
 function isDarkPreferred() {
   return colorSchemeMediaQuery.matches;
@@ -17,6 +17,7 @@ const ThemeProvider = ({ children }) => {
   const [themeMode, setThemeMode] = useState(() => returnThemeMode(returnThemeEntry()));
   function toggleThemeMode() {
     const nextThemeMode = returnThemeMode(themeMode + 1);
+    changeThemeModeEntry(nextThemeMode);
     setThemeMode(nextThemeMode);
   }
 

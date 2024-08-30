@@ -5,6 +5,10 @@ export function returnThemeEntry() {
   return JSON.parse(localStorage.getItem('theme'));
 }
 
+export function changeThemeModeEntry(value) {
+  localStorage.setItem('theme', JSON.stringify(value));
+}
+
 export function returnThemeMode(mode) {
   switch (mode) {
     case 1: return 1; // light
