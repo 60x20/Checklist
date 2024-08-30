@@ -1,8 +1,9 @@
 import { createContext, useEffect, useState } from "react";
 
 export const themeContext = createContext();
+// helpers
+import { colorSchemeMediaQuery } from "../helpers/themeHelpers";
 
-const colorSchemeMediaQuery = matchMedia('(prefers-color-scheme: dark)');
 function isDarkPreferred() {
   return colorSchemeMediaQuery.matches;
 }
