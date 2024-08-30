@@ -7,6 +7,7 @@ import { currentDateContext } from '../providers/CurrentDateProvider';
 import { amountOfClearsContext } from "../providers/AmountOfClearsProvider";
 import { todayClearedContext } from "../providers/TodayClearedProvider";
 import { requestedDateValidatedContext } from "../providers/RequestedDateValidatedProvider";
+import { createTodoFocusContext } from "../providers/CreateTodoFocusProvider";
 
 // helpers
 import resetAllData from "../helpers/resetAllData";
@@ -59,6 +60,8 @@ const Menu = () => {
 
   const { menuState } = useContext(menuStateContext);
   const currentDate = useContext(currentDateContext);
+
+  const { changeCreateTodoFocusState } = useContext(createTodoFocusContext); // moving focus to #create-todo
 
   // for creating links relative to today
   const prevDates = [];
