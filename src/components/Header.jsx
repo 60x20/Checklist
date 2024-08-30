@@ -9,6 +9,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBars, faXmark } from '@fortawesome/free-solid-svg-icons'
 import { faSun, faMoon } from '@fortawesome/free-solid-svg-icons'
 
+// helpers
+import { returnThemeMode, themeModeData } from '../helpers/themeHelpers';
+
 const Header = () => {
   const { menuState, toggleMenuState } = useContext(menuStateContext);
   const { preferenceForDark, themeMode, toggleThemeMode } = useContext(themeContext);
@@ -29,8 +32,8 @@ const Header = () => {
       <button
         type="button"
         id="theme-toggler"
-        title={preferenceForDark ? "Switch to light theme" : "Switch to dark theme"}
         onClick={() => toggleThemeMode()}
+        title={`Switch to ${themeModeData[returnThemeMode(themeMode + 1)].asWord} theme.`}
       >
         <span className={preferenceForDark ? 'sun-color' : 'moon-color'}>
           <FontAwesomeIcon icon={preferenceForDark ? faSun : faMoon} />

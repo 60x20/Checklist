@@ -22,14 +22,17 @@ export function returnThemeMode(mode) {
 
 export const themeModeData = ({
   0: {
+    asWord: 'auto',
     get preferenceForDark() {
       return isDarkPreferred();
     }
   },
   1: {
+    asWord: 'light',
     preferenceForDark: false,
   },
   2: {
+    asWord: 'dark',
     preferenceForDark: true,
   },
 })
