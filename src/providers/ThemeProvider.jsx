@@ -15,6 +15,10 @@ const ThemeProvider = ({ children }) => {
     setThemeMode(nextThemeMode);
   }
   const [preferenceForDark, setPreferenceForDark] = useState(() => themeModeData[themeMode].preferenceForDark);
+  // if theme mode changes, preference should adapt
+  useEffect(() => {
+    setPreferenceForDark(themeModeData[themeMode].preferenceForDark);
+  }, [themeMode])
 
   // detect changes
   useEffect(() => {
