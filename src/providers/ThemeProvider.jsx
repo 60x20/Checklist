@@ -1,12 +1,12 @@
 import { createContext, useEffect, useState } from "react";
 
-export const themeContext = createContext();
 // helpers
 import { colorSchemeMediaQuery } from "../helpers/themeHelpers";
 
 function isDarkPreferred() {
   return colorSchemeMediaQuery.matches;
 }
+export const themeContext = createContext();
 
 const bodyClassList = document.body.classList;
 
