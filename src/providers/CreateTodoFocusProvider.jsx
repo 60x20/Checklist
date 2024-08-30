@@ -8,7 +8,7 @@ function createTodoShouldBeFocused() {
   createTodoFocusLocal = true;
 }
 export function shouldFocusOnCreateTodo() {
-  // when used, automatically kills itself for subsequent invocations
+  // when used, automatically kills itself to avoid other elements' losing focus
   return [createTodoFocusLocal, createTodoFocusLocal = false][0];
 }
 
