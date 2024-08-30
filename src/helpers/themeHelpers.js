@@ -1,5 +1,8 @@
 export const colorSchemeMediaQuery = matchMedia('(prefers-color-scheme: dark)');
 
+function isDarkPreferred() {
+  return colorSchemeMediaQuery.matches;
+}
 
 export function returnThemeEntry() {
   return JSON.parse(localStorage.getItem('theme'));
@@ -17,3 +20,16 @@ export function returnThemeMode(mode) {
   }
 }
 
+export const themeModeData = ({
+  0: {
+    get preferenceForDark() {
+      return isDarkPreferred();
+    }
+  },
+  1: {
+    preferenceForDark: false,
+  },
+  2: {
+    preferenceForDark: true,
+  },
+})

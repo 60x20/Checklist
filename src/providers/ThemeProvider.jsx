@@ -1,17 +1,13 @@
 import { createContext, useEffect, useState } from "react";
 
 // helpers
-import { colorSchemeMediaQuery, changeThemeModeEntry, returnThemeMode, returnThemeEntry } from "../helpers/themeHelpers";
+import { colorSchemeMediaQuery, changeThemeModeEntry, returnThemeMode, themeModeData, returnThemeEntry } from "../helpers/themeHelpers";
 
-function isDarkPreferred() {
-  return colorSchemeMediaQuery.matches;
-}
 export const themeContext = createContext();
 
 const bodyClassList = document.body.classList;
 
 const ThemeProvider = ({ children }) => {
-  const [preferenceForDark, setPreferenceForDark] = useState(isDarkPreferred);
   function togglePreferenceForDark() {
     setPreferenceForDark(!preferenceForDark);
   const [themeMode, setThemeMode] = useState(() => returnThemeMode(returnThemeEntry()));
@@ -20,6 +16,7 @@ const ThemeProvider = ({ children }) => {
     changeThemeModeEntry(nextThemeMode);
     setThemeMode(nextThemeMode);
   }
+  const [preferenceForDark, setPreferenceForDark] = useState(() => themeModeData[themeMode].preferenceForDark);
 
   // detect changes
   useEffect(() => {
