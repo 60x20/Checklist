@@ -61,6 +61,7 @@ const Menu = () => {
   const { menuState } = useContext(menuStateContext);
   const currentDate = useContext(currentDateContext);
 
+  // for creating links relative to today
   const prevDates = [];
   const prevDayAmount = 3;
   prevDates.length = prevDayAmount + 1; // 1 for today
