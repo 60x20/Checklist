@@ -26,7 +26,7 @@ const ThemeProvider = ({ children }) => {
   preferenceForDark ? bodyClassList.add('dark-theme') : bodyClassList.remove('dark-theme');
 
   return (
-    <themeContext.Provider value={{ preferenceForDark }}>
+    <themeContext.Provider value={{ preferenceForDark, themeMode, toggleThemeMode }}>
       {children}
     </themeContext.Provider>
   );
