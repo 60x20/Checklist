@@ -52,10 +52,14 @@ const Menu = () => {
     if (!confirmed) return;
     resetAllData();
     increaseAmountOfClears(); // informing checklist that data is reset, allowing it to clean-up (otherwise old data will be seen)
+
+    changeCreateTodoFocusState(); // move focus to create-todo
   }
   function resetCurrentDayHandler() {
     resetTodoData(...unitsAsInt);
     increaseTodayCleared(); // informing checklist
+    
+    changeCreateTodoFocusState(); // move focus to create-todo
   }
 
   const { menuState } = useContext(menuStateContext);
@@ -79,7 +83,7 @@ const Menu = () => {
           const relativeDate = returnDateFromToday(-i);
           return (
             <p key={i}>
-              <Link to={relativeDate.YMD.replaceAll('-', '/')}>
+              <Link to={relativeDate.YMD.replaceAll('-', '/')} onClick={changeCreateTodoFocusState}>
                 {i === 0 ? 'today: ' : ''}
                 {relativeDate.DMY}
               </Link>
