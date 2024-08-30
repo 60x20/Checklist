@@ -3,7 +3,7 @@ import { createContext, useState } from "react";
 export const createTodoFocusContext = createContext();
 
 // used as a variable to avoid unnecessary renderings when it kills itself
-let createTodoFocusLocal = false;
+let createTodoFocusLocal = true; // initially true, so that when refreshed, element gets the focus
 function createTodoShouldBeFocused() {
   createTodoFocusLocal = true;
 }
