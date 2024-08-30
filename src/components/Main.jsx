@@ -2,6 +2,7 @@
 import AmountOfClearsProvider from "../providers/AmountOfClearsProvider";
 import TodayClearedProvider from "../providers/TodayClearedProvider";
 import RequestedDateValidatedProvider from "../providers/RequestedDateValidatedProvider";
+import CreateTodoFocusProvider from "../providers/CreateTodoFocusProvider";
 
 const Main = ({ children }) => {
   return (
@@ -9,7 +10,9 @@ const Main = ({ children }) => {
       <AmountOfClearsProvider>
         <TodayClearedProvider>
           <RequestedDateValidatedProvider>
-            {children}
+            <CreateTodoFocusProvider>
+              {children}
+            </CreateTodoFocusProvider>
           </RequestedDateValidatedProvider>
         </TodayClearedProvider>
       </AmountOfClearsProvider>
