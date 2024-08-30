@@ -20,12 +20,14 @@ const ThemeProvider = ({ children }) => {
     setPreferenceForDark(themeModeData[themeMode].preferenceForDark);
   }, [themeMode])
 
-  // detect changes
+  // detect changes if auto
   useEffect(() => {
-    const changePreferenceFromEvent = (e) => setPreferenceForDark(e.matches);
-    colorSchemeMediaQuery.addEventListener('change', changePreferenceFromEvent);
-    return () => colorSchemeMediaQuery.removeEventListener('change', changePreferenceFromEvent);
-  }, []);
+    if (themeMode === 0) {
+      const changePreferenceFromEvent = (e) => setPreferenceForDark(e.matches);
+      colorSchemeMediaQuery.addEventListener('change', changePreferenceFromEvent);
+      return () => colorSchemeMediaQuery.removeEventListener('change', changePreferenceFromEvent);
+    }
+  }, [themeMode]);
 
   preferenceForDark ? bodyClassList.add('dark-theme') : bodyClassList.remove('dark-theme');
 
