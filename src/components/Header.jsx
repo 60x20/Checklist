@@ -7,7 +7,6 @@ import { themeContext } from '../providers/ThemeProvider';
 // font awesome
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBars, faXmark } from '@fortawesome/free-solid-svg-icons'
-import { faSun, faMoon } from '@fortawesome/free-solid-svg-icons'
 
 // helpers
 import { returnThemeMode, themeModeData } from '../helpers/themeHelpers';
@@ -35,8 +34,8 @@ const Header = () => {
         onClick={() => toggleThemeMode()}
         title={`Switch to ${themeModeData[returnThemeMode(themeMode + 1)].asWord} theme.`}
       >
-        <span className={preferenceForDark ? 'sun-color' : 'moon-color'}>
-          <FontAwesomeIcon icon={preferenceForDark ? faSun : faMoon} />
+        <span className={preferenceForDark ? 'moon-color' : 'sun-color'}>
+          <FontAwesomeIcon icon={themeModeData[themeMode].icon} />
         </span>
         theme
       </button>
