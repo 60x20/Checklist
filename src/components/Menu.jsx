@@ -50,8 +50,7 @@ const Menu = () => {
     const confirmed = window.confirm('Are you sure you want to permanently delete all your data? This action cannot be undone.');
     if (!confirmed) return;
     resetAllData();
-    // informing checklist that data is reset, allowing it to clean-up (otherwise old data will be seen)
-    increaseAmountOfClears();
+    increaseAmountOfClears(); // informing checklist that data is reset, allowing it to clean-up (otherwise old data will be seen)
   }
   function resetCurrentDayHandler() {
     resetTodoData(...unitsAsInt);
