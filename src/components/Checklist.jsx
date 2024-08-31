@@ -16,21 +16,16 @@ import { addToTodosTemplate, removeFromTodosTemplate } from "../helpers/todosTem
 import { returnAllTodos, addToAllTodos, updateTodoString } from "../helpers/allTodosHelpers";
 import { returnTodoData, validateToDoData, addToTodoData, removeFromTodoData, updateTodoState } from "../helpers/todoDataHelpers";
 
-// variables used to decide whether to focus on createTodo input 
-import { createTodoFocusContext, shouldFocusOnCreateTodo } from "../providers/CreateTodoFocusProvider";
-
 const Checklist = () => {
   const { year, month, day } = useContext(requestedDateValidatedContext);
   const currentDate = useContext(currentDateContext);
   const { amountOfClears } = useContext(amountOfClearsContext);
   const { todayCleared } = useContext(todayClearedContext);
-  const { createTodoFocusState } = useContext(createTodoFocusContext);
 
-  // when rendered or URL changes focus on the create todo input
+  // when mounts, focus on the create todo input
   useEffect(() => {
-    // some elements should not lose focus
-    if (shouldFocusOnCreateTodo()) focusOnCreateTodoInsideChecklist();
-  }, [day, month, year, createTodoFocusState]);
+    focusOnCreateTodoInsideChecklist();
+  }, []);
 
   // converted into numbers so that they are considered array indexes
   const unitsAsInt = [parseInt(year, 10), parseInt(month, 10), parseInt(day, 10)];
