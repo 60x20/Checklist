@@ -7,13 +7,12 @@ import { currentDateContext } from '../providers/CurrentDateProvider';
 import { amountOfClearsContext } from "../providers/AmountOfClearsProvider";
 import { todayClearedContext } from "../providers/TodayClearedProvider";
 import { requestedDateValidatedContext } from "../providers/RequestedDateValidatedProvider";
-import { createTodoFocusContext } from "../providers/CreateTodoFocusProvider";
 
 // helpers
 import resetAllData from "../helpers/resetAllData";
 import { returnDateFromToday } from "../helpers/returnCurrentDate";
 import { resetTodoData } from "../helpers/todoDataHelpers";
-import { focusOnFirstMenuItem } from "../helpers/focusHelpers";
+import { focusOnCreateTodoInsideChecklist, focusOnFirstMenuItem } from "../helpers/focusHelpers";
 
 // variables used for debouncing
 let oldDateToGo, dateToGo;
@@ -54,19 +53,17 @@ const Menu = () => {
     resetAllData();
     increaseAmountOfClears(); // informing checklist that data is reset, allowing it to clean-up (otherwise old data will be seen)
 
-    changeCreateTodoFocusState(); // move focus to create-todo
+    focusOnCreateTodoInsideChecklist(); // move focus to create-todo
   }
   function resetCurrentDayHandler() {
     resetTodoData(...unitsAsInt);
     increaseTodayCleared(); // informing checklist
     
-    changeCreateTodoFocusState(); // move focus to create-todo
+    focusOnCreateTodoInsideChecklist(); // move focus to create-todo
   }
 
   const { menuState } = useContext(menuStateContext);
   const currentDate = useContext(currentDateContext);
-
-  const { changeCreateTodoFocusState } = useContext(createTodoFocusContext); // moving focus to #create-todo
 
   useEffect(() => {
     if (menuState) focusOnFirstMenuItem();
@@ -88,7 +85,7 @@ const Menu = () => {
           const relativeDate = returnDateFromToday(-i);
           return (
             <p key={i}>
-              <Link to={relativeDate.YMD.replaceAll('-', '/')} onClick={changeCreateTodoFocusState}>
+              <Link to={relativeDate.YMD.replaceAll('-', '/')} onClick={focusOnCreateTodoInsideChecklist}>
                 {i === 0 ? 'today: ' : ''}
                 {relativeDate.DMY}
               </Link>
