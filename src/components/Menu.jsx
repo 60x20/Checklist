@@ -19,11 +19,20 @@ let oldDateToGo, dateToGo;
 let intervalID;
 
 const Menu = () => {
+  const { menuState } = useContext(menuStateContext);
+  
+  const currentDate = useContext(currentDateContext);
+  
   const { year, month, day } = useContext(requestedDateValidatedContext);
   const unitsAsInt = [parseInt(year, 10), parseInt(month, 10), parseInt(day, 10)]; // used as array indexes
 
   const { increaseAmountOfClears } = useContext(amountOfClearsContext);
   const { increaseTodayCleared } = useContext(todayClearedContext);
+
+  // when menu opens, focus on first menu item
+  useEffect(() => {
+    if (menuState) focusOnFirstMenuItem();
+  }, [menuState]);
 
   const navigate = useNavigate();
   function goToRequestedDateHandler(e) {
@@ -61,14 +70,6 @@ const Menu = () => {
     
     focusOnCreateTodoInsideChecklist(); // move focus to create-todo
   }
-
-  const { menuState } = useContext(menuStateContext);
-  const currentDate = useContext(currentDateContext);
-
-  // when menu opens, focus on first menu item
-  useEffect(() => {
-    if (menuState) focusOnFirstMenuItem();
-  }, [menuState]);
 
   // for creating links relative to today
   const prevDates = [];
