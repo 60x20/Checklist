@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 // contexts
@@ -13,6 +13,7 @@ import { createTodoFocusContext } from "../providers/CreateTodoFocusProvider";
 import resetAllData from "../helpers/resetAllData";
 import { returnDateFromToday } from "../helpers/returnCurrentDate";
 import { resetTodoData } from "../helpers/todoDataHelpers";
+import { focusOnFirstMenuItem } from "../helpers/focusHelpers";
 
 // variables used for debouncing
 let oldDateToGo, dateToGo;
@@ -66,6 +67,10 @@ const Menu = () => {
   const currentDate = useContext(currentDateContext);
 
   const { changeCreateTodoFocusState } = useContext(createTodoFocusContext); // moving focus to #create-todo
+
+  useEffect(() => {
+    if (menuState) focusOnFirstMenuItem();
+  }, [menuState]);
 
   // for creating links relative to today
   const prevDates = [];
