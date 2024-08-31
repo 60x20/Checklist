@@ -137,8 +137,8 @@ const Checklist = () => {
     <div id="checklist" className="column-container" tabIndex="-1" onKeyUp={e => e.key === 'Escape' ? closeAllHelpers() : ''}>
       <h3>{`${day}-${month}-${year}`}</h3>
       <form onSubmit={createTodoHandler}>
-        {/* reset text-input's value if date changes */}
-        <input id="create-todo" key={year + month + day} type="text" name="todoName" required />
+        {/* create-todo gets focus, shouldn't be re-created (keys shouldn't be used here) */}
+        <input id="create-todo" type="text" name="todoName" required />
         <button>create</button>
       </form>
       { currentToDoDataAsArray.map((array) => {
