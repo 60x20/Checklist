@@ -65,6 +65,7 @@ const Menu = () => {
   const { menuState } = useContext(menuStateContext);
   const currentDate = useContext(currentDateContext);
 
+  // when menu opens, focus on first menu item
   useEffect(() => {
     if (menuState) focusOnFirstMenuItem();
   }, [menuState]);
