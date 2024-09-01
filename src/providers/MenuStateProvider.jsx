@@ -22,7 +22,7 @@ const MenuStateProvider = ({ children }) => {
   }, []);
 
   return ( 
-    <menuStateContext.Provider value={{ menuState, toggleMenuState }}>
+    <menuStateContext.Provider value={{ menuState, toggleMenuState, closeTheMenu }}>
       {children}
     </menuStateContext.Provider>
   );
