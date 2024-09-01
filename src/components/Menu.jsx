@@ -19,7 +19,7 @@ let oldDateToGo, dateToGo;
 let intervalID;
 
 const Menu = () => {
-  const { menuState } = useContext(menuStateContext);
+  const { menuState, closeTheMenu } = useContext(menuStateContext);
   
   const currentDate = useContext(currentDateContext);
   
@@ -33,6 +33,23 @@ const Menu = () => {
   useEffect(() => {
     if (menuState) focusOnFirstMenuItem();
   }, [menuState]);
+
+  useEffect(() => {
+    // on click away, tab away or when another elements gets focused menu will be closed
+    function closeMenuOnFocusOutHandler(e) {
+      // focusing on other elements, either by user interaction or programmatically, causes blur events
+      // so, it's risky to focus when blur events trigger (focus collisions will occur)
+      const menuElement = document.querySelector('#menu');
+      if (!menuElement) return; // already closed
+      if (!menuElement.contains(e.relatedTarget)) closeTheMenu();
+    }
+
+    // if closed, remove the event listener; if opened, add the event listener
+    if (menuState) {
+      document.addEventListener('focusout', closeMenuOnFocusOutHandler);
+      return () => document.removeEventListener('focusout', closeMenuOnFocusOutHandler);
+    }
+  }, [closeTheMenu, menuState])
 
   const navigate = useNavigate();
   function goToRequestedDateHandler(e) {
@@ -80,7 +97,9 @@ const Menu = () => {
   return (
     <>
     { menuState ? (
-    <aside role="menu" id="menu" className="column-stretch-container">
+    // tabindex to make it focusable, so that when it's clicked it's not the body who gets the focus
+    // otherwise handler to close the menu would kick in
+    <aside tabIndex="-1" role="menu" id="menu" className="column-stretch-container">
       <h2>Previous Checklists</h2>
       <nav className="column-stretch-container">
         { prevDates.map((el, i) => {
