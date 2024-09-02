@@ -125,12 +125,18 @@ main {
   
   --indigo-as-hsl: 240, 20%;
   background-color: hsl(var(--indigo-as-hsl), 60%);
-  p, label {
+
+  ul {
+    padding: 0;
+    list-style: none;
+  }
+
+  li {
     background-color: white;
   }
   .dark-theme & {
     background-color: hsl(var(--indigo-as-hsl), 35%);
-    p, label {
+    li {
       background-color: black;
     }
   }
