@@ -1,4 +1,5 @@
 import { createContext, useCallback, useEffect, useState } from "react";
+import { focusOnMenuToggler } from "../helpers/focusHelpers";
 
 export const menuStateContext = createContext();
 
@@ -15,7 +16,10 @@ const MenuStateProvider = ({ children }) => {
   // close the menu when escape pressed (for accessibility)
   useEffect(() => {
     const closeMenuHandler = (e) => {
-      if (e.key === 'Escape') closeTheMenu();
+      if (e.key === 'Escape') {
+        focusOnMenuToggler();
+        closeTheMenu(); // focusing on menu toggler does not close the menu, even if it trigges blur
+      };
     };
 
     // if closed, remove the event listener; if opened, add the event listener
