@@ -12,7 +12,7 @@ import { requestedDateValidatedContext } from "../providers/RequestedDateValidat
 import resetAllData from "../helpers/resetAllData";
 import { returnDateFromToday } from "../helpers/returnCurrentDate";
 import { resetTodoData } from "../helpers/todoDataHelpers";
-import { focusOnCreateTodoInsideChecklist, focusOnFirstMenuItem } from "../helpers/focusHelpers";
+import { focusOnCreateTodoInsideChecklist, focusOnFirstLinkInsideVisualizer, focusOnFirstMenuItem } from "../helpers/focusHelpers";
 
 // variables used for debouncing
 let oldDateToGo, dateToGo;
@@ -124,7 +124,7 @@ const Menu = () => {
             max="2100-12-31"
           />
         </label>
-        <p><Link to='all'>all</Link></p>
+        <p><Link to='all' onClick={focusOnFirstLinkInsideVisualizer}>all</Link></p>
       </nav>
       <div className="place-content-at-the-end">
         { year && month && day ? 
