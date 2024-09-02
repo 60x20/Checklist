@@ -17,9 +17,13 @@ const MenuStateProvider = ({ children }) => {
     const closeMenuHandler = (e) => {
       if (e.key === 'Escape') closeTheMenu();
     };
-    document.addEventListener('keyup', closeMenuHandler);
-    return () => document.removeEventListener('keyup', closeMenuHandler);
-  }, []);
+
+    // if closed, remove the event listener; if opened, add the event listener
+    if (menuState) {
+      document.addEventListener('keyup', closeMenuHandler);
+      return () => document.removeEventListener('keyup', closeMenuHandler);
+    }
+  }, [menuState]);
 
   return ( 
     <menuStateContext.Provider value={{ menuState, toggleMenuState, closeTheMenu }}>
