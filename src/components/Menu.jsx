@@ -40,7 +40,6 @@ const Menu = () => {
       // focusing on other elements, either by user interaction or programmatically, causes blur events
       // so, it's risky to focus when blur events trigger (focus collisions will occur)
       const menuElement = document.querySelector('#menu');
-      if (!menuElement) return; // already closed
       if (!menuElement.contains(e.relatedTarget)) closeTheMenu();
     }
 
