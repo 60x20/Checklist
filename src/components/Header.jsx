@@ -21,6 +21,7 @@ const Header = () => {
       <button
         type="button"
         className="toggler-with-icon"
+        id="menu-toggler"
         onClick={() => toggleMenuState()}
         title={menuState ? "Close menu" : "Open menu"}
         aria-expanded={menuState}
