@@ -117,7 +117,7 @@ const Menu = () => {
         <label>
           <span>go to: </span>
           <input 
-            onKeyUp={(e) => {if (e.key === 'Enter') closeTheMenu();}}
+            onKeyUp={(e) => {if (e.key === 'Enter') focusOnCreateTodoInsideChecklist();}}
             onChange={goToRequestedDateHandler}
             type="date"
             min="2000-01-01"
