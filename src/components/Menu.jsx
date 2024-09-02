@@ -102,30 +102,34 @@ const Menu = () => {
     // otherwise handler to close the menu would kick in
     <aside tabIndex="-1" role="menu" id="menu" className="column-stretch-container">
       <h2>Previous Checklists</h2>
-      <nav className="column-stretch-container">
-        { prevDates.map((el, i) => {
-          const relativeDate = returnDateFromToday(-i);
-          return (
-            <p key={i}>
-              <Link to={relativeDate.YMD.replaceAll('-', '/')} onClick={focusOnCreateTodoInsideChecklist}>
-                {i === 0 ? 'today: ' : ''}
-                {relativeDate.DMY}
-              </Link>
-            </p>
-          );
-        }) }
-        <label>
-          <span>go to: </span>
-          <input 
-            onKeyUp={(e) => {if (e.key === 'Enter') focusOnCreateTodoInsideChecklist();}}
-            onChange={goToRequestedDateHandler}
-            type="date"
-            min="2000-01-01"
-            defaultValue={currentDate.YMD}
-            max="2100-12-31"
-          />
-        </label>
-        <p><Link to='all' onClick={focusOnFirstLinkInsideVisualizer}>all</Link></p>
+      <nav>
+        <ul className="column-stretch-container">
+          { prevDates.map((el, i) => {
+            const relativeDate = returnDateFromToday(-i);
+            return (
+              <li key={i}>
+                <Link to={relativeDate.YMD.replaceAll('-', '/')} onClick={focusOnCreateTodoInsideChecklist}>
+                  {i === 0 ? 'today: ' : ''}
+                  {relativeDate.DMY}
+                </Link>
+              </li>
+            );
+          }) }
+          <li>
+            <label>
+              <span>go to: </span>
+              <input 
+                onKeyUp={(e) => {if (e.key === 'Enter') focusOnCreateTodoInsideChecklist();}}
+                onChange={goToRequestedDateHandler}
+                type="date"
+                min="2000-01-01"
+                defaultValue={currentDate.YMD}
+                max="2100-12-31"
+              />
+            </label>
+          </li>
+          <li><Link to='all' onClick={focusOnFirstLinkInsideVisualizer}>all</Link></li>
+        </ul>
       </nav>
       <div className="place-content-at-the-end">
         { year && month && day ? 
