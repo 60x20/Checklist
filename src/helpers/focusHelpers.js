@@ -12,3 +12,8 @@ export function focusOnFirstMenuItem() {
   const menuItem = document.querySelector('#menu a, #menu button');
   if (menuItem) menuItem.focus();
 }
+
+export function focusOnMenuToggler() {
+  const menuToggler = document.querySelector('#menu-toggler');
+  if (menuToggler) menuToggler.focus();
+}
