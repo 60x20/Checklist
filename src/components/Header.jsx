@@ -1,4 +1,5 @@
 import { useContext } from 'react';
+import { Link } from 'react-router-dom';
 
 // context providers
 import { menuStateContext } from '../providers/MenuStateProvider';
@@ -17,7 +18,7 @@ const Header = () => {
 
   return (
     <header id="top-header" className="text-and-group-row-container">
-      <h2>Checklist</h2>
+      <h2 id="logo"><Link to="/">Checklist</Link></h2>
       <button
         type="button"
         className="toggler-with-icon"

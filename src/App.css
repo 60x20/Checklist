@@ -94,6 +94,12 @@ button.toggler-with-icon {
     order: 10;
   }
 }
+#logo {
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+}
 #theme-toggler {
   background-color: transparent;
   border: 0; /* background will be transparent */
