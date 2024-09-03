@@ -15,6 +15,7 @@ import { focusOnCreateTodoInsideChecklist } from "../helpers/focusHelpers";
 import { addToTodosTemplate, removeFromTodosTemplate } from "../helpers/todosTemplateHelpers";
 import { returnAllTodos, addToAllTodos, updateTodoString } from "../helpers/allTodosHelpers";
 import { returnTodoData, validateToDoData, addToTodoData, removeFromTodoData, updateTodoState } from "../helpers/todoDataHelpers";
+import { monthNames } from "../helpers/validateUnitsFromDate";
 
 const Checklist = () => {
   const { year, month, day } = useContext(requestedDateValidatedContext);
@@ -135,7 +136,7 @@ const Checklist = () => {
 
   return (
     <div id="checklist" className="column-container" tabIndex="-1" onKeyUp={e => e.key === 'Escape' ? closeAllHelpers() : ''}>
-      <h3>{`${day}-${month}-${year}`}</h3>
+      <h3><time dateTime={`${year}-${month}-${day}`}>{`${day} ${monthNames[parseInt(month, 10)]} ${year}`}</time></h3>
       <form onSubmit={createTodoHandler}>
         {/* create-todo gets focus, shouldn't be re-created (keys shouldn't be used here) */}
         <input id="create-todo" type="text" name="todoName" required />

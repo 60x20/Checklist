@@ -13,6 +13,7 @@ import resetAllData from "../helpers/resetAllData";
 import { returnDateFromToday } from "../helpers/returnCurrentDate";
 import { resetTodoData } from "../helpers/todoDataHelpers";
 import { focusOnCreateTodoInsideChecklist, focusOnFirstLinkInsideVisualizer, focusOnFirstMenuItem } from "../helpers/focusHelpers";
+import { monthNamesTruncated } from "../helpers/validateUnitsFromDate";
 
 // variables used for debouncing
 let oldDateToGo, dateToGo;
@@ -106,11 +107,14 @@ const Menu = () => {
         <ul className="column-stretch-container">
           { prevDates.map((el, i) => {
             const relativeDate = returnDateFromToday(-i);
+            const monthAsWord = monthNamesTruncated[parseInt(relativeDate.date.month, 10)];
             return (
               <li key={i}>
                 <Link to={relativeDate.YMD.replaceAll('-', '/')} onClick={focusOnCreateTodoInsideChecklist}>
                   {i === 0 ? 'today: ' : ''}
-                  {relativeDate.DMY}
+                  <time dateTime={relativeDate.YMD}>
+                    {`${relativeDate.date.day} ${monthAsWord} ${relativeDate.date.year}`}
+                  </time>
                 </Link>
               </li>
             );
