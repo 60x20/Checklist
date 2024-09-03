@@ -8,6 +8,7 @@ function returnDate(date) {
   return ({
     DMY: [day, month, year].join('-'),
     YMD: [year, month, day].join('-'),
+    date: {year, month, day}
   });
 }
 
