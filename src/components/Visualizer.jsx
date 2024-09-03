@@ -7,14 +7,12 @@ import { faCheck, faXmark } from '@fortawesome/free-solid-svg-icons'
 
 // helpers
 import { returnAllYears } from "../helpers/allYearsHelpers";
-import { extractYear, extractMonth, validateDate } from "../helpers/validateUnitsFromDate";
+import { extractYear, extractMonth, validateDate, monthNames } from "../helpers/validateUnitsFromDate";
 import { returnYearEntry } from "../helpers/todoDataHelpers";
 import { focusOnFirstLinkInsideVisualizer } from "../helpers/focusHelpers";
 
 // contexts
 import { amountOfClearsContext } from "../providers/AmountOfClearsProvider";
-
-const monthNames = ['', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
 export const VisualizerLayout = () => {
   return (

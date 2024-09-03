@@ -1,3 +1,4 @@
+export const monthNames = ['', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 // should be greedy, otherwise data will be lost
 const yearRegex = /\d{4}|\d{2}/;
 const monthRegex = /\d{1,2}/;
