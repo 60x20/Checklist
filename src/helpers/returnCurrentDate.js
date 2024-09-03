@@ -7,7 +7,7 @@ function returnDate(date) {
   
   return ({
     DMY: [day, month, year].join('-'),
-    YMD: [year, month, day].join('-')
+    YMD: [year, month, day].join('-'),
   });
 }
 
