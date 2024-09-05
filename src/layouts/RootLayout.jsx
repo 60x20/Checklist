@@ -20,6 +20,7 @@ import { validateAllYears } from "../helpers/allYearsHelpers";
 document.addEventListener('keyup', e => {
   if (e.key === 'Enter' && e.target.matches('input[type="checkbox"]')) {
     e.target.click();
+    e.preventDefault(); // in case browser already implements it, avoiding extra clicks
   }
 });
 
