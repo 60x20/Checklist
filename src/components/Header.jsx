@@ -21,17 +21,6 @@ const Header = () => {
       <h2 id="logo"><Link to="/">Checklist</Link></h2>
       <button
         type="button"
-        className="toggler-with-icon"
-        id="menu-toggler"
-        onClick={() => toggleMenuState()}
-        title={menuState ? "Close menu" : "Open menu"}
-        aria-expanded={menuState}
-        aria-controls="menu"
-      >
-        <FontAwesomeIcon icon={menuState ? faXmark : faBars} />
-      </button>
-      <button
-        type="button"
         id="theme-toggler"
         onClick={() => toggleThemeMode()}
         title={`Switch to ${themeModeData[returnThemeMode(themeMode + 1)].asWord} theme.`}
@@ -40,6 +29,17 @@ const Header = () => {
           <FontAwesomeIcon icon={themeModeData[themeMode].icon} />
         </span>
         theme
+      </button>
+      <button
+        type="button"
+        className="toggler-with-icon"
+        id="menu-toggler"
+        onClick={() => toggleMenuState()}
+        title={menuState ? "Close menu" : "Open menu"}
+        aria-expanded={menuState}
+        aria-controls="menu"
+      >
+        <FontAwesomeIcon icon={menuState ? faXmark : faBars} />
       </button>
     </header>
   );

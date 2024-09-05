@@ -88,10 +88,11 @@ button.toggler-with-icon {
     background-color: var(--slightly-brighten);
   }
 
+  /* used instead of order to avoid teleporting focus */
+  flex-direction: row-reverse; 
   > :first-child {
     /* text gets all the space, grouping siblings */
     text-align: end;
-    order: 10;
   }
 }
 #logo {
