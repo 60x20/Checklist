@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 // contexts
@@ -14,10 +14,6 @@ import { returnDateFromToday } from "../helpers/returnCurrentDate";
 import { resetTodoData } from "../helpers/todoDataHelpers";
 import { focusOnCreateTodoInsideChecklist, focusOnFirstLinkInsideVisualizer, focusOnFirstMenuItem } from "../helpers/focusHelpers";
 import { monthNamesTruncated } from "../helpers/validateUnitsFromDate";
-
-// variables used for debouncing
-let oldDateToGo, dateToGo;
-let intervalID;
 
 const Menu = () => {
   const { menuState, closeTheMenu } = useContext(menuStateContext);
@@ -54,23 +50,27 @@ const Menu = () => {
   }, [closeTheMenu, menuState])
 
   const navigate = useNavigate();
+  // variables used for debouncing
+  const dateToGo = useRef();
+  const oldDateToGo = useRef();
+  const intervalID = useRef();
   function goToRequestedDateHandler(e) {
     const requestedDate = e.currentTarget.value;
     // requestedDate might be an empty string in case it's an invalid date
     if (requestedDate) {
-      dateToGo = requestedDate;
+      dateToGo.current = requestedDate;
     }
     // debouncing, otherwise performance issues might occur
-    if (!intervalID) {
-      intervalID = setInterval(() => {
-        if (oldDateToGo === dateToGo) {
+    if (!intervalID.current) {
+      intervalID.current = setInterval(() => {
+        if (oldDateToGo.current === dateToGo.current) {
           // if dateToGo didn't change, then clean-up
-          clearInterval(intervalID);
-          intervalID = undefined;
+          clearInterval(intervalID.current);
+          intervalID.current = undefined;
           return; // short circuit
         };
-        oldDateToGo = dateToGo;
-        navigate(dateToGo.replaceAll('-', '/'));
+        oldDateToGo.current = dateToGo.current;
+        navigate(dateToGo.current.replaceAll('-', '/'));
       }, 100);
     }
   }
