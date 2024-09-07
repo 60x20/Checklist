@@ -1,0 +1,7 @@
+// created to make the scope bigger
+{
+  "exclude": [
+      "node_modules",
+      "**/node_modules/*"
+  ]
+}
