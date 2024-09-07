@@ -27,8 +27,9 @@ const MenuStateProvider = ({ children }) => {
 
     // if closed, remove the event listener; if opened, add the event listener
     if (menuState) {
-      document.addEventListener('keyup', closeMenuHandler);
-      return () => document.removeEventListener('keyup', closeMenuHandler);
+      // keydown used instead of keyup, so that when a browser popup closed with esc, menu won't close
+      document.addEventListener('keydown', closeMenuHandler);
+      return () => document.removeEventListener('keydown', closeMenuHandler);
     }
   }, [menuState]);
 
