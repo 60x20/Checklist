@@ -10,6 +10,7 @@ import Footer from "../components/Footer";
 import MenuStateProvider from "../providers/MenuStateProvider";
 import CurrentDateProvider from "../providers/CurrentDateProvider";
 import ThemeProvider from "../providers/ThemeProvider";
+import RefProvider from "../providers/RefProvider";
 
 // validators
 import { validateTodosTemplate } from "../helpers/todosTemplateHelpers";
@@ -32,15 +33,17 @@ const RootLayout = () => {
 
   return (<>
     <ThemeProvider>
-      <MenuStateProvider>
-        <Header />
-        <CurrentDateProvider>
-          <Main>
-            <Menu />
-            <Outlet />
-          </Main>
-        </CurrentDateProvider>
-      </MenuStateProvider>
+      <RefProvider>
+        <MenuStateProvider>
+          <Header />
+          <CurrentDateProvider>
+            <Main>
+              <Menu />
+              <Outlet />
+            </Main>
+          </CurrentDateProvider>
+        </MenuStateProvider>
+      </RefProvider>
       <Footer />
     </ThemeProvider>
   </>);
