@@ -3,8 +3,3 @@ export function focusOnFirstLinkInsideVisualizer() {
   if (firstLink) firstLink.focus();
 }
 
-export function focusOnFirstMenuItem() {
-  const menuItem = document.querySelector('#menu a, #menu button');
-  if (menuItem) menuItem.focus();
-}
-

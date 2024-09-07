@@ -37,7 +37,7 @@ const Menu = () => {
     function closeMenuOnFocusOutHandler(e) {
       // focusing on other elements, either by user interaction or programmatically, causes blur events
       // so, it's risky to focus when blur events trigger (focus collisions will occur)
-      const menuElement = document.querySelector('#menu');
+      const menuElement = menuRef.current;
       // related target might be null, for example when window changes (using Alt Tab)
       if (e.relatedTarget && e.relatedTarget.matches('#menu-toggler')) return; // menu closing when toggler gets focus causes re-opening
       if (!menuElement.contains(e.relatedTarget)) closeTheMenu();
@@ -102,7 +102,7 @@ const Menu = () => {
     { menuState ? (
     // tabindex to make it focusable, so that when it's clicked it's not the body who gets the focus
     // otherwise handler to close the menu would kick in
-    <aside tabIndex="-1" role="menu" id="menu" className="column-stretch-container">
+    <aside tabIndex="-1" role="menu" id="menu" ref={menuRef} className="column-stretch-container">
       <h2>Previous Checklists</h2>
       <nav>
         <ul className="column-stretch-container">
