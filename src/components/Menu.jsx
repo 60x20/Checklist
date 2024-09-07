@@ -13,7 +13,6 @@ import { refContext } from "../providers/RefProvider";
 import resetAllData from "../helpers/resetAllData";
 import { returnDateFromToday } from "../helpers/returnCurrentDate";
 import { resetTodoData } from "../helpers/todoDataHelpers";
-import { focusOnCreateTodoInsideChecklist, focusOnFirstLinkInsideVisualizer, focusOnFirstMenuItem } from "../helpers/focusHelpers";
 import { monthNamesTruncated } from "../helpers/validateUnitsFromDate";
 
 const Menu = () => {
@@ -26,6 +25,8 @@ const Menu = () => {
 
   const { increaseAmountOfClears } = useContext(amountOfClearsContext);
   const { increaseTodayCleared } = useContext(todayClearedContext);
+
+  const { refs: { menuRef }, helpers: { focusOnCreateTodo, focusOnFirstMenuItem, focusOnFirstItemInsideVisualizer } } = useContext(refContext);
 
   // when menu opens, focus on first menu item
   useEffect(() => {
@@ -133,7 +134,7 @@ const Menu = () => {
               />
             </label>
           </li>
-          <li><Link to='all' onClick={focusOnFirstLinkInsideVisualizer}>all</Link></li>
+          <li><Link to='all' onClick={focusOnFirstItemInsideVisualizer}>all</Link></li>
         </ul>
       </nav>
       <div className="place-content-at-the-end">

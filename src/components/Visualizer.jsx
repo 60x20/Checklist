@@ -9,14 +9,16 @@ import { faCheck, faXmark } from '@fortawesome/free-solid-svg-icons'
 import { returnAllYears } from "../helpers/allYearsHelpers";
 import { extractYear, extractMonth, validateDate, monthNames } from "../helpers/validateUnitsFromDate";
 import { returnYearEntry } from "../helpers/todoDataHelpers";
-import { focusOnFirstLinkInsideVisualizer } from "../helpers/focusHelpers";
 
 // contexts
 import { amountOfClearsContext } from "../providers/AmountOfClearsProvider";
+import { refContext } from "../providers/RefProvider";
 
 export const VisualizerLayout = () => {
+  const { refs: { visualizerRef } } = useContext(refContext);
+
   return (
-    <div id="visualizer">
+    <div id="visualizer" ref={visualizerRef}>
       <Outlet />
     </div>
   );
@@ -72,7 +74,8 @@ export const YearVisualizer = () => {
   const { year } = useParams();
 
   // when rendered or URL changes focus on the first link
-  useEffect(focusOnFirstLinkInsideVisualizer, [year]);
+  const { helpers: { focusOnFirstItemInsideVisualizer } } = useContext(refContext);
+  useEffect(focusOnFirstItemInsideVisualizer, [year]);
 
   const extractedYear = extractYear(year);
 
@@ -99,7 +102,8 @@ export const AllYearsVisualizer = () => {
   useContext(amountOfClearsContext); // when data is cleared, re-render
   
   // when rendered focus on the first link
-  useEffect(focusOnFirstLinkInsideVisualizer, []);
+  const { helpers: { focusOnFirstItemInsideVisualizer } } = useContext(refContext);
+  useEffect(focusOnFirstItemInsideVisualizer, []);
 
   // everyting requested
   const allYears = returnAllYears();
