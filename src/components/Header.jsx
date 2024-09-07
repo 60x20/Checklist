@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 // context providers
 import { menuStateContext } from '../providers/MenuStateProvider';
 import { themeContext } from '../providers/ThemeProvider';
+import { refContext } from '../providers/RefProvider';
 
 // font awesome
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -15,6 +16,7 @@ import { returnThemeMode, themeModeData } from '../helpers/themeHelpers';
 const Header = () => {
   const { menuState, toggleMenuState } = useContext(menuStateContext);
   const { preferenceForDark, themeMode, toggleThemeMode } = useContext(themeContext);
+  const { refs: { menuTogglerRef } } = useContext(refContext);
 
   return (
     <header id="top-header" className="text-and-group-row-container">
@@ -34,6 +36,7 @@ const Header = () => {
         type="button"
         className="toggler-with-icon"
         id="menu-toggler"
+        ref={menuTogglerRef}
         onClick={() => toggleMenuState()}
         title={menuState ? "Close menu" : "Open menu"}
         aria-expanded={menuState}

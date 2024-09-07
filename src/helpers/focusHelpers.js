@@ -13,7 +13,3 @@ export function focusOnFirstMenuItem() {
   if (menuItem) menuItem.focus();
 }
 
-export function focusOnMenuToggler() {
-  const menuToggler = document.querySelector('#menu-toggler');
-  if (menuToggler) menuToggler.focus();
-}

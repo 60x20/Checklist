@@ -1,7 +1,9 @@
-import { createContext, useCallback, useEffect, useState } from "react";
-import { focusOnMenuToggler } from "../helpers/focusHelpers";
+import { createContext, useCallback, useContext, useEffect, useState } from "react";
 
 export const menuStateContext = createContext();
+
+// contexts
+import { refContext } from "./RefProvider";
 
 const MenuStateProvider = ({ children }) => {
   const [menuState, setMenuState] = useState(false);
@@ -14,6 +16,7 @@ const MenuStateProvider = ({ children }) => {
   }, [setMenuState]);
 
   // close the menu when escape pressed (for accessibility)
+  const { helpers: { focusOnMenuToggler } } = useContext(refContext);
   useEffect(() => {
     const closeMenuHandler = (e) => {
       if (e.key === 'Escape') {
