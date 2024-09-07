@@ -7,6 +7,7 @@ import { currentDateContext } from '../providers/CurrentDateProvider';
 import { amountOfClearsContext } from "../providers/AmountOfClearsProvider";
 import { todayClearedContext } from "../providers/TodayClearedProvider";
 import { requestedDateValidatedContext } from "../providers/RequestedDateValidatedProvider";
+import { refContext } from "../providers/RefProvider";
 
 // helpers
 import resetAllData from "../helpers/resetAllData";
@@ -81,13 +82,13 @@ const Menu = () => {
     resetAllData();
     increaseAmountOfClears(); // informing checklist that data is reset, allowing it to clean-up (otherwise old data will be seen)
 
-    focusOnCreateTodoInsideChecklist(); // move focus to create-todo
+    focusOnCreateTodo(); // move focus to create-todo
   }
   function resetCurrentDayHandler() {
     resetTodoData(...unitsAsInt);
     increaseTodayCleared(); // informing checklist
     
-    focusOnCreateTodoInsideChecklist(); // move focus to create-todo
+    focusOnCreateTodo(); // move focus to create-todo
   }
 
   // for creating links relative to today
@@ -110,7 +111,7 @@ const Menu = () => {
             const monthAsWord = monthNamesTruncated[parseInt(relativeDate.date.month, 10)];
             return (
               <li key={i}>
-                <Link to={relativeDate.YMD.replaceAll('-', '/')} onClick={focusOnCreateTodoInsideChecklist}>
+                <Link to={relativeDate.YMD.replaceAll('-', '/')} onClick={focusOnCreateTodo}>
                   {i === 0 ? 'today: ' : ''}
                   <time dateTime={relativeDate.YMD}>
                     {`${relativeDate.date.day} ${monthAsWord} ${relativeDate.date.year}`}
@@ -123,7 +124,7 @@ const Menu = () => {
             <label>
               <span>go to: </span>
               <input 
-                onKeyUp={(e) => {if (e.key === 'Enter') focusOnCreateTodoInsideChecklist();}}
+                onKeyUp={(e) => {if (e.key === 'Enter') focusOnCreateTodo();}}
                 onChange={goToRequestedDateHandler}
                 type="date"
                 min="2000-01-01"

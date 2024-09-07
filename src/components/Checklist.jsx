@@ -9,9 +9,9 @@ import { currentDateContext } from "../providers/CurrentDateProvider";
 import { amountOfClearsContext } from "../providers/AmountOfClearsProvider";
 import { requestedDateValidatedContext } from "../providers/RequestedDateValidatedProvider";
 import { todayClearedContext } from "../providers/TodayClearedProvider";
+import { refContext } from "../providers/RefProvider";
 
 // helpers
-import { focusOnCreateTodoInsideChecklist } from "../helpers/focusHelpers";
 import { addToTodosTemplate, removeFromTodosTemplate } from "../helpers/todosTemplateHelpers";
 import { returnAllTodos, addToAllTodos, updateTodoString } from "../helpers/allTodosHelpers";
 import { returnTodoData, validateToDoData, addToTodoData, removeFromTodoData, updateTodoState } from "../helpers/todoDataHelpers";
@@ -24,8 +24,9 @@ const Checklist = () => {
   const { todayCleared } = useContext(todayClearedContext);
 
   // when mounts, focus on the create todo input
+  const { refs: { createTodoRef }, helpers: { focusOnCreateTodo } } = useContext(refContext);
   useEffect(() => {
-    focusOnCreateTodoInsideChecklist();
+    focusOnCreateTodo();
   }, []);
 
   // converted into numbers so that they are considered array indexes
@@ -139,7 +140,7 @@ const Checklist = () => {
       <h3><time dateTime={`${year}-${month}-${day}`}>{`${day} ${monthNames[parseInt(month, 10)]} ${year}`}</time></h3>
       <form onSubmit={createTodoHandler}>
         {/* create-todo gets focus, shouldn't be re-created (keys shouldn't be used here) */}
-        <input id="create-todo" type="text" name="todoName" required />
+        <input id="create-todo" ref={createTodoRef} type="text" name="todoName" required />
         <button>create</button>
       </form>
       { currentToDoDataAsArray.map((array) => {
