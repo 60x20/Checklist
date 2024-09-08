@@ -19,7 +19,6 @@ const Header = () => {
   const { refs: { menuTogglerRef } } = useContext(refContext);
 
   return (
-      <h2 id="logo"><Link to="/">Checklist</Link></h2>
       <button
         type="button"
         id="theme-toggler"
@@ -44,6 +43,7 @@ const Header = () => {
       >
         <FontAwesomeIcon icon={menuState ? faXmark : faBars} />
       </button>
+      <h2 id="logo" className='main-item'><Link to="/">Checklist</Link></h2>
     </header>
   );
 };

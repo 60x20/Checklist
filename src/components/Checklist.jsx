@@ -148,8 +148,8 @@ const Checklist = () => {
         return (
           // todoId is concatenated with date, so that if data changes, uncontrolled inputs will be reset
           <div className="column-container todo" key={year + month + day + todoId}>
-              <p>{allTodos[todoId]}</p>
             <div className="main-with-others-grouped-row-container">
+              <p className="main-item">{allTodos[todoId]}</p>
               <input name="todo-state" type="checkbox" data-id-to-update={todoId} onChange={updateTodoStateHandler} checked={checked} />
               <button
                 className="toggler-with-icon"

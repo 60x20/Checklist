@@ -43,10 +43,10 @@ html, body {
   /* main item takes all the space, hence others become groups */
   flex-flow: row nowrap;
   align-items: center;
-  > :first-child {
+  > .main-item {
     flex-grow: 1;
   }
-  > *:not(:first-child) {
+  > *:not(.main-item) {
     flex-shrink: 0; /* flex-grow can cause siblings to shrink */
   }
 }
@@ -88,9 +88,7 @@ button.toggler-with-icon {
     background-color: var(--slightly-brighten);
   }
 
-  /* used instead of order to avoid teleporting focus */
-  flex-direction: row-reverse; 
-  > :first-child {
+  > .main-item {
     /* text gets all the space, grouping siblings */
     text-align: end;
   }
