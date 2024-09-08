@@ -19,17 +19,6 @@ const Header = () => {
   const { refs: { menuTogglerRef } } = useContext(refContext);
 
   return (
-      <button
-        type="button"
-        id="theme-toggler"
-        onClick={() => toggleThemeMode()}
-        title={`Switch to ${themeModeData[returnThemeMode(themeMode + 1)].asWord} theme.`}
-      >
-        <span className={preferenceForDark ? 'moon-color' : 'sun-color'}>
-          <FontAwesomeIcon icon={themeModeData[themeMode].icon} />
-        </span>
-        theme
-      </button>
     <header id="top-header" className="main-with-others-grouped-row-container">
       <button
         type="button"
@@ -42,6 +31,17 @@ const Header = () => {
         aria-controls="menu"
       >
         <FontAwesomeIcon icon={menuState ? faXmark : faBars} />
+      </button>
+      <button
+        type="button"
+        id="theme-toggler"
+        onClick={() => toggleThemeMode()}
+        title={`Switch to ${themeModeData[returnThemeMode(themeMode + 1)].asWord} theme.`}
+      >
+        <span className={preferenceForDark ? 'moon-color' : 'sun-color'}>
+          <FontAwesomeIcon icon={themeModeData[themeMode].icon} />
+        </span>
+        theme
       </button>
       <h2 id="logo" className='main-item'><Link to="/">Checklist</Link></h2>
     </header>
