@@ -20,7 +20,7 @@ html, body {
   padding: 0;
 }
 
-.column-stretch-container, .row-container, .column-container, .text-and-group-row-container {
+.column-stretch-container, .row-container, .column-container, .main-with-others-grouped-row-container {
   display: flex;
   gap: 1rem;
   * {
@@ -39,8 +39,8 @@ html, body {
   flex-flow: column nowrap;
   align-items: center;
 }
-.text-and-group-row-container {
-  /* first child takes all the space, hence others become groups */
+.main-with-others-grouped-row-container {
+  /* main item takes all the space, hence others become groups */
   flex-flow: row nowrap;
   align-items: center;
   > :first-child {
@@ -199,7 +199,7 @@ main {
     /* if background is dark become darker, if light become lighter */
     background-color: rgb(255, 40, 40, .5);
 
-    .text-and-group-row-container {
+    .main-with-others-grouped-row-container {
       width: 100%; /* for children to be placed correctly and consistent with other todos */
     }
   }

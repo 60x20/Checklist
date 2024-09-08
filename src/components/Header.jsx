@@ -19,7 +19,6 @@ const Header = () => {
   const { refs: { menuTogglerRef } } = useContext(refContext);
 
   return (
-    <header id="top-header" className="text-and-group-row-container">
       <h2 id="logo"><Link to="/">Checklist</Link></h2>
       <button
         type="button"
@@ -32,6 +31,7 @@ const Header = () => {
         </span>
         theme
       </button>
+    <header id="top-header" className="main-with-others-grouped-row-container">
       <button
         type="button"
         className="toggler-with-icon"
