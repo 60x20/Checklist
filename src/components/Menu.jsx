@@ -26,7 +26,7 @@ const Menu = () => {
   const { increaseAmountOfClears } = useContext(amountOfClearsContext);
   const { increaseTodayCleared } = useContext(todayClearedContext);
 
-  const { refs: { menuRef }, helpers: { focusOnCreateTodo, focusOnFirstMenuItem, focusOnFirstItemInsideVisualizer } } = useContext(refContext);
+  const { refs: { menuRef }, helpers: { focusOnCreateTodo, focusOnFirstMenuItem, focusOnLastMenuItem, focusOnFirstItemInsideVisualizer } } = useContext(refContext);
 
   // when menu opens, focus on first menu item
   useEffect(() => {
@@ -92,6 +92,14 @@ const Menu = () => {
     focusOnCreateTodo(); // move focus to create-todo
   }
 
+  function menuKeyPressFocusHandler(e) {
+    // if (e.target && e.target.matches('input[type="text"], input:not([type])')) return; // allowing default behavior
+    switch (e.key) {
+      case 'Home': focusOnFirstMenuItem(); break;
+      case 'End': focusOnLastMenuItem(); break;
+    }
+  }
+
   // for creating links relative to today
   const prevDates = [];
   const prevDayAmount = 3;
@@ -103,7 +111,9 @@ const Menu = () => {
     { menuState ? (
     // tabindex to make it focusable, so that when it's clicked it's not the body who gets the focus
     // otherwise handler to close the menu would kick in
-    <aside tabIndex="-1" role="menu" id="menu" ref={menuRef} className="column-stretch-container">
+    <aside tabIndex="-1" role="menu" id="menu" ref={menuRef} className="column-stretch-container"
+      onKeyDown={menuKeyPressFocusHandler}
+    >
       <h2>Previous Checklists</h2>
       <nav>
         <ul className="column-stretch-container">
