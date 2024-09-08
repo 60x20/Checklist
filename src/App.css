@@ -171,6 +171,10 @@ main {
   max-width: 1000px;
   text-align: center;
   font-size: 1.5rem;
+
+  h1 {
+    font-size: 1.25em;
+  }
 }
 @media (max-width: 1000px) {
   #checklist, #visualizer {

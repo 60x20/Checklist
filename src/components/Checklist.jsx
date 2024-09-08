@@ -137,7 +137,7 @@ const Checklist = () => {
 
   return (
     <div id="checklist" className="column-container" tabIndex="-1" onKeyUp={e => e.key === 'Escape' ? closeAllHelpers() : ''}>
-      <h3><time dateTime={`${year}-${month}-${day}`}>{`${day} ${monthNames[parseInt(month, 10)]} ${year}`}</time></h3>
+      <h1><time dateTime={`${year}-${month}-${day}`}>{`${day} ${monthNames[parseInt(month, 10)]} ${year}`}</time></h1>
       <form onSubmit={createTodoHandler}>
         {/* create-todo gets focus, shouldn't be re-created (keys shouldn't be used here) */}
         <input id="create-todo" ref={createTodoRef} type="text" name="todoName" required />

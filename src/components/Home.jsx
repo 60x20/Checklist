@@ -12,11 +12,11 @@ const Home = () => {
   
   return (
     <div id="home">
-      <h3>Today: <Link to={currentDate.YMD.replaceAll('-', '/')}>
+      <h1>Today: <Link to={currentDate.YMD.replaceAll('-', '/')}>
       <time dateTime={currentDate.YMD}>
       {`${currentDate.date.day} ${monthNames[parseInt(currentDate.date.month, 10)]} ${currentDate.date.year}`}
       </time>
-      </Link></h3>
+      </Link></h1>
     </div>
   );
 }
