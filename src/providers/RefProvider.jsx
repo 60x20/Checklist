@@ -13,6 +13,12 @@ function focusOnFirstItemFromRef(ref) {
   const firstItem = ref.current.querySelector('a, button, input');
   focusFromEl(firstItem);
 }
+function focusOnLastItemFromRef(ref) {
+  if (!ref.current) return;
+  const allItems = ref.current.querySelectorAll('a, button, input');
+  const lastItem = allItems[allItems.length - 1];
+  focusFromEl(lastItem);
+}
 
 const RefProvider = ({ children }) => {
   const createTodoRef = useRef();
@@ -23,6 +29,9 @@ const RefProvider = ({ children }) => {
   const menuRef = useRef();
   function focusOnFirstMenuItem() {
     focusOnFirstItemFromRef(menuRef);
+  }
+  function focusOnLastMenuItem() {
+    focusOnLastItemFromRef(menuRef);
   }
 
   const visualizerRef = useRef();
@@ -45,6 +54,7 @@ const RefProvider = ({ children }) => {
     helpers: {
       focusOnCreateTodo,
       focusOnFirstMenuItem,
+      focusOnLastMenuItem,
       focusOnFirstItemInsideVisualizer,
       focusOnMenuToggler,
     }
