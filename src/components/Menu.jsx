@@ -135,6 +135,7 @@ const Menu = () => {
             <label>
               <span>go to: </span>
               <input 
+                // keyup preferred over keydown to allow opening the date picker with 'Enter-keydown'
                 onKeyUp={(e) => {if (e.key === 'Enter') focusOnCreateTodo();}}
                 onChange={goToRequestedDateHandler}
                 type="date"
