@@ -7,6 +7,8 @@ const monthRegex = /\d{1,2}/;
 const dayRegex = /\d{1,2}/;
 
 // input date is used instead of Date.parse, because Date.parse is lenient
+// Feb 31: Date.parse('2000-02-31') === Date.parse('2000-03-02')
+// Date.parse considers 'Feb 31' as 'Feb 29 + 2 days'
 const dateInput = document.createElement('input');
 dateInput.type = 'date';
 
