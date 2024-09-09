@@ -140,7 +140,9 @@ const Checklist = () => {
       <h1><time dateTime={`${year}-${month}-${day}`}>{`${day} ${monthNames[parseInt(month, 10)]} ${year}`}</time></h1>
       <form onSubmit={createTodoHandler}>
         {/* create-todo gets focus, shouldn't be re-created (keys shouldn't be used here) */}
-        <input id="create-todo" ref={createTodoRef} type="text" name="todoName" required />
+        <input id="create-todo" ref={createTodoRef} type="text" name="todoName" required
+          title="task to add"
+        />
         <button>create</button>
       </form>
       { currentToDoDataAsArray.map((array) => {
@@ -150,7 +152,9 @@ const Checklist = () => {
           <div className="column-container todo" key={year + month + day + todoId}>
             <div className="main-with-others-grouped-row-container">
               <p className="main-item">{allTodos[todoId]}</p>
-              <input name="todo-state" type="checkbox" data-id-to-update={todoId} onChange={updateTodoStateHandler} checked={checked} />
+              <input name="todo-state" type="checkbox" data-id-to-update={todoId} onChange={updateTodoStateHandler} checked={checked}
+                title={`Mark as ${!checked ? 'done' : 'undone'}.`}
+              />
               <button
                 className="toggler-with-icon"
                 onClick={() => toggleHelperState(todoId)}
@@ -164,7 +168,9 @@ const Checklist = () => {
             <div className="row-container helpers">
               {/* when any of the helpers are used, helper menu should be closed */}
               <form data-id-to-update={todoId} onSubmit={updateTodoHandler}>
-                <input size="10" type="text" name="todoName" required />
+                <input size="10" type="text" name="todoName" required 
+                  title="new task description"
+                />
                 <button>update todo</button>
               </form>
               <button onClick={removeFromTodoHandler} type="button" data-id-to-remove={todoId}>remove</button>
