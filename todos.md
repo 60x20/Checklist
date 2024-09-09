@@ -1,4 +1,4 @@
-## TODOS:
+## TODOS
 
 - [x] Pages with URLs that include current date (checklistapp.com/2024/06/15)
 - [x] Everyday bring a new page
