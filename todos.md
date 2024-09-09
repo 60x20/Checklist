@@ -7,5 +7,9 @@
 - [x] New pages should use the structure of the previous page
 - [x] 'Clear all data' button
 - [x] Theme
+- [x] Semantic HTML
 - [x] Styling
 - [ ] Accessibility
+- [ ] CSS lib minification <!-- font-awesome -->
+- [ ] Drag and Drop
+- [ ] Saving data to cloud instead of device storage
