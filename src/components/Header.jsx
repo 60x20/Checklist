@@ -43,7 +43,7 @@ const Header = () => {
         </span>
         theme
       </button>
-      <h2 id="logo" className='main-item'><Link to="/">Checklist</Link></h2>
+      <h2 id="logo" className='main-item'><Link aria-label="Go to the homepage." to="/">Checklist</Link></h2>
     </header>
   );
 };
