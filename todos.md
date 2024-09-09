@@ -6,6 +6,6 @@
 - [x] CRUD: Use localStorage
 - [x] New pages should use the structure of the previous page
 - [x] 'Clear all data' button
-- [ ] Accessibility
 - [x] Theme
 - [x] Styling
+- [ ] Accessibility
