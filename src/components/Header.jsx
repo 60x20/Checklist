@@ -26,7 +26,7 @@ const Header = () => {
         id="menu-toggler"
         ref={menuTogglerRef}
         onClick={() => toggleMenuState()}
-        title={menuState ? "Close menu" : "Open menu"}
+        title={menuState ? "Close menu." : "Open menu."}
         aria-expanded={menuState}
         aria-controls="menu"
       >

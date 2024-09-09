@@ -154,7 +154,7 @@ const Checklist = () => {
               <button
                 className="toggler-with-icon"
                 onClick={() => toggleHelperState(todoId)}
-                title={helpersState[todoId] ? "Close helpers" : "Open helpers"}
+                title={helpersState[todoId] ? "Close helpers." : "Open helpers."}
                 type="button"
               >
                 <FontAwesomeIcon icon={helpersState[todoId] ? faXmark : faBars} />
