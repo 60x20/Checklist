@@ -27,8 +27,9 @@ const Header = () => {
         ref={menuTogglerRef}
         onClick={() => toggleMenuState()}
         title={menuState ? "Close menu." : "Open menu."}
-        aria-expanded={menuState}
+        aria-haspopup="menu"
         aria-controls="menu"
+        aria-expanded={menuState}
       >
         <FontAwesomeIcon icon={menuState ? faXmark : faBars} />
       </button>
