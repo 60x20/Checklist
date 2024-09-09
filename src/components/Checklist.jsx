@@ -118,7 +118,7 @@ const Checklist = () => {
 
     closeHelperState(todoIdToRemove); // close the helper menu
   }
-  function updateTodoHandler(e) {
+  function updateTodoStringHandler(e) {
     e.preventDefault();
     const submittedFormData = new FormData(e.currentTarget);
     const formDataReadable = Object.fromEntries(submittedFormData.entries());
@@ -168,7 +168,7 @@ const Checklist = () => {
             <div className="row-container helpers">
               {/* when any of the helpers are used, helper menu should be closed */}
               {/* focus should be managed when menu closes or opens */}
-              <form data-id-to-update={todoId} onSubmit={updateTodoHandler}>
+              <form data-id-to-update={todoId} onSubmit={updateTodoStringHandler}>
                 <input size="10" type="text" name="todoName" required 
                   title="new task description"
                 />
