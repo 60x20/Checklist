@@ -48,9 +48,6 @@ const Checklist = () => {
     setAllTodos(returnAllTodos());
   }, [amountOfClears]);
 
-  // for rendering todos
-  const currentToDoDataAsArray = Object.entries(currentToDoData);
-
   // currentToDoData should be in sync with localStorage entry
   function addToCurrentToDoDataAndSync(todoId) {
     addToTodoData(todoId, ...unitsAsInt)
@@ -77,6 +74,9 @@ const Checklist = () => {
     }
     addToCurrentToDoDataAndSync(idAssigned);
   }
+
+  // for rendering todos
+  const currentToDoDataAsArray = Object.entries(currentToDoData);
 
   return (
     <div id="checklist" className="column-container" tabIndex="-1">
