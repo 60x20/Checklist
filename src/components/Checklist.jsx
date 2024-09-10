@@ -180,18 +180,7 @@ const Todo = ({helperBundle: {currentToDoData, setCurrentToDoData, allTodos, set
           <FontAwesomeIcon icon={helperState ? faXmark : faBars} />
         </button>
       </div>
-      { helperState ?
-      <div className="row-container helpers">
-        {/* when any of the helpers are used, helper menu should be closed */}
-        {/* focus should be managed when menu closes or opens */}
-        <form data-id-to-update={todoId} onSubmit={updateTodoStringHandler}>
-          <input size="10" type="text" name="todoName" required 
-            title="new task description"
-          />
-          <button>update todo</button>
-        </form>
-        <button onClick={removeFromTodoHandler} type="button" data-id-to-remove={todoId}>remove</button>
-      </div> : false }
+      { helperState ? : false }
     </div>
   );
 }
@@ -199,5 +188,16 @@ const Todo = ({helperBundle: {currentToDoData, setCurrentToDoData, allTodos, set
 const TodoHelpers = () => {
 
   return (<>
+  <div className="row-container helpers">
+    {/* when any of the helpers are used, helper menu should be closed */}
+    {/* focus should be managed when menu closes or opens */}
+    <form data-id-to-update={todoId} onSubmit={updateTodoStringHandler}>
+      <input size="10" type="text" name="todoName" required 
+        title="new task description"
+      />
+      <button>update todo</button>
+    </form>
+    <button onClick={removeFromTodoHandler} type="button" data-id-to-remove={todoId}>remove</button>
+  </div>
   </>);
 }
