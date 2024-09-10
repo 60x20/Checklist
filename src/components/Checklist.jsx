@@ -24,7 +24,7 @@ const Checklist = () => {
   const { todayCleared } = useContext(todayClearedContext);
 
   // when mounts, focus on the create todo input
-  const { refs: { createTodoRef }, helpers: { focusOnCreateTodo } } = useContext(refContext);
+  const { refs: { createTodoRef }, helpers: { focusOnCreateTodo, resetValueOfCreateTodo } } = useContext(refContext);
   useEffect(() => {
     focusOnCreateTodo();
   }, []);
@@ -73,6 +73,8 @@ const Checklist = () => {
       addToTodosTemplate(idAssigned);
     }
     addToCurrentToDoDataAndSync(idAssigned);
+
+    resetValueOfCreateTodo(); // Value is reset on submit to make known value is added
   }
 
   // for rendering todos
