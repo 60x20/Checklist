@@ -56,12 +56,6 @@ const Checklist = () => {
     addToTodoData(todoId, ...unitsAsInt)
     setCurrentToDoData({...currentToDoData, [todoId]: 0});
   }
-  function removeFromCurrentToDoDataAndSync(todoId) {
-    removeFromTodoData(todoId, ...unitsAsInt)
-    const dataRemovedVersion = {...currentToDoData};
-    delete dataRemovedVersion[todoId];
-    setCurrentToDoData(dataRemovedVersion);
-  }
   function updateAndSyncTodoState(todoIdUpdate, checked) {
     updateTodoState(todoIdUpdate, checked, ...unitsAsInt);
     setCurrentToDoData({...currentToDoData, [todoIdUpdate]: checked});
@@ -92,16 +86,6 @@ const Checklist = () => {
       addToTodosTemplate(idAssigned);
     }
     addToCurrentToDoDataAndSync(idAssigned);
-  }
-  function removeFromTodoHandler(e) {
-    const todoIdToRemove = e.currentTarget.dataset.idToRemove;
-    if (currentDate.YMD === [year, month, day].join('-')) {
-      // if currentDate removes/adds a todo, template should adapt
-      removeFromTodosTemplate(todoIdToRemove);
-    }
-    removeFromCurrentToDoDataAndSync(todoIdToRemove);
-
-    closeHelperState(todoIdToRemove); // close the helper menu
   }
   function updateTodoStringHandler(e) {
     e.preventDefault();
@@ -181,6 +165,25 @@ const Todo = () => {
   }
   function closeHelperState(todoId) {
     updateHelperState(todoId, false);
+  }
+
+  // currentToDoData should be in sync with localStorage entry
+  function removeFromCurrentToDoDataAndSync(todoId) {
+    removeFromTodoData(todoId, ...unitsAsInt)
+    const dataRemovedVersion = {...currentToDoData};
+    delete dataRemovedVersion[todoId];
+    setCurrentToDoData(dataRemovedVersion);
+  }
+  // handlers
+  function removeFromTodoHandler(e) {
+    const todoIdToRemove = e.currentTarget.dataset.idToRemove;
+    if (currentDate.YMD === [year, month, day].join('-')) {
+      // if currentDate removes/adds a todo, template should adapt
+      removeFromTodosTemplate(todoIdToRemove);
+    }
+    removeFromCurrentToDoDataAndSync(todoIdToRemove);
+
+    closeHelperState(todoIdToRemove); // close the helper menu
   }
 
   return (<>
