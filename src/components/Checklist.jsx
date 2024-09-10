@@ -127,6 +127,8 @@ const Todo = ({helperBundle: {currentToDoData, setCurrentToDoData, allTodos, set
     updateTodoState(todoIdUpdate, checked, ...unitsAsInt);
     setCurrentToDoData({...currentToDoData, [todoIdUpdate]: checked});
   }
+
+  // allTodos should be in sync with localStorage entry
   function updateTodoStringAndSync(todoIdToUpdate, todoString) {
     updateTodoString(todoIdToUpdate, todoString);
     const todosUpdatedVersion = [...allTodos];
