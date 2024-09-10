@@ -90,7 +90,11 @@ const Checklist = () => {
       </form>
       { currentToDoDataAsArray.map((array) => {
         const [ todoId, checked ] = array;
-        return 
+        return (
+          <Todo 
+            helperBundle={{currentToDoData, setCurrentToDoData, allTodos, setAllTodos, day, month, year, unitsAsInt, currentDate, todoId, checked}}
+          />
+        );
       }) }
     </div>
   );
@@ -98,7 +102,7 @@ const Checklist = () => {
  
 export default Checklist;
 
-const Todo = () => {
+const Todo = ({helperBundle: {currentToDoData, setCurrentToDoData, allTodos, setAllTodos, day, month, year, unitsAsInt, currentDate, todoId, checked}}) => {
   // for the appearance of helpers (individually)
   const [helpersState, setHelpersState] = useState({}); // by default every helper is falsy (undefined)
   function updateHelperState(todoId, value) {
