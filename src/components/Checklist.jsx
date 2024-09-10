@@ -92,6 +92,8 @@ const Checklist = () => {
         const [ todoId, checked ] = array;
         return (
           <Todo 
+            // todoId is concatenated with date, so that if data changes, uncontrolled inputs will be reset
+            key={year + month + day + todoId}
             helperBundle={{currentToDoData, setCurrentToDoData, allTodos, setAllTodos, day, month, year, unitsAsInt, currentDate, todoId, checked}}
           />
         );
@@ -162,8 +164,7 @@ const Todo = ({helperBundle: {currentToDoData, setCurrentToDoData, allTodos, set
   }
 
   return (
-    // todoId is concatenated with date, so that if data changes, uncontrolled inputs will be reset
-    <div className="column-container todo" key={year + month + day + todoId}>
+    <div className="column-container todo">
       <div className="main-with-others-grouped-row-container">
         <p className="main-item">{allTodos[todoId]}</p>
         <input name="todo-state" type="checkbox" data-id-to-update={todoId} onChange={updateTodoStateHandler} checked={checked}
