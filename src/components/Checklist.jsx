@@ -143,7 +143,7 @@ const Todo = ({helperBundle: {currentToDoData, setCurrentToDoData, allTodos, set
     }
     removeFromCurrentToDoDataAndSync(todoIdToRemove);
 
-    closeHelperState(todoIdToRemove); // close the helper menu
+    closeHelperState(); // close the helper menu
   }
   function updateTodoStateHandler(e) {
     const todoIdUpdate = e.currentTarget.dataset.idToUpdate;
@@ -159,7 +159,7 @@ const Todo = ({helperBundle: {currentToDoData, setCurrentToDoData, allTodos, set
     const todoIdToUpdate = e.currentTarget.dataset.idToUpdate;
     updateTodoStringAndSync(todoIdToUpdate, todoString);
     
-    closeHelperState(todoIdToUpdate); // close the helper menu
+    closeHelperState(); // close the helper menu
   }
 
   return (
@@ -171,14 +171,14 @@ const Todo = ({helperBundle: {currentToDoData, setCurrentToDoData, allTodos, set
         />
         <button
           className="toggler-with-icon"
-          onClick={() => toggleHelperState(todoId)}
-          title={helpersState[todoId] ? "Close helpers." : "Open helpers."}
+          onClick={() => toggleHelperState()}
+          title={helperState ? "Close helpers." : "Open helpers."}
           type="button"
         >
-          <FontAwesomeIcon icon={helpersState[todoId] ? faXmark : faBars} />
+          <FontAwesomeIcon icon={helperState ? faXmark : faBars} />
         </button>
       </div>
-      { helpersState[todoId] ?
+      { helperState ?
       <div className="row-container helpers">
         {/* when any of the helpers are used, helper menu should be closed */}
         {/* focus should be managed when menu closes or opens */}
