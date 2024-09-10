@@ -188,6 +188,9 @@ const Todo = ({helperBundle: {currentToDoData, setCurrentToDoData, allTodos, set
 }
 
 const TodoHelpers = ({helperBundle: {todoId, updateTodoStringHandler, removeFromTodoHandler}}) => {
+  useEffect(() => {
+    // focus();
+  }, []);
 
   return (<>
   <div className="row-container helpers">
