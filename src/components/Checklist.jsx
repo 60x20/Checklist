@@ -56,10 +56,6 @@ const Checklist = () => {
     addToTodoData(todoId, ...unitsAsInt)
     setCurrentToDoData({...currentToDoData, [todoId]: 0});
   }
-  function updateAndSyncTodoState(todoIdUpdate, checked) {
-    updateTodoState(todoIdUpdate, checked, ...unitsAsInt);
-    setCurrentToDoData({...currentToDoData, [todoIdUpdate]: checked});
-  }
 
   // allTodos should be in sync with localStorage entry
   function addToAllTodosAndSync(todoString) {
@@ -96,12 +92,6 @@ const Checklist = () => {
     updateTodoStringAndSync(todoIdToUpdate, todoString);
     
     closeHelperState(todoIdToUpdate); // close the helper menu
-  }
-  function updateTodoStateHandler(e) {
-    const todoIdUpdate = e.currentTarget.dataset.idToUpdate;
-    // boolean converted into 0 and 1 to save memory
-    const checked = Number(e.currentTarget.checked);
-    updateAndSyncTodoState(todoIdUpdate, checked);
   }
 
   return (
@@ -174,6 +164,11 @@ const Todo = () => {
     delete dataRemovedVersion[todoId];
     setCurrentToDoData(dataRemovedVersion);
   }
+  function updateAndSyncTodoState(todoIdUpdate, checked) {
+    updateTodoState(todoIdUpdate, checked, ...unitsAsInt);
+    setCurrentToDoData({...currentToDoData, [todoIdUpdate]: checked});
+  }
+
   // handlers
   function removeFromTodoHandler(e) {
     const todoIdToRemove = e.currentTarget.dataset.idToRemove;
@@ -184,6 +179,12 @@ const Todo = () => {
     removeFromCurrentToDoDataAndSync(todoIdToRemove);
 
     closeHelperState(todoIdToRemove); // close the helper menu
+  }
+  function updateTodoStateHandler(e) {
+    const todoIdUpdate = e.currentTarget.dataset.idToUpdate;
+    // boolean converted into 0 and 1 to save memory
+    const checked = Number(e.currentTarget.checked);
+    updateAndSyncTodoState(todoIdUpdate, checked);
   }
 
   return (<>
