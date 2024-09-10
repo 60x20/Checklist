@@ -63,12 +63,6 @@ const Checklist = () => {
     setAllTodos([...allTodos, todoString]);
     return idAssigned;
   }
-  function updateTodoStringAndSync(todoIdToUpdate, todoString) {
-    updateTodoString(todoIdToUpdate, todoString);
-    const todosUpdatedVersion = [...allTodos];
-    todosUpdatedVersion[todoIdToUpdate] = todoString;
-    setAllTodos(todosUpdatedVersion);
-  }
   
   // handlers
   function createTodoHandler(e) {
@@ -82,16 +76,6 @@ const Checklist = () => {
       addToTodosTemplate(idAssigned);
     }
     addToCurrentToDoDataAndSync(idAssigned);
-  }
-  function updateTodoStringHandler(e) {
-    e.preventDefault();
-    const submittedFormData = new FormData(e.currentTarget);
-    const formDataReadable = Object.fromEntries(submittedFormData.entries());
-    const todoString = String(formDataReadable.todoName);
-    const todoIdToUpdate = e.currentTarget.dataset.idToUpdate;
-    updateTodoStringAndSync(todoIdToUpdate, todoString);
-    
-    closeHelperState(todoIdToUpdate); // close the helper menu
   }
 
   return (
@@ -168,6 +152,12 @@ const Todo = () => {
     updateTodoState(todoIdUpdate, checked, ...unitsAsInt);
     setCurrentToDoData({...currentToDoData, [todoIdUpdate]: checked});
   }
+  function updateTodoStringAndSync(todoIdToUpdate, todoString) {
+    updateTodoString(todoIdToUpdate, todoString);
+    const todosUpdatedVersion = [...allTodos];
+    todosUpdatedVersion[todoIdToUpdate] = todoString;
+    setAllTodos(todosUpdatedVersion);
+  }
 
   // handlers
   function removeFromTodoHandler(e) {
@@ -185,6 +175,16 @@ const Todo = () => {
     // boolean converted into 0 and 1 to save memory
     const checked = Number(e.currentTarget.checked);
     updateAndSyncTodoState(todoIdUpdate, checked);
+  }
+  function updateTodoStringHandler(e) {
+    e.preventDefault();
+    const submittedFormData = new FormData(e.currentTarget);
+    const formDataReadable = Object.fromEntries(submittedFormData.entries());
+    const todoString = String(formDataReadable.todoName);
+    const todoIdToUpdate = e.currentTarget.dataset.idToUpdate;
+    updateTodoStringAndSync(todoIdToUpdate, todoString);
+    
+    closeHelperState(todoIdToUpdate); // close the helper menu
   }
 
   return (<>
