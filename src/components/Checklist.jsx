@@ -108,15 +108,12 @@ export default Checklist;
 
 const Todo = ({helperBundle: {currentToDoData, setCurrentToDoData, allTodos, setAllTodos, day, month, year, unitsAsInt, currentDate, todoId, checked}}) => {
   // for the appearance of helpers (individually)
-  const [helpersState, setHelpersState] = useState({}); // by default every helper is falsy (undefined)
-  function updateHelperState(todoId, value) {
-    setHelpersState({...helpersState, [todoId]: value});
+  const [helperState, setHelperState] = useState(false); // by default helper closed
+  function toggleHelperState() {
+    setHelperState(!helperState);
   }
-  function toggleHelperState(todoId) {
-    updateHelperState(todoId, !helpersState[todoId]);
-  }
-  function closeHelperState(todoId) {
-    updateHelperState(todoId, false);
+  function closeHelperState() {
+    setHelperState(false);
   }
 
   // currentToDoData should be in sync with localStorage entry
