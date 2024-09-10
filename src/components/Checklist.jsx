@@ -51,18 +51,6 @@ const Checklist = () => {
   // for rendering todos
   const currentToDoDataAsArray = Object.entries(currentToDoData);
 
-  // for the appearance of helpers (individually)
-  const [helpersState, setHelpersState] = useState({}); // by default every helper is falsy (undefined)
-  function updateHelperState(todoId, value) {
-    setHelpersState({...helpersState, [todoId]: value});
-  }
-  function toggleHelperState(todoId) {
-    updateHelperState(todoId, !helpersState[todoId]);
-  }
-  function closeHelperState(todoId) {
-    updateHelperState(todoId, false);
-  }
-  
   // currentToDoData should be in sync with localStorage entry
   function addToCurrentToDoDataAndSync(todoId) {
     addToTodoData(todoId, ...unitsAsInt)
@@ -183,6 +171,18 @@ const Checklist = () => {
 export default Checklist;
 
 const Todo = () => {
+  // for the appearance of helpers (individually)
+  const [helpersState, setHelpersState] = useState({}); // by default every helper is falsy (undefined)
+  function updateHelperState(todoId, value) {
+    setHelpersState({...helpersState, [todoId]: value});
+  }
+  function toggleHelperState(todoId) {
+    updateHelperState(todoId, !helpersState[todoId]);
+  }
+  function closeHelperState(todoId) {
+    updateHelperState(todoId, false);
+  }
+
   return (<>
   </>);
 }
