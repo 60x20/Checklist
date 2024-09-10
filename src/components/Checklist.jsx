@@ -180,12 +180,14 @@ const Todo = ({helperBundle: {currentToDoData, setCurrentToDoData, allTodos, set
           <FontAwesomeIcon icon={helperState ? faXmark : faBars} />
         </button>
       </div>
-      { helperState ? : false }
+      { helperState ?
+      <TodoHelpers helperBundle={{todoId, updateTodoStringHandler, removeFromTodoHandler}} />
+      : false }
     </div>
   );
 }
 
-const TodoHelpers = () => {
+const TodoHelpers = ({helperBundle: {todoId, updateTodoStringHandler, removeFromTodoHandler}}) => {
 
   return (<>
   <div className="row-container helpers">
