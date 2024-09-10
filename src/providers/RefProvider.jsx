@@ -2,6 +2,14 @@ import { createContext, useRef } from "react";
 
 export const refContext = createContext();
 
+// reset value
+function resetValueFromEl(el) {
+  if (el) el.value = '';
+}
+function resetValueFromRef(ref) {
+  resetValueFromEl(ref.current);
+}
+
 // focus
 function focusFromEl(el) {
   if (el) el.focus();
@@ -25,6 +33,9 @@ const RefProvider = ({ children }) => {
   const createTodoRef = useRef();
   function focusOnCreateTodo() {
     focusFromRef(createTodoRef);
+  }
+  function resetValueOfCreateTodo() {
+    resetValueFromRef(createTodoRef);
   }
 
   const menuRef = useRef();
@@ -58,6 +69,7 @@ const RefProvider = ({ children }) => {
       focusOnLastMenuItem,
       focusOnFirstItemInsideVisualizer,
       focusOnMenuToggler,
+      resetValueOfCreateTodo,
     }
   }
 
