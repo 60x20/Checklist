@@ -16,6 +16,9 @@ dist-ssr
 # custom script
 /git-ignore-scripts
 
+# for debugging
+src/components/Checklist2.jsx
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
