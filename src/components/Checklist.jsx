@@ -99,7 +99,7 @@ const Checklist = () => {
           <Todo 
             // todoId is concatenated with date, so that if data changes, uncontrolled inputs will be reset
             key={year + month + day + todoId}
-            helperBundle={{increaseCurrentTodoChanged, allTodos, setAllTodos, day, month, year, unitsAsInt, currentDate, todoId, checked}}
+            helperBundle={{increaseCurrentTodoChanged, allTodos, setAllTodos, day, month, year, unitsAsInt, currentDate, todoId, checked, todayCleared}}
           />
         );
       }) }
@@ -109,7 +109,7 @@ const Checklist = () => {
  
 export default Checklist;
 
-const Todo = ({helperBundle: {increaseCurrentTodoChanged, allTodos, setAllTodos, day, month, year, unitsAsInt, currentDate, todoId, checked}}) => {
+const Todo = ({helperBundle: {increaseCurrentTodoChanged, allTodos, setAllTodos, day, month, year, unitsAsInt, currentDate, todoId, checked, todayCleared}}) => {
   // for the appearance of helpers (individually)
   const [helperState, setHelperState] = useState(false); // by default helper closed
   function toggleHelperState() {
@@ -121,10 +121,11 @@ const Todo = ({helperBundle: {increaseCurrentTodoChanged, allTodos, setAllTodos,
 
   // initialized to prop, which might be the old currentTodoData because it changes inside useEffect
   // but because checked is included as a dependency, collisions will result in the new one being used
+  // todayCleared also added, because it might change 'checked' from 0 => 0, which wouldn't trigger effect
   const [localChecked, setLocalChecked] = useState(checked);
   useEffect(() => {
     setLocalChecked(checked);
-  }, [checked]);
+  }, [checked, todayCleared]);
 
   // currentToDoData should be in sync with localStorage entry
   function removeFromCurrentToDoDataAndSync(todoId) {
