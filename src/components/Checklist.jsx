@@ -53,7 +53,7 @@ const Checklist = () => {
 
   // currentToDoData should be in sync with localStorage entry
   function addToCurrentToDoDataAndSync(todoId) {
-    addToTodoData(todoId, ...unitsAsInt)
+    addToTodoData(todoId, ...unitsAsInt);
     increaseCurrentTodoChanged();
   }
 
@@ -121,7 +121,7 @@ const Todo = ({helperBundle: {increaseCurrentTodoChanged, allTodos, setAllTodos,
 
   // currentToDoData should be in sync with localStorage entry
   function removeFromCurrentToDoDataAndSync(todoId) {
-    removeFromTodoData(todoId, ...unitsAsInt)
+    removeFromTodoData(todoId, ...unitsAsInt);
     increaseCurrentTodoChanged();
   }
   // for performance optimization, todoState locally managed, hence only in sync with localStorgae (not with currentTodoData)
