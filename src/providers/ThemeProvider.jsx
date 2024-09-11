@@ -1,4 +1,4 @@
-import { createContext, useEffect, useMemo, useReducer, useState } from "react";
+import { createContext, useEffect, useReducer, useState } from "react";
 
 // helpers
 import { colorSchemeMediaQuery, changeThemeModeEntry, returnThemeMode, themeModeData, returnThemeEntry } from "../helpers/themeHelpers";
@@ -15,10 +15,9 @@ const ThemeProvider = ({ children }) => {
     setThemeMode(nextThemeMode);
   }
 
-  // if theme mode or preference changes, memo will execute and preference will adapt
-  // (useMemo preferred over useEffect to avoid extra re-renders)
+  // if theme mode or preference changes, preference will adapt (variable preferred over useEffect to avoid extra re-renders)
   const [preferenceChanged, increasePreferenceChanged] = useReducer((prev) => prev + 1, '', () => themeModeData[themeMode].preferenceForDark);
-  const preferenceForDark = useMemo(() => themeModeData[themeMode].preferenceForDark, [themeMode, preferenceChanged]);
+  const preferenceForDark = themeModeData[themeMode].preferenceForDark;
 
   // detect changes if auto
   useEffect(() => {
