@@ -119,6 +119,13 @@ const Todo = ({helperBundle: {increaseCurrentTodoChanged, allTodos, setAllTodos,
     setHelperState(false);
   }
 
+  // initialized to prop, which might be the old currentTodoData because it changes inside useEffect
+  // but because checked is included as a dependency, collisions will result in the new one being used
+  const [localChecked, setLocalChecked] = useState(checked);
+  useEffect(() => {
+    setLocalChecked(checked);
+  }, [checked]);
+
   // currentToDoData should be in sync with localStorage entry
   function removeFromCurrentToDoDataAndSync(todoId) {
     removeFromTodoData(todoId, ...unitsAsInt);
@@ -153,6 +160,8 @@ const Todo = ({helperBundle: {increaseCurrentTodoChanged, allTodos, setAllTodos,
     // boolean converted into 0 and 1 to save memory
     const checked = Number(e.currentTarget.checked);
     updateAndSyncTodoState(todoIdUpdate, checked);
+
+    setLocalChecked(checked);
   }
   function updateTodoStringHandler(e) {
     e.preventDefault();
@@ -169,8 +178,8 @@ const Todo = ({helperBundle: {increaseCurrentTodoChanged, allTodos, setAllTodos,
     <div className="column-container todo">
       <div className="main-with-others-grouped-row-container">
         <p className="main-item">{allTodos[todoId]}</p>
-        <input name="todo-state" type="checkbox" data-id-to-update={todoId} onChange={updateTodoStateHandler} checked={checked}
-          title={`Mark as ${!checked ? 'done' : 'undone'}.`}
+        <input name="todo-state" type="checkbox" data-id-to-update={todoId} onChange={updateTodoStateHandler} checked={localChecked}
+          title={`Mark as ${!localChecked ? 'done' : 'undone'}.`}
         />
         <button
           className="toggler-with-icon"
