@@ -54,7 +54,7 @@ const Checklist = () => {
   // currentToDoData should be in sync with localStorage entry
   function addToCurrentToDoDataAndSync(todoId) {
     addToTodoData(todoId, ...unitsAsInt)
-    setCurrentToDoData({...currentToDoData, [todoId]: 0});
+    increaseCurrentTodoChanged();
   }
 
   // allTodos should be in sync with localStorage entry
@@ -99,7 +99,7 @@ const Checklist = () => {
           <Todo 
             // todoId is concatenated with date, so that if data changes, uncontrolled inputs will be reset
             key={year + month + day + todoId}
-            helperBundle={{currentToDoData, setCurrentToDoData, allTodos, setAllTodos, day, month, year, unitsAsInt, currentDate, todoId, checked}}
+            helperBundle={{increaseCurrentTodoChanged, allTodos, setAllTodos, day, month, year, unitsAsInt, currentDate, todoId, checked}}
           />
         );
       }) }
@@ -109,7 +109,7 @@ const Checklist = () => {
  
 export default Checklist;
 
-const Todo = ({helperBundle: {currentToDoData, setCurrentToDoData, allTodos, setAllTodos, day, month, year, unitsAsInt, currentDate, todoId, checked}}) => {
+const Todo = ({helperBundle: {increaseCurrentTodoChanged, allTodos, setAllTodos, day, month, year, unitsAsInt, currentDate, todoId, checked}}) => {
   // for the appearance of helpers (individually)
   const [helperState, setHelperState] = useState(false); // by default helper closed
   function toggleHelperState() {
@@ -122,13 +122,11 @@ const Todo = ({helperBundle: {currentToDoData, setCurrentToDoData, allTodos, set
   // currentToDoData should be in sync with localStorage entry
   function removeFromCurrentToDoDataAndSync(todoId) {
     removeFromTodoData(todoId, ...unitsAsInt)
-    const dataRemovedVersion = {...currentToDoData};
-    delete dataRemovedVersion[todoId];
-    setCurrentToDoData(dataRemovedVersion);
+    increaseCurrentTodoChanged();
   }
+  // for performance optimization, todoState locally managed, hence only in sync with localStorgae (not with currentTodoData)
   function updateAndSyncTodoState(todoIdUpdate, checked) {
     updateTodoState(todoIdUpdate, checked, ...unitsAsInt);
-    setCurrentToDoData({...currentToDoData, [todoIdUpdate]: checked});
   }
 
   // allTodos should be in sync with localStorage entry
