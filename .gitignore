@@ -17,7 +17,6 @@ dist-ssr
 /git-ignore-scripts
 
 # for debugging
-src/components/Checklist2.jsx
 
 # Editor directories and files
 .vscode/*
