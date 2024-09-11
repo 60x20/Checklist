@@ -21,14 +21,12 @@ const CurrentDateProvider = ({ children }) => {
   }
 
   // interval that checks to see if current date has changed
-  useEffect(
-    () => {
-      // since currentDate gets changed, if we don't re-set the interval with the new refreshCurrentDate, we'll be using the older version
-      const intervalID = setInterval(refreshCurrentDate, 30e3);
-      // clean-up: clear the previous refresher, so that there's 1 refresher at a time
-      return clearInterval.bind(globalThis, intervalID);
-    }, [currentDate]
-  );
+  useEffect(() => {
+    // since currentDate gets changed, if we don't re-set the interval with the new refreshCurrentDate, we'll be using the older version
+    const intervalID = setInterval(refreshCurrentDate, 30e3);
+    // clean-up: clear the previous refresher, so that there's 1 refresher at a time
+    return clearInterval.bind(globalThis, intervalID);
+  }, [currentDate]);
 
   // when the app renders for the first time, go to current date
   useEffect(() => {
