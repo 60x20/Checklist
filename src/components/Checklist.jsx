@@ -23,7 +23,6 @@ const Checklist = () => {
   const { amountOfClears } = useContext(amountOfClearsContext); // when changes, new data will be brought
   const { todayCleared } = useContext(todayClearedContext); // when changes, new data will be brought
 
-
   // converted into numbers so that they are considered array indexes
   const unitsAsInt = [parseInt(year, 10), parseInt(month, 10), parseInt(day, 10)];
 
@@ -44,6 +43,7 @@ const Checklist = () => {
   useEffect(() => {
     focusOnCreateTodo();
   }, []);
+
   // keeping allTodos in sync with localStorage
   const [ allTodos, setAllTodos ] = useState(returnAllTodos);;
   // if entry gets cleared, adapt to changes
