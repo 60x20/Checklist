@@ -20,8 +20,8 @@ import { monthNames } from "../helpers/validateUnitsFromDate";
 const Checklist = () => {
   const { year, month, day } = useContext(requestedDateValidatedContext);
   const currentDate = useContext(currentDateContext);
-  const { amountOfClears } = useContext(amountOfClearsContext);
-  const { todayCleared } = useContext(todayClearedContext);
+  const { amountOfClears } = useContext(amountOfClearsContext); // when changes, new data will be brought
+  const { todayCleared } = useContext(todayClearedContext); // when changes, new data will be brought
 
 
   // converted into numbers so that they are considered array indexes
