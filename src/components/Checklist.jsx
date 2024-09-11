@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useReducer, useState } from "react";
 
 // font awesome
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -28,14 +28,17 @@ const Checklist = () => {
   const unitsAsInt = [parseInt(year, 10), parseInt(month, 10), parseInt(day, 10)];
 
   const [currentToDoData, setCurrentToDoData] = useState({});
+  const [currentTodoChanged, increaseCurrentTodoChanged] = useReducer((prev) => prev + 1, 0); // when changed, useEffect will execute
 
   // bring the stored data of date, or if it doesn't exist create it
   // if data is cleared, clean-up and keep the state and localStorage in sync, otherwise old data will be seen
   useEffect(() => {
     validateToDoData(...unitsAsInt);
-    setCurrentToDoData(returnTodoData(...unitsAsInt));
   }, [day, month, year, amountOfClears, todayCleared]);
-  
+  useEffect(() => {
+    setCurrentToDoData(returnTodoData(...unitsAsInt));
+  }, [day, month, year, amountOfClears, todayCleared, currentTodoChanged]);
+
   // when mounts, focus on the create todo input
   const { refs: { createTodoRef }, helpers: { focusOnCreateTodo, resetValueOfCreateTodo } } = useContext(refContext);
   useEffect(() => {
