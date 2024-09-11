@@ -23,11 +23,6 @@ const Checklist = () => {
   const { amountOfClears } = useContext(amountOfClearsContext);
   const { todayCleared } = useContext(todayClearedContext);
 
-  // when mounts, focus on the create todo input
-  const { refs: { createTodoRef }, helpers: { focusOnCreateTodo, resetValueOfCreateTodo } } = useContext(refContext);
-  useEffect(() => {
-    focusOnCreateTodo();
-  }, []);
 
   // converted into numbers so that they are considered array indexes
   const unitsAsInt = [parseInt(year, 10), parseInt(month, 10), parseInt(day, 10)];
@@ -41,6 +36,11 @@ const Checklist = () => {
     setCurrentToDoData(returnTodoData(...unitsAsInt));
   }, [day, month, year, amountOfClears, todayCleared]);
   
+  // when mounts, focus on the create todo input
+  const { refs: { createTodoRef }, helpers: { focusOnCreateTodo, resetValueOfCreateTodo } } = useContext(refContext);
+  useEffect(() => {
+    focusOnCreateTodo();
+  }, []);
   // keeping allTodos in sync with localStorage
   const [ allTodos, setAllTodos ] = useState(returnAllTodos);;
   // if entry gets cleared, adapt to changes
