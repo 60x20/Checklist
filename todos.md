@@ -10,6 +10,7 @@
 - [x] Semantic HTML
 - [x] Styling
 - [ ] Accessibility
+- [ ] Different input types (besides Checkboxes)
 - [ ] CSS lib minification <!-- font-awesome -->
 - [ ] Drag and Drop
 - [ ] Saving data to cloud instead of device storage
