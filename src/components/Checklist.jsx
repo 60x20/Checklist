@@ -115,7 +115,7 @@ const Checklist = () => {
           <Todo 
             // todoId is concatenated with date, so that if data changes, uncontrolled inputs will be reset
             key={year + month + day + todoId}
-            helperBundle={{increaseCurrentTodoChanged, allTodos, setAllTodos, day, month, year, unitsAsInt, currentDate, todoId, checked, todayCleared}}
+            helperBundle={{increaseCurrentTodoChanged, allTodos, day, month, year, unitsAsInt, currentDate, todoId, checked, todayCleared}}
           />
         );
       }) }
@@ -125,7 +125,7 @@ const Checklist = () => {
  
 export default Checklist;
 
-const Todo = ({helperBundle: {increaseCurrentTodoChanged, allTodos, setAllTodos, day, month, year, unitsAsInt, currentDate, todoId, checked, todayCleared}}) => {
+const Todo = ({helperBundle: {increaseCurrentTodoChanged, allTodos, day, month, year, unitsAsInt, currentDate, todoId, checked, todayCleared}}) => {
   // for the appearance of helpers (individually)
   const [helperState, setHelperState] = useState(false); // by default helper closed
   function toggleHelperState() {
@@ -138,6 +138,9 @@ const Todo = ({helperBundle: {increaseCurrentTodoChanged, allTodos, setAllTodos,
   // global state used locally, so that local changes won't cause re-render (though global changes are still impactful)
   // todayCleared is a dependency, because it might change 'checked' from 0 => 0, which wouldn't trigger effect
   const [localChecked, setLocalChecked] = useLocalStateFromProp(checked, [todayCleared]);
+  
+  // since allTodos[todoId] is only changed here, and nowhere else, it's safe to only use global state initially, local value will always be the latest
+  const [localTodoDescription, setLocalTodoDescription] = useState(allTodos[todoId]);
 
   // currentToDoData should be in sync with localStorage entry
   function removeFromCurrentToDoDataAndSync(todoId) {
@@ -149,12 +152,10 @@ const Todo = ({helperBundle: {increaseCurrentTodoChanged, allTodos, setAllTodos,
     updateTodoState(todoIdUpdate, checked, ...unitsAsInt);
   }
 
-  // allTodos should be in sync with localStorage entry
+  // for performance optimization, allTodos[todoId] locally managed, hence only in sync with localStorgae (not with allTodos)
   function updateTodoStringAndSync(todoIdToUpdate, todoString) {
     updateTodoString(todoIdToUpdate, todoString);
-    const todosUpdatedVersion = [...allTodos];
-    todosUpdatedVersion[todoIdToUpdate] = todoString;
-    setAllTodos(todosUpdatedVersion);
+    setLocalTodoDescription(todoString);
   }
 
   // handlers
@@ -188,7 +189,7 @@ const Todo = ({helperBundle: {increaseCurrentTodoChanged, allTodos, setAllTodos,
   return (
     <div className="column-container todo">
       <div className="main-with-others-grouped-row-container">
-        <p className="main-item">{allTodos[todoId]}</p>
+        <p className="main-item">{localTodoDescription}</p>
         <input name="todo-state" type="checkbox" data-id-to-update={todoId} onChange={updateTodoStateHandler} checked={localChecked}
           title={`Mark as ${!localChecked ? 'done' : 'undone'}.`}
         />
