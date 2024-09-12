@@ -115,7 +115,7 @@ const Todo = ({helperBundle: {increaseCurrentTodoChanged, allTodos, setAllTodos,
   function toggleHelperState() {
     setHelperState(!helperState);
   }
-  function closeHelperState() {
+  function closeHelperMenu() {
     setHelperState(false);
   }
 
@@ -170,7 +170,7 @@ const Todo = ({helperBundle: {increaseCurrentTodoChanged, allTodos, setAllTodos,
     const todoIdToUpdate = e.currentTarget.dataset.idToUpdate;
     updateTodoStringAndSync(todoIdToUpdate, todoString);
     
-    closeHelperState(); // close the helper menu
+    closeHelperMenu(); // close the helper menu
   }
 
   return (
