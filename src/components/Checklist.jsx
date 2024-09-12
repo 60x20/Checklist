@@ -153,8 +153,6 @@ const Todo = ({helperBundle: {increaseCurrentTodoChanged, allTodos, setAllTodos,
       removeFromTodosTemplate(todoIdToRemove);
     }
     removeFromCurrentToDoDataAndSync(todoIdToRemove);
-
-    closeHelperState(); // close the helper menu
   }
   function updateTodoStateHandler(e) {
     const todoIdUpdate = e.currentTarget.dataset.idToUpdate;
