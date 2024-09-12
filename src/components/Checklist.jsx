@@ -61,7 +61,7 @@ const Checklist = () => {
   }, []);
 
   // keeping allTodos in sync with localStorage
-  const [ allTodos, setAllTodos ] = useState(returnAllTodos);;
+  const [ allTodos, setAllTodos ] = useState(returnAllTodos);
   // if entry gets cleared, adapt to changes
   useEffect(() => {
     setAllTodos(returnAllTodos());
