@@ -18,7 +18,7 @@ import { returnTodoData, validateToDoData, addToTodoData, removeFromTodoData, up
 import { monthNames } from "../helpers/validateUnitsFromDate";
 
 // custom hooks
-function useLocalStateFromProp(prop, otherDependencies) {
+function useLocalStateFromProp(prop, otherDependencies = []) {
   // initialize to prop, and if prop changes, adapt; otherwise keep using the local version
   // helpful if global state used locally, so that local changes won't cause re-render (though global changes are still impactful)
 
