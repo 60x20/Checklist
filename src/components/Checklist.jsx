@@ -135,13 +135,9 @@ const Todo = ({helperBundle: {increaseCurrentTodoChanged, allTodos, setAllTodos,
     setHelperState(false);
   }
 
-  // initialized to prop, which might be the old currentTodoData because it changes inside useEffect
-  // but because checked is included as a dependency, collisions will result in the new one being used
-  // todayCleared also added, because it might change 'checked' from 0 => 0, which wouldn't trigger effect
-  const [localChecked, setLocalChecked] = useState(checked);
-  useEffect(() => {
-    setLocalChecked(checked);
-  }, [checked, todayCleared]);
+  // global state used locally, so that local changes won't cause re-render (though global changes are still impactful)
+  // todayCleared is a dependency, because it might change 'checked' from 0 => 0, which wouldn't trigger effect
+  const [localChecked, setLocalChecked] = useLocalStateFromProp(checked, [todayCleared]);
 
   // currentToDoData should be in sync with localStorage entry
   function removeFromCurrentToDoDataAndSync(todoId) {
