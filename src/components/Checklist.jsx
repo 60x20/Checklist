@@ -1,4 +1,4 @@
-import { useContext, useEffect, useReducer, useState } from "react";
+import { useContext, useEffect, useMemo, useReducer, useState } from "react";
 
 // font awesome
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -41,20 +41,18 @@ const Checklist = () => {
   // converted into numbers so that they are considered array indexes
   const unitsAsInt = [parseInt(year, 10), parseInt(month, 10), parseInt(day, 10)];
 
-  const [currentToDoData, syncCurrentToDoDataWithLocalStorage] = useReducer(() => returnTodoData(...unitsAsInt), {});
+  const [currentToDoDataChanged, increaseCurrentToDoDataChanged] = useReducer((prev) => prev + 1, 0);
   // bring the stored data of date, or if it doesn't exist create it
   // if data is cleared, clean-up and keep the state and localStorage in sync, otherwise old data will be seen
-  useEffect(() => {
+  const currentToDoData = useMemo(() => {
     validateToDoData(...unitsAsInt);
-    syncCurrentToDoDataWithLocalStorage();
-  }, [day, month, year, allDataCleared, todayCleared]);
+    return returnTodoData(...unitsAsInt);
+  }, [day, month, year, allDataCleared, todayCleared, currentToDoDataChanged]);
 
   // keeping allTodos in sync with localStorage
-  const [allTodos, syncAllTodosWithLocalStorage] = useReducer(() => returnAllTodos(), []);
+  const [allTodosChanged, increaseAllTodosChanged] = useReducer((prev) => prev + 1, 0);
   // initialize to entry, and if entry gets cleared, adapt to changes
-  useEffect(() => {
-    syncAllTodosWithLocalStorage();
-  }, [day, month, year, allDataCleared]);
+  const allTodos = useMemo(() => returnAllTodos(), [day, month, year, allDataCleared, allTodosChanged]);
 
   // for rendering todos
   const currentToDoDataAsArray = Object.entries(currentToDoData);
@@ -62,14 +60,14 @@ const Checklist = () => {
   return (
     <div id="checklist" className="column-container" tabIndex="-1">
       <h1><time dateTime={`${year}-${month}-${day}`}>{`${day} ${monthNames[parseInt(month, 10)]} ${year}`}</time></h1>
-      <CreateTodo helperBundle={{ unitsAsInt, syncCurrentToDoDataWithLocalStorage, year, month, day, syncAllTodosWithLocalStorage }} />
+      <CreateTodo helperBundle={{ unitsAsInt, increaseCurrentToDoDataChanged, year, month, day, increaseAllTodosChanged }} />
       { currentToDoDataAsArray.map((array) => {
         const [ todoId, checked ] = array;
         return (
           <Todo 
             // todoId is concatenated with date, so that if data changes, uncontrolled inputs will be reset
             key={year + month + day + todoId}
-            helperBundle={{syncCurrentToDoDataWithLocalStorage, allTodos, day, month, year, unitsAsInt, todoId, checked, todayCleared}}
+            helperBundle={{increaseCurrentToDoDataChanged, allTodos, day, month, year, unitsAsInt, todoId, checked, todayCleared}}
           />
         );
       }) }
@@ -79,7 +77,7 @@ const Checklist = () => {
  
 export default Checklist;
 
-const CreateTodo = ({ helperBundle: { unitsAsInt, syncCurrentToDoDataWithLocalStorage, year, month, day, syncAllTodosWithLocalStorage }}) => {
+const CreateTodo = ({ helperBundle: { unitsAsInt, increaseCurrentToDoDataChanged, year, month, day, increaseAllTodosChanged }}) => {
   // when mounts, focus on the create todo input
   const { refs: { createTodoRef }, helpers: { focusOnCreateTodo, resetValueOfCreateTodo } } = useContext(refContext);
   useEffect(() => {
@@ -91,13 +89,13 @@ const CreateTodo = ({ helperBundle: { unitsAsInt, syncCurrentToDoDataWithLocalSt
   // currentToDoData should be in sync with localStorage entry
   function addToCurrentToDoDataAndSync(todoId) {
     addToTodoData(todoId, ...unitsAsInt);
-    syncCurrentToDoDataWithLocalStorage();
+    increaseCurrentToDoDataChanged();
   }
 
   // allTodos should be in sync with localStorage entry
   function addToAllTodosAndSync(todoString) {
     const idAssigned = addToAllTodos(todoString);
-    syncAllTodosWithLocalStorage();
+    increaseAllTodosChanged();
     return idAssigned;
   }
 
@@ -128,7 +126,7 @@ const CreateTodo = ({ helperBundle: { unitsAsInt, syncCurrentToDoDataWithLocalSt
   )
 }
 
-const Todo = ({helperBundle: {syncCurrentToDoDataWithLocalStorage, allTodos, day, month, year, unitsAsInt, todoId, checked, todayCleared}}) => {
+const Todo = ({helperBundle: {increaseCurrentToDoDataChanged, allTodos, day, month, year, unitsAsInt, todoId, checked, todayCleared}}) => {
   const currentDate = useContext(currentDateContext);
 
   // for the appearance of helpers (individually)
@@ -140,7 +138,7 @@ const Todo = ({helperBundle: {syncCurrentToDoDataWithLocalStorage, allTodos, day
     setHelperState(false);
   }
 
-  // global state used locally, so that local changes won't cause re-render (though global changes are still impactful)
+  // global state used locally, so that local changes won't cause re-render (though global changes are still impactful due to key prop)
   // todayCleared is a dependency, because it might change 'checked' from 0 => 0, which wouldn't trigger effect
   const [localChecked, setLocalChecked] = useLocalStateFromProp(checked, [todayCleared]);
   
@@ -150,7 +148,7 @@ const Todo = ({helperBundle: {syncCurrentToDoDataWithLocalStorage, allTodos, day
   // currentToDoData should be in sync with localStorage entry
   function removeFromCurrentToDoDataAndSync(todoId) {
     removeFromTodoData(todoId, ...unitsAsInt);
-    syncCurrentToDoDataWithLocalStorage();
+    increaseCurrentToDoDataChanged();
   }
   // for performance optimization, todoState locally managed, hence only in sync with localStorgae (not with currentTodoData)
   function updateAndSyncTodoState(todoIdUpdate, checked) {
