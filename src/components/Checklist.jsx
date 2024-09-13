@@ -43,7 +43,6 @@ const Checklist = () => {
   const unitsAsInt = [parseInt(year, 10), parseInt(month, 10), parseInt(day, 10)];
 
   const [currentToDoData, syncCurrentToDoDataWithLocalStorage] = useReducer(() => returnTodoData(...unitsAsInt), {});
-
   // bring the stored data of date, or if it doesn't exist create it
   // if data is cleared, clean-up and keep the state and localStorage in sync, otherwise old data will be seen
   useEffect(() => {
