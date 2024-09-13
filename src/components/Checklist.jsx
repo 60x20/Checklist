@@ -51,10 +51,10 @@ const Checklist = () => {
   }, [day, month, year, allDataCleared, todayCleared]);
 
   // keeping allTodos in sync with localStorage
-  const [ allTodos, setAllTodos ] = useState([]);
+  const [allTodos, syncAllTodosWithLocalStorage] = useReducer(() => returnAllTodos(), []);
   // initialize to entry, and if entry gets cleared, adapt to changes
   useEffect(() => {
-    setAllTodos(returnAllTodos());
+    syncAllTodosWithLocalStorage();
   }, [allDataCleared]);
 
   // for rendering todos
@@ -96,7 +96,7 @@ const CreateTodo = () => {
   // allTodos should be in sync with localStorage entry
   function addToAllTodosAndSync(todoString) {
     const idAssigned = addToAllTodos(todoString);
-    setAllTodos([...allTodos, todoString]);
+    syncAllTodosWithLocalStorage();
     return idAssigned;
   }
 
