@@ -17,22 +17,6 @@ import { returnAllTodos, addToAllTodos, updateTodoString } from "../helpers/allT
 import { returnTodoData, validateToDoData, addToTodoData, removeFromTodoData, updateTodoState } from "../helpers/todoDataHelpers";
 import { monthNames } from "../helpers/validateUnitsFromDate";
 
-// custom hooks
-function useLocalStateFromProp(prop, otherDependencies = []) {
-  // initialize to prop, and if prop changes, adapt; otherwise keep using the local version
-  // helpful if global state used locally, so that local changes won't cause re-render (though global changes are still impactful)
-
-  // prop might be old if it changes inside Effect, but since used as a dependency, new one will always be used
-  // other dependencies can be used to force the usage of prop
-  // for example, a reset function can change prop from 0 => 0, which wouldn't trigger Effect
-  const [localState, setLocalState] = useState(prop);
-  useEffect(() => {
-    setLocalState(prop);
-  }, [prop, ...otherDependencies])
-
-  return [localState, setLocalState];
-}
-
 const Checklist = () => {
   const { year, month, day } = useContext(requestedDateValidatedContext);
   const { allDataCleared } = useContext(allDataClearedContext); // when changes, new data will be brought
@@ -139,8 +123,10 @@ const Todo = ({helperBundle: {increaseCurrentToDoDataChanged, allTodos, day, mon
   }
 
   // global state used locally, so that local changes won't cause re-render (though global changes are still impactful due to key prop)
-  // todayCleared is a dependency, because it might change 'checked' from 0 => 0, which wouldn't trigger effect
-  const [localChecked, setLocalChecked] = useLocalStateFromProp(checked, [todayCleared]);
+  const [localChecked, setLocalChecked] = useState(checked);
+  useEffect(() => {
+    setLocalChecked(checked);
+  }, [todayCleared]) // if today gets cleared, localChecked should adapt
   
   // since allTodos[todoId] is only changed here, and nowhere else, it's safe to only use global state initially, local value will always be the latest
   const [localTodoDescription, setLocalTodoDescription] = useState(allTodos[todoId]);
