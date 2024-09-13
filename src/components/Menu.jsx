@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 // contexts
 import { menuStateContext } from '../providers/MenuStateProvider';
 import { currentDateContext } from '../providers/CurrentDateProvider';
-import { amountOfClearsContext } from "../providers/AmountOfClearsProvider";
+import { allDataClearedContext } from "../providers/AllDataClearedProvider";
 import { todayClearedContext } from "../providers/TodayClearedProvider";
 import { requestedDateValidatedContext } from "../providers/RequestedDateValidatedProvider";
 import { refContext } from "../providers/RefProvider";
@@ -23,7 +23,7 @@ const Menu = () => {
   const { year, month, day } = useContext(requestedDateValidatedContext);
   const unitsAsInt = [parseInt(year, 10), parseInt(month, 10), parseInt(day, 10)]; // used as array indexes
 
-  const { increaseAmountOfClears } = useContext(amountOfClearsContext);
+  const { increaseAllDataCleared } = useContext(allDataClearedContext);
   const { increaseTodayCleared } = useContext(todayClearedContext);
 
   const { refs: { menuRef }, helpers: { focusOnCreateTodo, focusOnFirstMenuItem, focusOnLastMenuItem, focusOnFirstItemInsideVisualizer } } = useContext(refContext);
@@ -81,7 +81,7 @@ const Menu = () => {
     const confirmed = window.confirm('Are you sure you want to permanently delete all your data? This action cannot be undone.');
     if (!confirmed) return;
     resetAllData();
-    increaseAmountOfClears(); // informing checklist that data is reset, allowing it to clean-up (otherwise old data will be seen)
+    increaseAllDataCleared(); // informing checklist that data is reset, allowing it to clean-up (otherwise old data will be seen)
 
     focusOnCreateTodo(); // move focus to create-todo
   }

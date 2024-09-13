@@ -11,7 +11,7 @@ import { extractYear, extractMonth, validateDate, monthNames } from "../helpers/
 import { returnYearEntry } from "../helpers/todoDataHelpers";
 
 // contexts
-import { amountOfClearsContext } from "../providers/AmountOfClearsProvider";
+import { allDataClearedContext } from "../providers/AllDataClearedProvider";
 import { refContext } from "../providers/RefProvider";
 
 export const VisualizerLayout = () => {
@@ -25,7 +25,7 @@ export const VisualizerLayout = () => {
 }
 
 export const MonthVisualizer = () => {
-  useContext(amountOfClearsContext); // when data is cleared, re-render
+  useContext(allDataClearedContext); // when data is cleared, re-render
 
   // a specific month requested
   const { year, month } = useParams();
@@ -68,7 +68,7 @@ export const MonthVisualizer = () => {
 }
 
 export const YearVisualizer = () => {
-  useContext(amountOfClearsContext); // when data is cleared, re-render
+  useContext(allDataClearedContext); // when data is cleared, re-render
 
   // a specific year requested
   const { year } = useParams();
@@ -99,7 +99,7 @@ export const YearVisualizer = () => {
 }
 
 export const AllYearsVisualizer = () => {
-  useContext(amountOfClearsContext); // when data is cleared, re-render
+  useContext(allDataClearedContext); // when data is cleared, re-render
   
   // when rendered focus on the first link
   const { helpers: { focusOnFirstItemInsideVisualizer } } = useContext(refContext);

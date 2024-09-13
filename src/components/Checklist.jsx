@@ -6,7 +6,7 @@ import { faBars, faXmark } from '@fortawesome/free-solid-svg-icons';
 
 // contexts
 import { currentDateContext } from "../providers/CurrentDateProvider";
-import { amountOfClearsContext } from "../providers/AmountOfClearsProvider";
+import { allDataClearedContext } from "../providers/AllDataClearedProvider";
 import { requestedDateValidatedContext } from "../providers/RequestedDateValidatedProvider";
 import { todayClearedContext } from "../providers/TodayClearedProvider";
 import { refContext } from "../providers/RefProvider";
@@ -42,7 +42,7 @@ const Checklist = () => {
 
   const { year, month, day } = useContext(requestedDateValidatedContext);
   const currentDate = useContext(currentDateContext);
-  const { amountOfClears } = useContext(amountOfClearsContext); // when changes, new data will be brought
+  const { allDataCleared } = useContext(allDataClearedContext); // when changes, new data will be brought
   const { todayCleared } = useContext(todayClearedContext); // when changes, new data will be brought
 
   // converted into numbers so that they are considered array indexes
@@ -55,17 +55,17 @@ const Checklist = () => {
   // if data is cleared, clean-up and keep the state and localStorage in sync, otherwise old data will be seen
   useEffect(() => {
     validateToDoData(...unitsAsInt);
-  }, [day, month, year, amountOfClears, todayCleared]);
+  }, [day, month, year, allDataCleared, todayCleared]);
   useEffect(() => {
     setCurrentToDoData(returnTodoData(...unitsAsInt));
-  }, [day, month, year, amountOfClears, todayCleared, currentTodoChanged]);
+  }, [day, month, year, allDataCleared, todayCleared, currentTodoChanged]);
 
   // keeping allTodos in sync with localStorage
   const [ allTodos, setAllTodos ] = useState([]);
   // initialize to entry, and if entry gets cleared, adapt to changes
   useEffect(() => {
     setAllTodos(returnAllTodos());
-  }, [amountOfClears]);
+  }, [allDataCleared]);
 
   // currentToDoData should be in sync with localStorage entry
   function addToCurrentToDoDataAndSync(todoId) {
