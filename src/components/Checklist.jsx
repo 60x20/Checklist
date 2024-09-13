@@ -114,7 +114,7 @@ const CreateTodo = () => {
     }
     addToCurrentToDoDataAndSync(idAssigned);
 
-    resetValueOfCreateTodo(); // Value is reset on submit to make known value is added
+    resetValueOfCreateTodo(); // value is reset on submit to make known value is added
   }
 
   return (
