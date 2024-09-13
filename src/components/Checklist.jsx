@@ -64,19 +64,6 @@ const Checklist = () => {
     setAllTodos(returnAllTodos());
   }, [allDataCleared]);
 
-  // currentToDoData should be in sync with localStorage entry
-  function addToCurrentToDoDataAndSync(todoId) {
-    addToTodoData(todoId, ...unitsAsInt);
-    syncCurrentToDoDataWithLocalStorage();
-  }
-
-  // allTodos should be in sync with localStorage entry
-  function addToAllTodosAndSync(todoString) {
-    const idAssigned = addToAllTodos(todoString);
-    setAllTodos([...allTodos, todoString]);
-    return idAssigned;
-  }
-  
   // for rendering todos
   const currentToDoDataAsArray = Object.entries(currentToDoData);
 
@@ -101,7 +88,19 @@ const Checklist = () => {
 export default Checklist;
 
 const CreateTodo = () => {
-  
+
+  // currentToDoData should be in sync with localStorage entry
+  function addToCurrentToDoDataAndSync(todoId) {
+    addToTodoData(todoId, ...unitsAsInt);
+    syncCurrentToDoDataWithLocalStorage();
+  }
+
+  // allTodos should be in sync with localStorage entry
+  function addToAllTodosAndSync(todoString) {
+    const idAssigned = addToAllTodos(todoString);
+    setAllTodos([...allTodos, todoString]);
+    return idAssigned;
+  }
 
   // handlers
   function createTodoHandler(e) {
