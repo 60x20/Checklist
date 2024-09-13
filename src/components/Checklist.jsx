@@ -35,7 +35,6 @@ function useLocalStateFromProp(prop, otherDependencies = []) {
 
 const Checklist = () => {
   const { year, month, day } = useContext(requestedDateValidatedContext);
-  const currentDate = useContext(currentDateContext);
   const { allDataCleared } = useContext(allDataClearedContext); // when changes, new data will be brought
   const { todayCleared } = useContext(todayClearedContext); // when changes, new data will be brought
 
@@ -87,6 +86,8 @@ const CreateTodo = () => {
     focusOnCreateTodo();
   }, []);
 
+  const currentDate = useContext(currentDateContext);
+
   // currentToDoData should be in sync with localStorage entry
   function addToCurrentToDoDataAndSync(todoId) {
     addToTodoData(todoId, ...unitsAsInt);
@@ -128,6 +129,8 @@ const CreateTodo = () => {
 }
 
 const Todo = ({helperBundle: {syncCurrentToDoDataWithLocalStorage, allTodos, day, month, year, unitsAsInt, currentDate, todoId, checked, todayCleared}}) => {
+  const currentDate = useContext(currentDateContext);
+
   // for the appearance of helpers (individually)
   const [helperState, setHelperState] = useState(false); // by default helper closed
   function toggleHelperState() {
