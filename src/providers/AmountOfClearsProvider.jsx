@@ -1,21 +1,18 @@
-import { createContext, useState } from "react";
+import { createContext, useReducer } from "react";
 
-export const amountOfClearsContext = createContext();
+export const allDataClearedContext = createContext();
 
-const AmountOfClearsProvider = ({ children }) => {
+const AllDataClearedProvider = ({ children }) => {
   // inform the children, if clear occurs; let them clean-up
 
   // instead of true-false, numbers used, with this approach there won't be unnecessary re-renderings
-  const [amountOfClears, setAmountOfClears] = useState(0);
-  function increaseAmountOfClears() {
-    setAmountOfClears((prevAmount) => prevAmount + 1);
-  }
+  const [allDataCleared, increaseAllDataCleared] = useReducer((prev) => prev + 1, 0);
 
   return ( 
-    <amountOfClearsContext.Provider value={{ amountOfClears, increaseAmountOfClears }}>
+    <allDataClearedContext.Provider value={{ allDataCleared, increaseAllDataCleared }}>
       {children}
-    </amountOfClearsContext.Provider>
+    </allDataClearedContext.Provider>
   );
 }
  
-export default AmountOfClearsProvider;
+export default AllDataClearedProvider;
