@@ -143,7 +143,7 @@ const Todo = ({helperBundle: {increaseCurrentToDoDataChanged, allTodos, day, mon
   const [localChecked, setLocalChecked] = useLocalStateFromProp(checked, [todayCleared]);
   
   // since allTodos[todoId] is only changed here, and nowhere else, it's safe to only use global state initially, local value will always be the latest
-  const [localTodoDescription, setLocalTodoDescription] = useLocalStateFromProp(allTodos[todoId]);
+  const [localTodoDescription, setLocalTodoDescription] = useState(allTodos[todoId]);
 
   // currentToDoData should be in sync with localStorage entry
   function removeFromCurrentToDoDataAndSync(todoId) {
