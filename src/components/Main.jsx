@@ -1,18 +1,18 @@
 // providers
-import AmountOfClearsProvider from "../providers/AmountOfClearsProvider";
+import AllDataClearedProvider from "../providers/AllDataClearedProvider";
 import TodayClearedProvider from "../providers/TodayClearedProvider";
 import RequestedDateValidatedProvider from "../providers/RequestedDateValidatedProvider";
 
 const Main = ({ children }) => {
   return (
     <main>
-      <AmountOfClearsProvider>
+      <AllDataClearedProvider>
         <TodayClearedProvider>
           <RequestedDateValidatedProvider>
             {children}
           </RequestedDateValidatedProvider>
         </TodayClearedProvider>
-      </AmountOfClearsProvider>
+      </AllDataClearedProvider>
     </main>
   );
 }
