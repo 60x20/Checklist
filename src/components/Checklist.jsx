@@ -55,7 +55,7 @@ const Checklist = () => {
   // initialize to entry, and if entry gets cleared, adapt to changes
   useEffect(() => {
     syncAllTodosWithLocalStorage();
-  }, [allDataCleared]);
+  }, [day, month, year, allDataCleared]);
 
   // for rendering todos
   const currentToDoDataAsArray = Object.entries(currentToDoData);
