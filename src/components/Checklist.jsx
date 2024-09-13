@@ -99,13 +99,7 @@ const Checklist = () => {
   return (
     <div id="checklist" className="column-container" tabIndex="-1">
       <h1><time dateTime={`${year}-${month}-${day}`}>{`${day} ${monthNames[parseInt(month, 10)]} ${year}`}</time></h1>
-      <form onSubmit={createTodoHandler}>
-        {/* create-todo gets focus, shouldn't be re-created (keys shouldn't be used here) */}
-        <input id="create-todo" ref={createTodoRef} type="text" name="todoName" required
-          title="task to add"
-        />
-        <button>create</button>
-      </form>
+      <CreateTodo />
       { currentToDoDataAsArray.map((array) => {
         const [ todoId, checked ] = array;
         return (
@@ -121,6 +115,20 @@ const Checklist = () => {
 }
  
 export default Checklist;
+
+const CreateTodo = () => {
+  
+
+  return (
+    <form onSubmit={createTodoHandler}>
+      {/* create-todo gets focus, shouldn't be re-created (keys shouldn't be used here) */}
+      <input id="create-todo" ref={createTodoRef} type="text" name="todoName" required
+        title="task to add"
+      />
+      <button>create</button>
+    </form>
+  )
+}
 
 const Todo = ({helperBundle: {syncCurrentToDoDataWithLocalStorage, allTodos, day, month, year, unitsAsInt, currentDate, todoId, checked, todayCleared}}) => {
   // for the appearance of helpers (individually)
