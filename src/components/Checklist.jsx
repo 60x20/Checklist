@@ -62,7 +62,7 @@ const Checklist = () => {
   return (
     <div id="checklist" className="column-container" tabIndex="-1">
       <h1><time dateTime={`${year}-${month}-${day}`}>{`${day} ${monthNames[parseInt(month, 10)]} ${year}`}</time></h1>
-      <CreateTodo />
+      <CreateTodo helperBundle={{ unitsAsInt, syncCurrentToDoDataWithLocalStorage, year, month, day, syncAllTodosWithLocalStorage }} />
       { currentToDoDataAsArray.map((array) => {
         const [ todoId, checked ] = array;
         return (
@@ -79,7 +79,7 @@ const Checklist = () => {
  
 export default Checklist;
 
-const CreateTodo = () => {
+const CreateTodo = ({ helperBundle: { unitsAsInt, syncCurrentToDoDataWithLocalStorage, year, month, day, syncAllTodosWithLocalStorage }}) => {
   // when mounts, focus on the create todo input
   const { refs: { createTodoRef }, helpers: { focusOnCreateTodo, resetValueOfCreateTodo } } = useContext(refContext);
   useEffect(() => {
