@@ -34,6 +34,12 @@ function useLocalStateFromProp(prop, otherDependencies = []) {
 }
 
 const Checklist = () => {
+  // when mounts, focus on the create todo input
+  const { refs: { createTodoRef }, helpers: { focusOnCreateTodo, resetValueOfCreateTodo } } = useContext(refContext);
+  useEffect(() => {
+    focusOnCreateTodo();
+  }, []);
+
   const { year, month, day } = useContext(requestedDateValidatedContext);
   const currentDate = useContext(currentDateContext);
   const { amountOfClears } = useContext(amountOfClearsContext); // when changes, new data will be brought
@@ -53,12 +59,6 @@ const Checklist = () => {
   useEffect(() => {
     setCurrentToDoData(returnTodoData(...unitsAsInt));
   }, [day, month, year, amountOfClears, todayCleared, currentTodoChanged]);
-
-  // when mounts, focus on the create todo input
-  const { refs: { createTodoRef }, helpers: { focusOnCreateTodo, resetValueOfCreateTodo } } = useContext(refContext);
-  useEffect(() => {
-    focusOnCreateTodo();
-  }, []);
 
   // keeping allTodos in sync with localStorage
   const [ allTodos, setAllTodos ] = useState([]);
