@@ -69,7 +69,7 @@ const Checklist = () => {
           <Todo 
             // todoId is concatenated with date, so that if data changes, uncontrolled inputs will be reset
             key={year + month + day + todoId}
-            helperBundle={{syncCurrentToDoDataWithLocalStorage, allTodos, day, month, year, unitsAsInt, currentDate, todoId, checked, todayCleared}}
+            helperBundle={{syncCurrentToDoDataWithLocalStorage, allTodos, day, month, year, unitsAsInt, todoId, checked, todayCleared}}
           />
         );
       }) }
@@ -128,7 +128,7 @@ const CreateTodo = () => {
   )
 }
 
-const Todo = ({helperBundle: {syncCurrentToDoDataWithLocalStorage, allTodos, day, month, year, unitsAsInt, currentDate, todoId, checked, todayCleared}}) => {
+const Todo = ({helperBundle: {syncCurrentToDoDataWithLocalStorage, allTodos, day, month, year, unitsAsInt, todoId, checked, todayCleared}}) => {
   const currentDate = useContext(currentDateContext);
 
   // for the appearance of helpers (individually)
