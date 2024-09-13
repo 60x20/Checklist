@@ -24,7 +24,7 @@ export function validateToDoData(year, month, day) {
 
   if (
     !yearEntry[month][day] || // if empty, initialize it
-    !Object.keys(yearEntry[month][day]).length // if it's an empty object, try the template, it might be polluted
+    !Object.keys(yearEntry[month][day]).length // if it's an empty object, try the template, it might be populated
   ) {
     // use the latest one (might return an empty object)
     yearEntry[month][day] = returnTodosTemplate(); // key-value pairs are used
