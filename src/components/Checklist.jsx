@@ -1,4 +1,4 @@
-import { useContext, useEffect, useMemo, useReducer, useState } from "react";
+import { useContext, useEffect, useMemo, useReducer, useRef, useState } from "react";
 
 // font awesome
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -9,7 +9,7 @@ import { currentDateContext } from "../providers/CurrentDateProvider";
 import { allDataClearedContext } from "../providers/AllDataClearedProvider";
 import { requestedDateValidatedContext } from "../providers/RequestedDateValidatedProvider";
 import { todayClearedContext } from "../providers/TodayClearedProvider";
-import { refContext } from "../providers/RefProvider";
+import { refContext, focusOnFirstItemFromRef } from "../providers/RefProvider";
 
 // helpers
 import { addToTodosTemplate, removeFromTodosTemplate } from "../helpers/todosTemplateHelpers";
@@ -199,12 +199,14 @@ const Todo = ({helperBundle: {increaseCurrentToDoDataChanged, allTodos, day, mon
 };
 
 const TodoHelpers = ({helperBundle: {todoId, updateTodoStringHandler, removeFromTodoHandler}}) => {
+  const helperMenuRef = useRef();
+
   useEffect(() => {
-    // focus();
-  }, []);
+    focusOnFirstItemFromRef(helperMenuRef);
+  }, []); // when mounts focus on the first item
 
   return (<>
-  <div className="row-container helpers">
+  <div className="row-container helpers" ref={helperMenuRef}>
     {/* when any of the helpers are used, helper menu should be closed */}
     {/* focus should be managed when menu closes or opens */}
     <form data-id-to-update={todoId} onSubmit={updateTodoStringHandler}>

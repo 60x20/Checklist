@@ -17,7 +17,7 @@ function focusFromEl(el) {
 function focusFromRef(ref) {
   focusFromEl(ref.current);
 }
-function focusOnFirstItemFromRef(ref) {
+export function focusOnFirstItemFromRef(ref) {
   if (!ref.current) return;
   const firstItem = ref.current.querySelector('a, button, input');
   focusFromEl(firstItem);
