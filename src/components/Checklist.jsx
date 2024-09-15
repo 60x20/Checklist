@@ -9,7 +9,7 @@ import { currentDateContext } from "../providers/CurrentDateProvider";
 import { allDataClearedContext } from "../providers/AllDataClearedProvider";
 import { requestedDateValidatedContext } from "../providers/RequestedDateValidatedProvider";
 import { todayClearedContext } from "../providers/TodayClearedProvider";
-import { refContext, focusOnFirstItemFromRef } from "../providers/RefProvider";
+import { refContext, focusOnFirstItemFromRef, focusFromRef } from "../providers/RefProvider";
 
 // helpers
 import { addToTodosTemplate, removeFromTodosTemplate } from "../helpers/todosTemplateHelpers";
@@ -126,6 +126,7 @@ const Todo = ({helperBundle: {increaseCurrentToDoDataChanged, allTodos, day, mon
   function closeHelperMenu() {
     setHelperState(false);
   }
+  const helperMenuTogglerRef = useRef();
 
   // global state used locally, so that local changes won't cause re-render (though global changes are still impactful due to key prop)
   const [localChecked, setLocalChecked] = useState(checked);
@@ -178,6 +179,7 @@ const Todo = ({helperBundle: {increaseCurrentToDoDataChanged, allTodos, day, mon
     updateTodoStringAndSync(todoIdToUpdate, todoString);
     
     closeHelperMenu(); // close the helper menu
+    focusFromRef(helperMenuTogglerRef);
   }
 
   return (
@@ -190,6 +192,7 @@ const Todo = ({helperBundle: {increaseCurrentToDoDataChanged, allTodos, day, mon
         <button
           className="toggler-with-icon"
           onClick={() => toggleHelperState()}
+          ref={helperMenuTogglerRef}
           title={helperState ? "Close helpers." : "Open helpers."}
           type="button"
         >
