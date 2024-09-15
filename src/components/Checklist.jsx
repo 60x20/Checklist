@@ -57,7 +57,7 @@ const Checklist = () => {
       }) }
     </div>
   );
-}
+};
  
 export default Checklist;
 
@@ -108,7 +108,7 @@ const CreateTodo = ({ helperBundle: { unitsAsInt, increaseCurrentToDoDataChanged
       <button>create</button>
     </form>
   )
-}
+};
 
 const Todo = ({helperBundle: {increaseCurrentToDoDataChanged, allTodos, day, month, year, unitsAsInt, todoId, checked, todayCleared}}) => {
   const currentDate = useContext(currentDateContext);
@@ -126,7 +126,7 @@ const Todo = ({helperBundle: {increaseCurrentToDoDataChanged, allTodos, day, mon
   const [localChecked, setLocalChecked] = useState(checked);
   useEffect(() => {
     setLocalChecked(checked);
-  }, [todayCleared]) // if today gets cleared, localChecked should adapt
+  }, [todayCleared]); // if today gets cleared, localChecked should adapt
   
   // since allTodos[todoId] is only changed here, and nowhere else, it's safe to only use global state initially, local value will always be the latest
   const [localTodoDescription, setLocalTodoDescription] = useState(allTodos[todoId]);
@@ -196,7 +196,7 @@ const Todo = ({helperBundle: {increaseCurrentToDoDataChanged, allTodos, day, mon
       : false }
     </div>
   );
-}
+};
 
 const TodoHelpers = ({helperBundle: {todoId, updateTodoStringHandler, removeFromTodoHandler}}) => {
   useEffect(() => {
@@ -216,4 +216,4 @@ const TodoHelpers = ({helperBundle: {todoId, updateTodoStringHandler, removeFrom
     <button onClick={removeFromTodoHandler} type="button" data-id-to-remove={todoId}>remove</button>
   </div>
   </>);
-}
+};
