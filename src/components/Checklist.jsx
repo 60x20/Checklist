@@ -17,6 +17,9 @@ import { returnAllTodos, addToAllTodos, updateTodoString } from "../helpers/allT
 import { returnTodoData, validateToDoData, addToTodoData, removeFromTodoData, updateTodoState } from "../helpers/todoDataHelpers";
 import { monthNames } from "../helpers/validateUnitsFromDate";
 
+// custom hooks
+import { useEffectDuringRender } from "../helpers/customHooks";
+
 const Checklist = () => {
   const { year, month, day } = useContext(requestedDateValidatedContext);
   const { allDataCleared } = useContext(allDataClearedContext); // when changes, new data will be brought
@@ -28,7 +31,7 @@ const Checklist = () => {
   const [currentToDoDataChanged, increaseCurrentToDoDataChanged] = useReducer((prev) => prev + 1, 0);
   // bring the stored data of date, or if it doesn't exist create it
   // if data is cleared, clean-up and keep the state and localStorage in sync, otherwise old data will be seen
-  useMemo(() => {
+  useEffectDuringRender(() => {
     validateToDoData(...unitsAsInt);
   }, [day, month, year, allDataCleared, todayCleared]); // don't validate if todo data changes, otherwise every todo can't be removed
   const currentToDoData = useMemo(() => {
