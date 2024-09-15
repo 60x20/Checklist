@@ -9,7 +9,7 @@ import { currentDateContext } from "../providers/CurrentDateProvider";
 import { allDataClearedContext } from "../providers/AllDataClearedProvider";
 import { requestedDateValidatedContext } from "../providers/RequestedDateValidatedProvider";
 import { todayClearedContext } from "../providers/TodayClearedProvider";
-import { refContext, focusOnFirstItemFromRef, focusFromRef } from "../providers/RefProvider";
+import { refContext, focusOnFirstItemFromRef, focusFromEl } from "../providers/RefProvider";
 
 // helpers
 import { addToTodosTemplate, removeFromTodosTemplate } from "../helpers/todosTemplateHelpers";
