@@ -28,8 +28,10 @@ const Checklist = () => {
   const [currentToDoDataChanged, increaseCurrentToDoDataChanged] = useReducer((prev) => prev + 1, 0);
   // bring the stored data of date, or if it doesn't exist create it
   // if data is cleared, clean-up and keep the state and localStorage in sync, otherwise old data will be seen
-  const currentToDoData = useMemo(() => {
+  useMemo(() => {
     validateToDoData(...unitsAsInt);
+  }, [day, month, year, allDataCleared, todayCleared]); // don't validate if todo data changes, otherwise every todo can't be removed
+  const currentToDoData = useMemo(() => {
     return returnTodoData(...unitsAsInt);
   }, [day, month, year, allDataCleared, todayCleared, currentToDoDataChanged]);
 
