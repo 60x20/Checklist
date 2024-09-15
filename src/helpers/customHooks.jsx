@@ -1,3 +1,12 @@
+function depsShallowlyEqual(firstDeps, secondDeps) {
+  // deps assumed to be arrays of the same length
+  if (firstDeps === null || secondDeps === null) return false;
+
+  for (let i = 0; i < firstDeps.length; i++) {
+    if (firstDeps[i] !== secondDeps[i]) return false;
+  }
+  return true;
+}
 
 export function useEffectDuringRender(callback, currentDeps = []) {
   const prevDeps = useRef(null);
