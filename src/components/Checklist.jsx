@@ -1,4 +1,4 @@
-import { useContext, useEffect, useMemo, useReducer, useRef, useState } from "react";
+import { useCallback, useContext, useEffect, useMemo, useReducer, useRef, useState } from "react";
 
 // font awesome
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -44,19 +44,20 @@ const Checklist = () => {
   const allTodos = useMemo(() => returnAllTodos(), [day, month, year, allDataCleared, allTodosChanged]);
 
   // for rendering todos
+  const todoOrderRef = useRef([]);
   const currentToDoDataAsArray = Object.entries(currentToDoData);
 
   return (
     <div id="checklist" className="column-container" tabIndex="-1">
       <h1><time dateTime={`${year}-${month}-${day}`}>{`${day} ${monthNames[parseInt(month, 10)]} ${year}`}</time></h1>
       <CreateTodo helperBundle={{ unitsAsInt, increaseCurrentToDoDataChanged, year, month, day, increaseAllTodosChanged }} />
-      { currentToDoDataAsArray.map((array) => {
+      { currentToDoDataAsArray.map((array, order) => {
         const [ todoId, checked ] = array;
         return (
           <Todo 
             // todoId is concatenated with date, so that if data changes, uncontrolled inputs will be reset
             key={year + month + day + todoId}
-            helperBundle={{increaseCurrentToDoDataChanged, allTodos, day, month, year, unitsAsInt, todoId, checked, todayCleared}}
+            helperBundle={{increaseCurrentToDoDataChanged, allTodos, day, month, year, unitsAsInt, todoId, checked, todayCleared, todoOrderRef, order}}
           />
         );
       }) }
@@ -115,7 +116,7 @@ const CreateTodo = ({ helperBundle: { unitsAsInt, increaseCurrentToDoDataChanged
   )
 };
 
-const Todo = ({helperBundle: {increaseCurrentToDoDataChanged, allTodos, day, month, year, unitsAsInt, todoId, checked, todayCleared}}) => {
+const Todo = ({helperBundle: {increaseCurrentToDoDataChanged, allTodos, day, month, year, unitsAsInt, todoId, checked, todayCleared, todoOrderRef, order}}) => {
   const currentDate = useContext(currentDateContext);
 
   // for the appearance of helpers (individually)
@@ -126,7 +127,9 @@ const Todo = ({helperBundle: {increaseCurrentToDoDataChanged, allTodos, day, mon
   function closeHelperMenu() {
     setHelperState(false);
   }
-  const helperMenuTogglerRef = useRef();
+  const refCallbackForToggler = useCallback((el) => todoOrderRef.current[order] = el, [order]); // memoized to avoid re-attaching
+  // when the order changes, the previous callback gets called with the older order, nullifying the entry
+  // but since this cleanup happens before recent callback gets executed, null entries will be filled correctly
 
   // global state used locally, so that local changes won't cause re-render (though global changes are still impactful due to key prop)
   const [localChecked, setLocalChecked] = useState(checked);
@@ -192,7 +195,7 @@ const Todo = ({helperBundle: {increaseCurrentToDoDataChanged, allTodos, day, mon
         <button
           className="toggler-with-icon"
           onClick={() => toggleHelperState()}
-          ref={helperMenuTogglerRef}
+          ref={refCallbackForToggler}
           title={helperState ? "Close helpers." : "Open helpers."}
           type="button"
         >
