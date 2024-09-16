@@ -211,6 +211,8 @@ const Todo = ({helperBundle: {increaseCurrentToDoDataChanged, allTodos, day, mon
           ref={refCallbackForToggler}
           title={helperState ? "Close helpers." : "Open helpers."}
           type="button"
+          aria-haspopup="menu"
+          aria-expanded={helperState}
         >
           <FontAwesomeIcon icon={helperState ? faXmark : faBars} />
         </button>
@@ -230,7 +232,7 @@ const TodoHelpers = ({helperBundle: {todoId, updateTodoStringHandler, removeFrom
   }, []); // when mounts focus on the first item
 
   return (<>
-  <div className="row-container helpers" ref={helperMenuRef}>
+  <div className="row-container helpers" ref={helperMenuRef} role="menu">
     {/* when any of the helpers are used, helper menu should be closed */}
     {/* focus should be managed when menu closes or opens */}
     <form data-id-to-update={todoId} onSubmit={updateTodoStringHandler}>
