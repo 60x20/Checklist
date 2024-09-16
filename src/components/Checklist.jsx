@@ -130,6 +130,17 @@ const Todo = ({helperBundle: {increaseCurrentToDoDataChanged, allTodos, day, mon
   const refCallbackForToggler = useCallback((el) => todoOrderRef.current[order] = el, [order]); // memoized to avoid re-attaching
   // when the order changes, the previous callback gets called with the older order, nullifying the entry
   // but since this cleanup happens before recent callback gets executed, null entries will be filled correctly
+  function returnRelativeTodoToggler(n = 0) {
+    return todoOrderRef.current[order + n]; // n = 0: current; n = 1: next; n = -1: previous;
+  }
+  const { helpers: { focusOnCreateTodo } } = useContext(refContext);
+  function focusWhenHelperMenuCloses() {
+    const nextTodoToggler = returnRelativeTodoToggler(1);
+    if (nextTodoToggler) return nextTodoToggler.focus();
+    const prevTodoToggler = returnRelativeTodoToggler(-1);
+    if (prevTodoToggler) return prevTodoToggler.focus();
+    focusOnCreateTodo(); // last resort
+  }
 
   // global state used locally, so that local changes won't cause re-render (though global changes are still impactful due to key prop)
   const [localChecked, setLocalChecked] = useState(checked);
@@ -164,6 +175,8 @@ const Todo = ({helperBundle: {increaseCurrentToDoDataChanged, allTodos, day, mon
       removeFromTodosTemplate(todoIdToRemove);
     }
     removeFromCurrentToDoDataAndSync(todoIdToRemove);
+
+    focusWhenHelperMenuCloses(); // move focus to the nearest element
   }
   function updateTodoStateHandler(e) {
     const todoIdUpdate = e.currentTarget.dataset.idToUpdate;
@@ -182,7 +195,7 @@ const Todo = ({helperBundle: {increaseCurrentToDoDataChanged, allTodos, day, mon
     updateTodoStringAndSync(todoIdToUpdate, todoString);
     
     closeHelperMenu(); // close the helper menu
-    focusFromRef(helperMenuTogglerRef);
+    focusFromEl(returnRelativeTodoToggler()); // move focus to the current todoToggler
   }
 
   return (
