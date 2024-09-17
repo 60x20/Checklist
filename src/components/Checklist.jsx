@@ -261,3 +261,8 @@ const TodoHelpers = ({ todoId, updateTodoStringHandler, removeFromTodoHandler, c
   </div>
   </>);
 };
+
+// TODO: Localize state even further
+// instead of initializing a local state to a prop, try localizing the prop
+// for example, instead of getting "checked" from the parent, which is a more error prone way, get it locally using Effect
+// this way memoization will be easier, errors related to prop changing after initialization won't happen
