@@ -10,6 +10,7 @@
 - [x] Semantic HTML
 - [x] Styling
 - [ ] Accessibility
+- [ ] Localize state even further
 - [ ] Different input types (besides Checkboxes)
 - [ ] CSS lib minification <!-- font-awesome -->
 - [ ] Drag and Drop
