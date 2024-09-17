@@ -247,7 +247,7 @@ const TodoHelpers = ({helperBundle: {todoId, updateTodoStringHandler, removeFrom
   }, [])
 
   return (<>
-  <div className="row-container helpers" ref={helperMenuRef} role="menu">
+  <div className="row-container helpers" ref={helperMenuRef} role="menu" aria-orientation="horizontal">
     {/* when any of the helpers are used, helper menu should be closed */}
     {/* focus should be managed when menu closes or opens */}
     <form data-id-to-update={todoId} onSubmit={updateTodoStringHandler}>
