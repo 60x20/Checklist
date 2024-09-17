@@ -66,7 +66,7 @@ const Checklist = () => {
           <Todo 
             // todoId is concatenated with date, so that if data changes, uncontrolled inputs will be reset
             key={year + month + day + todoId}
-            { ...{increaseCurrentToDoDataChanged, allTodos, day, month, year, unitsAsInt, todoId, checked, todayCleared, todoOrderRef, order, helperMenuClosersRef} }
+            { ...{increaseCurrentToDoDataChanged, todoDescription: allTodos[todoId], day, month, year, unitsAsInt, todoId, checked, todayCleared, todoOrderRef, order, helperMenuClosersRef} }
           />
         );
       }) }
@@ -126,7 +126,7 @@ const CreateTodo = ({ unitsAsInt, increaseCurrentToDoDataChanged, year, month, d
   )
 };
 
-const Todo = ({ increaseCurrentToDoDataChanged, allTodos, day, month, year, unitsAsInt, todoId, checked, todayCleared, todoOrderRef, order, helperMenuClosersRef }) => {
+const Todo = ({ increaseCurrentToDoDataChanged, todoDescription, day, month, year, unitsAsInt, todoId, checked, todayCleared, todoOrderRef, order, helperMenuClosersRef }) => {
   const currentDate = useContext(currentDateContext);
 
   // for the appearance of helpers (individually)
@@ -159,7 +159,7 @@ const Todo = ({ increaseCurrentToDoDataChanged, allTodos, day, month, year, unit
   }, [todayCleared]); // if today gets cleared, localChecked should adapt
   
   // since allTodos[todoId] is only changed here, and nowhere else, it's safe to only use global state initially, local value will always be the latest
-  const [localTodoDescription, setLocalTodoDescription] = useState(allTodos[todoId]);
+  const [localTodoDescription, setLocalTodoDescription] = useState(todoDescription);
 
   // currentToDoData should be in sync with localStorage entry
   function removeFromCurrentToDoDataAndSync(todoId) {
