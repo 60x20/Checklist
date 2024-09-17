@@ -49,8 +49,15 @@ const Checklist = () => {
 
   // for closing all helper menus
   const helperMenuClosersRef = useRef({});
+  function closeAllHelpers() {
+    Object.values(helperMenuClosersRef.current).forEach((closer) => closer());
+  }
+
   return (
-    <div id="checklist" className="column-container" tabIndex="-1">
+    <div id="checklist" className="column-container" tabIndex="-1"
+      // keydown preferred, so that when browser popup gets closed, possible keyUps don't trigger closing
+      onKeyDown={(e) => { if (e.key === 'Escape') closeAllHelpers(); }}
+    >
       <h1><time dateTime={`${year}-${month}-${day}`}>{`${day} ${monthNames[parseInt(month, 10)]} ${year}`}</time></h1>
       <CreateTodo helperBundle={{ unitsAsInt, increaseCurrentToDoDataChanged, year, month, day, increaseAllTodosChanged }} />
       { currentToDoDataAsArray.map((array, order) => {
