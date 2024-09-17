@@ -59,14 +59,14 @@ const Checklist = () => {
       onKeyDown={(e) => { if (e.key === 'Escape') closeAllHelpers(); }}
     >
       <h1><time dateTime={`${year}-${month}-${day}`}>{`${day} ${monthNames[parseInt(month, 10)]} ${year}`}</time></h1>
-      <CreateTodo helperBundle={{ unitsAsInt, increaseCurrentToDoDataChanged, year, month, day, increaseAllTodosChanged }} />
+      <CreateTodo { ...{unitsAsInt, increaseCurrentToDoDataChanged, year, month, day, increaseAllTodosChanged} } />
       { currentToDoDataAsArray.map((array, order) => {
         const [ todoId, checked ] = array;
         return (
           <Todo 
             // todoId is concatenated with date, so that if data changes, uncontrolled inputs will be reset
             key={year + month + day + todoId}
-            helperBundle={{increaseCurrentToDoDataChanged, allTodos, day, month, year, unitsAsInt, todoId, checked, todayCleared, todoOrderRef, order, helperMenuClosersRef}}
+            { ...{increaseCurrentToDoDataChanged, allTodos, day, month, year, unitsAsInt, todoId, checked, todayCleared, todoOrderRef, order, helperMenuClosersRef} }
           />
         );
       }) }
@@ -76,7 +76,7 @@ const Checklist = () => {
  
 export default Checklist;
 
-const CreateTodo = ({ helperBundle: { unitsAsInt, increaseCurrentToDoDataChanged, year, month, day, increaseAllTodosChanged }}) => {
+const CreateTodo = ({ unitsAsInt, increaseCurrentToDoDataChanged, year, month, day, increaseAllTodosChanged }) => {
   // when mounts, focus on the create todo input
   const { refs: { createTodoRef }, helpers: { focusOnCreateTodo, resetValueOfCreateTodo } } = useContext(refContext);
   useEffect(() => {
@@ -126,7 +126,7 @@ const CreateTodo = ({ helperBundle: { unitsAsInt, increaseCurrentToDoDataChanged
   )
 };
 
-const Todo = ({helperBundle: {increaseCurrentToDoDataChanged, allTodos, day, month, year, unitsAsInt, todoId, checked, todayCleared, todoOrderRef, order, helperMenuClosersRef}}) => {
+const Todo = ({ increaseCurrentToDoDataChanged, allTodos, day, month, year, unitsAsInt, todoId, checked, todayCleared, todoOrderRef, order, helperMenuClosersRef }) => {
   const currentDate = useContext(currentDateContext);
 
   // for the appearance of helpers (individually)
@@ -228,13 +228,13 @@ const Todo = ({helperBundle: {increaseCurrentToDoDataChanged, allTodos, day, mon
         </button>
       </div>
       { helperState ?
-      <TodoHelpers helperBundle={{todoId, updateTodoStringHandler, removeFromTodoHandler, closeHelperMenu, helperMenuClosersRef}} />
+      <TodoHelpers { ...{todoId, updateTodoStringHandler, removeFromTodoHandler, closeHelperMenu, helperMenuClosersRef} } />
       : false }
     </div>
   );
 };
 
-const TodoHelpers = ({helperBundle: {todoId, updateTodoStringHandler, removeFromTodoHandler, closeHelperMenu, helperMenuClosersRef}}) => {
+const TodoHelpers = ({ todoId, updateTodoStringHandler, removeFromTodoHandler, closeHelperMenu, helperMenuClosersRef }) => {
   const helperMenuRef = useRef();
 
   useEffect(() => {
