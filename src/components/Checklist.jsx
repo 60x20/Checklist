@@ -1,4 +1,4 @@
-import { useCallback, useContext, useEffect, useMemo, useReducer, useRef, useState } from "react";
+import { memo, useCallback, useContext, useEffect, useMemo, useReducer, useRef, useState } from "react";
 
 // font awesome
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -126,7 +126,7 @@ const CreateTodo = ({ unitsAsInt, increaseCurrentToDoDataChanged, year, month, d
   )
 };
 
-const Todo = ({ increaseCurrentToDoDataChanged, todoDescription, day, month, year, unitsAsInt, todoId, checked, todayCleared, todoOrderRef, order, helperMenuClosersRef }) => {
+const Todo = memo(({ increaseCurrentToDoDataChanged, todoDescription, day, month, year, unitsAsInt, todoId, checked, todayCleared, todoOrderRef, order, helperMenuClosersRef }) => {
   const currentDate = useContext(currentDateContext);
 
   // for the appearance of helpers (individually)
@@ -232,7 +232,7 @@ const Todo = ({ increaseCurrentToDoDataChanged, todoDescription, day, month, yea
       : false }
     </div>
   );
-};
+});
 
 const TodoHelpers = ({ todoId, updateTodoStringHandler, removeFromTodoHandler, closeHelperMenu, helperMenuClosersRef }) => {
   const helperMenuRef = useRef();
