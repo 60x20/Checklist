@@ -47,6 +47,8 @@ const Checklist = () => {
   const todoOrderRef = useRef([]);
   const currentToDoDataAsArray = Object.entries(currentToDoData);
 
+  // for closing all helper menus
+  const helperMenuClosersRef = useRef({});
   return (
     <div id="checklist" className="column-container" tabIndex="-1">
       <h1><time dateTime={`${year}-${month}-${day}`}>{`${day} ${monthNames[parseInt(month, 10)]} ${year}`}</time></h1>
@@ -57,7 +59,7 @@ const Checklist = () => {
           <Todo 
             // todoId is concatenated with date, so that if data changes, uncontrolled inputs will be reset
             key={year + month + day + todoId}
-            helperBundle={{increaseCurrentToDoDataChanged, allTodos, day, month, year, unitsAsInt, todoId, checked, todayCleared, todoOrderRef, order}}
+            helperBundle={{increaseCurrentToDoDataChanged, allTodos, day, month, year, unitsAsInt, todoId, checked, todayCleared, todoOrderRef, order, helperMenuClosersRef}}
           />
         );
       }) }
@@ -116,7 +118,7 @@ const CreateTodo = ({ helperBundle: { unitsAsInt, increaseCurrentToDoDataChanged
   )
 };
 
-const Todo = ({helperBundle: {increaseCurrentToDoDataChanged, allTodos, day, month, year, unitsAsInt, todoId, checked, todayCleared, todoOrderRef, order}}) => {
+const Todo = ({helperBundle: {increaseCurrentToDoDataChanged, allTodos, day, month, year, unitsAsInt, todoId, checked, todayCleared, todoOrderRef, order, helperMenuClosersRef}}) => {
   const currentDate = useContext(currentDateContext);
 
   // for the appearance of helpers (individually)
@@ -218,18 +220,24 @@ const Todo = ({helperBundle: {increaseCurrentToDoDataChanged, allTodos, day, mon
         </button>
       </div>
       { helperState ?
-      <TodoHelpers helperBundle={{todoId, updateTodoStringHandler, removeFromTodoHandler}} />
+      <TodoHelpers helperBundle={{todoId, updateTodoStringHandler, removeFromTodoHandler, closeHelperMenu, helperMenuClosersRef}} />
       : false }
     </div>
   );
 };
 
-const TodoHelpers = ({helperBundle: {todoId, updateTodoStringHandler, removeFromTodoHandler}}) => {
+const TodoHelpers = ({helperBundle: {todoId, updateTodoStringHandler, removeFromTodoHandler, closeHelperMenu, helperMenuClosersRef}}) => {
   const helperMenuRef = useRef();
 
   useEffect(() => {
     focusOnFirstItemFromRef(helperMenuRef);
   }, []); // when mounts focus on the first item
+
+  // store the helperMenu closer in ref, will be used to close all at once
+  useEffect(() => {
+    helperMenuClosersRef.current[todoId] = closeHelperMenu; // because value to set is always false, old func with old scope is ok to use
+    return () => { delete helperMenuClosersRef.current[todoId]; };
+  }, [])
 
   return (<>
   <div className="row-container helpers" ref={helperMenuRef} role="menu">
