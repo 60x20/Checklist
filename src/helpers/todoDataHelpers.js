@@ -1,3 +1,6 @@
+// TODO: IndexedDB might be used instead of LocalStorage, due to how structured the data is
+// and this might help with localization of state
+
 import { returnTodosTemplate } from "./todosTemplateHelpers";
 import { addToAllYears } from "./allYearsHelpers";
 
