@@ -119,6 +119,7 @@ const CreateTodo = ({ helperBundle: { unitsAsInt, increaseCurrentToDoDataChanged
       {/* create-todo gets focus, shouldn't be re-created (keys shouldn't be used here) */}
       <input id="create-todo" ref={createTodoRef} type="text" name="todoName" required
         title="task to add"
+        autoComplete="off"
       />
       <button>create</button>
     </form>
