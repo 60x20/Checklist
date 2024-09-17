@@ -25,8 +25,8 @@ const Checklist = () => {
   const { allDataCleared } = useContext(allDataClearedContext); // when changes, new data will be brought
   const { todayCleared } = useContext(todayClearedContext); // when changes, new data will be brought
 
-  // converted into numbers so that they are considered array indexes
-  const unitsAsInt = [parseInt(year, 10), parseInt(month, 10), parseInt(day, 10)];
+  // converted into numbers so that they are considered array indexes; memoized since used as dependency
+  const unitsAsInt = useMemo(() => [parseInt(year, 10), parseInt(month, 10), parseInt(day, 10)], [day, month, year]);
 
   const [currentToDoDataChanged, increaseCurrentToDoDataChanged] = useReducer((prev) => prev + 1, 0);
   // bring the stored data of date, or if it doesn't exist create it
