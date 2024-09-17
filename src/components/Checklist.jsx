@@ -76,7 +76,7 @@ const Checklist = () => {
  
 export default Checklist;
 
-const CreateTodo = ({ unitsAsInt, increaseCurrentToDoDataChanged, year, month, day, increaseAllTodosChanged }) => {
+const CreateTodo = memo(({ unitsAsInt, increaseCurrentToDoDataChanged, year, month, day, increaseAllTodosChanged }) => {
   // when mounts, focus on the create todo input
   const { refs: { createTodoRef }, helpers: { focusOnCreateTodo, resetValueOfCreateTodo } } = useContext(refContext);
   useEffect(() => {
@@ -124,7 +124,7 @@ const CreateTodo = ({ unitsAsInt, increaseCurrentToDoDataChanged, year, month, d
       <button>create</button>
     </form>
   )
-};
+});
 
 const Todo = memo(({ increaseCurrentToDoDataChanged, todoDescription, day, month, year, unitsAsInt, todoId, checked, todayCleared, todoOrderRef, order, helperMenuClosersRef }) => {
   const currentDate = useContext(currentDateContext);
