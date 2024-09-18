@@ -12,6 +12,5 @@
 - [x] Accessibility
 - [ ] Localize state even further
 - [ ] Different input types (besides Checkboxes)
-- [ ] CSS lib minification <!-- font-awesome -->
 - [ ] Drag and Drop
 - [ ] Saving data to cloud instead of device storage
