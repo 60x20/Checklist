@@ -15,8 +15,7 @@ const CurrentDateProvider = ({ children }) => {
     // since returnCurentDate returns an object, validation is done manually
     if (latestDate.YMD !== currentDate.YMD) {
       setCurrentDateState(latestDate);
-      // if currentDate changes, go to the new date
-      navigate(latestDate.YMD.replaceAll('-', '/'));
+      navigate(latestDate.YMD.replaceAll('-', '/')); // if currentDate changes, go to the new date
     };
   }
 
