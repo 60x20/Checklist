@@ -4,6 +4,13 @@ import { useNavigate } from "react-router-dom";
 
 // helpers
 import { returnCurrentDate } from "../helpers/returnCurrentDate";
+function getTodayVisited() {
+  return JSON.parse(localStorage.getItem('today-visited'));
+}
+function setTodayVisited(newDate) {
+  // by storing only the current date, instead of all the dates, we're cleaning up
+  localStorage.setItem('today-visited', JSON.stringify(newDate));
+}
 
 export const currentDateContext = createContext();
 const CurrentDateProvider = ({ children }) => {
@@ -30,8 +37,9 @@ const CurrentDateProvider = ({ children }) => {
   // when the app renders for the first time, go to current date
   useEffect(() => {
     // do it only once per date, otherwise url won't be changeable
-    if (sessionStorage.getItem(currentDate.YMD) !== 'true') {
-      sessionStorage.setItem(currentDate.YMD, 'true');
+    // localStorage preferred, so that when links opened in new tab, this doesn't trigger
+    if (getTodayVisited() !== currentDate.YMD) {
+      setTodayVisited(currentDate.YMD);
       navigate(currentDate.YMD.replaceAll('-', '/'));
     }
   }, []);
