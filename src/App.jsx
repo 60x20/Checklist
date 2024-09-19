@@ -9,7 +9,7 @@ import Checklist from './components/Checklist';
 import Home from './components/Home';
 import { VisualizerLayout, AllYearsVisualizer, YearVisualizer, MonthVisualizer } from './components/Visualizer';
 
-// TODO: don't use hash router
+// TODO: don't use hash router; used to allow refreshing
 const router = createHashRouter(createRoutesFromElements(
   <Route path="/" element={<RootLayout />}>
     <Route index element={<Home />} />
@@ -22,6 +22,8 @@ const router = createHashRouter(createRoutesFromElements(
     <Route path="*" element={<Home />} />
   </Route>
 ));
+// since hash router parses location.hash, base is always relative to the place of index.html
+// so, hosting from subdirectories won't cause problems
 
 function App() {
   return (
