@@ -23,6 +23,7 @@ const CurrentDateProvider = ({ children }) => {
     if (latestDate.YMD !== currentDate.YMD) {
       setCurrentDateState(latestDate);
       navigate(latestDate.YMD.replaceAll('-', '/')); // if currentDate changes, go to the new date
+      setTodayVisited(latestDate.YMD); // if currentDate changes, update todayVisited entry, so that url is changeable
     };
   }
 
