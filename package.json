@@ -1,6 +1,5 @@
 {
   "name": "checklist",
-  "private": true,
   "version": "1.0.0",
   "homepage": "/Checklist",
   "type": "module",
