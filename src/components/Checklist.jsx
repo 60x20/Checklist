@@ -77,10 +77,10 @@ const Checklist = () => {
 export default Checklist;
 
 const CreateTodo = memo(({ unitsAsInt, increaseCurrentToDoDataChanged, year, month, day, increaseAllTodosChanged }) => {
-  // when mounts, focus on the create todo input
-  const { refs: { createTodoRef }, helpers: { focusOnCreateTodo, resetValueOfCreateTodo } } = useContext(refContext);
+  // when mounts, focus on the create todo button; button preferred instead of input to avoid virtual keyboard
+  const { refs: { createTodoRef, createTodoButtonRef }, helpers: { focusOnCreateTodoButton, resetValueOfCreateTodo } } = useContext(refContext);
   useEffect(() => {
-    focusOnCreateTodo();
+    focusOnCreateTodoButton();
   }, []);
 
   const currentDate = useContext(currentDateContext);
@@ -121,7 +121,7 @@ const CreateTodo = memo(({ unitsAsInt, increaseCurrentToDoDataChanged, year, mon
         title="task to add"
         autoComplete="off"
       />
-      <button>create</button>
+      <button ref={createTodoButtonRef}>create</button>
     </form>
   )
 });
