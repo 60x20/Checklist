@@ -26,7 +26,7 @@ const Menu = () => {
   const { increaseAllDataCleared } = useContext(allDataClearedContext);
   const { increaseTodayCleared } = useContext(todayClearedContext);
 
-  const { refs: { menuRef }, helpers: { focusOnCreateTodo, focusOnCreateTodoButton, focusOnFirstMenuItem, focusOnLastMenuItem, focusOnFirstItemInsideVisualizer } } = useContext(refContext);
+  const { refs: { menuRef }, helpers: { focusOnCreateTodoButton, focusOnFirstMenuItem, focusOnLastMenuItem, focusOnFirstItemInsideVisualizer } } = useContext(refContext);
 
   // when menu opens, focus on first menu item
   useEffect(() => {
