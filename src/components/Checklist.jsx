@@ -17,7 +17,6 @@ import { addToAllTodos, updateTodoString, returnTodoDescription } from "../helpe
 import { returnTodoData, validateTodoData, addToTodoData, removeFromTodoData, updateTodoState, returnTodoTaskValue } from "../helpers/todoDataHelpers";
 import { monthNames } from "../helpers/validateUnitsFromDate";
 
-
 const Checklist = () => {
   const { year, month, day } = useContext(requestedDateValidatedContext);
   const { allDataCleared } = useContext(allDataClearedContext); // when changes, new data will be brought
@@ -28,10 +27,20 @@ const Checklist = () => {
 
   // bring the stored data of date, or if it doesn't exist create it
   // if data is cleared, clean-up and keep the state and localStorage in sync, otherwise old data will be seen
-  const [currentTodoData, setCurrentTodoData] = useState({}); // only the tasks used, since values locally managed
+  const [currentTodoData, updateCurrentTodoData] = useReducer((prevData, { action, todoId }) => {
+    switch (action) {
+      case 'ADD': return {...prevData, [todoId]: ''}; // dummy value used, since values locally managed
+      case 'REMOVE': {
+        const latestData = {...prevData};
+        delete latestData[todoId];
+        return latestData;
+      };
+      case 'SYNC': return returnTodoData(...unitsAsInt);
+    }
+  }, {}); // only the tasks used, since values locally managed
   useEffect(() => {
     validateTodoData(...unitsAsInt);
-    setCurrentTodoData(returnTodoData(...unitsAsInt));
+    updateCurrentTodoData({ action: 'SYNC'});
   }, [day, month, year, allDataCleared, todayCleared]);
 
   // for rendering todos
@@ -50,13 +59,13 @@ const Checklist = () => {
       onKeyDown={(e) => { if (e.key === 'Escape') closeAllHelpers(); }}
     >
       <h1><time dateTime={`${year}-${month}-${day}`}>{`${day} ${monthNames[parseInt(month, 10)]} ${year}`}</time></h1>
-      <CreateTodo { ...{unitsAsInt, setCurrentTodoData, year, month, day} } />
+      <CreateTodo { ...{unitsAsInt, updateCurrentTodoData, year, month, day} } />
       { currentTodoTasks.map((todoId, order) => {
         return (
           <Todo 
             // todoId is concatenated with date, so that if data changes, uncontrolled inputs will be reset
             key={year + month + day + todoId}
-            { ...{setCurrentTodoData, day, month, year, unitsAsInt, todoId, todayCleared, todoOrderRef, order, helperMenuClosersRef} }
+            { ...{updateCurrentTodoData, day, month, year, unitsAsInt, todoId, todayCleared, todoOrderRef, order, helperMenuClosersRef} }
           />
         );
       }) }
@@ -66,7 +75,7 @@ const Checklist = () => {
  
 export default Checklist;
 
-const CreateTodo = memo(({ unitsAsInt, setCurrentTodoData, year, month, day }) => {
+const CreateTodo = memo(({ unitsAsInt, updateCurrentTodoData, year, month, day }) => {
   // when mounts, focus on the create todo button; button preferred instead of input to avoid virtual keyboard
   const { refs: { createTodoRef, createTodoButtonRef }, helpers: { focusOnCreateTodoButton, resetValueOfCreateTodo } } = useContext(refContext);
   useEffect(() => {
@@ -78,7 +87,7 @@ const CreateTodo = memo(({ unitsAsInt, setCurrentTodoData, year, month, day }) =
   // currentTodoData should be in sync with localStorage entry
   function addToCurrentTodoDataAndSync(todoId) {
     addToTodoData(todoId, ...unitsAsInt);
-    setCurrentTodoData((prevData) => ({...prevData, [todoId]: ''})); // dummy value used, since values locally managed
+    updateCurrentTodoData({ action: 'ADD', todoId});
   }
 
   // handlers
@@ -109,7 +118,7 @@ const CreateTodo = memo(({ unitsAsInt, setCurrentTodoData, year, month, day }) =
   )
 });
 
-const Todo = memo(({ setCurrentTodoData, day, month, year, unitsAsInt, todoId, todayCleared, todoOrderRef, order, helperMenuClosersRef }) => {
+const Todo = memo(({ updateCurrentTodoData, day, month, year, unitsAsInt, todoId, todayCleared, todoOrderRef, order, helperMenuClosersRef }) => {
   const currentDate = useContext(currentDateContext);
 
   // for the appearance of helpers (individually)
@@ -147,11 +156,7 @@ const Todo = memo(({ setCurrentTodoData, day, month, year, unitsAsInt, todoId, t
   // currentTodoData should be in sync with localStorage entry
   function removeFromCurrentTodoDataAndSync(todoId) {
     removeFromTodoData(todoId, ...unitsAsInt);
-    setCurrentTodoData((prevData) => {
-      const latestData = {...prevData};
-      delete latestData[todoId];
-      return latestData;
-    })
+    updateCurrentTodoData({ action: 'REMOVE', todoId});
   }
   // for performance optimization, todoState locally managed, hence only in sync with localStorgae (not with currentTodoData)
   function updateAndSyncTodoState(todoIdUpdate, checked) {
