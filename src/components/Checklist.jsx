@@ -50,7 +50,7 @@ const Checklist = () => {
       onKeyDown={(e) => { if (e.key === 'Escape') closeAllHelpers(); }}
     >
       <h1><time dateTime={`${year}-${month}-${day}`}>{`${day} ${monthNames[parseInt(month, 10)]} ${year}`}</time></h1>
-      <CreateTodo { ...{unitsAsInt, increaseCurrentToDoDataChanged, year, month, day} } />
+      <CreateTodo { ...{unitsAsInt, setCurrentTodoData, year, month, day} } />
       { currentTodoTasks.map((todoId, order) => {
         return (
           <Todo 
@@ -66,7 +66,7 @@ const Checklist = () => {
  
 export default Checklist;
 
-const CreateTodo = memo(({ unitsAsInt, increaseCurrentToDoDataChanged, year, month, day }) => {
+const CreateTodo = memo(({ unitsAsInt, setCurrentTodoData, year, month, day }) => {
   // when mounts, focus on the create todo button; button preferred instead of input to avoid virtual keyboard
   const { refs: { createTodoRef, createTodoButtonRef }, helpers: { focusOnCreateTodoButton, resetValueOfCreateTodo } } = useContext(refContext);
   useEffect(() => {
@@ -75,10 +75,10 @@ const CreateTodo = memo(({ unitsAsInt, increaseCurrentToDoDataChanged, year, mon
 
   const currentDate = useContext(currentDateContext);
 
-  // currentToDoData should be in sync with localStorage entry
-  function addToCurrentToDoDataAndSync(todoId) {
+  // currentTodoData should be in sync with localStorage entry
+  function addToCurrentTodoDataAndSync(todoId) {
     addToTodoData(todoId, ...unitsAsInt);
-    increaseCurrentToDoDataChanged();
+    setCurrentTodoData((prevData) => ({...prevData, [todoId]: ''})); // dummy value used, since values locally managed
   }
 
   // handlers
@@ -92,7 +92,7 @@ const CreateTodo = memo(({ unitsAsInt, increaseCurrentToDoDataChanged, year, mon
       // if currentDate removes/adds a todo, template should adapt
       addToTodosTemplate(idAssigned);
     }
-    addToCurrentToDoDataAndSync(idAssigned);
+    addToCurrentTodoDataAndSync(idAssigned);
 
     resetValueOfCreateTodo(); // value is reset on submit to make known value is added
   }
