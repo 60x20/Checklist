@@ -13,7 +13,7 @@ import { refContext, focusOnFirstItemFromRef, focusFromEl } from "../providers/R
 
 // helpers
 import { addToTodosTemplate, removeFromTodosTemplate } from "../helpers/todosTemplateHelpers";
-import { returnAllTodos, addToAllTodos, updateTodoString } from "../helpers/allTodosHelpers";
+import { addToAllTodos, updateTodoString, returnTodoDescription } from "../helpers/allTodosHelpers";
 import { returnTodoData, validateToDoData, addToTodoData, removeFromTodoData, updateTodoState } from "../helpers/todoDataHelpers";
 import { monthNames } from "../helpers/validateUnitsFromDate";
 
@@ -158,8 +158,9 @@ const Todo = memo(({ increaseCurrentToDoDataChanged, todoDescription, day, month
     setLocalChecked(checked);
   }, [todayCleared]); // if today gets cleared, localChecked should adapt
   
-  // since allTodos[todoId] is only changed here, and nowhere else, it's safe to only use global state initially, local value will always be the latest
-  const [localTodoDescription, setLocalTodoDescription] = useState(todoDescription);
+  
+  // todo description (allTodos[todoId]) locally managed
+  const [todoDescription, setTodoDescription] = useState(() => returnTodoDescription(todoId));
 
   // currentToDoData should be in sync with localStorage entry
   function removeFromCurrentToDoDataAndSync(todoId) {
@@ -171,10 +172,10 @@ const Todo = memo(({ increaseCurrentToDoDataChanged, todoDescription, day, month
     updateTodoState(todoIdUpdate, checked, ...unitsAsInt);
   }
 
-  // for performance optimization, allTodos[todoId] locally managed, hence only in sync with localStorgae (not with allTodos)
+  // todoDescription should be in sync with localStorage entry
   function updateTodoStringAndSync(todoIdToUpdate, todoString) {
     updateTodoString(todoIdToUpdate, todoString);
-    setLocalTodoDescription(todoString);
+    setTodoDescription(todoString);
   }
 
   // handlers
@@ -211,7 +212,7 @@ const Todo = memo(({ increaseCurrentToDoDataChanged, todoDescription, day, month
   return (
     <div className="column-container todo">
       <div className="main-with-others-grouped-row-container">
-        <p className="main-item">{localTodoDescription}</p>
+        <p className="main-item">{todoDescription}</p>
         <input name="todo-state" type="checkbox" data-id-to-update={todoId} onChange={updateTodoStateHandler} checked={localChecked}
           title={`Mark as ${!localChecked ? 'done' : 'undone'}.`}
         />
