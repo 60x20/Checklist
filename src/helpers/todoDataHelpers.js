@@ -13,7 +13,7 @@ export function returnYearEntry(year) {
 }
 
 // make sure date exists in the localStorage
-export function validateToDoData(year, month, day) {
+export function validateTodoData(year, month, day) {
   if (!returnYearEntry(year)) {
     setYearEntry(year, []); // array for months
     addToAllYears(year);
