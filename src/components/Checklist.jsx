@@ -153,9 +153,11 @@ const Todo = memo(({ updateCurrentTodoData, day, month, year, unitsAsInt, todoId
   }
 
   // todo value locally managed
-  const [checked, setChecked] = useState(() => returnTodoTaskValue(...unitsAsInt, todoId));
+  const [checked, setChecked] = useState(() => returnTodoTaskValue(...unitsAsInt, todoId) ?? 0); // can be null
   useEffect(() => {
-    setChecked(returnTodoTaskValue(...unitsAsInt, todoId));
+    // can be null due to effect executing later than validation; fallback added to avoid "changing to uncontrolled"
+    // in which case, after effect executes todo will unmount
+    setChecked(returnTodoTaskValue(...unitsAsInt, todoId) ?? 0);
   }, [todayCleared]); // if today gets cleared, localChecked should adapt
   
   // todo description (allTodos[todoId]) locally managed
