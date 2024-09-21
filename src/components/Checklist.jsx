@@ -144,7 +144,7 @@ const Todo = memo(({ updateCurrentTodoData, day, month, year, unitsAsInt, todoId
     focusOnCreateTodo(); // last resort
   }
 
-  // global state used locally, so that local changes won't cause re-render (though global changes are still impactful due to key prop)
+  // todo value locally managed
   const [checked, setChecked] = useState(() => returnTodoTaskValue(...unitsAsInt, todoId));
   useEffect(() => {
     setChecked(returnTodoTaskValue(...unitsAsInt, todoId));
