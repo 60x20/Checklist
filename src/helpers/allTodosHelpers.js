@@ -11,8 +11,12 @@ export function validateAllTodos() {
   }
 }
 
-export function returnAllTodos() {
+function returnAllTodos() {
   return JSON.parse(localStorage.getItem('todos'));
+}
+
+export function returnTodoDescription(todoId) {
+  return returnAllTodos()[todoId];
 }
 
 export function addToAllTodos(todoString) {
