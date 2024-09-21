@@ -56,7 +56,7 @@ const Checklist = () => {
           <Todo 
             // todoId is concatenated with date, so that if data changes, uncontrolled inputs will be reset
             key={year + month + day + todoId}
-            { ...{increaseCurrentToDoDataChanged, day, month, year, unitsAsInt, todoId, checked, todayCleared, todoOrderRef, order, helperMenuClosersRef} }
+            { ...{setCurrentTodoData, day, month, year, unitsAsInt, todoId, todayCleared, todoOrderRef, order, helperMenuClosersRef} }
           />
         );
       }) }
@@ -109,7 +109,7 @@ const CreateTodo = memo(({ unitsAsInt, setCurrentTodoData, year, month, day }) =
   )
 });
 
-const Todo = memo(({ increaseCurrentToDoDataChanged, day, month, year, unitsAsInt, todoId, checked, todayCleared, todoOrderRef, order, helperMenuClosersRef }) => {
+const Todo = memo(({ setCurrentTodoData, day, month, year, unitsAsInt, todoId, todayCleared, todoOrderRef, order, helperMenuClosersRef }) => {
   const currentDate = useContext(currentDateContext);
 
   // for the appearance of helpers (individually)
@@ -136,19 +136,22 @@ const Todo = memo(({ increaseCurrentToDoDataChanged, day, month, year, unitsAsIn
   }
 
   // global state used locally, so that local changes won't cause re-render (though global changes are still impactful due to key prop)
-  const [localChecked, setLocalChecked] = useState(checked);
+  const [checked, setChecked] = useState(() => returnTodoTaskValue(...unitsAsInt, todoId));
   useEffect(() => {
-    setLocalChecked(checked);
+    setChecked(returnTodoTaskValue(...unitsAsInt, todoId));
   }, [todayCleared]); // if today gets cleared, localChecked should adapt
-  
   
   // todo description (allTodos[todoId]) locally managed
   const [todoDescription, setTodoDescription] = useState(() => returnTodoDescription(todoId));
 
-  // currentToDoData should be in sync with localStorage entry
-  function removeFromCurrentToDoDataAndSync(todoId) {
+  // currentTodoData should be in sync with localStorage entry
+  function removeFromCurrentTodoDataAndSync(todoId) {
     removeFromTodoData(todoId, ...unitsAsInt);
-    increaseCurrentToDoDataChanged();
+    setCurrentTodoData((prevData) => {
+      const latestData = {...prevData};
+      delete latestData[todoId];
+      return latestData;
+    })
   }
   // for performance optimization, todoState locally managed, hence only in sync with localStorgae (not with currentTodoData)
   function updateAndSyncTodoState(todoIdUpdate, checked) {
@@ -168,7 +171,7 @@ const Todo = memo(({ increaseCurrentToDoDataChanged, day, month, year, unitsAsIn
       // if currentDate removes/adds a todo, template should adapt
       removeFromTodosTemplate(todoIdToRemove);
     }
-    removeFromCurrentToDoDataAndSync(todoIdToRemove);
+    removeFromCurrentTodoDataAndSync(todoIdToRemove);
 
     focusWhenHelperMenuCloses(); // move focus to the nearest element
   }
@@ -178,7 +181,7 @@ const Todo = memo(({ increaseCurrentToDoDataChanged, day, month, year, unitsAsIn
     const checked = Number(e.currentTarget.checked);
     updateAndSyncTodoState(todoIdUpdate, checked);
 
-    setLocalChecked(checked);
+    setChecked(checked);
   }
   function updateTodoStringHandler(e) {
     e.preventDefault();
@@ -196,8 +199,8 @@ const Todo = memo(({ increaseCurrentToDoDataChanged, day, month, year, unitsAsIn
     <div className="column-container todo">
       <div className="main-with-others-grouped-row-container">
         <p className="main-item">{todoDescription}</p>
-        <input name="todo-state" type="checkbox" data-id-to-update={todoId} onChange={updateTodoStateHandler} checked={localChecked}
-          title={`Mark as ${!localChecked ? 'done' : 'undone'}.`}
+        <input name="todo-state" type="checkbox" data-id-to-update={todoId} onChange={updateTodoStateHandler} checked={checked}
+          title={`Mark as ${!checked ? 'done' : 'undone'}.`}
         />
         <button
           className="toggler-with-icon"
