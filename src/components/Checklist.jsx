@@ -14,11 +14,9 @@ import { refContext, focusOnFirstItemFromRef, focusFromEl } from "../providers/R
 // helpers
 import { addToTodosTemplate, removeFromTodosTemplate } from "../helpers/todosTemplateHelpers";
 import { addToAllTodos, updateTodoString, returnTodoDescription } from "../helpers/allTodosHelpers";
-import { returnTodoData, validateToDoData, addToTodoData, removeFromTodoData, updateTodoState } from "../helpers/todoDataHelpers";
+import { returnTodoData, validateTodoData, addToTodoData, removeFromTodoData, updateTodoState, returnTodoTaskValue } from "../helpers/todoDataHelpers";
 import { monthNames } from "../helpers/validateUnitsFromDate";
 
-// custom hooks
-import { useEffectDuringRender } from "../helpers/customHooks";
 
 const Checklist = () => {
   const { year, month, day } = useContext(requestedDateValidatedContext);
@@ -28,19 +26,17 @@ const Checklist = () => {
   // converted into numbers so that they are considered array indexes; memoized since used as dependency
   const unitsAsInt = useMemo(() => [parseInt(year, 10), parseInt(month, 10), parseInt(day, 10)], [day, month, year]);
 
-  const [currentToDoDataChanged, increaseCurrentToDoDataChanged] = useReducer((prev) => prev + 1, 0);
   // bring the stored data of date, or if it doesn't exist create it
   // if data is cleared, clean-up and keep the state and localStorage in sync, otherwise old data will be seen
-  useEffectDuringRender(() => {
-    validateToDoData(...unitsAsInt);
-  }, [day, month, year, allDataCleared, todayCleared]); // don't validate if todo data changes, otherwise every todo can't be removed
-  const currentToDoData = useMemo(() => {
-    return returnTodoData(...unitsAsInt);
-  }, [day, month, year, allDataCleared, todayCleared, currentToDoDataChanged]);
+  const [currentTodoData, setCurrentTodoData] = useState({}); // only the tasks used, since values locally managed
+  useEffect(() => {
+    validateTodoData(...unitsAsInt);
+    setCurrentTodoData(returnTodoData(...unitsAsInt));
+  }, [day, month, year, allDataCleared, todayCleared]);
 
   // for rendering todos
   const todoOrderRef = useRef([]);
-  const currentToDoDataAsArray = Object.entries(currentToDoData);
+  const currentTodoTasks = Object.keys(currentTodoData);
 
   // for closing all helper menus
   const helperMenuClosersRef = useRef({});
@@ -55,8 +51,7 @@ const Checklist = () => {
     >
       <h1><time dateTime={`${year}-${month}-${day}`}>{`${day} ${monthNames[parseInt(month, 10)]} ${year}`}</time></h1>
       <CreateTodo { ...{unitsAsInt, increaseCurrentToDoDataChanged, year, month, day} } />
-      { currentToDoDataAsArray.map((array, order) => {
-        const [ todoId, checked ] = array;
+      { currentTodoTasks.map((todoId, order) => {
         return (
           <Todo 
             // todoId is concatenated with date, so that if data changes, uncontrolled inputs will be reset
