@@ -38,11 +38,6 @@ const Checklist = () => {
     return returnTodoData(...unitsAsInt);
   }, [day, month, year, allDataCleared, todayCleared, currentToDoDataChanged]);
 
-  // keeping allTodos in sync with localStorage
-  const [allTodosChanged, increaseAllTodosChanged] = useReducer((prev) => prev + 1, 0);
-  // initialize to entry, and if entry gets cleared, adapt to changes
-  const allTodos = useMemo(() => returnAllTodos(), [day, month, year, allDataCleared, allTodosChanged]);
-
   // for rendering todos
   const todoOrderRef = useRef([]);
   const currentToDoDataAsArray = Object.entries(currentToDoData);
@@ -59,14 +54,14 @@ const Checklist = () => {
       onKeyDown={(e) => { if (e.key === 'Escape') closeAllHelpers(); }}
     >
       <h1><time dateTime={`${year}-${month}-${day}`}>{`${day} ${monthNames[parseInt(month, 10)]} ${year}`}</time></h1>
-      <CreateTodo { ...{unitsAsInt, increaseCurrentToDoDataChanged, year, month, day, increaseAllTodosChanged} } />
+      <CreateTodo { ...{unitsAsInt, increaseCurrentToDoDataChanged, year, month, day} } />
       { currentToDoDataAsArray.map((array, order) => {
         const [ todoId, checked ] = array;
         return (
           <Todo 
             // todoId is concatenated with date, so that if data changes, uncontrolled inputs will be reset
             key={year + month + day + todoId}
-            { ...{increaseCurrentToDoDataChanged, todoDescription: allTodos[todoId], day, month, year, unitsAsInt, todoId, checked, todayCleared, todoOrderRef, order, helperMenuClosersRef} }
+            { ...{increaseCurrentToDoDataChanged, day, month, year, unitsAsInt, todoId, checked, todayCleared, todoOrderRef, order, helperMenuClosersRef} }
           />
         );
       }) }
@@ -76,7 +71,7 @@ const Checklist = () => {
  
 export default Checklist;
 
-const CreateTodo = memo(({ unitsAsInt, increaseCurrentToDoDataChanged, year, month, day, increaseAllTodosChanged }) => {
+const CreateTodo = memo(({ unitsAsInt, increaseCurrentToDoDataChanged, year, month, day }) => {
   // when mounts, focus on the create todo button; button preferred instead of input to avoid virtual keyboard
   const { refs: { createTodoRef, createTodoButtonRef }, helpers: { focusOnCreateTodoButton, resetValueOfCreateTodo } } = useContext(refContext);
   useEffect(() => {
@@ -91,20 +86,13 @@ const CreateTodo = memo(({ unitsAsInt, increaseCurrentToDoDataChanged, year, mon
     increaseCurrentToDoDataChanged();
   }
 
-  // allTodos should be in sync with localStorage entry
-  function addToAllTodosAndSync(todoString) {
-    const idAssigned = addToAllTodos(todoString);
-    increaseAllTodosChanged();
-    return idAssigned;
-  }
-
   // handlers
   function createTodoHandler(e) {
     e.preventDefault();
     const submittedFormData = new FormData(e.currentTarget);
     const formDataReadable = Object.fromEntries(submittedFormData.entries());
     const todoString = String(formDataReadable.todoName);
-    const idAssigned = addToAllTodosAndSync(todoString);
+    const idAssigned = addToAllTodos(todoString); // should be in sync with localStorage entry
     if (currentDate.YMD === [year, month, day].join('-')) {
       // if currentDate removes/adds a todo, template should adapt
       addToTodosTemplate(idAssigned);
@@ -126,7 +114,7 @@ const CreateTodo = memo(({ unitsAsInt, increaseCurrentToDoDataChanged, year, mon
   )
 });
 
-const Todo = memo(({ increaseCurrentToDoDataChanged, todoDescription, day, month, year, unitsAsInt, todoId, checked, todayCleared, todoOrderRef, order, helperMenuClosersRef }) => {
+const Todo = memo(({ increaseCurrentToDoDataChanged, day, month, year, unitsAsInt, todoId, checked, todayCleared, todoOrderRef, order, helperMenuClosersRef }) => {
   const currentDate = useContext(currentDateContext);
 
   // for the appearance of helpers (individually)
