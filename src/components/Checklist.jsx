@@ -43,7 +43,7 @@ const Checklist = () => {
   }, {}); // only the tasks used, since values locally managed
   useEffect(() => {
     validateTodoData(...unitsAsInt);
-    updateCurrentTodoData({ action: 'SYNC'});
+    updateCurrentTodoData({ action: 'SYNC' });
   }, [day, month, year, allDataCleared, todayCleared]);
 
   // for rendering todos
