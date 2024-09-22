@@ -28,6 +28,12 @@ const Checklist = () => {
   // converted into numbers so that they are considered array indexes; memoized since used as dependency
   const unitsAsInt = useMemo(() => [parseInt(year, 10), parseInt(month, 10), parseInt(day, 10)], [day, month, year]);
 
+  // day must be validated before usage (otherwise since reducer uses the latest scope, it might request an unvalidated date) 
+  useEffectDuringRender(() => {
+    // validate during render, since accessed during render or during Effect in children
+    validateTodoData(...unitsAsInt);
+  }, [day, month, year, allDataCleared, todayCleared]);
+ 
   // bring the stored data of date, or if it doesn't exist create it
   // if data is cleared, clean-up and keep the state and localStorage in sync, otherwise old data will be seen
   const [currentTodoData, updateCurrentTodoData] = useReducer((prevData, { action, todoId }) => {
@@ -42,7 +48,6 @@ const Checklist = () => {
     }
   }, {}); // only the tasks used, since values locally managed
   useEffect(() => {
-    validateTodoData(...unitsAsInt);
     updateCurrentTodoData({ action: 'SYNC' });
   }, [day, month, year, allDataCleared, todayCleared]);
 
