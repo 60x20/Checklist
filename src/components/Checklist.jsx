@@ -95,7 +95,7 @@ const CreateTodo = memo(({ unitsAsInt, updateCurrentTodoData, year, month, day }
   // currentTodoData should be in sync with localStorage entry
   function addToCurrentTodoDataAndSync(todoId) {
     addToTodoData(todoId, ...unitsAsInt);
-    updateCurrentTodoData({ action: 'ADD', todoId});
+    updateCurrentTodoData({ action: 'ADD', todoId });
   }
 
   // handlers
