@@ -53,6 +53,8 @@ const Checklist = () => {
 
   // for rendering todos
   const todoOrderRef = useRef([]);
+  // by default, components are rendered in ascending order according to their todoId
+  // TODO: ordering can be changed by changing the way this array is created, without avoiding memoization of components
   const currentTodoTasks = Object.keys(currentTodoData);
 
   // for closing all helper menus
