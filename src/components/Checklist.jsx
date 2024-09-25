@@ -68,13 +68,14 @@ const Checklist = () => {
     >
       <h1><time dateTime={`${year}-${month}-${day}`}>{`${day} ${monthNames[parseInt(month, 10)]} ${year}`}</time></h1>
       <CreateTodo { ...{unitsAsInt, updateCurrentTodoData, year, month, day} } />
-      { currentTodoTasks.map((todoId, order) => (
+      <ul className="column-container" id="todos"
+      >{ currentTodoTasks.map((todoId) => (
         <Todo 
           // todoId is concatenated with date, so that if data changes, uncontrolled inputs will be reset
           key={year + month + day + todoId}
           { ...{updateCurrentTodoData, day, month, year, unitsAsInt, todoId, todayCleared, helperMenuClosersRef} }
         />)
-      ) }
+      ) }</ul>
     </div>
   );
 };
@@ -211,7 +212,7 @@ const Todo = memo(({ updateCurrentTodoData, day, month, year, unitsAsInt, todoId
   }
 
   return (
-    <div className="column-container todo" ref={todoRef}>
+    <li className="column-container todo" ref={todoRef}>
       <div className="main-with-others-grouped-row-container">
         <p className="main-item">{todoDescription}</p>
         <input name="todo-state" type="checkbox" data-id-to-update={todoId} onChange={updateTodoStateHandler} checked={checked}
@@ -231,7 +232,7 @@ const Todo = memo(({ updateCurrentTodoData, day, month, year, unitsAsInt, todoId
       { helperState ?
       <TodoHelpers { ...{todoId, updateTodoStringHandler, removeFromTodoHandler, closeHelperMenu, helperMenuClosersRef} } />
       : false }
-    </div>
+    </li>
   );
 });
 
