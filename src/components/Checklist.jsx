@@ -52,10 +52,8 @@ const Checklist = () => {
   }, [day, month, year, allDataCleared, todayCleared]);
 
   // for rendering todos
-  const todoOrderRef = useRef([]);
-  // by default, components are rendered in ascending order according to their todoId
+  const currentTodoTasks = Object.keys(currentTodoData); // by default, components are rendered in ascending order by ID
   // TODO: ordering can be changed by changing the way this array is created, without avoiding memoization of components
-  const currentTodoTasks = Object.keys(currentTodoData);
 
   // for closing all helper menus
   const helperMenuClosersRef = useRef({});
@@ -74,7 +72,7 @@ const Checklist = () => {
         <Todo 
           // todoId is concatenated with date, so that if data changes, uncontrolled inputs will be reset
           key={year + month + day + todoId}
-          { ...{updateCurrentTodoData, day, month, year, unitsAsInt, todoId, todayCleared, todoOrderRef, order, helperMenuClosersRef} }
+          { ...{updateCurrentTodoData, day, month, year, unitsAsInt, todoId, todayCleared, helperMenuClosersRef} }
         />)
       ) }
     </div>
@@ -126,8 +124,11 @@ const CreateTodo = memo(({ unitsAsInt, updateCurrentTodoData, year, month, day }
   )
 });
 
-const Todo = memo(({ updateCurrentTodoData, day, month, year, unitsAsInt, todoId, todayCleared, todoOrderRef, order, helperMenuClosersRef }) => {
+const Todo = memo(({ updateCurrentTodoData, day, month, year, unitsAsInt, todoId, todayCleared, helperMenuClosersRef }) => {
   const currentDate = useContext(currentDateContext);
+
+  // for easier focus management
+  const todoRef = useRef();
 
   // for the appearance of helpers (individually)
   const [helperState, setHelperState] = useState(false); // by default helper closed
@@ -137,18 +138,13 @@ const Todo = memo(({ updateCurrentTodoData, day, month, year, unitsAsInt, todoId
   function closeHelperMenu() {
     setHelperState(false);
   }
-  const refCallbackForToggler = useCallback((el) => todoOrderRef.current[order] = el, [order]); // memoized to avoid re-attaching
-  // when the order changes, the previous callback gets called with the older order, nullifying the entry
-  // but since this cleanup happens before recent callback gets executed, null entries will be filled correctly
-  function returnRelativeTodoToggler(n = 0) {
-    return todoOrderRef.current[order + n]; // n = 0: current; n = 1: next; n = -1: previous;
-  }
   const { helpers: { focusOnCreateTodo } } = useContext(refContext);
   function focusWhenHelperMenuCloses() {
-    const nextTodoToggler = returnRelativeTodoToggler(1);
-    if (nextTodoToggler) return nextTodoToggler.focus();
-    const prevTodoToggler = returnRelativeTodoToggler(-1);
-    if (prevTodoToggler) return prevTodoToggler.focus();
+    const currentTodo = todoRef.current;
+    const nextTodo = currentTodo.nextElementSibling;
+    if (nextTodo) return nextTodo.querySelector('.helper-menu-toggler').focus(); // first try next, since replaces the removed todo
+    const prevTodo = currentTodo.previousElementSibling;
+    if (prevTodo) return prevTodo.querySelector('.helper-menu-toggler').focus(); // then try previous
     focusOnCreateTodo(); // last resort
   }
 
@@ -211,7 +207,7 @@ const Todo = memo(({ updateCurrentTodoData, day, month, year, unitsAsInt, todoId
   }
 
   return (
-    <div className="column-container todo">
+    <div className="column-container todo" ref={todoRef}>
       <div className="main-with-others-grouped-row-container">
         <p className="main-item">{todoDescription}</p>
         <input name="todo-state" type="checkbox" data-id-to-update={todoId} onChange={updateTodoStateHandler} checked={checked}
@@ -220,7 +216,6 @@ const Todo = memo(({ updateCurrentTodoData, day, month, year, unitsAsInt, todoId
         <button
           className="toggler-with-icon"
           onClick={() => toggleHelperState()}
-          ref={refCallbackForToggler}
           title={helperState ? "Close helpers." : "Open helpers."}
           type="button"
           aria-haspopup="menu"
