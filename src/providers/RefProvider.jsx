@@ -11,10 +11,10 @@ function resetValueFromRef(ref) {
 }
 
 // focus
-export function focusFromEl(el) {
+function focusFromEl(el) {
   if (el) el.focus();
 }
-export function focusFromRef(ref) {
+function focusFromRef(ref) {
   focusFromEl(ref.current);
 }
 export function focusOnFirstItemFromRef(ref) {
