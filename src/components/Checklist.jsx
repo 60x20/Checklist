@@ -9,7 +9,7 @@ import { currentDateContext } from "../providers/CurrentDateProvider";
 import { allDataClearedContext } from "../providers/AllDataClearedProvider";
 import { requestedDateValidatedContext } from "../providers/RequestedDateValidatedProvider";
 import { todayClearedContext } from "../providers/TodayClearedProvider";
-import { refContext, focusOnFirstItemFromRef, focusFromEl } from "../providers/RefProvider";
+import { refContext, focusOnFirstItemFromRef } from "../providers/RefProvider";
 
 // helpers
 import { addToTodosTemplate, removeFromTodosTemplate } from "../helpers/todosTemplateHelpers";
@@ -139,6 +139,10 @@ const Todo = memo(({ updateCurrentTodoData, day, month, year, unitsAsInt, todoId
     setHelperState(false);
   }
   const { helpers: { focusOnCreateTodo } } = useContext(refContext);
+  function focusOnCurrentMenuToggler() {
+    const currentTodo = todoRef.current;
+    currentTodo.querySelector('.helper-menu-toggler').focus();
+  }
   function focusWhenHelperMenuCloses() {
     const currentTodo = todoRef.current;
     const nextTodo = currentTodo.nextElementSibling;
@@ -203,7 +207,7 @@ const Todo = memo(({ updateCurrentTodoData, day, month, year, unitsAsInt, todoId
     updateTodoStringAndSync(todoIdToUpdate, todoString);
     
     closeHelperMenu(); // close the helper menu
-    focusFromEl(returnRelativeTodoToggler()); // move focus to the current todoToggler
+    focusOnCurrentMenuToggler(); // move focus to the current todoToggler
   }
 
   return (
@@ -214,7 +218,7 @@ const Todo = memo(({ updateCurrentTodoData, day, month, year, unitsAsInt, todoId
           title={`Mark as ${!checked ? 'done' : 'undone'}.`}
         />
         <button
-          className="toggler-with-icon"
+          className="toggler-with-icon helper-menu-toggler"
           onClick={() => toggleHelperState()}
           title={helperState ? "Close helpers." : "Open helpers."}
           type="button"
