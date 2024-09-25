@@ -186,6 +186,14 @@ main {
     aspect-ratio: 1;
   }
 
+  #todos {
+    width: 100%; /* flex-items don't automatically use widths of their parents */
+    
+    /* ul used for semantic purposes */
+    padding: 0;
+    list-style: none;
+  }
+
   .todo {
     width: 100%; /* every to-do is the same size instead of fit-content */
     p {
