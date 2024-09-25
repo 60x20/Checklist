@@ -1,4 +1,4 @@
-import { memo, useCallback, useContext, useEffect, useMemo, useReducer, useRef, useState } from "react";
+import { memo, useContext, useEffect, useMemo, useReducer, useRef, useState } from "react";
 
 // font awesome
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
