@@ -20,6 +20,13 @@ html, body {
   padding: 0;
 }
 
+/* ul styled as div; used for semantic purposes */
+ul {
+  padding: 0;
+  list-style: none;
+  margin: 0;
+}
+
 .column-stretch-container, .row-container, .column-container, .main-with-others-grouped-row-container {
   display: flex;
   gap: 1rem;
@@ -131,10 +138,6 @@ main {
   --indigo-as-hsl: 240, 20%;
   background-color: hsl(var(--indigo-as-hsl), 60%);
 
-  ul {
-    padding: 0;
-    list-style: none;
-  }
   li {
     padding: 0 .25rem;
   }
@@ -188,10 +191,6 @@ main {
 
   #todos {
     width: 100%; /* flex-items don't automatically use widths of their parents */
-    
-    /* ul used for semantic purposes */
-    padding: 0;
-    list-style: none;
   }
 
   .todo {
