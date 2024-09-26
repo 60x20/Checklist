@@ -140,10 +140,8 @@ main {
 
   li {
     padding: 0 .25rem;
-  }
 
-  li {
-    background-color: white;
+    background-color: white; /* light-theme */
   }
   .dark-theme & {
     background-color: hsl(var(--indigo-as-hsl), 35%);
