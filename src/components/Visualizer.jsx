@@ -51,7 +51,9 @@ export const MonthVisualizer = () => {
       if (dayData) {
         const dayAsString = String(day).padStart(2, '0');
         return (<article key={day} className="day">
-          <h3>day: <time dateTime={`${extractedYear}-${extractedMonth}-${dayAsString}`}>{dayAsString}</time></h3>
+          <h3 className="styled-as-p">
+            day: <time dateTime={`${extractedYear}-${extractedMonth}-${dayAsString}`}>{dayAsString}</time>
+          </h3>
           <p>completion: { (() => {
             const dayCheckedData = Object.values(dayData);
             const amountOfTodos = dayCheckedData.length;
