@@ -48,7 +48,6 @@ export const MonthVisualizer = () => {
   return (<div className="row-container">
     { monthEntry.map((dayData, day) => dayData ? (
       // there are vacant indexes, so that days and indexes match
-      <div key={day} className="day">
         <p>day: {String(day).padStart(2, '0')}</p>
         <p>completion: { (() => {
           const dayCheckedData = Object.values(dayData);
@@ -57,13 +56,14 @@ export const MonthVisualizer = () => {
           for (const checked of dayCheckedData) checked ? amountOfCheckedTodos++ : '';
           return `${amountOfCheckedTodos}/${amountOfTodos}`;
         })() }</p>
-        <div>{ Object.entries(dayData).map(([todoId, checked]) => (
-          <p key={todoId} className={ checked ? 'checked' : 'unchecked' }>
-            <FontAwesomeIcon icon={checked ? faCheck : faXmark} />
-          </p>
-        )) }</div>
-      </div>
     ) : false).toReversed() }
+        return (<article key={day} className="day">
+          <ul>{ Object.entries(dayData).map(([todoId, checked]) => (
+            <li key={todoId} className={ checked ? 'checked' : 'unchecked' }>
+              <FontAwesomeIcon icon={checked ? faCheck : faXmark} />
+            </li>
+          )) }</ul>
+        </article>);
   </div>);
 }
 
