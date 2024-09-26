@@ -88,14 +88,14 @@ export const YearVisualizer = () => {
 
   if (!yearEntry) return (<p>no data for year</p>);
 
-  return (<div className="column-container">
     { yearEntry.map((monthArr, month) => monthArr ? (
+  return (<nav><ul className="column-container">
       // there are vacant indexes, so that months and indexes match
-      <p key={month} className="month">
         <Link to={String(month).padStart(2, '0')}>{monthNames[month]}</Link>
-      </p>
     ) : false).toReversed() }
-  </div>);
+          <li key={month} className="month">
+          </li>
+  </ul></nav>);
 }
 
 export const AllYearsVisualizer = () => {
@@ -112,12 +112,12 @@ export const AllYearsVisualizer = () => {
 
   const allYearsDescending = allYears.sort((a, b) => b - a);
 
-  return (<div className="column-container">
     { allYearsDescending.map((year) => (
+  return (<nav><ul className="column-container">
       // there aren't any vacant indexes, but years are unique
-      <p key={year} className="year">
         <Link to={String(year).padStart(4, '0')}>{ year }</Link>
-      </p>
     )) }
-  </div>);
+      <li key={year} className="year">
+      </li>
+  </ul></nav>);
 }
