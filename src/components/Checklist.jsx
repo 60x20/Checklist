@@ -214,7 +214,7 @@ const Todo = memo(({ updateCurrentTodoData, day, month, year, unitsAsInt, todoId
   return (
     <li className="column-container todo" ref={todoRef}>
       <div className="main-with-others-grouped-row-container">
-        <p className="main-item">{todoDescription}</p>
+        <h3 className="main-item">{todoDescription}</h3>
         <input name="todo-state" type="checkbox" data-id-to-update={todoId} onChange={updateTodoStateHandler} checked={checked}
           title={`Mark as ${!checked ? 'done' : 'undone'}.`}
         />
