@@ -46,24 +46,28 @@ export const MonthVisualizer = () => {
   if (!monthEntry) return (<p>no data for month</p>);
 
   return (<div className="row-container">
-    { monthEntry.map((dayData, day) => dayData ? (
+    { monthEntry.map((dayData, day) => {
       // there are vacant indexes, so that days and indexes match
-        <p>day: {String(day).padStart(2, '0')}</p>
-        <p>completion: { (() => {
-          const dayCheckedData = Object.values(dayData);
-          const amountOfTodos = dayCheckedData.length;
-          let amountOfCheckedTodos = 0;
-          for (const checked of dayCheckedData) checked ? amountOfCheckedTodos++ : '';
-          return `${amountOfCheckedTodos}/${amountOfTodos}`;
-        })() }</p>
-    ) : false).toReversed() }
+      if (dayData) {
+        const dayAsString = String(day).padStart(2, '0');
         return (<article key={day} className="day">
+          <h3>day: <time dateTime={`${extractedYear}-${extractedMonth}-${dayAsString}`}>{dayAsString}</time></h3>
+          <p>completion: { (() => {
+            const dayCheckedData = Object.values(dayData);
+            const amountOfTodos = dayCheckedData.length;
+            let amountOfCheckedTodos = 0;
+            for (const checked of dayCheckedData) checked ? amountOfCheckedTodos++ : '';
+            return `${amountOfCheckedTodos}/${amountOfTodos}`;
+          })() }</p>
           <ul>{ Object.entries(dayData).map(([todoId, checked]) => (
             <li key={todoId} className={ checked ? 'checked' : 'unchecked' }>
               <FontAwesomeIcon icon={checked ? faCheck : faXmark} />
             </li>
           )) }</ul>
         </article>);
+      } else return false;
+      // reversed, so that latest days are at the top of the document
+    }).toReversed() }
   </div>);
 }
 
