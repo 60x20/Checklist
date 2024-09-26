@@ -88,13 +88,21 @@ export const YearVisualizer = () => {
 
   if (!yearEntry) return (<p>no data for year</p>);
 
-    { yearEntry.map((monthArr, month) => monthArr ? (
   return (<nav><ul className="column-container">
+    { yearEntry.map((monthArr, month) => {
       // there are vacant indexes, so that months and indexes match
-        <Link to={String(month).padStart(2, '0')}>{monthNames[month]}</Link>
-    ) : false).toReversed() }
+      if (monthArr) {
+        const monthAsString = String(month).padStart(2, '0');
+        return (
           <li key={month} className="month">
+            <Link to={monthAsString}>
+              <time dateTime={`${extractedYear}-${monthAsString}`}>{ monthNames[month] }</time>
+            </Link>
           </li>
+        )
+      } else return false;
+      // reversed, so that latest months are at the top of the document
+    }).toReversed() }
   </ul></nav>);
 }
 
@@ -112,12 +120,15 @@ export const AllYearsVisualizer = () => {
 
   const allYearsDescending = allYears.sort((a, b) => b - a);
 
-    { allYearsDescending.map((year) => (
   return (<nav><ul className="column-container">
-      // there aren't any vacant indexes, but years are unique
-        <Link to={String(year).padStart(4, '0')}>{ year }</Link>
-    )) }
+    { allYearsDescending.map((year) => {
+      const yearAsString = String(year).padStart(4, '0');
+      return ( // there aren't any vacant indexes, but years are unique
       <li key={year} className="year">
-      </li>
+        <Link to={yearAsString}>
+          <time dateTime={yearAsString}>{ year }</time>
+        </Link>
+      </li>);
+    }) }
   </ul></nav>);
 }
