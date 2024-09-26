@@ -72,6 +72,11 @@ button.toggler-with-icon {
   font-size: 1rem !important;
 }
 
+.styled-as-p {
+  font-size: inherit;
+  font-weight: normal;
+}
+
 #root {
   display: grid;
   grid-template-rows: auto 1fr auto; /* header - main - footer */
@@ -194,8 +199,6 @@ main {
   .todo {
     width: 100%; /* every to-do is the same size instead of fit-content */
     p, h1, h2, h3, h4, h5, h6 {
-      font-size: 1em;
-      font-weight: normal;
       overflow-wrap: anywhere; /* instead of overflowing or enlarging the width, enlarge the height since it's the flow direction */
     }
     padding: .5rem;
