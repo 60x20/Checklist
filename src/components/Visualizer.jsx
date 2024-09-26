@@ -97,13 +97,11 @@ export const YearVisualizer = () => {
       // there are vacant indexes, so that months and indexes match
       if (monthArr) {
         const monthAsString = String(month).padStart(2, '0');
-        return (
-          <li key={month} className="month">
-            <Link to={monthAsString}>
-              <time dateTime={`${extractedYear}-${monthAsString}`}>{ monthNames[month] }</time>
-            </Link>
-          </li>
-        )
+        return (<li key={month} className="month">
+          <Link to={monthAsString}>
+            <time dateTime={`${extractedYear}-${monthAsString}`}>{ monthNames[month] }</time>
+          </Link>
+        </li>);
       } else return false;
       // reversed, so that latest months are at the top of the document
     }).toReversed() }
