@@ -61,23 +61,21 @@ const Checklist = () => {
     Object.values(helperMenuClosersRef.current).forEach((closer) => closer());
   }
 
-  return (
-    <div id="checklist" className="column-container" tabIndex="-1"
-      // keydown preferred, so that when browser popup gets closed, possible keyUps don't trigger closing
-      onKeyDown={(e) => { if (e.key === 'Escape') closeAllHelpers(); }}
-    >
-      <h1><time dateTime={`${year}-${month}-${day}`}>{`${day} ${monthNames[parseInt(month, 10)]} ${year}`}</time></h1>
-      <CreateTodo { ...{unitsAsInt, updateCurrentTodoData, year, month, day} } />
-      <ul className="column-container" id="todos"
-      >{ currentTodoTasks.map((todoId) => (
-        <Todo 
-          // todoId is concatenated with date, so that if data changes, uncontrolled inputs will be reset
-          key={year + month + day + todoId}
-          { ...{updateCurrentTodoData, day, month, year, unitsAsInt, todoId, todayCleared, helperMenuClosersRef} }
-        />)
-      ) }</ul>
-    </div>
-  );
+  return (<div id="checklist" className="column-container" tabIndex="-1"
+    // keydown preferred, so that when browser popup gets closed, possible keyUps don't trigger closing
+    onKeyDown={(e) => { if (e.key === 'Escape') closeAllHelpers(); }}
+  >
+    <h1><time dateTime={`${year}-${month}-${day}`}>{`${day} ${monthNames[parseInt(month, 10)]} ${year}`}</time></h1>
+    <CreateTodo { ...{unitsAsInt, updateCurrentTodoData, year, month, day} } />
+    <ul className="column-container" id="todos"
+    >{ currentTodoTasks.map((todoId) => (
+      <Todo 
+        // todoId is concatenated with date, so that if data changes, uncontrolled inputs will be reset
+        key={year + month + day + todoId}
+        { ...{updateCurrentTodoData, day, month, year, unitsAsInt, todoId, todayCleared, helperMenuClosersRef} }
+      />)
+    ) }</ul>
+  </div>);
 };
  
 export default Checklist;
