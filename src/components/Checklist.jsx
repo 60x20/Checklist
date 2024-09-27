@@ -61,6 +61,12 @@ const Checklist = () => {
     Object.values(helperMenuClosersRef.current).forEach((closer) => closer());
   }
 
+  return ( <ChecklistWrapper /> );
+};
+ 
+export default Checklist;
+
+const ChecklistWrapper = () => {
   return (<div id="checklist" className="column-container" tabIndex="-1"
     // keydown preferred, so that when browser popup gets closed, possible keyUps don't trigger closing
     onKeyDown={(e) => { if (e.key === 'Escape') closeAllHelpers(); }}
@@ -78,8 +84,6 @@ const Checklist = () => {
   </div>);
 };
  
-export default Checklist;
-
 const CreateTodo = memo(({ unitsAsInt, updateCurrentTodoData, year, month, day }) => {
   // when mounts, focus on the create todo button; button preferred instead of input to avoid virtual keyboard
   const { refs: { createTodoRef, createTodoButtonRef }, helpers: { focusOnCreateTodoButton, resetValueOfCreateTodo } } = useContext(refContext);
