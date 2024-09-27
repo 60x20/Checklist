@@ -17,9 +17,6 @@ import { addToAllTodos, updateTodoString, returnTodoDescription } from "../helpe
 import { returnTodoData, validateTodoData, addToTodoData, removeFromTodoData, updateTodoState, returnTodoTaskValue } from "../helpers/todoDataHelpers";
 import { monthNames } from "../helpers/validateUnitsFromDate";
 
-// custom hooks
-import { useEffectDuringRender } from "../helpers/customHooks";
-
 const Checklist = () => {
   const { year, month, day } = useContext(requestedDateValidatedContext);
   const { allDataCleared } = useContext(allDataClearedContext); // when changes, new data will be brought

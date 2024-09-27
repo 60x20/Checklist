@@ -10,7 +10,7 @@ function depsShallowlyEqual(firstDeps, secondDeps) {
   return true;
 }
 
-export function useEffectDuringRender(callback, currentDeps = []) {
+function useEffectDuringRender(callback, currentDeps = []) {
   const prevDeps = useRef(null);
   if (!depsShallowlyEqual(prevDeps.current, currentDeps)) {
     callback();
