@@ -39,6 +39,8 @@ const Menu = () => {
       // focusing on other elements, either by user interaction or programmatically, causes blur events
       // so, it's risky to focus when blur events trigger (focus collisions will occur)
       const menuElement = menuRef.current;
+      // if null, it's already closed; might happen since cleanup runs after rendering is complete
+      if (!menuElement) return; // for example: key of a component changing / focusing during rendering / focusing inside effect cleanup
       // related target might be null, for example when window changes (using Alt Tab)
       if (e.relatedTarget && e.relatedTarget.matches('#menu-toggler')) return; // menu closing when toggler gets focus causes re-opening
       if (!menuElement.contains(e.relatedTarget)) closeTheMenu();
