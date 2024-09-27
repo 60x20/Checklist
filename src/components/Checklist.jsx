@@ -55,18 +55,18 @@ const Checklist = () => {
   const currentTodoTasks = Object.keys(currentTodoData); // by default, components are rendered in ascending order by ID
   // TODO: ordering can be changed by changing the way this array is created, without avoiding memoization of components
 
-  // for closing all helper menus
-  const helperMenuClosersRef = useRef({});
-  function closeAllHelpers() {
-    Object.values(helperMenuClosersRef.current).forEach((closer) => closer());
-  }
-
   return ( <ChecklistWrapper /> );
 };
  
 export default Checklist;
 
 const ChecklistWrapper = () => {
+  // for closing all helper menus
+  const helperMenuClosersRef = useRef({});
+  function closeAllHelpers() {
+    Object.values(helperMenuClosersRef.current).forEach((closer) => closer());
+  }
+
   return (<div id="checklist" className="column-container" tabIndex="-1"
     // keydown preferred, so that when browser popup gets closed, possible keyUps don't trigger closing
     onKeyDown={(e) => { if (e.key === 'Escape') closeAllHelpers(); }}
