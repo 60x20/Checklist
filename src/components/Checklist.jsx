@@ -28,6 +28,12 @@ const Checklist = () => {
   // converted into numbers so that they are considered array indexes; memoized since used as dependency
   const unitsAsInt = useMemo(() => [parseInt(year, 10), parseInt(month, 10), parseInt(day, 10)], [day, month, year]);
 
+  return ( <ChecklistWrapper /> );
+};
+ 
+export default Checklist;
+
+const ChecklistWrapper = () => {
   // day must be validated before usage (otherwise since reducer uses the latest scope, it might request an unvalidated date) 
   useEffectDuringRender(() => {
     // validate during render, since accessed during render or during Effect in children
@@ -55,12 +61,6 @@ const Checklist = () => {
   const currentTodoTasks = Object.keys(currentTodoData); // by default, components are rendered in ascending order by ID
   // TODO: ordering can be changed by changing the way this array is created, without avoiding memoization of components
 
-  return ( <ChecklistWrapper /> );
-};
- 
-export default Checklist;
-
-const ChecklistWrapper = () => {
   // for closing all helper menus
   const helperMenuClosersRef = useRef({});
   function closeAllHelpers() {
