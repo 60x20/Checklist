@@ -72,8 +72,8 @@ const ChecklistWrapper = ( {day, month, year, unitsAsInt} ) => {
     <ul className="column-container" id="todos"
     >{ currentTodoTasks.map((todoId) => (
       <Todo 
-        // todoId is concatenated with date, so that if data changes, uncontrolled inputs will be reset
-        key={year + month + day + todoId}
+        // since parent has a key with date, it's unnecessary to pass it here; when date changes uncontrolled inputs will reset
+        key={todoId}
         { ...{updateCurrentTodoData, day, month, year, unitsAsInt, todoId, helperMenuClosersRef} }
       />)
     ) }</ul>
