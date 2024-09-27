@@ -29,6 +29,7 @@ const Checklist = () => {
   const unitsAsInt = useMemo(() => [parseInt(year, 10), parseInt(month, 10), parseInt(day, 10)], [day, month, year]);
 
   // re-create State / re-use Effect, so that the logic is sequential and race conditions are avoided
+  // if data is cleared, clean-up and keep the state and localStorage in sync, otherwise old data will be seen
   return ( <ChecklistWrapper key={ [unitsAsInt, allDataCleared, todayCleared].join('-') } 
     { ...{day, month, year, unitsAsInt} }
   /> );
@@ -37,15 +38,9 @@ const Checklist = () => {
 export default Checklist;
 
 const ChecklistWrapper = ( {day, month, year, unitsAsInt} ) => {
-  // day must be validated before usage (otherwise since reducer uses the latest scope, it might request an unvalidated date) 
-  useEffectDuringRender(() => {
-    // validate during render, since accessed during render or during Effect in children
-    validateTodoData(...unitsAsInt);
-  }, []); // only when key changes and initally; don't do it if currentTodoData changes (otherwise all todos can't be removed)
- 
-  // bring the stored data of date, or if it doesn't exist create it
-  // if data is cleared, clean-up and keep the state and localStorage in sync, otherwise old data will be seen
-  const [currentTodoData, updateCurrentTodoData] = useReducer((prevData, { action, todoId }) => {
+  // only the tasks used, since values locally managed
+  const [currentTodoData, updateCurrentTodoData] = useReducer(reducerForCurrrentTodoData, {}, reducerForCurrrentTodoData);
+  function reducerForCurrrentTodoData (prevData, { action = 'SYNC', todoId } = {}) {
     switch (action) {
       case 'ADD': return {...prevData, [todoId]: ''}; // dummy value used, since values locally managed
       case 'REMOVE': {
@@ -53,12 +48,13 @@ const ChecklistWrapper = ( {day, month, year, unitsAsInt} ) => {
         delete latestData[todoId];
         return latestData;
       };
-      case 'SYNC': return returnTodoData(...unitsAsInt);
+      case 'SYNC': {
+        // syncing with localStorage entry initally or when the key changes
+        validateTodoData(...unitsAsInt); // if it doesn't exist create it
+        return returnTodoData(...unitsAsInt);
+      };
     }
-  }, {}); // only the tasks used, since values locally managed
-  useEffect(() => {
-    updateCurrentTodoData({ action: 'SYNC' });
-  }, []);
+  }
 
   // for rendering todos
   const currentTodoTasks = Object.keys(currentTodoData); // by default, components are rendered in ascending order by ID
