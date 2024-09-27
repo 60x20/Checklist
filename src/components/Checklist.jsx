@@ -81,7 +81,7 @@ const ChecklistWrapper = ( {day, month, year, unitsAsInt} ) => {
       <Todo 
         // todoId is concatenated with date, so that if data changes, uncontrolled inputs will be reset
         key={year + month + day + todoId}
-        { ...{updateCurrentTodoData, day, month, year, unitsAsInt, todoId, todayCleared, helperMenuClosersRef} }
+        { ...{updateCurrentTodoData, day, month, year, unitsAsInt, todoId, helperMenuClosersRef} }
       />)
     ) }</ul>
   </div>);
@@ -130,7 +130,7 @@ const CreateTodo = memo(({ unitsAsInt, updateCurrentTodoData, year, month, day }
   )
 });
 
-const Todo = memo(({ updateCurrentTodoData, day, month, year, unitsAsInt, todoId, todayCleared, helperMenuClosersRef }) => {
+const Todo = memo(({ updateCurrentTodoData, day, month, year, unitsAsInt, todoId, helperMenuClosersRef }) => {
   const currentDate = useContext(currentDateContext);
 
   // for easier focus management
@@ -159,12 +159,7 @@ const Todo = memo(({ updateCurrentTodoData, day, month, year, unitsAsInt, todoId
   }
 
   // todo value locally managed
-  const [checked, setChecked] = useState(() => returnTodoTaskValue(...unitsAsInt, todoId) ?? 0); // can be null
-  useEffect(() => {
-    // can be null due to effect executing later than validation; fallback added to avoid "changing to uncontrolled"
-    // in which case, after effect executes todo will unmount
-    setChecked(returnTodoTaskValue(...unitsAsInt, todoId) ?? 0);
-  }, [todayCleared]); // if today gets cleared, localChecked should adapt
+  const [checked, setChecked] = useState(() => returnTodoTaskValue(...unitsAsInt, todoId));
   
   // todo description (allTodos[todoId]) locally managed
   const [todoDescription, setTodoDescription] = useState(() => returnTodoDescription(todoId));
