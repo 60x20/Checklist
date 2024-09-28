@@ -47,40 +47,6 @@ const Checklist = () => {
  
 export default Checklist;
 
-const Todos = ( {day, month, year, unitsAsInt, helperMenuClosersRef} ) => {
-  // only the tasks used, since values locally managed
-  const [currentTodoData, updateCurrentTodoData] = useReducer(reducerForCurrrentTodoData, {}, reducerForCurrrentTodoData);
-  function reducerForCurrrentTodoData (prevData, { action = 'SYNC', todoId } = {}) {
-    switch (action) {
-      case 'ADD': return {...prevData, [todoId]: ''}; // dummy value used, since values locally managed
-      case 'REMOVE': {
-        const latestData = {...prevData};
-        delete latestData[todoId];
-        return latestData;
-      };
-      case 'SYNC': {
-        // syncing with localStorage entry initally or when the key changes
-        validateTodoData(...unitsAsInt); // if it doesn't exist create it
-        return returnTodoData(...unitsAsInt);
-      };
-    }
-  }
-
-  // for rendering todos
-  const currentTodoTasks = Object.keys(currentTodoData); // by default, components are rendered in ascending order by ID
-  // TODO: ordering can be changed by changing the way this array is created, without avoiding memoization of components
-
-  return (<ul className="column-container" id="todos">
-    { currentTodoTasks.map((todoId) => (
-      <Todo 
-        // since parent has a key with date, it's unnecessary to pass it here; when date changes uncontrolled inputs will reset
-        key={todoId}
-        { ...{updateCurrentTodoData, day, month, year, unitsAsInt, todoId, helperMenuClosersRef} }
-      />)
-    ) }
-  </ul>);
-};
- 
 const CreateTodo = memo(({ unitsAsInt, updateCurrentTodoData, year, month, day }) => {
   // when mounts, focus on the create todo button; button preferred instead of input to avoid virtual keyboard
   const { refs: { createTodoRef, createTodoButtonRef }, helpers: { focusOnCreateTodoButton, resetValueOfCreateTodo } } = useContext(refContext);
@@ -122,6 +88,40 @@ const CreateTodo = memo(({ unitsAsInt, updateCurrentTodoData, year, month, day }
   </form>);
 });
 
+const Todos = ( {day, month, year, unitsAsInt, helperMenuClosersRef} ) => {
+  // only the tasks used, since values locally managed
+  const [currentTodoData, updateCurrentTodoData] = useReducer(reducerForCurrrentTodoData, {}, reducerForCurrrentTodoData);
+  function reducerForCurrrentTodoData (prevData, { action = 'SYNC', todoId } = {}) {
+    switch (action) {
+      case 'ADD': return {...prevData, [todoId]: ''}; // dummy value used, since values locally managed
+      case 'REMOVE': {
+        const latestData = {...prevData};
+        delete latestData[todoId];
+        return latestData;
+      };
+      case 'SYNC': {
+        // syncing with localStorage entry initally or when the key changes
+        validateTodoData(...unitsAsInt); // if it doesn't exist create it
+        return returnTodoData(...unitsAsInt);
+      };
+    }
+  }
+
+  // for rendering todos
+  const currentTodoTasks = Object.keys(currentTodoData); // by default, components are rendered in ascending order by ID
+  // TODO: ordering can be changed by changing the way this array is created, without avoiding memoization of components
+
+  return (<ul className="column-container" id="todos">
+    { currentTodoTasks.map((todoId) => (
+      <Todo 
+        // since parent has a key with date, it's unnecessary to pass it here; when date changes uncontrolled inputs will reset
+        key={todoId}
+        { ...{updateCurrentTodoData, day, month, year, unitsAsInt, todoId, helperMenuClosersRef} }
+      />)
+    ) }
+  </ul>);
+};
+ 
 const Todo = memo(({ updateCurrentTodoData, day, month, year, unitsAsInt, todoId, helperMenuClosersRef }) => {
   const currentDate = useContext(currentDateContext);
 
