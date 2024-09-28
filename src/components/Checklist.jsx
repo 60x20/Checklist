@@ -25,6 +25,12 @@ const Checklist = () => {
   // converted into numbers so that they are considered array indexes; memoized since used as dependency
   const unitsAsInt = useMemo(() => [parseInt(year, 10), parseInt(month, 10), parseInt(day, 10)], [day, month, year]);
 
+  // for closing all helper menus
+  const helperMenuClosersRef = useRef({});
+  function closeAllHelpers() {
+    Object.values(helperMenuClosersRef.current).forEach((closer) => closer());
+  }
+
   // re-create State / re-use Effect, so that the logic is sequential and race conditions are avoided
   // if data is cleared, clean-up and keep the state and localStorage in sync, otherwise old data will be seen
   return (<div id="checklist" className="column-container" tabIndex="-1"
@@ -63,12 +69,6 @@ const Todos = ( {day, month, year, unitsAsInt} ) => {
   // for rendering todos
   const currentTodoTasks = Object.keys(currentTodoData); // by default, components are rendered in ascending order by ID
   // TODO: ordering can be changed by changing the way this array is created, without avoiding memoization of components
-
-  // for closing all helper menus
-  const helperMenuClosersRef = useRef({});
-  function closeAllHelpers() {
-    Object.values(helperMenuClosersRef.current).forEach((closer) => closer());
-  }
 
   return (<ul className="column-container" id="todos">
     { currentTodoTasks.map((todoId) => (
