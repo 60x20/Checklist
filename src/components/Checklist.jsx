@@ -31,14 +31,14 @@ const Checklist = () => {
     Object.values(helperMenuClosersRef.current).forEach((closer) => closer());
   }
 
-  // re-create State / re-use Effect, so that the logic is sequential and race conditions are avoided
-  // if data is cleared, clean-up and keep the state and localStorage in sync, otherwise old data will be seen
   return (<div id="checklist" className="column-container" tabIndex="-1"
     // keydown preferred, so that when browser popup gets closed, possible keyUps don't trigger closing
     onKeyDown={(e) => { if (e.key === 'Escape') closeAllHelpers(); }}
   >
     <h1><time dateTime={`${year}-${month}-${day}`}>{`${day} ${monthNames[parseInt(month, 10)]} ${year}`}</time></h1>
     <CreateTodo { ...{unitsAsInt, updateCurrentTodoData, year, month, day} } />
+    {/* with key: re-create State / re-use Effect, so that the logic is sequential and race conditions are avoided */}
+    {/* if data is cleared, clean-up and keep the state and localStorage in sync, otherwise old data will be seen */}
     <Todos key={ [unitsAsInt, allDataCleared, todayCleared].join('-') } 
       { ...{day, month, year, unitsAsInt} }
     />
