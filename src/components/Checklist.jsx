@@ -27,11 +27,16 @@ const Checklist = () => {
 
   // re-create State / re-use Effect, so that the logic is sequential and race conditions are avoided
   // if data is cleared, clean-up and keep the state and localStorage in sync, otherwise old data will be seen
-  return (
+  return (<div id="checklist" className="column-container" tabIndex="-1"
+    // keydown preferred, so that when browser popup gets closed, possible keyUps don't trigger closing
+    onKeyDown={(e) => { if (e.key === 'Escape') closeAllHelpers(); }}
+  >
+    <h1><time dateTime={`${year}-${month}-${day}`}>{`${day} ${monthNames[parseInt(month, 10)]} ${year}`}</time></h1>
+    <CreateTodo { ...{unitsAsInt, updateCurrentTodoData, year, month, day} } />
     <Todos key={ [unitsAsInt, allDataCleared, todayCleared].join('-') } 
       { ...{day, month, year, unitsAsInt} }
     />
-  );
+  </div>);
 };
  
 export default Checklist;
@@ -65,21 +70,15 @@ const Todos = ( {day, month, year, unitsAsInt} ) => {
     Object.values(helperMenuClosersRef.current).forEach((closer) => closer());
   }
 
-  return (<div id="checklist" className="column-container" tabIndex="-1"
-    // keydown preferred, so that when browser popup gets closed, possible keyUps don't trigger closing
-    onKeyDown={(e) => { if (e.key === 'Escape') closeAllHelpers(); }}
-  >
-    <h1><time dateTime={`${year}-${month}-${day}`}>{`${day} ${monthNames[parseInt(month, 10)]} ${year}`}</time></h1>
-    <CreateTodo { ...{unitsAsInt, updateCurrentTodoData, year, month, day} } />
-    <ul className="column-container" id="todos"
-    >{ currentTodoTasks.map((todoId) => (
+  return (<ul className="column-container" id="todos">
+    { currentTodoTasks.map((todoId) => (
       <Todo 
         // since parent has a key with date, it's unnecessary to pass it here; when date changes uncontrolled inputs will reset
         key={todoId}
         { ...{updateCurrentTodoData, day, month, year, unitsAsInt, todoId, helperMenuClosersRef} }
       />)
-    ) }</ul>
-  </div>);
+    ) }
+  </ul>);
 };
  
 const CreateTodo = memo(({ unitsAsInt, updateCurrentTodoData, year, month, day }) => {
