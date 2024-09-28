@@ -31,23 +31,26 @@ const Checklist = () => {
     Object.values(helperMenuClosersRef.current).forEach((closer) => closer());
   }
 
+  // state updater created in Todos passed to its sibling (= CreateTodo) using ref
+  const refForUpdateCurrentTodoData = useRef();
+
   return (<div id="checklist" className="column-container" tabIndex="-1"
     // keydown preferred, so that when browser popup gets closed, possible keyUps don't trigger closing
     onKeyDown={(e) => { if (e.key === 'Escape') closeAllHelpers(); }}
   >
     <h1><time dateTime={`${year}-${month}-${day}`}>{`${day} ${monthNames[parseInt(month, 10)]} ${year}`}</time></h1>
-    <CreateTodo { ...{unitsAsInt, updateCurrentTodoData, year, month, day} } />
+    <CreateTodo { ...{unitsAsInt, year, month, day, refForUpdateCurrentTodoData} } />
     {/* with key: re-create State / re-use Effect, so that the logic is sequential and race conditions are avoided */}
     {/* if data is cleared, clean-up and keep the state and localStorage in sync, otherwise old data will be seen */}
     <Todos key={ [unitsAsInt, allDataCleared, todayCleared].join('-') } 
-      { ...{day, month, year, unitsAsInt, helperMenuClosersRef} }
+      { ...{day, month, year, unitsAsInt, helperMenuClosersRef, refForUpdateCurrentTodoData} }
     />
   </div>);
 };
  
 export default Checklist;
 
-const CreateTodo = memo(({ unitsAsInt, updateCurrentTodoData, year, month, day }) => {
+const CreateTodo = memo(({ unitsAsInt, year, month, day, refForUpdateCurrentTodoData }) => {
   // when mounts, focus on the create todo button; button preferred instead of input to avoid virtual keyboard
   const { refs: { createTodoRef, createTodoButtonRef }, helpers: { focusOnCreateTodoButton, resetValueOfCreateTodo } } = useContext(refContext);
   useEffect(() => {
@@ -59,7 +62,7 @@ const CreateTodo = memo(({ unitsAsInt, updateCurrentTodoData, year, month, day }
   // currentTodoData should be in sync with localStorage entry
   function addToCurrentTodoDataAndSync(todoId) {
     addToTodoData(todoId, ...unitsAsInt);
-    updateCurrentTodoData({ action: 'ADD', todoId });
+    refForUpdateCurrentTodoData.current({ action: 'ADD', todoId });
   }
 
   // handlers
@@ -88,7 +91,7 @@ const CreateTodo = memo(({ unitsAsInt, updateCurrentTodoData, year, month, day }
   </form>);
 });
 
-const Todos = ( {day, month, year, unitsAsInt, helperMenuClosersRef} ) => {
+const Todos = ( {day, month, year, unitsAsInt, helperMenuClosersRef, refForUpdateCurrentTodoData} ) => {
   // only the tasks used, since values locally managed
   const [currentTodoData, updateCurrentTodoData] = useReducer(reducerForCurrrentTodoData, {}, reducerForCurrrentTodoData);
   function reducerForCurrrentTodoData (prevData, { action = 'SYNC', todoId } = {}) {
@@ -106,6 +109,10 @@ const Todos = ( {day, month, year, unitsAsInt, helperMenuClosersRef} ) => {
       };
     }
   }
+
+  useEffect(() => {
+    refForUpdateCurrentTodoData.current = updateCurrentTodoData;
+  }, []);
 
   // for rendering todos
   const currentTodoTasks = Object.keys(currentTodoData); // by default, components are rendered in ascending order by ID
