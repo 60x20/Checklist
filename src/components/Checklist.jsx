@@ -111,16 +111,14 @@ const CreateTodo = memo(({ unitsAsInt, updateCurrentTodoData, year, month, day }
     resetValueOfCreateTodo(); // value is reset on submit to make known value is added
   }
 
-  return (
-    <form onSubmit={createTodoHandler}>
-      {/* create-todo gets focus, shouldn't be re-created (keys shouldn't be used here) */}
-      <input id="create-todo" ref={createTodoRef} type="text" name="todoName" required
-        title="task to add"
-        autoComplete="off"
-      />
-      <button ref={createTodoButtonRef}>create</button>
-    </form>
-  )
+  return (<form onSubmit={createTodoHandler}>
+    {/* create-todo gets focus, shouldn't be re-created (keys shouldn't be used here) */}
+    <input id="create-todo" ref={createTodoRef} type="text" name="todoName" required
+      title="task to add"
+      autoComplete="off"
+    />
+    <button ref={createTodoButtonRef}>create</button>
+  </form>);
 });
 
 const Todo = memo(({ updateCurrentTodoData, day, month, year, unitsAsInt, todoId, helperMenuClosersRef }) => {
