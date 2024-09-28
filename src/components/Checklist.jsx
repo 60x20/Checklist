@@ -202,29 +202,27 @@ const Todo = memo(({ updateCurrentTodoData, day, month, year, unitsAsInt, todoId
     focusOnCurrentMenuToggler(); // move focus to the current todoToggler
   }
 
-  return (
-    <li className="column-container todo" ref={todoRef}>
-      <div className="main-with-others-grouped-row-container">
-        <h3 className="main-item styled-as-p">{todoDescription}</h3>
-        <input name="todo-state" type="checkbox" data-id-to-update={todoId} onChange={updateTodoStateHandler} checked={checked}
-          title={`Mark as ${!checked ? 'done' : 'undone'}.`}
-        />
-        <button
-          className="toggler-with-icon helper-menu-toggler"
-          onClick={() => toggleHelperState()}
-          title={helperState ? "Close helpers." : "Open helpers."}
-          type="button"
-          aria-haspopup="menu"
-          aria-expanded={helperState}
-        >
-          <FontAwesomeIcon icon={helperState ? faXmark : faBars} />
-        </button>
-      </div>
-      { helperState ?
-      <TodoHelpers { ...{todoId, updateTodoStringHandler, removeFromTodoHandler, closeHelperMenu, helperMenuClosersRef} } />
-      : false }
-    </li>
-  );
+  return (<li className="column-container todo" ref={todoRef}>
+    <div className="main-with-others-grouped-row-container">
+      <h3 className="main-item styled-as-p">{todoDescription}</h3>
+      <input name="todo-state" type="checkbox" data-id-to-update={todoId} onChange={updateTodoStateHandler} checked={checked}
+        title={`Mark as ${!checked ? 'done' : 'undone'}.`}
+      />
+      <button
+        className="toggler-with-icon helper-menu-toggler"
+        onClick={() => toggleHelperState()}
+        title={helperState ? "Close helpers." : "Open helpers."}
+        type="button"
+        aria-haspopup="menu"
+        aria-expanded={helperState}
+      >
+        <FontAwesomeIcon icon={helperState ? faXmark : faBars} />
+      </button>
+    </div>
+    { helperState ?
+    <TodoHelpers { ...{todoId, updateTodoStringHandler, removeFromTodoHandler, closeHelperMenu, helperMenuClosersRef} } />
+    : false }
+  </li>);
 });
 
 const TodoHelpers = ({ todoId, updateTodoStringHandler, removeFromTodoHandler, closeHelperMenu, helperMenuClosersRef }) => {
