@@ -242,8 +242,7 @@ const TodoHelpers = ({ todoId, updateTodoStringHandler, removeFromTodoHandler, c
     return () => { delete helperMenuClosersRef.current[todoId]; };
   }, [])
 
-  return (<>
-  <div className="row-container helpers" ref={helperMenuRef} role="menu" aria-orientation="horizontal">
+  return (<div className="row-container helpers" ref={helperMenuRef} role="menu" aria-orientation="horizontal">
     {/* when any of the helpers are used, helper menu should be closed */}
     {/* focus should be managed when menu closes or opens */}
     <form data-id-to-update={todoId} onSubmit={updateTodoStringHandler}>
@@ -253,8 +252,7 @@ const TodoHelpers = ({ todoId, updateTodoStringHandler, removeFromTodoHandler, c
       <button>update todo</button>
     </form>
     <button onClick={removeFromTodoHandler} type="button" data-id-to-remove={todoId}>remove</button>
-  </div>
-  </>);
+  </div>);
 };
 
 // TODO: validation happening on parent, child locally retrieving data is error prone
