@@ -27,14 +27,16 @@ const Checklist = () => {
 
   // re-create State / re-use Effect, so that the logic is sequential and race conditions are avoided
   // if data is cleared, clean-up and keep the state and localStorage in sync, otherwise old data will be seen
-  return ( <ChecklistWrapper key={ [unitsAsInt, allDataCleared, todayCleared].join('-') } 
-    { ...{day, month, year, unitsAsInt} }
-  /> );
+  return (
+    <Todos key={ [unitsAsInt, allDataCleared, todayCleared].join('-') } 
+      { ...{day, month, year, unitsAsInt} }
+    />
+  );
 };
  
 export default Checklist;
 
-const ChecklistWrapper = ( {day, month, year, unitsAsInt} ) => {
+const Todos = ( {day, month, year, unitsAsInt} ) => {
   // only the tasks used, since values locally managed
   const [currentTodoData, updateCurrentTodoData] = useReducer(reducerForCurrrentTodoData, {}, reducerForCurrrentTodoData);
   function reducerForCurrrentTodoData (prevData, { action = 'SYNC', todoId } = {}) {
