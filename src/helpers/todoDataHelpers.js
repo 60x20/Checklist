@@ -41,10 +41,6 @@ export function returnTodoData(year, month, day) {
   return yearEntry[month][day];
 }
 
-export function returnTodoTaskValue(year, month, day, todoId) {
-  return returnTodoData(year, month, day)[todoId];
-}
-
 export function addToTodoData(todoId, year, month, day) {
   updateTodoState(todoId, 0, year, month, day)
 }

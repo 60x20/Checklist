@@ -13,8 +13,8 @@ import { refContext, focusOnFirstItemFromRef } from "../providers/RefProvider";
 
 // helpers
 import { addToTodosTemplate, removeFromTodosTemplate } from "../helpers/todosTemplateHelpers";
-import { returnTodoData, validateTodoData, addToTodoData, removeFromTodoData, updateTodoState, returnTodoTaskValue } from "../helpers/todoDataHelpers";
 import { addToAllTodos, updateTodoString, returnCachedTodoDescription } from "../helpers/allTodosHelpers";
+import { returnTodoData, validateTodoData, addToTodoData, removeFromTodoData, updateTodoState } from "../helpers/todoDataHelpers";
 import { monthNames } from "../helpers/validateUnitsFromDate";
 
 const Checklist = () => {
@@ -92,20 +92,23 @@ const CreateTodo = memo(({ unitsAsInt, year, month, day, refForUpdateCurrentTodo
 });
 
 const Todos = ( {day, month, year, unitsAsInt, helperMenuClosersRef, refForUpdateCurrentTodoData} ) => {
+  // localStorage entry cached to avoid parsing; used to initialize local states, avoiding hoisting the state up and re-rendering
+  const cachedTodoData = useRef();
+
   // only the tasks used, since values locally managed
   const [currentTodoData, updateCurrentTodoData] = useReducer(reducerForCurrrentTodoData, {}, reducerForCurrrentTodoData);
   function reducerForCurrrentTodoData (prevData, { action = 'SYNC', todoId } = {}) {
     switch (action) {
-      case 'ADD': return {...prevData, [todoId]: ''}; // dummy value used, since values locally managed
+      case 'ADD': return cachedTodoData.current = {...prevData, [todoId]: 0}; // keeping cache in sync; value used for initialization
       case 'REMOVE': {
         const latestData = {...prevData};
         delete latestData[todoId];
-        return latestData;
+        return cachedTodoData.current = latestData; // keeping cache in sync
       };
       case 'SYNC': {
         // syncing with localStorage entry initally or when the key changes
         validateTodoData(...unitsAsInt); // if it doesn't exist create it
-        return returnTodoData(...unitsAsInt);
+        return cachedTodoData.current = returnTodoData(...unitsAsInt); // keeping cache in sync
       };
     }
   }
@@ -123,13 +126,13 @@ const Todos = ( {day, month, year, unitsAsInt, helperMenuClosersRef, refForUpdat
       <Todo 
         // since parent has a key with date, it's unnecessary to pass it here; when date changes uncontrolled inputs will reset
         key={todoId}
-        { ...{updateCurrentTodoData, day, month, year, unitsAsInt, todoId, helperMenuClosersRef} }
+        { ...{updateCurrentTodoData, day, month, year, unitsAsInt, todoId, helperMenuClosersRef, cachedTodoData} }
       />)
     ) }
   </ul>);
 };
  
-const Todo = memo(({ updateCurrentTodoData, day, month, year, unitsAsInt, todoId, helperMenuClosersRef }) => {
+const Todo = memo(({ updateCurrentTodoData, day, month, year, unitsAsInt, todoId, helperMenuClosersRef, cachedTodoData }) => {
   const currentDate = useContext(currentDateContext);
 
   // for easier focus management
@@ -158,7 +161,7 @@ const Todo = memo(({ updateCurrentTodoData, day, month, year, unitsAsInt, todoId
   }
 
   // todo value locally managed
-  const [checked, setChecked] = useState(() => returnTodoTaskValue(...unitsAsInt, todoId));
+  const [checked, setChecked] = useState(cachedTodoData.current[todoId]);
   
   // todo description (allTodos[todoId]) locally managed
   const [todoDescription, setTodoDescription] = useState(() => returnCachedTodoDescription(todoId));
