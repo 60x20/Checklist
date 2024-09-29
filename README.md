@@ -17,7 +17,7 @@ A checklist application that auto refreshes everyday, and saves previous checkli
 - [x] Semantic HTML
 - [x] Styling
 - [x] Accessibility
-- [ ] Localize state even further
+- [x] Localized state
 - [ ] Different input types (besides Checkboxes)
 - [ ] Drag and Drop
 - [ ] Saving data to cloud instead of device storage
