@@ -261,6 +261,3 @@ const TodoHelpers = ({ todoId, updateTodoStringHandler, removeFromTodoHandler, c
     <button onClick={removeFromTodoHandler} type="button" data-id-to-remove={todoId}>remove</button>
   </div>);
 };
-
-// TODO: validation happening on parent, child locally retrieving data is error prone
-// state might be hoisted
