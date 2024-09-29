@@ -1,8 +1,13 @@
 // All ToDos: binds todo string to unique ids, used to access todo strings
 
+// allTodos cached to avoid unnecessary parsing
+let cachedAllTodos = returnAllTodos();
+
 function setAllTodos(arrayOfTodoStrings) {
   // array indexes are used as references to ToDos, so indexes MUST NOT change
   localStorage.setItem('todos', JSON.stringify(arrayOfTodoStrings));
+
+  cachedAllTodos = arrayOfTodoStrings; // keeping cached version in sync
 }
 
 export function validateAllTodos() {
@@ -15,8 +20,8 @@ function returnAllTodos() {
   return JSON.parse(localStorage.getItem('todos'));
 }
 
-export function returnTodoDescription(todoId) {
-  return returnAllTodos()[todoId];
+export function returnCachedTodoDescription(todoId) {
+  return cachedAllTodos[todoId]; // cached version avoids parsing, hence faster
 }
 
 export function addToAllTodos(todoString) {

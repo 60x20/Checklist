@@ -13,8 +13,8 @@ import { refContext, focusOnFirstItemFromRef } from "../providers/RefProvider";
 
 // helpers
 import { addToTodosTemplate, removeFromTodosTemplate } from "../helpers/todosTemplateHelpers";
-import { addToAllTodos, updateTodoString, returnTodoDescription } from "../helpers/allTodosHelpers";
 import { returnTodoData, validateTodoData, addToTodoData, removeFromTodoData, updateTodoState, returnTodoTaskValue } from "../helpers/todoDataHelpers";
+import { addToAllTodos, updateTodoString, returnCachedTodoDescription } from "../helpers/allTodosHelpers";
 import { monthNames } from "../helpers/validateUnitsFromDate";
 
 const Checklist = () => {
@@ -161,7 +161,7 @@ const Todo = memo(({ updateCurrentTodoData, day, month, year, unitsAsInt, todoId
   const [checked, setChecked] = useState(() => returnTodoTaskValue(...unitsAsInt, todoId));
   
   // todo description (allTodos[todoId]) locally managed
-  const [todoDescription, setTodoDescription] = useState(() => returnTodoDescription(todoId));
+  const [todoDescription, setTodoDescription] = useState(() => returnCachedTodoDescription(todoId));
 
   // currentTodoData should be in sync with localStorage entry
   function removeFromCurrentTodoDataAndSync(todoId) {
