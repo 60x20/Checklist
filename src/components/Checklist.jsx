@@ -174,6 +174,7 @@ const Todo = memo(({ updateCurrentTodoData, day, month, year, unitsAsInt, todoId
   // for performance optimization, todoState locally managed, hence only in sync with localStorgae (not with currentTodoData)
   function updateAndSyncTodoState(todoIdUpdate, checked) {
     updateTodoState(todoIdUpdate, checked, ...unitsAsInt);
+    setChecked(checked);
   }
 
   // todoDescription should be in sync with localStorage entry
@@ -198,8 +199,6 @@ const Todo = memo(({ updateCurrentTodoData, day, month, year, unitsAsInt, todoId
     // boolean converted into 0 and 1 to save memory
     const checked = Number(e.currentTarget.checked);
     updateAndSyncTodoState(todoIdUpdate, checked);
-
-    setChecked(checked);
   }
   function updateTodoStringHandler(e) {
     e.preventDefault();
