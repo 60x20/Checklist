@@ -22,8 +22,9 @@ const Checklist = () => {
   const { allDataCleared } = useContext(allDataClearedContext); // when changes, new data will be brought
   const { todayCleared } = useContext(todayClearedContext); // when changes, new data will be brought
 
-  // converted into numbers so that they are considered array indexes; memoized since used as dependency
-  const unitsAsInt = useMemo(() => [parseInt(year, 10), parseInt(month, 10), parseInt(day, 10)], [day, month, year]);
+  // converted into numbers so that they are considered array indexes
+  const monthAsInt = parseInt(month, 10);
+  const unitsAsInt = useMemo(() => [parseInt(year, 10), monthAsInt, parseInt(day, 10)], [day, month, year]); // used as dependency
 
   // for closing all helper menus
   const helperMenuClosersRef = useRef({});
@@ -38,7 +39,7 @@ const Checklist = () => {
     // keydown preferred, so that when browser popup gets closed, possible keyUps don't trigger closing
     onKeyDown={(e) => { if (e.key === 'Escape') closeAllHelpers(); }}
   >
-    <h1><time dateTime={`${year}-${month}-${day}`}>{`${day} ${monthNames[parseInt(month, 10)]} ${year}`}</time></h1>
+    <h1><time dateTime={`${year}-${month}-${day}`}>{`${day} ${monthNames[monthAsInt]} ${year}`}</time></h1>
     <CreateTodo { ...{unitsAsInt, year, month, day, refForUpdateCurrentTodoData} } />
     {/* with key: re-create State / re-use Effect, so that the logic is sequential and race conditions are avoided */}
     {/* if data is cleared, clean-up and keep the state and localStorage in sync, otherwise old data will be seen */}
