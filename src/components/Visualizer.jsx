@@ -34,10 +34,11 @@ export const MonthVisualizer = () => {
   const extractedMonth = extractMonth(month);
 
   const isValid = validateDate(extractedYear, extractedMonth);
-  if (!isValid) return <p>invalid date</p>;
 
   const yearAsInt = parseInt(extractedYear, 10);
   const monthAsInt = parseInt(extractedMonth, 10);
+
+  if (!isValid) return <p>invalid date</p>;
 
   const yearEntry = returnYearEntry(yearAsInt);
   if (!yearEntry) return (<p>no data for year</p>);
