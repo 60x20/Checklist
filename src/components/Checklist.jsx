@@ -15,7 +15,13 @@ import { refContext, focusOnFirstItemFromRef } from "../providers/RefProvider";
 import { addToTodosTemplate, removeFromTodosTemplate } from "../helpers/todosTemplateHelpers";
 import { addToAllTodos, updateTodoString, returnCachedTodoDescription } from "../helpers/allTodosHelpers";
 import { returnTodoData, validateTodoData, addToTodoData, removeFromTodoData, updateTodoState } from "../helpers/todoDataHelpers";
-import { monthNames } from "../helpers/validateUnitsFromDate";
+import { monthNames, monthNamesTruncated } from "../helpers/validateUnitsFromDate";
+
+// custom hooks
+import changeDocumentTitle from "../custom-hooks/changeDocumentTitle";
+
+const mainTitle = 'Checklist'; // will be put in document.title
+const addSubtitleToDocumentTitle = changeDocumentTitle.bind(globalThis, mainTitle);
 
 const Checklist = () => {
   const { year, month, day } = useContext(requestedDateValidatedContext);
@@ -26,6 +32,8 @@ const Checklist = () => {
   const monthAsInt = parseInt(month, 10);
   const unitsAsInt = useMemo(() => [parseInt(year, 10), monthAsInt, parseInt(day, 10)], [day, month, year]); // used as dependency
 
+  addSubtitleToDocumentTitle(`${monthNamesTruncated[monthAsInt]} ${day}`); // adding date to the title
+  
   // for closing all helper menus
   const helperMenuClosersRef = useRef({});
   function closeAllHelpers() {
