@@ -7,9 +7,14 @@ import { currentDateContext } from "../providers/CurrentDateProvider";
 // helpers
 import { monthNames } from "../helpers/validateUnitsFromDate";
 
+// custom hooks
+import changeDocumentTitle from "../custom-hooks/changeDocumentTitle";
+
 const Home = () => {
   const currentDate = useContext(currentDateContext);
   
+  changeDocumentTitle(undefined, 'Home'); // add to original title
+
   return (
     <div id="home">
       <h1>Today: <Link to={currentDate.YMD.replaceAll('-', '/')}>
