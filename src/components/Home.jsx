@@ -15,15 +15,13 @@ const Home = () => {
   
   changeDocumentTitle(undefined, 'Home'); // add to original title
 
-  return (
-    <div id="home">
-      <h1>Today: <Link to={currentDate.YMD.replaceAll('-', '/')}>
+  return (<div id="home">
+    <h1>Today: <Link to={currentDate.YMD.replaceAll('-', '/')}>
       <time dateTime={currentDate.YMD}>
-      {`${currentDate.date.day} ${monthNames[parseInt(currentDate.date.month, 10)]} ${currentDate.date.year}`}
+        {`${currentDate.date.day} ${monthNames[parseInt(currentDate.date.month, 10)]} ${currentDate.date.year}`}
       </time>
-      </Link></h1>
-    </div>
-  );
+    </Link></h1>
+  </div>);
 }
  
 export default Home;
