@@ -7,12 +7,18 @@ import { faCheck, faXmark } from '@fortawesome/free-solid-svg-icons'
 
 // helpers
 import { returnAllYears } from "../helpers/allYearsHelpers";
-import { extractYear, extractMonth, validateDate, monthNames } from "../helpers/validateUnitsFromDate";
+import { extractYear, extractMonth, validateDate, monthNames, monthNamesTruncated } from "../helpers/validateUnitsFromDate";
 import { returnYearEntry } from "../helpers/todoDataHelpers";
 
 // contexts
 import { allDataClearedContext } from "../providers/AllDataClearedProvider";
 import { refContext } from "../providers/RefProvider";
+
+// custom hooks
+import changeDocumentTitle from "../custom-hooks/changeDocumentTitle";
+
+const mainTitle = 'Visualize'; // will be put in document.title
+const addSubtitleToDocumentTitle = changeDocumentTitle.bind(globalThis, mainTitle);
 
 export const VisualizerLayout = () => {
   const { refs: { visualizerRef } } = useContext(refContext);
@@ -38,6 +44,9 @@ export const MonthVisualizer = () => {
   const yearAsInt = parseInt(extractedYear, 10);
   const monthAsInt = parseInt(extractedMonth, 10);
 
+  const subtitle = isValid ? `${monthNamesTruncated[monthAsInt]} ${extractedYear}` : 'invalid date';
+  addSubtitleToDocumentTitle(subtitle);
+  
   if (!isValid) return <p>invalid date</p>;
 
   const yearEntry = returnYearEntry(yearAsInt);
@@ -87,6 +96,10 @@ export const YearVisualizer = () => {
   const extractedYear = extractYear(year);
 
   const isValid = validateDate(extractedYear);
+  
+  const subtitle = isValid ? extractedYear : 'invalid year';
+  addSubtitleToDocumentTitle(subtitle);
+  
   if (!isValid) return (<p>invalid date</p>);
   
   const yearAsInt = parseInt(extractedYear, 10);
@@ -117,6 +130,8 @@ export const AllYearsVisualizer = () => {
   // when rendered focus on the first link
   const { helpers: { focusOnFirstItemInsideVisualizer } } = useContext(refContext);
   useEffect(focusOnFirstItemInsideVisualizer, []);
+
+  addSubtitleToDocumentTitle('Years');
 
   // everyting requested
   const allYears = returnAllYears();
