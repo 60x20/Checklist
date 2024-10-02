@@ -3,6 +3,7 @@ import { useContext } from "react";
 
 // contexts
 import { currentDateContext } from "../providers/CurrentDateProvider";
+import { refCallbackForFocus } from "../providers/RefProvider";
 
 // helpers
 import { monthNames } from "../helpers/validateUnitsFromDate";
@@ -16,7 +17,8 @@ const Home = () => {
   changeDocumentTitle(undefined, 'Home'); // add to original title
 
   return (<div id="home">
-    <h1>Today: <Link to={currentDate.YMD.replaceAll('-', '/')}>
+    {/* focus on the anchor on mount  */}
+    <h1>Today: <Link ref={refCallbackForFocus} to={currentDate.YMD.replaceAll('-', '/')}>
       <time dateTime={currentDate.YMD}>
         {`${currentDate.date.day} ${monthNames[parseInt(currentDate.date.month, 10)]} ${currentDate.date.year}`}
       </time>
