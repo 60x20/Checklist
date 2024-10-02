@@ -245,15 +245,13 @@ const Todo = memo(({ updateCurrentTodoData, day, month, year, unitsAsInt, todoId
 });
 
 const TodoHelpers = ({ todoId, updateTodoStringHandler, removeFromTodoHandler, closeHelperMenu, helperMenuClosersRef }) => {
-
-  // store the helperMenu closer in ref, will be used to close all at once
-  useEffect(() => {
-    helperMenuClosersRef.current[todoId] = closeHelperMenu; // because value to set is always false, old func with old scope is ok to use
+  useEffect(() => { // store the helperMenu closer in ref, will be used to close all at once
+    helperMenuClosersRef.current[todoId] = closeHelperMenu; // since always set to false, old func with old scope is ok to use
     return () => { delete helperMenuClosersRef.current[todoId]; };
   }, [])
 
-    {/* when any of the helpers are used, helper menu should be closed */}
-    {/* focus should be managed when menu closes or opens */}
+  // when any of the helpers are used, helper menu should be closed
+  // focus should be managed when menu closes or opens
   return (<div className="row-container helpers" role="menu" aria-orientation="horizontal">
     <form data-id-to-update={todoId} onSubmit={updateTodoStringHandler}>
       {/* focus on first focusable item when mounts */}
