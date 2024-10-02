@@ -9,7 +9,7 @@ import { currentDateContext } from "../providers/CurrentDateProvider";
 import { allDataClearedContext } from "../providers/AllDataClearedProvider";
 import { requestedDateValidatedContext } from "../providers/RequestedDateValidatedProvider";
 import { todayClearedContext } from "../providers/TodayClearedProvider";
-import { refContext, focusOnFirstItemFromRef } from "../providers/RefProvider";
+import { refContext } from "../providers/RefProvider";
 
 // helpers
 import { addToTodosTemplate, removeFromTodosTemplate } from "../helpers/todosTemplateHelpers";
@@ -245,11 +245,6 @@ const Todo = memo(({ updateCurrentTodoData, day, month, year, unitsAsInt, todoId
 });
 
 const TodoHelpers = ({ todoId, updateTodoStringHandler, removeFromTodoHandler, closeHelperMenu, helperMenuClosersRef }) => {
-  const helperMenuRef = useRef();
-
-  useEffect(() => {
-    focusOnFirstItemFromRef(helperMenuRef);
-  }, []); // when mounts focus on the first item
 
   // store the helperMenu closer in ref, will be used to close all at once
   useEffect(() => {
@@ -257,11 +252,12 @@ const TodoHelpers = ({ todoId, updateTodoStringHandler, removeFromTodoHandler, c
     return () => { delete helperMenuClosersRef.current[todoId]; };
   }, [])
 
-  return (<div className="row-container helpers" ref={helperMenuRef} role="menu" aria-orientation="horizontal">
     {/* when any of the helpers are used, helper menu should be closed */}
     {/* focus should be managed when menu closes or opens */}
+  return (<div className="row-container helpers" role="menu" aria-orientation="horizontal">
     <form data-id-to-update={todoId} onSubmit={updateTodoStringHandler}>
-      <input size="10" type="text" name="todoName" required 
+      {/* focus on first focusable item when mounts */}
+      <input autoFocus size="10" type="text" name="todoName" required 
         title="new task description"
       />
       <button>update todo</button>
