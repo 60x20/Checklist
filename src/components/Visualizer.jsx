@@ -91,6 +91,7 @@ export const YearVisualizer = () => {
 
   // when rendered or URL changes focus on the first link
   const { helpers: { focusOnFirstItemInsideVisualizer } } = useContext(refContext);
+  // layoutEffect not used since ref used on parent (and child layout runs before the parent mounts and gets the ref)
   useEffect(focusOnFirstItemInsideVisualizer, [year]);
 
   const extractedYear = extractYear(year);
@@ -129,7 +130,7 @@ export const AllYearsVisualizer = () => {
   
   // when rendered focus on the first link
   const { helpers: { focusOnFirstItemInsideVisualizer } } = useContext(refContext);
-  useEffect(focusOnFirstItemInsideVisualizer, []);
+  useEffect(focusOnFirstItemInsideVisualizer, []); // layout effect can't be used since ref isn't used here or on children
 
   addSubtitleToDocumentTitle('Years');
 
