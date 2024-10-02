@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef } from "react";
+import { useContext, useEffect, useLayoutEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 // contexts
@@ -29,7 +29,7 @@ const Menu = () => {
   const { refs: { menuRef }, helpers: { focusOnCreateTodoButton, focusOnFirstMenuItem, focusOnLastMenuItem, focusOnFirstItemInsideVisualizer } } = useContext(refContext);
 
   // when menu opens, focus on first menu item
-  useEffect(() => {
+  useLayoutEffect(() => { // layout prefferred to avoid flickers
     if (menuState) focusOnFirstMenuItem();
   }, [menuState]);
 
