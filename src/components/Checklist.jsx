@@ -61,7 +61,7 @@ export default Checklist;
 
 const CreateTodo = memo(({ unitsAsInt, year, month, day, refForUpdateCurrentTodoData }) => {
   // when mounts, focus on the create todo button; button preferred instead of input to avoid virtual keyboard
-  const { refs: { createTodoRef, createTodoButtonRef }, helpers: { resetValueOfCreateTodo } } = useContext(refContext);
+  const { refs: { createTodoRef }, helpers: { resetValueOfCreateTodo } } = useContext(refContext);
 
   const currentDate = useContext(currentDateContext);
 
@@ -93,7 +93,7 @@ const CreateTodo = memo(({ unitsAsInt, year, month, day, refForUpdateCurrentTodo
       title="task to add"
       autoComplete="off"
     />
-    <button autoFocus ref={createTodoButtonRef}>create</button>
+    <button autoFocus>create</button>
   </form>);
 });
 

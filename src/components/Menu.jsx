@@ -26,7 +26,7 @@ const Menu = () => {
   const { increaseAllDataCleared } = useContext(allDataClearedContext);
   const { increaseTodayCleared } = useContext(todayClearedContext);
 
-  const { refs: { menuRef }, helpers: { focusOnCreateTodoButton, focusOnFirstMenuItem, focusOnLastMenuItem, focusOnFirstItemInsideVisualizer } } = useContext(refContext);
+  const { refs: { menuRef }, helpers: { focusOnCreateTodo, focusOnFirstMenuItem, focusOnLastMenuItem, focusOnFirstItemInsideVisualizer } } = useContext(refContext);
 
   // when menu opens, focus on first menu item
   useLayoutEffect(() => { // layout prefferred to avoid flickers
@@ -85,13 +85,13 @@ const Menu = () => {
     resetAllData();
     increaseAllDataCleared(); // informing checklist that data is reset, allowing it to clean-up (otherwise old data will be seen)
 
-    focusOnCreateTodoButton(); // move focus to create-todo
+    focusOnCreateTodo(); // move focus to create-todo
   }
   function resetCurrentDayHandler() {
     resetTodoData(...unitsAsInt);
     increaseTodayCleared(); // informing checklist
     
-    focusOnCreateTodoButton(); // move focus to create-todo
+    focusOnCreateTodo(); // move focus to create-todo
   }
 
   function menuKeyPressFocusHandler(e) {
@@ -124,7 +124,7 @@ const Menu = () => {
             const monthAsWord = monthNamesTruncated[parseInt(relativeDate.date.month, 10)];
             return (
               <li key={i}>
-                <Link to={relativeDate.YMD.replaceAll('-', '/')} onClick={focusOnCreateTodoButton}>
+                <Link to={relativeDate.YMD.replaceAll('-', '/')} onClick={focusOnCreateTodo}>
                   {i === 0 ? 'today: ' : ''}
                   <time dateTime={relativeDate.YMD}>
                     {`${relativeDate.date.day} ${monthAsWord} ${relativeDate.date.year}`}
@@ -138,7 +138,7 @@ const Menu = () => {
               <span>go to: </span>
               <input 
                 // keyup preferred over keydown to allow opening the date picker with 'Enter-keydown'
-                onKeyUp={(e) => {if (e.key === 'Enter') focusOnCreateTodoButton();}}
+                onKeyUp={(e) => {if (e.key === 'Enter') focusOnCreateTodo();}}
                 onChange={goToRequestedDateHandler}
                 type="date"
                 min="2000-01-01"

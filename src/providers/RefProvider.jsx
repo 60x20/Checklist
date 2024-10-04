@@ -44,10 +44,6 @@ const RefProvider = ({ children }) => {
   function resetValueOfCreateTodo() {
     resetValueFromRef(createTodoRef);
   }
-  const createTodoButtonRef = useRef();
-  function focusOnCreateTodoButton() {
-    focusFromRef(createTodoButtonRef);
-  }
 
   const menuRef = useRef();
   function focusOnFirstMenuItem() {
@@ -70,14 +66,12 @@ const RefProvider = ({ children }) => {
   const valueToProvide = {
     refs: {
       createTodoRef,
-      createTodoButtonRef,
       menuRef,
       visualizerRef,
       menuTogglerRef,
     },
     helpers: {
       focusOnCreateTodo,
-      focusOnCreateTodoButton,
       focusOnFirstMenuItem,
       focusOnLastMenuItem,
       focusOnFirstItemInsideVisualizer,
