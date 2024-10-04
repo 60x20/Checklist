@@ -27,6 +27,10 @@ const Menu = () => {
   const { increaseTodayCleared } = useContext(todayClearedContext);
 
   const { refs: { menuRef }, helpers: { focusOnCreateTodo, focusOnFirstMenuItem, focusOnLastMenuItem, focusOnFirstItemInsideVisualizer } } = useContext(refContext);
+  function focusOnCreateTodoAndCloseTheMenu() {
+    focusOnCreateTodo(); // move focus to create-todo
+    closeTheMenu(); // closing explicitly due to focusing being conditonal
+  }
 
   // when menu opens, focus on first menu item
   useLayoutEffect(() => { // layout prefferred to avoid flickers
@@ -85,13 +89,13 @@ const Menu = () => {
     resetAllData();
     increaseAllDataCleared(); // informing checklist that data is reset, allowing it to clean-up (otherwise old data will be seen)
 
-    focusOnCreateTodo(); // move focus to create-todo
+    focusOnCreateTodoAndCloseTheMenu();
   }
   function resetCurrentDayHandler() {
     resetTodoData(...unitsAsInt);
     increaseTodayCleared(); // informing checklist
     
-    focusOnCreateTodo(); // move focus to create-todo
+    focusOnCreateTodoAndCloseTheMenu();
   }
 
   function menuKeyPressFocusHandler(e) {
@@ -124,7 +128,7 @@ const Menu = () => {
             const monthAsWord = monthNamesTruncated[parseInt(relativeDate.date.month, 10)];
             return (
               <li key={i}>
-                <Link to={relativeDate.YMD.replaceAll('-', '/')} onClick={focusOnCreateTodo}>
+                <Link to={relativeDate.YMD.replaceAll('-', '/')} onClick={focusOnCreateTodoAndCloseTheMenu}>
                   {i === 0 ? 'today: ' : ''}
                   <time dateTime={relativeDate.YMD}>
                     {`${relativeDate.date.day} ${monthAsWord} ${relativeDate.date.year}`}
@@ -138,7 +142,7 @@ const Menu = () => {
               <span>go to: </span>
               <input 
                 // keyup preferred over keydown to allow opening the date picker with 'Enter-keydown'
-                onKeyUp={(e) => {if (e.key === 'Enter') focusOnCreateTodo();}}
+                onKeyUp={(e) => { if (e.key === 'Enter') focusOnCreateTodoAndCloseTheMenu(); }}
                 onChange={goToRequestedDateHandler}
                 type="date"
                 min="2000-01-01"
@@ -147,7 +151,10 @@ const Menu = () => {
               />
             </label>
           </li>
-          <li><Link to='all' onClick={focusOnFirstItemInsideVisualizer}>all</Link></li>
+          <li><Link to='all' onClick={() => {
+            closeTheMenu();
+            focusOnFirstItemInsideVisualizer();
+          }}>all</Link></li>
         </ul>
       </nav>
       <div className="place-content-at-the-end">
