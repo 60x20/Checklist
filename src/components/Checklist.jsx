@@ -16,6 +16,7 @@ import { addToTodosTemplate, removeFromTodosTemplate } from "../helpers/todosTem
 import { addToAllTodos, updateTodoString, returnCachedTodoDescription } from "../helpers/allTodosHelpers";
 import { returnTodoData, validateTodoData, addToTodoData, removeFromTodoData, updateTodoState } from "../helpers/todoDataHelpers";
 import { monthNames, monthNamesTruncated } from "../helpers/validateUnitsFromDate";
+import { shouldUseAutoFocus } from "../helpers/keyboardDetection";
 
 // custom hooks
 import changeDocumentTitle from "../custom-hooks/changeDocumentTitle";
@@ -89,11 +90,11 @@ const CreateTodo = memo(({ unitsAsInt, year, month, day, refForUpdateCurrentTodo
 
   return (<form onSubmit={createTodoHandler}>
     {/* create-todo gets focus, shouldn't be re-created (keys shouldn't be used here) */}
-    <input id="create-todo" ref={createTodoRef} type="text" name="todoName" required
+    <input autoFocus={shouldUseAutoFocus} id="create-todo" ref={createTodoRef} type="text" name="todoName" required
       title="task to add"
       autoComplete="off"
     />
-    <button autoFocus>create</button>
+    <button>create</button>
   </form>);
 });
 
