@@ -1,5 +1,8 @@
 import { createContext, useRef } from "react";
 
+// helpers
+import { shouldUseAutoFocus } from "../helpers/keyboardDetection";
+
 export const refContext = createContext();
 
 // reset value
@@ -35,7 +38,8 @@ function focusOnLastItemFromRef(ref) {
 const RefProvider = ({ children }) => {
   const createTodoRef = useRef();
   function focusOnCreateTodo() {
-    focusFromRef(createTodoRef);
+    // avoid focusing on editable regions on mobile since it causes an annoying visual keyboard
+    if (shouldUseAutoFocus) focusFromRef(createTodoRef);
   }
   function resetValueOfCreateTodo() {
     resetValueFromRef(createTodoRef);
