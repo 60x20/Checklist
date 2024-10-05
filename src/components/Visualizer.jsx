@@ -68,7 +68,7 @@ export const MonthVisualizer = () => {
             const dayCheckedData = Object.values(dayData);
             const amountOfTodos = dayCheckedData.length;
             let amountOfCheckedTodos = 0;
-            for (const checked of dayCheckedData) checked ? amountOfCheckedTodos++ : '';
+            for (const checked of dayCheckedData) if (checked) amountOfCheckedTodos++;
             return `${amountOfCheckedTodos}/${amountOfTodos}`;
           })() }</p>
           <ul>{ Object.entries(dayData).map(([todoId, checked]) => (
