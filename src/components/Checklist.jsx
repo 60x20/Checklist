@@ -182,11 +182,6 @@ const Todo = memo(({ updateCurrentTodoData, day, month, year, unitsAsInt, todoId
     removeFromTodoData(todoId, ...unitsAsInt);
     updateCurrentTodoData({ action: 'REMOVE', todoId});
   }
-  // for performance optimization, todoValue locally managed, hence only in sync with localStorage (not with currentTodoData)
-  function updateAndSyncTodoValue(todoIdToUpdate, value) {
-    updateTodoValue(todoIdToUpdate, ...unitsAsInt, value);
-    setTodoValue(value);
-  }
 
   // todoDescription should be in sync with localStorage entry
   function updateTodoStringAndSync(todoIdToUpdate, todoString) {
@@ -249,6 +244,12 @@ const Todo = memo(({ updateCurrentTodoData, day, month, year, unitsAsInt, todoId
 });
 
 const TodoState = ({ todoId, todoValue, todoType, updateTodoValueHandler, updateTodoCheckedHandler }) => {
+  
+  // for performance optimization, todoValue locally managed, hence only in sync with localStorage (not with currentTodoData)
+  function updateAndSyncTodoValue(todoIdToUpdate, value) {
+    updateTodoValue(todoIdToUpdate, ...unitsAsInt, value);
+    setTodoValue(value);
+  }
   const isTypeCheckbox = todoType === 'checkbox';
   return (<input name="todo-state" type={todoType} data-id-to-update={todoId}
     onChange={isTypeCheckbox ? updateTodoCheckedHandler : updateTodoValueHandler}
