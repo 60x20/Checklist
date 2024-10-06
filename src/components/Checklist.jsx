@@ -170,6 +170,8 @@ const Todo = memo(({ updateCurrentTodoData, day, month, year, unitsAsInt, todoId
     focusOnCreateTodo(); // last resort
   }
 
+  // todo value and type locally managed
+  const [todoValue, setTodoValue] = useState(cachedTodoData.current[todoId].value);
   const [todoType, setTodoType] = useState(cachedTodoData.current[todoId].type);
 
   // todo description (allTodos[todoId]) locally managed
@@ -186,6 +188,11 @@ const Todo = memo(({ updateCurrentTodoData, day, month, year, unitsAsInt, todoId
     updateTodoString(todoIdToUpdate, todoString);
     setTodoDescription(todoString);
   }
+  // for performance optimization, todoValue locally managed, hence only in sync with localStorage (not with currentTodoData)
+  function updateAndSyncTodoValue(value) {
+    updateTodoValue(todoId, ...unitsAsInt, value);
+    setTodoValue(value);
+  }
   // for performance optimization, todoType locally managed
   function updateAndSyncTodoType(type) {
     updateTodoType(todoId, ...unitsAsInt, type);
@@ -201,6 +208,15 @@ const Todo = memo(({ updateCurrentTodoData, day, month, year, unitsAsInt, todoId
     removeFromCurrentTodoDataAndSync(todoIdToRemove);
 
     focusWhenHelperMenuCloses(); // move focus to the nearest element
+  }
+  // handlers
+  function updateTodoCheckedHandler(e) {
+    const checked = Number(e.currentTarget.checked); // boolean converted into 0 and 1 to save memory
+    updateAndSyncTodoValue(checked);
+  }
+  function updateTodoValueHandler(e) {
+    const newValue = e.currentTarget.value;
+    updateAndSyncTodoValue(newValue);
   }
   function updateTodoTypeHandler(e) {
     const newType = e.currentTarget.selectedOptions[0].value;
@@ -224,7 +240,7 @@ const Todo = memo(({ updateCurrentTodoData, day, month, year, unitsAsInt, todoId
   return (<li className="column-container todo" ref={todoRef}>
     <div className="main-with-others-grouped-row-container">
       <h3 className="main-item styled-as-p">{todoDescription}</h3>
-      <TodoState { ...{todoId, todoType, cachedTodoData} } />
+      <TodoState { ...{todoValue, todoType, updateTodoCheckedHandler, updateTodoValueHandler} } />
       <button
         className="toggler-with-icon helper-menu-toggler"
         onClick={() => toggleHelperState()}
@@ -242,26 +258,7 @@ const Todo = memo(({ updateCurrentTodoData, day, month, year, unitsAsInt, todoId
   </li>);
 });
 
-const TodoState = ({ todoId, todoType, cachedTodoData }) => {
-  // todo value and type locally managed
-  const [todoValue, setTodoValue] = useState(cachedTodoData.current[todoId].value);
-
-  // for performance optimization, todoValue locally managed, hence only in sync with localStorage (not with currentTodoData)
-  function updateAndSyncTodoValue(value) {
-    updateTodoValue(todoId, ...unitsAsInt, value);
-    setTodoValue(value);
-  }
-
-  // handlers
-  function updateTodoCheckedHandler(e) {
-    const checked = Number(e.currentTarget.checked); // boolean converted into 0 and 1 to save memory
-    updateAndSyncTodoValue(checked);
-  }
-  function updateTodoValueHandler(e) {
-    const newValue = e.currentTarget.value;
-    updateAndSyncTodoValue(newValue);
-  }
-
+const TodoState = ({ todoValue, todoType, updateTodoCheckedHandler, updateTodoValueHandler }) => {
   const isTypeCheckbox = todoType === 'checkbox';
   return (<input name="todo-state" type={todoType}
     onChange={isTypeCheckbox ? updateTodoCheckedHandler : updateTodoValueHandler}
