@@ -106,7 +106,8 @@ const Todos = ( {day, month, year, unitsAsInt, helperMenuClosersRef, refForUpdat
   const [currentTodoData, updateCurrentTodoData] = useReducer(reducerForCurrrentTodoData, {}, reducerForCurrrentTodoData);
   function reducerForCurrrentTodoData (prevData, { action = 'SYNC', todoId } = {}) {
     switch (action) {
-      case 'ADD': return cachedTodoData.current = {...prevData, [todoId]: 0}; // keeping cache in sync; value used for initialization
+      // keeping cache in sync; value and type used for initialization
+      case 'ADD': return cachedTodoData.current = { ...prevData, [todoId]: { value: '', type: 'checkbox'} };
       case 'REMOVE': {
         const latestData = {...prevData};
         delete latestData[todoId];
