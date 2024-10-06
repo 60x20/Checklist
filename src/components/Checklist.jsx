@@ -234,26 +234,24 @@ const TodoState = ({ todoId, cachedTodoData }) => {
   const [todoType, setTodoType] = useState(cachedTodoData.current[todoId].type);
 
   // for performance optimization, todoValue locally managed, hence only in sync with localStorage (not with currentTodoData)
-  function updateAndSyncTodoValue(todoIdToUpdate, value) {
-    updateTodoValue(todoIdToUpdate, ...unitsAsInt, value);
+  function updateAndSyncTodoValue(value) {
+    updateTodoValue(todoId, ...unitsAsInt, value);
     setTodoValue(value);
   }
 
   // handlers
   function updateTodoCheckedHandler(e) {
-    const todoIdToUpdate = e.currentTarget.dataset.idToUpdate;
     // boolean converted into 0 and 1 to save memory
     const checked = Number(e.currentTarget.checked);
-    updateAndSyncTodoValue(todoIdToUpdate, checked);
+    updateAndSyncTodoValue(checked);
   }
   function updateTodoValueHandler(e) {
-    const todoIdToUpdate = e.currentTarget.dataset.idToUpdate;
     const newValue = e.currentTarget.value;
-    updateAndSyncTodoValue(todoIdToUpdate, newValue);
+    updateAndSyncTodoValue(newValue);
   }
 
   const isTypeCheckbox = todoType === 'checkbox';
-  return (<input name="todo-state" type={todoType} data-id-to-update={todoId}
+  return (<input name="todo-state" type={todoType}
     onChange={isTypeCheckbox ? updateTodoCheckedHandler : updateTodoValueHandler}
     // checkboxes use 'checked' attribute instead of 'value'
     { ...(isTypeCheckbox ? {checked: todoValue} : {value: todoValue}) }
