@@ -178,7 +178,7 @@ const Todo = memo(({ updateCurrentTodoData, day, month, year, unitsAsInt, todoId
     removeFromTodoData(todoId, ...unitsAsInt);
     updateCurrentTodoData({ action: 'REMOVE', todoId});
   }
-  // for performance optimization, todoState locally managed, hence only in sync with localStorgae (not with currentTodoData)
+  // for performance optimization, todoState locally managed, hence only in sync with localStorage (not with currentTodoData)
   function updateAndSyncTodoState(todoIdUpdate, checked) {
     updateTodoState(todoIdUpdate, checked, ...unitsAsInt);
     setChecked(checked);
