@@ -254,8 +254,7 @@ const TodoState = ({ todoId, todoType, cachedTodoData }) => {
 
   // handlers
   function updateTodoCheckedHandler(e) {
-    // boolean converted into 0 and 1 to save memory
-    const checked = Number(e.currentTarget.checked);
+    const checked = Number(e.currentTarget.checked); // boolean converted into 0 and 1 to save memory
     updateAndSyncTodoValue(checked);
   }
   function updateTodoValueHandler(e) {
