@@ -20,6 +20,12 @@ export function addToTodosTemplate(id, type = 'checkbox') {
   setTodosTemplate(todosTemplate);
 }
 
+export function updateTypeOnTodosTemplate(id, type) {
+  const todosTemplate = returnTodosTemplate();
+  todosTemplate[id].type = type;
+  setTodosTemplate(todosTemplate);
+}
+
 export function removeFromTodosTemplate(idToRemove) {
   const todosTemplate = returnTodosTemplate();
   delete todosTemplate[idToRemove];
