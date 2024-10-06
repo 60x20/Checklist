@@ -203,10 +203,10 @@ const Todo = memo(({ updateCurrentTodoData, day, month, year, unitsAsInt, todoId
     focusWhenHelperMenuCloses(); // move focus to the nearest element
   }
   function updateTodoCheckedHandler(e) {
-    const todoIdUpdate = e.currentTarget.dataset.idToUpdate;
+    const todoIdToUpdate = e.currentTarget.dataset.idToUpdate;
     // boolean converted into 0 and 1 to save memory
     const checked = Number(e.currentTarget.checked);
-    updateAndSyncTodoValue(todoIdUpdate, checked);
+    updateAndSyncTodoValue(todoIdToUpdate, checked);
   }
   function updateTodoStringHandler(e) {
     e.preventDefault();
