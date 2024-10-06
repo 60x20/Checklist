@@ -223,7 +223,7 @@ const Todo = memo(({ updateCurrentTodoData, day, month, year, unitsAsInt, todoId
   return (<li className="column-container todo" ref={todoRef}>
     <div className="main-with-others-grouped-row-container">
       <h3 className="main-item styled-as-p">{todoDescription}</h3>
-      <TodoState { ...{todoId, todoValue, todoType, updateTodoCheckedHandler} } />
+      <TodoState { ...{todoId, todoValue, todoType, updateTodoValueHandler, updateTodoCheckedHandler} } />
       <button
         className="toggler-with-icon helper-menu-toggler"
         onClick={() => toggleHelperState()}
@@ -241,9 +241,13 @@ const Todo = memo(({ updateCurrentTodoData, day, month, year, unitsAsInt, todoId
   </li>);
 });
 
-  return (<input name="todo-state" type="checkbox" data-id-to-update={todoId} onChange={updateTodoCheckedHandler} checked={todoValue}
     title={`Mark as ${!todoValue ? 'done' : 'undone'}.`}
-const TodoState = ({ todoId, todoValue, todoType, updateTodoCheckedHandler }) => {
+const TodoState = ({ todoId, todoValue, todoType, updateTodoValueHandler, updateTodoCheckedHandler }) => {
+  const isTypeCheckbox = todoType === 'checkbox';
+  return (<input name="todo-state" type={todoType} data-id-to-update={todoId}
+    onChange={isTypeCheckbox ? updateTodoCheckedHandler : updateTodoValueHandler}
+    // checkboxes use 'checked' attribute instead of 'value'
+    { ...(isTypeCheckbox ? {checked: todoValue} : {value: todoValue}) }
   />);
 }
 
