@@ -81,7 +81,7 @@ const CreateTodo = memo(({ unitsAsInt, year, month, day, refForUpdateCurrentTodo
     const idAssigned = addToAllTodos(todoString); // should be in sync with localStorage entry
     if (currentDate.YMD === [year, month, day].join('-')) {
       // if currentDate removes/adds a todo, template should adapt
-      addToTodosTemplate(idAssigned);
+      addToTodosTemplate(idAssigned, 'checkbox');
     }
     addToCurrentTodoDataAndSync(idAssigned);
 
