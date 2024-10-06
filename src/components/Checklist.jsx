@@ -193,6 +193,9 @@ const Todo = memo(({ updateCurrentTodoData, day, month, year, unitsAsInt, todoId
     updateTodoValue(todoId, ...unitsAsInt, value);
     setTodoValue(value);
   }
+  function resetAndSyncTodoValue() {
+    updateAndSyncTodoValue('');
+  }
   // for performance optimization, todoType locally managed
   function updateAndSyncTodoType(type) {
     updateTodoType(todoId, ...unitsAsInt, type);
@@ -224,6 +227,8 @@ const Todo = memo(({ updateCurrentTodoData, day, month, year, unitsAsInt, todoId
       updateTypeOnTodosTemplate(todoId, newType);
     }
     updateAndSyncTodoType(newType);
+
+    resetAndSyncTodoValue(); // it's reset so that old value doesn't appear (otherwise checkbox => text: innerText === 1)
   }
   function updateTodoStringHandler(e) {
     e.preventDefault();
