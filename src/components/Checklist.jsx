@@ -66,6 +66,7 @@ const CreateTodo = memo(({ unitsAsInt, year, month, day, refForUpdateCurrentTodo
   const { refs: { createTodoRef }, helpers: { resetValueOfCreateTodo } } = useContext(refContext);
 
   const currentDate = useContext(currentDateContext);
+  const isToday = currentDate.YMD === [year, month, day].join('-');
 
   // currentTodoData should be in sync with localStorage entry
   function addToCurrentTodoDataAndSync(todoId) {
@@ -80,8 +81,7 @@ const CreateTodo = memo(({ unitsAsInt, year, month, day, refForUpdateCurrentTodo
     const formDataReadable = Object.fromEntries(submittedFormData.entries());
     const todoString = String(formDataReadable.todoName);
     const idAssigned = addToAllTodos(todoString); // should be in sync with localStorage entry
-    if (currentDate.YMD === [year, month, day].join('-')) {
-      // if currentDate removes/adds a todo, template should adapt
+    if (isToday) { // if currentDate removes/adds a todo, template should adapt
       addToTodosTemplate(idAssigned, 'checkbox');
     }
     addToCurrentTodoDataAndSync(idAssigned);
@@ -143,6 +143,7 @@ const Todos = ( {day, month, year, unitsAsInt, helperMenuClosersRef, refForUpdat
  
 const Todo = memo(({ updateCurrentTodoData, day, month, year, unitsAsInt, todoId, helperMenuClosersRef, cachedTodoData }) => {
   const currentDate = useContext(currentDateContext);
+  const isToday = currentDate.YMD === [year, month, day].join('-');
 
   // for easier focus management
   const todoRef = useRef();
@@ -196,8 +197,7 @@ const Todo = memo(({ updateCurrentTodoData, day, month, year, unitsAsInt, todoId
   // handlers
   function removeFromTodoHandler(e) {
     const todoIdToRemove = e.currentTarget.dataset.idToRemove;
-    if (currentDate.YMD === [year, month, day].join('-')) {
-      // if currentDate removes/adds a todo, template should adapt
+    if (isToday) { // if currentDate removes/adds a todo, template should adapt
       removeFromTodosTemplate(todoIdToRemove);
     }
     removeFromCurrentTodoDataAndSync(todoIdToRemove);
