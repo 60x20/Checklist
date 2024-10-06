@@ -199,17 +199,6 @@ const Todo = memo(({ updateCurrentTodoData, day, month, year, unitsAsInt, todoId
 
     focusWhenHelperMenuCloses(); // move focus to the nearest element
   }
-  function updateTodoCheckedHandler(e) {
-    const todoIdToUpdate = e.currentTarget.dataset.idToUpdate;
-    // boolean converted into 0 and 1 to save memory
-    const checked = Number(e.currentTarget.checked);
-    updateAndSyncTodoValue(todoIdToUpdate, checked);
-  }
-  function updateTodoValueHandler(e) {
-    const todoIdToUpdate = e.currentTarget.dataset.idToUpdate;
-    const newValue = e.currentTarget.value;
-    updateAndSyncTodoValue(todoIdToUpdate, newValue);
-  }
   function updateTodoStringHandler(e) {
     e.preventDefault();
     const submittedFormData = new FormData(e.currentTarget);
@@ -225,7 +214,7 @@ const Todo = memo(({ updateCurrentTodoData, day, month, year, unitsAsInt, todoId
   return (<li className="column-container todo" ref={todoRef}>
     <div className="main-with-others-grouped-row-container">
       <h3 className="main-item styled-as-p">{todoDescription}</h3>
-      <TodoState { ...{todoId, todoValue, todoType, updateTodoValueHandler, updateTodoCheckedHandler} } />
+      <TodoState { ...{todoId, todoValue, todoType} } />
       <button
         className="toggler-with-icon helper-menu-toggler"
         onClick={() => toggleHelperState()}
@@ -243,13 +232,27 @@ const Todo = memo(({ updateCurrentTodoData, day, month, year, unitsAsInt, todoId
   </li>);
 });
 
-const TodoState = ({ todoId, todoValue, todoType, updateTodoValueHandler, updateTodoCheckedHandler }) => {
+const TodoState = ({ todoId, todoValue, todoType }) => {
   
   // for performance optimization, todoValue locally managed, hence only in sync with localStorage (not with currentTodoData)
   function updateAndSyncTodoValue(todoIdToUpdate, value) {
     updateTodoValue(todoIdToUpdate, ...unitsAsInt, value);
     setTodoValue(value);
   }
+
+  // handlers
+  function updateTodoCheckedHandler(e) {
+    const todoIdToUpdate = e.currentTarget.dataset.idToUpdate;
+    // boolean converted into 0 and 1 to save memory
+    const checked = Number(e.currentTarget.checked);
+    updateAndSyncTodoValue(todoIdToUpdate, checked);
+  }
+  function updateTodoValueHandler(e) {
+    const todoIdToUpdate = e.currentTarget.dataset.idToUpdate;
+    const newValue = e.currentTarget.value;
+    updateAndSyncTodoValue(todoIdToUpdate, newValue);
+  }
+
   const isTypeCheckbox = todoType === 'checkbox';
   return (<input name="todo-state" type={todoType} data-id-to-update={todoId}
     onChange={isTypeCheckbox ? updateTodoCheckedHandler : updateTodoValueHandler}
