@@ -169,8 +169,9 @@ const Todo = memo(({ updateCurrentTodoData, day, month, year, unitsAsInt, todoId
     focusOnCreateTodo(); // last resort
   }
 
-  // todo value locally managed
+  // todo value and type locally managed
   const [todoValue, setTodoValue] = useState(cachedTodoData.current[todoId].value);
+  const [todoType, setTodoType] = useState(cachedTodoData.current[todoId].type);
   
   // todo description (allTodos[todoId]) locally managed
   const [todoDescription, setTodoDescription] = useState(() => returnCachedTodoDescription(todoId));
