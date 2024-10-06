@@ -203,7 +203,7 @@ const Todo = memo(({ updateCurrentTodoData, day, month, year, unitsAsInt, todoId
     focusWhenHelperMenuCloses(); // move focus to the nearest element
   }
   function updateTodoTypeHandler(e) {
-    const newType = e.currentTarget.selectedOptions[0].value.toLowerCase(); // value should not be capitalized
+    const newType = e.currentTarget.selectedOptions[0].value;
     if (isToday) { // if type changes, template should adapt
       updateTypeOnTodosTemplate(todoId, newType);
     }
@@ -237,7 +237,7 @@ const Todo = memo(({ updateCurrentTodoData, day, month, year, unitsAsInt, todoId
       </button>
     </div>
     { helperState ?
-    <TodoHelpers { ...{todoId, updateTodoStringHandler, updateTodoTypeHandler, removeFromTodoHandler, closeHelperMenu, helperMenuClosersRef} } />
+    <TodoHelpers { ...{todoId, updateTodoStringHandler, todoType, updateTodoTypeHandler, removeFromTodoHandler, closeHelperMenu, helperMenuClosersRef} } />
     : false }
   </li>);
 });
@@ -275,7 +275,7 @@ const TodoState = ({ todoId, todoType, cachedTodoData }) => {
   />);
 }
 
-const TodoHelpers = ({ todoId, updateTodoStringHandler, updateTodoTypeHandler, removeFromTodoHandler, closeHelperMenu, helperMenuClosersRef }) => {
+const TodoHelpers = ({ todoId, updateTodoStringHandler, todoType, updateTodoTypeHandler, removeFromTodoHandler, closeHelperMenu, helperMenuClosersRef }) => {
   useEffect(() => { // store the helperMenu closer in ref, will be used to close all at once
     helperMenuClosersRef.current[todoId] = closeHelperMenu; // since always set to false, old func with old scope is ok to use
     return () => { delete helperMenuClosersRef.current[todoId]; };
@@ -291,11 +291,11 @@ const TodoHelpers = ({ todoId, updateTodoStringHandler, updateTodoTypeHandler, r
       />
       <button>update todo</button>
     </form>
-    <select onChange={updateTodoTypeHandler}>
-      <option>Checkbox</option>
-      <option>Text</option>
-      <option>Number</option>
-      <option>Time</option>
+    <select onChange={updateTodoTypeHandler} value={todoType}>
+      <option value="checkbox">Checkbox</option>
+      <option value="text">Text</option>
+      <option value="number">Number</option>
+      <option value="time">Time</option>
     </select>
     <button onClick={removeFromTodoHandler} type="button" data-id-to-remove={todoId}>remove</button>
   </div>);
