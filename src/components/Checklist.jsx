@@ -223,9 +223,7 @@ const Todo = memo(({ updateCurrentTodoData, day, month, year, unitsAsInt, todoId
   return (<li className="column-container todo" ref={todoRef}>
     <div className="main-with-others-grouped-row-container">
       <h3 className="main-item styled-as-p">{todoDescription}</h3>
-      <input name="todo-state" type="checkbox" data-id-to-update={todoId} onChange={updateTodoCheckedHandler} checked={todoValue}
-        title={`Mark as ${!todoValue ? 'done' : 'undone'}.`}
-      />
+      <TodoState />
       <button
         className="toggler-with-icon helper-menu-toggler"
         onClick={() => toggleHelperState()}
@@ -242,6 +240,12 @@ const Todo = memo(({ updateCurrentTodoData, day, month, year, unitsAsInt, todoId
     : false }
   </li>);
 });
+
+const TodoState = () => {
+  return (<input name="todo-state" type="checkbox" data-id-to-update={todoId} onChange={updateTodoCheckedHandler} checked={todoValue}
+    title={`Mark as ${!todoValue ? 'done' : 'undone'}.`}
+  />);
+}
 
 const TodoHelpers = ({ todoId, updateTodoStringHandler, removeFromTodoHandler, closeHelperMenu, helperMenuClosersRef }) => {
   useEffect(() => { // store the helperMenu closer in ref, will be used to close all at once
