@@ -14,7 +14,7 @@ import { refContext } from "../providers/RefProvider";
 // helpers
 import { addToTodosTemplate, removeFromTodosTemplate } from "../helpers/todosTemplateHelpers";
 import { addToAllTodos, updateTodoString, returnCachedTodoDescription } from "../helpers/allTodosHelpers";
-import { returnTodoData, validateTodoData, addToTodoData, removeFromTodoData, updateTodoState } from "../helpers/todoDataHelpers";
+import { returnTodoData, validateTodoData, addToTodoData, removeFromTodoData, updateTodoValue } from "../helpers/todoDataHelpers";
 import { monthNames, monthNamesTruncated } from "../helpers/validateUnitsFromDate";
 import { shouldUseAutoFocus } from "../helpers/keyboardDetection";
 
@@ -179,10 +179,10 @@ const Todo = memo(({ updateCurrentTodoData, day, month, year, unitsAsInt, todoId
     removeFromTodoData(todoId, ...unitsAsInt);
     updateCurrentTodoData({ action: 'REMOVE', todoId});
   }
-  // for performance optimization, todoState locally managed, hence only in sync with localStorage (not with currentTodoData)
-  function updateAndSyncTodoState(todoIdUpdate, checked) {
-    updateTodoState(todoIdUpdate, checked, ...unitsAsInt);
-    setChecked(checked);
+  // for performance optimization, todoValue locally managed, hence only in sync with localStorage (not with currentTodoData)
+  function updateAndSyncTodoValue(todoIdToUpdate, value) {
+    updateTodoValue(todoIdToUpdate, ...unitsAsInt, value);
+    setTodoValue(value);
   }
 
   // todoDescription should be in sync with localStorage entry
@@ -202,11 +202,11 @@ const Todo = memo(({ updateCurrentTodoData, day, month, year, unitsAsInt, todoId
 
     focusWhenHelperMenuCloses(); // move focus to the nearest element
   }
-  function updateTodoStateHandler(e) {
+  function updateTodoCheckedHandler(e) {
     const todoIdUpdate = e.currentTarget.dataset.idToUpdate;
     // boolean converted into 0 and 1 to save memory
     const checked = Number(e.currentTarget.checked);
-    updateAndSyncTodoState(todoIdUpdate, checked);
+    updateAndSyncTodoValue(todoIdUpdate, checked);
   }
   function updateTodoStringHandler(e) {
     e.preventDefault();
