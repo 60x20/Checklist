@@ -210,6 +210,11 @@ const Todo = memo(({ updateCurrentTodoData, day, month, year, unitsAsInt, todoId
     const checked = Number(e.currentTarget.checked);
     updateAndSyncTodoValue(todoIdToUpdate, checked);
   }
+  function updateTodoValueHandler(e) {
+    const todoIdToUpdate = e.currentTarget.dataset.idToUpdate;
+    const newValue = e.currentTarget.value;
+    updateAndSyncTodoValue(todoIdToUpdate, newValue);
+  }
   function updateTodoStringHandler(e) {
     e.preventDefault();
     const submittedFormData = new FormData(e.currentTarget);
