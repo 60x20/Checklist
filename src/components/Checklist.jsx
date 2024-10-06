@@ -17,6 +17,7 @@ import { addToAllTodos, updateTodoString, returnCachedTodoDescription } from "..
 import { returnTodoData, validateTodoData, addToTodoData, removeFromTodoData, updateTodoValue } from "../helpers/todoDataHelpers";
 import { monthNames, monthNamesTruncated } from "../helpers/validateUnitsFromDate";
 import { shouldUseAutoFocus } from "../helpers/keyboardDetection";
+import { capitalizeString } from "../helpers/utils";
 
 // custom hooks
 import changeDocumentTitle from "../custom-hooks/changeDocumentTitle";
@@ -241,13 +242,16 @@ const Todo = memo(({ updateCurrentTodoData, day, month, year, unitsAsInt, todoId
   </li>);
 });
 
-    title={`Mark as ${!todoValue ? 'done' : 'undone'}.`}
 const TodoState = ({ todoId, todoValue, todoType, updateTodoValueHandler, updateTodoCheckedHandler }) => {
   const isTypeCheckbox = todoType === 'checkbox';
   return (<input name="todo-state" type={todoType} data-id-to-update={todoId}
     onChange={isTypeCheckbox ? updateTodoCheckedHandler : updateTodoValueHandler}
     // checkboxes use 'checked' attribute instead of 'value'
     { ...(isTypeCheckbox ? {checked: todoValue} : {value: todoValue}) }
+    title={isTypeCheckbox
+      ? `Mark as ${!todoValue ? 'done' : 'undone'}.`
+      : `Enter ${capitalizeString(todoType)}.`
+    }
   />);
 }
 
