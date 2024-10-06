@@ -14,9 +14,9 @@ export function returnTodosTemplate() {
   return JSON.parse(localStorage.getItem('todos-template'));
 }
 
-export function addToTodosTemplate(id) {
+export function addToTodosTemplate(id, type = 'checkbox') {
   const todosTemplate = returnTodosTemplate();
-  todosTemplate[id] = 0;
+  todosTemplate[id] = { value: '', type };
   setTodosTemplate(todosTemplate);
 }
 
