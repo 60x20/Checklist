@@ -12,9 +12,9 @@ import { todayClearedContext } from "../providers/TodayClearedProvider";
 import { refContext } from "../providers/RefProvider";
 
 // helpers
-import { addToTodosTemplate, removeFromTodosTemplate } from "../helpers/todosTemplateHelpers";
+import { addToTodosTemplate, removeFromTodosTemplate, updateTypeOnTodosTemplate } from "../helpers/todosTemplateHelpers";
 import { addToAllTodos, updateTodoString, returnCachedTodoDescription } from "../helpers/allTodosHelpers";
-import { returnTodoData, validateTodoData, addToTodoData, removeFromTodoData, updateTodoValue } from "../helpers/todoDataHelpers";
+import { returnTodoData, validateTodoData, addToTodoData, removeFromTodoData, updateTodoValue, updateTodoType } from "../helpers/todoDataHelpers";
 import { monthNames, monthNamesTruncated } from "../helpers/validateUnitsFromDate";
 import { shouldUseAutoFocus } from "../helpers/keyboardDetection";
 import { capitalizeString } from "../helpers/utils";
@@ -186,6 +186,11 @@ const Todo = memo(({ updateCurrentTodoData, day, month, year, unitsAsInt, todoId
     updateTodoString(todoIdToUpdate, todoString);
     setTodoDescription(todoString);
   }
+  // for performance optimization, todoType locally managed
+  function updateAndSyncTodoType(type) {
+    updateTodoType(todoId, ...unitsAsInt, type);
+    setTodoType(type);
+  }
 
   // handlers
   function removeFromTodoHandler(e) {
@@ -196,6 +201,13 @@ const Todo = memo(({ updateCurrentTodoData, day, month, year, unitsAsInt, todoId
     removeFromCurrentTodoDataAndSync(todoIdToRemove);
 
     focusWhenHelperMenuCloses(); // move focus to the nearest element
+  }
+  function updateTodoTypeHandler(e) {
+    const newType = e.currentTarget.selectedOptions[0].value.toLowerCase(); // value should not be capitalized
+    if (isToday) { // if type changes, template should adapt
+      updateTypeOnTodosTemplate(todoId, newType);
+    }
+    updateAndSyncTodoType(newType);
   }
   function updateTodoStringHandler(e) {
     e.preventDefault();
