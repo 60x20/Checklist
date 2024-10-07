@@ -266,8 +266,7 @@ const TodoState = ({ todoValue, todoType, updateTodoCheckedHandler, updateTodoVa
   const isTypeCheckbox = todoType === 'checkbox';
   return (<input name="todo-state" type={todoType}
     onChange={isTypeCheckbox ? updateTodoCheckedHandler : updateTodoValueHandler}
-    // checkboxes use 'checked' attribute instead of 'value'
-    { ...(isTypeCheckbox ? {checked: todoValue} : {value: todoValue}) }
+    { ...(isTypeCheckbox ? {checked: todoValue} : {value: todoValue}) } // checkboxes use 'checked' attribute instead of 'value'
     title={isTypeCheckbox
       ? `Mark as ${!todoValue ? 'done' : 'undone'}.`
       : `Enter ${capitalizeString(todoType)}.`
