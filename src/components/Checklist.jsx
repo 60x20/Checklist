@@ -181,7 +181,7 @@ const Todo = memo(({ updateCurrentTodoData, day, month, year, unitsAsInt, todoId
   // currentTodoData should be in sync with localStorage entry
   function removeFromCurrentTodoDataAndSync(todoId) {
     removeFromTodoData(todoId, ...unitsAsInt);
-    updateCurrentTodoData({ action: 'REMOVE', todoId});
+    updateCurrentTodoData({ action: 'REMOVE', todoId });
   }
 
   // todoDescription should be in sync with localStorage entry
