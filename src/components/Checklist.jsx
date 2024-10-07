@@ -273,7 +273,7 @@ const TodoState = ({ todoValue, todoType, updateTodoCheckedHandler, updateTodoVa
       : `Enter ${capitalizeString(todoType)}.`
     }
   />);
-}
+};
 
 const TodoHelpers = ({ todoId, updateTodoStringHandler, todoType, updateTodoTypeHandler, removeFromTodoHandler, closeHelperMenu, helperMenuClosersRef }) => {
   useEffect(() => { // store the helperMenu closer in ref, will be used to close all at once
