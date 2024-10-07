@@ -3,6 +3,7 @@ import { memo, useContext, useEffect, useMemo, useReducer, useRef, useState } fr
 // font awesome
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faXmark } from '@fortawesome/free-solid-svg-icons';
+const MemoizedFontAwesomeIcon = memo((props) => <FontAwesomeIcon {...props} />);
 
 // contexts
 import { currentDateContext } from "../providers/CurrentDateProvider";
@@ -254,7 +255,7 @@ const Todo = memo(({ updateCurrentTodoData, day, month, year, unitsAsInt, todoId
         aria-haspopup="menu"
         aria-expanded={helperState}
       >
-        <FontAwesomeIcon icon={helperState ? faXmark : faBars} />
+        <MemoizedFontAwesomeIcon icon={helperState ? faXmark : faBars} />
       </button>
     </div>
     { helperState ?
