@@ -70,9 +70,9 @@ const CreateTodo = memo(({ unitsAsInt, year, month, day, refForUpdateCurrentTodo
   const isToday = currentDate.YMD === [year, month, day].join('-');
 
   // currentTodoData should be in sync with localStorage entry
-  function addToCurrentTodoDataAndSync(todoId) {
-    addToTodoData(todoId, ...unitsAsInt);
-    refForUpdateCurrentTodoData.current({ action: 'ADD', todoId });
+  function addToCurrentTodoDataAndSync(todoIdToAdd) {
+    addToTodoData(todoIdToAdd, ...unitsAsInt);
+    refForUpdateCurrentTodoData.current({ action: 'ADD', todoId: todoIdToAdd });
   }
 
   // handlers
