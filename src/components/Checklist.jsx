@@ -179,14 +179,14 @@ const Todo = memo(({ updateCurrentTodoData, day, month, year, unitsAsInt, todoId
   const [todoDescription, setTodoDescription] = useState(() => returnCachedTodoDescription(todoId));
 
   // currentTodoData should be in sync with localStorage entry
-  function removeFromCurrentTodoDataAndSync(todoId) {
+  function removeFromCurrentTodoDataAndSync() {
     removeFromTodoData(todoId, ...unitsAsInt);
     updateCurrentTodoData({ action: 'REMOVE', todoId });
   }
 
   // todoDescription should be in sync with localStorage entry
-  function updateTodoStringAndSync(todoIdToUpdate, todoString) {
-    updateTodoString(todoIdToUpdate, todoString);
+  function updateTodoStringAndSync(todoString) {
+    updateTodoString(todoId, todoString);
     setTodoDescription(todoString);
   }
   // for performance optimization, todoValue locally managed, hence only in sync with localStorage (not with currentTodoData)
@@ -205,11 +205,10 @@ const Todo = memo(({ updateCurrentTodoData, day, month, year, unitsAsInt, todoId
 
   // handlers
   function removeFromTodoHandler(e) {
-    const todoIdToRemove = e.currentTarget.dataset.idToRemove;
     if (isToday) { // if currentDate removes/adds a todo, template should adapt
-      removeFromTodosTemplate(todoIdToRemove);
+      removeFromTodosTemplate(todoId);
     }
-    removeFromCurrentTodoDataAndSync(todoIdToRemove);
+    removeFromCurrentTodoDataAndSync();
 
     focusWhenHelperMenuCloses(); // move focus to the nearest element
   }
@@ -236,8 +235,7 @@ const Todo = memo(({ updateCurrentTodoData, day, month, year, unitsAsInt, todoId
     const submittedFormData = new FormData(e.currentTarget);
     const formDataReadable = Object.fromEntries(submittedFormData.entries());
     const todoString = String(formDataReadable.todoName);
-    const todoIdToUpdate = e.currentTarget.dataset.idToUpdate;
-    updateTodoStringAndSync(todoIdToUpdate, todoString);
+    updateTodoStringAndSync(todoString);
     
     closeHelperMenu(); // close the helper menu
     focusOnCurrentMenuToggler(); // move focus to the current todoToggler
@@ -286,7 +284,7 @@ const TodoHelpers = ({ todoId, updateTodoStringHandler, todoType, updateTodoType
   // when any of the helpers are used, helper menu should be closed
   // focus should be managed when menu closes or opens
   return (<div className="row-container helpers" role="menu" aria-orientation="horizontal">
-    <form data-id-to-update={todoId} onSubmit={updateTodoStringHandler}>
+    <form onSubmit={updateTodoStringHandler}>
       {/* focus on first focusable item when mounts */}
       <input autoFocus size="10" type="text" name="todoName" required 
         title="new task description"
@@ -299,6 +297,6 @@ const TodoHelpers = ({ todoId, updateTodoStringHandler, todoType, updateTodoType
       <option value="number">Number</option>
       <option value="time">Time</option>
     </select>
-    <button onClick={removeFromTodoHandler} type="button" data-id-to-remove={todoId}>remove</button>
+    <button onClick={removeFromTodoHandler} type="button">remove</button>
   </div>);
 };
