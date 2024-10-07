@@ -264,9 +264,11 @@ const Todo = memo(({ updateCurrentTodoData, day, month, year, unitsAsInt, todoId
 
 const TodoState = ({ todoValue, todoType, updateTodoCheckedHandler, updateTodoValueHandler }) => {
   const isTypeCheckbox = todoType === 'checkbox';
+  const isTypeNumber = todoType === 'number';
   return (<input name="todo-state" type={todoType}
     onChange={isTypeCheckbox ? updateTodoCheckedHandler : updateTodoValueHandler}
     { ...(isTypeCheckbox ? {checked: todoValue} : {value: todoValue}) } // checkboxes use 'checked' attribute instead of 'value'
+    { ...(isTypeNumber ? {step: 'any'} : {}) }
     title={isTypeCheckbox
       ? `Mark as ${!todoValue ? 'done' : 'undone'}.`
       : `Enter ${capitalizeString(todoType)}.`
