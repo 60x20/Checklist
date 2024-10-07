@@ -229,6 +229,9 @@ const Todo = memo(({ updateCurrentTodoData, day, month, year, unitsAsInt, todoId
     updateAndSyncTodoType(newType);
 
     resetAndSyncTodoValue(); // it's reset so that old value doesn't appear (otherwise checkbox => text: innerText === 1)
+
+    closeHelperMenu(); // close the helper menu
+    focusOnCurrentMenuToggler(); // move focus to the current todoToggler
   }
   function updateTodoStringHandler(e) {
     e.preventDefault();
