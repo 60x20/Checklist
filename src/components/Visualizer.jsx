@@ -9,6 +9,7 @@ import { faCheck, faXmark } from '@fortawesome/free-solid-svg-icons'
 import { returnAllYears } from "../helpers/allYearsHelpers";
 import { extractYear, extractMonth, validateDate, monthNames, monthNamesTruncated } from "../helpers/validateUnitsFromDate";
 import { returnYearEntry } from "../helpers/todoDataHelpers";
+import { truncateString } from "../helpers/utils";
 
 // contexts
 import { allDataClearedContext } from "../providers/AllDataClearedProvider";
@@ -79,7 +80,7 @@ export const MonthVisualizer = () => {
             >
               { type === 'checkbox'
                 ? <FontAwesomeIcon icon={value ? faCheck : faXmark} />
-                : <span>{value}</span>
+                : <span>{truncateString(value)}</span>
               }
             </li>
           )) }</ul>
