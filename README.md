@@ -18,6 +18,6 @@ A checklist application that auto refreshes everyday, and saves previous checkli
 - [x] Styling
 - [x] Accessibility
 - [x] Localized state
-- [ ] Different input types (besides Checkboxes)
+- [x] Different input types (besides Checkboxes)
 - [ ] Drag and Drop
 - [ ] Saving data to cloud instead of device storage
