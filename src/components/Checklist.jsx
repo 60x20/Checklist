@@ -212,7 +212,6 @@ const Todo = memo(({ updateCurrentTodoData, day, month, year, unitsAsInt, todoId
 
     focusWhenHelperMenuCloses(); // move focus to the nearest element
   }
-  // handlers
   function updateTodoCheckedHandler(e) {
     const checked = Number(e.currentTarget.checked); // boolean converted into 0 and 1 to save memory
     updateAndSyncTodoValue(checked);
