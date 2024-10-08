@@ -65,7 +65,9 @@ export const MonthVisualizer = () => {
             day: <time dateTime={`${extractedYear}-${extractedMonth}-${dayAsString}`}>{dayAsString}</time>
           </h3>
           <p>completion: { (() => {
-            const dayCheckedData = Object.values(dayData);
+            const dayTodoData = Object.values(dayData);
+            const dayCheckboxData = dayTodoData.filter((todo) => todo.type === 'checkbox');
+            const dayCheckedData = dayCheckboxData.map((todo) => todo.value);
             const amountOfTodos = dayCheckedData.length;
             let amountOfCheckedTodos = 0;
             for (const checked of dayCheckedData) if (checked) amountOfCheckedTodos++;
