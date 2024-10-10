@@ -181,13 +181,13 @@ main {
 }
 
 #checklist {
-  input[type="checkbox"] {
-    width: 1.5rem;
-    aspect-ratio: 1;
-  }
-
   #todos {
     width: 100%; /* flex-items don't automatically use widths of their parents */
+
+    input[type="checkbox"] {
+      width: 1.5rem;
+      aspect-ratio: 1;
+    }
   }
 
   .todo {
