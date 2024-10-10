@@ -204,6 +204,7 @@ main {
     .main-with-others-grouped-row-container {
       width: 100%; /* for children to be placed correctly and consistent with other todos */
       flex-flow: row wrap;
+      justify-content: center;
     }
   }
 }
