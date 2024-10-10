@@ -188,6 +188,9 @@ main {
       width: 1.5rem;
       aspect-ratio: 1;
     }
+    input[type="text"], input[type="number"] {
+      width: 10ch;
+    }
   }
 
   .todo {

@@ -289,7 +289,7 @@ const TodoHelpers = ({ todoId, updateTodoStringHandler, todoType, updateTodoType
   return (<div className="row-container helpers" role="menu" aria-orientation="horizontal">
     <form onSubmit={updateTodoStringHandler}>
       {/* focus on first focusable item when mounts */}
-      <input autoFocus size="10" type="text" name="todoName" required 
+      <input autoFocus type="text" name="todoName" required 
         title="new task description"
       />
       <button>update todo</button>
