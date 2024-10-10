@@ -180,11 +180,6 @@ main {
     font-size: 1.25em;
   }
 }
-@media (max-width: 1000px) {
-  #checklist, #visualizer {
-    width: 75%;
-  }
-}
 
 #checklist {
   input[type="checkbox"] {
