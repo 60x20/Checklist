@@ -48,7 +48,6 @@ ul {
 }
 .main-with-others-grouped-row-container {
   /* main item takes all the space, hence others become groups */
-  flex-flow: row nowrap;
   align-items: center;
   > .main-item {
     flex-grow: 1;
@@ -204,6 +203,7 @@ main {
 
     .main-with-others-grouped-row-container {
       width: 100%; /* for children to be placed correctly and consistent with other todos */
+      flex-flow: row wrap;
     }
   }
 }
