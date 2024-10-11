@@ -27,12 +27,15 @@ ul {
   margin: 0;
 }
 
-.column-stretch-container, .row-container, .column-container, .main-with-others-grouped-row-container {
+.flex-container, .column-stretch-container, .row-container, .column-container, .main-with-others-grouped-row-container {
   display: flex;
   gap: 1rem;
   * {
     margin: 0; /* gap used instead of margin */
   }
+}
+.flex-container {
+  align-items: center;
 }
 .column-stretch-container {
   flex-flow: column nowrap;
