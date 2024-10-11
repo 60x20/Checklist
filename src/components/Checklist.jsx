@@ -247,17 +247,19 @@ const Todo = memo(({ updateCurrentTodoData, day, month, year, unitsAsInt, todoId
     <div className="main-with-others-grouped-row-container">
       <h3 className="main-item styled-as-p">{todoDescription}</h3>
       <div className="dummy-element"></div> {/* gets the remaining space for alignment */}
-      <TodoState { ...{todoValue, todoType, updateTodoCheckedHandler, updateTodoValueHandler} } />
-      <button
-        className="toggler-with-icon helper-menu-toggler"
-        onClick={() => toggleHelperState()}
-        title={helperState ? "Close helpers." : "Open helpers."}
-        type="button"
-        aria-haspopup="menu"
-        aria-expanded={helperState}
-      >
-        <MemoizedFontAwesomeIcon icon={helperState ? faXmark : faBars} />
-      </button>
+      <div className="helper-wrapper flex-container"> {/* bundles the elements so that they get wrapped at once */}
+        <TodoState { ...{todoValue, todoType, updateTodoCheckedHandler, updateTodoValueHandler} } />
+        <button
+          className="toggler-with-icon helper-menu-toggler"
+          onClick={() => toggleHelperState()}
+          title={helperState ? "Close helpers." : "Open helpers."}
+          type="button"
+          aria-haspopup="menu"
+          aria-expanded={helperState}
+        >
+          <MemoizedFontAwesomeIcon icon={helperState ? faXmark : faBars} />
+       </button>
+      </div>
     </div>
     { helperState ?
     <TodoHelpers { ...{todoId, updateTodoStringHandler, todoType, updateTodoTypeHandler, removeFromTodoHandler, closeHelperMenu, helperMenuClosersRef} } />
