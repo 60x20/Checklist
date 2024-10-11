@@ -211,6 +211,27 @@ main {
       width: 100%; /* for children to be placed correctly and consistent with other todos */
       flex-flow: row wrap;
       justify-content: center;
+
+      > .main-item {
+        width: 75%; /* if all items don't use the same width, items will be misaligned */
+        flex-grow: 0; /* shouldn't be bigger than the fixed with */
+      }
+      > .dummy-element {
+        flex-grow: 1; /* get the remaining space so that other items are at the end */
+        flex-basis: 0; /* in the absence of space, shouldn't have any effect (though gap still applies) */
+      }
+    }
+  }
+}
+/* on small devices, give up proper alignment to avoid unnecessary wrappings that would otherwise occur due to big fixed-width */
+@media (max-width: 750px) {
+  #checklist .todo .main-with-others-grouped-row-container {
+    > .main-item {
+      width: auto;
+      flex-grow: 1; /* width is in the range: 10ch <= width <= 10ch + remaining space; avoding wrappings, allowing gaps */
+    }
+    > .dummy-element {
+      display: none; /* remaining space distributed to main-item; dummy shouldn't get any space nor cause any gap */
     }
   }
 }

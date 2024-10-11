@@ -246,6 +246,7 @@ const Todo = memo(({ updateCurrentTodoData, day, month, year, unitsAsInt, todoId
   return (<li className="column-container todo" ref={todoRef}>
     <div className="main-with-others-grouped-row-container">
       <h3 className="main-item styled-as-p">{todoDescription}</h3>
+      <div className="dummy-element"></div> {/* gets the remaining space for alignment */}
       <TodoState { ...{todoValue, todoType, updateTodoCheckedHandler, updateTodoValueHandler} } />
       <button
         className="toggler-with-icon helper-menu-toggler"
