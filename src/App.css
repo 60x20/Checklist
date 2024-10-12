@@ -188,8 +188,10 @@ main {
   #todos {
     width: 100%; /* flex-items don't automatically use widths of their parents */
 
+    --checkbox-input-size: 1.5rem;
+
     input[type="checkbox"] {
-      width: 1.5rem;
+      width: var(--checkbox-input-size);
       aspect-ratio: 1;
     }
     --text-input-size: 10ch;
