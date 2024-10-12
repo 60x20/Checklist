@@ -246,7 +246,6 @@ const Todo = memo(({ updateCurrentTodoData, day, month, year, unitsAsInt, todoId
   return (<li className="column-container todo" ref={todoRef}>
     <div className="main-with-others-grouped-row-container">
       <h3 className="main-item styled-as-p">{todoDescription}</h3>
-      <div className="dummy-element"></div> {/* gets the remaining space for alignment */}
       <div className="helper-wrapper flex-container"> {/* bundles the elements so that they get wrapped at once */}
         <TodoState { ...{todoValue, todoType, updateTodoCheckedHandler, updateTodoValueHandler} } />
         <button
