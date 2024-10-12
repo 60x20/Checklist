@@ -229,7 +229,7 @@ main {
   #checklist .todo .main-with-others-grouped-row-container {
     > .main-item {
       width: auto;
-      flex-grow: 1; /* width is in the range: 10ch <= width <= 10ch + remaining space; avoding wrappings, allowing gaps */
+      flex-grow: 1; /* get the remaining space after other elements are placed */
     }
     > .dummy-element {
       display: none; /* remaining space distributed to main-item; dummy shouldn't get any space nor cause any gap */
