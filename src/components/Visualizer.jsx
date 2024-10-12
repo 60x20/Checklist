@@ -9,6 +9,7 @@ import { faCheck, faXmark } from '@fortawesome/free-solid-svg-icons'
 import { returnAllYears } from "../helpers/allYearsHelpers";
 import { extractYear, extractMonth, validateDate, monthNames, monthNamesTruncated } from "../helpers/validateUnitsFromDate";
 import { returnYearEntry } from "../helpers/todoDataHelpers";
+import { truncateString } from "../helpers/utils";
 
 // contexts
 import { allDataClearedContext } from "../providers/AllDataClearedProvider";
@@ -65,15 +66,22 @@ export const MonthVisualizer = () => {
             day: <time dateTime={`${extractedYear}-${extractedMonth}-${dayAsString}`}>{dayAsString}</time>
           </h3>
           <p>completion: { (() => {
-            const dayCheckedData = Object.values(dayData);
+            const dayTodoData = Object.values(dayData);
+            const dayCheckboxData = dayTodoData.filter((todo) => todo.type === 'checkbox');
+            const dayCheckedData = dayCheckboxData.map((todo) => todo.value);
             const amountOfTodos = dayCheckedData.length;
             let amountOfCheckedTodos = 0;
-            for (const checked of dayCheckedData) checked ? amountOfCheckedTodos++ : '';
+            for (const checked of dayCheckedData) if (checked) amountOfCheckedTodos++;
             return `${amountOfCheckedTodos}/${amountOfTodos}`;
           })() }</p>
-          <ul>{ Object.entries(dayData).map(([todoId, checked]) => (
-            <li key={todoId} className={ checked ? 'checked' : 'unchecked' }>
-              <FontAwesomeIcon icon={checked ? faCheck : faXmark} />
+          <ul>{ Object.entries(dayData).map(([todoId, { value, type }]) => (
+            <li key={todoId}
+              { ...(type === 'checkbox' ? {className: value ? 'checked' : 'unchecked'} : {}) }
+            >
+              { type === 'checkbox'
+                ? <FontAwesomeIcon icon={value ? faCheck : faXmark} />
+                : <span>{truncateString(value)}</span>
+              }
             </li>
           )) }</ul>
         </article>);

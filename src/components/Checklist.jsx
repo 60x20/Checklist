@@ -3,6 +3,7 @@ import { memo, useContext, useEffect, useMemo, useReducer, useRef, useState } fr
 // font awesome
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faXmark } from '@fortawesome/free-solid-svg-icons';
+const MemoizedFontAwesomeIcon = memo((props) => <FontAwesomeIcon {...props} />);
 
 // contexts
 import { currentDateContext } from "../providers/CurrentDateProvider";
@@ -12,11 +13,12 @@ import { todayClearedContext } from "../providers/TodayClearedProvider";
 import { refContext } from "../providers/RefProvider";
 
 // helpers
-import { addToTodosTemplate, removeFromTodosTemplate } from "../helpers/todosTemplateHelpers";
+import { addToTodosTemplate, removeFromTodosTemplate, updateTypeOnTodosTemplate } from "../helpers/todosTemplateHelpers";
 import { addToAllTodos, updateTodoString, returnCachedTodoDescription } from "../helpers/allTodosHelpers";
-import { returnTodoData, validateTodoData, addToTodoData, removeFromTodoData, updateTodoState } from "../helpers/todoDataHelpers";
+import { returnTodoData, validateTodoData, addToTodoData, removeFromTodoData, updateTodoValue, updateTodoType } from "../helpers/todoDataHelpers";
 import { monthNames, monthNamesTruncated } from "../helpers/validateUnitsFromDate";
 import { shouldUseAutoFocus } from "../helpers/keyboardDetection";
+import { capitalizeString } from "../helpers/utils";
 
 // custom hooks
 import changeDocumentTitle from "../custom-hooks/changeDocumentTitle";
@@ -65,11 +67,12 @@ const CreateTodo = memo(({ unitsAsInt, year, month, day, refForUpdateCurrentTodo
   const { refs: { createTodoRef }, helpers: { resetValueOfCreateTodo } } = useContext(refContext);
 
   const currentDate = useContext(currentDateContext);
+  const isToday = currentDate.YMD === [year, month, day].join('-');
 
   // currentTodoData should be in sync with localStorage entry
-  function addToCurrentTodoDataAndSync(todoId) {
-    addToTodoData(todoId, ...unitsAsInt);
-    refForUpdateCurrentTodoData.current({ action: 'ADD', todoId });
+  function addToCurrentTodoDataAndSync(todoIdToAdd) {
+    addToTodoData(todoIdToAdd, ...unitsAsInt);
+    refForUpdateCurrentTodoData.current({ action: 'ADD', todoId: todoIdToAdd });
   }
 
   // handlers
@@ -79,9 +82,8 @@ const CreateTodo = memo(({ unitsAsInt, year, month, day, refForUpdateCurrentTodo
     const formDataReadable = Object.fromEntries(submittedFormData.entries());
     const todoString = String(formDataReadable.todoName);
     const idAssigned = addToAllTodos(todoString); // should be in sync with localStorage entry
-    if (currentDate.YMD === [year, month, day].join('-')) {
-      // if currentDate removes/adds a todo, template should adapt
-      addToTodosTemplate(idAssigned);
+    if (isToday) { // if currentDate removes/adds a todo, template should adapt
+      addToTodosTemplate(idAssigned, 'checkbox');
     }
     addToCurrentTodoDataAndSync(idAssigned);
 
@@ -106,7 +108,8 @@ const Todos = ( {day, month, year, unitsAsInt, helperMenuClosersRef, refForUpdat
   const [currentTodoData, updateCurrentTodoData] = useReducer(reducerForCurrrentTodoData, {}, reducerForCurrrentTodoData);
   function reducerForCurrrentTodoData (prevData, { action = 'SYNC', todoId } = {}) {
     switch (action) {
-      case 'ADD': return cachedTodoData.current = {...prevData, [todoId]: 0}; // keeping cache in sync; value used for initialization
+      // keeping cache in sync; value and type used for initialization
+      case 'ADD': return cachedTodoData.current = { ...prevData, [todoId]: { value: '', type: 'checkbox' } };
       case 'REMOVE': {
         const latestData = {...prevData};
         delete latestData[todoId];
@@ -141,6 +144,7 @@ const Todos = ( {day, month, year, unitsAsInt, helperMenuClosersRef, refForUpdat
  
 const Todo = memo(({ updateCurrentTodoData, day, month, year, unitsAsInt, todoId, helperMenuClosersRef, cachedTodoData }) => {
   const currentDate = useContext(currentDateContext);
+  const isToday = currentDate.YMD === [year, month, day].join('-');
 
   // for easier focus management
   const todoRef = useRef();
@@ -167,53 +171,73 @@ const Todo = memo(({ updateCurrentTodoData, day, month, year, unitsAsInt, todoId
     focusOnCreateTodo(); // last resort
   }
 
-  // todo value locally managed
-  const [checked, setChecked] = useState(cachedTodoData.current[todoId]);
-  
+  // todo value and type locally managed
+  const [todoValue, setTodoValue] = useState(cachedTodoData.current[todoId].value);
+  const [todoType, setTodoType] = useState(cachedTodoData.current[todoId].type);
+
   // todo description (allTodos[todoId]) locally managed
   const [todoDescription, setTodoDescription] = useState(() => returnCachedTodoDescription(todoId));
 
   // currentTodoData should be in sync with localStorage entry
-  function removeFromCurrentTodoDataAndSync(todoId) {
+  function removeFromCurrentTodoDataAndSync() {
     removeFromTodoData(todoId, ...unitsAsInt);
-    updateCurrentTodoData({ action: 'REMOVE', todoId});
-  }
-  // for performance optimization, todoState locally managed, hence only in sync with localStorgae (not with currentTodoData)
-  function updateAndSyncTodoState(todoIdUpdate, checked) {
-    updateTodoState(todoIdUpdate, checked, ...unitsAsInt);
-    setChecked(checked);
+    updateCurrentTodoData({ action: 'REMOVE', todoId });
   }
 
   // todoDescription should be in sync with localStorage entry
-  function updateTodoStringAndSync(todoIdToUpdate, todoString) {
-    updateTodoString(todoIdToUpdate, todoString);
+  function updateTodoStringAndSync(todoString) {
+    updateTodoString(todoId, todoString);
     setTodoDescription(todoString);
+  }
+  // for performance optimization, todoValue locally managed, hence only in sync with localStorage (not with currentTodoData)
+  function updateAndSyncTodoValue(value) {
+    updateTodoValue(todoId, ...unitsAsInt, value);
+    setTodoValue(value);
+  }
+  function resetAndSyncTodoValue() {
+    updateAndSyncTodoValue('');
+  }
+  // for performance optimization, todoType locally managed
+  function updateAndSyncTodoType(type) {
+    updateTodoType(todoId, ...unitsAsInt, type);
+    setTodoType(type);
   }
 
   // handlers
   function removeFromTodoHandler(e) {
-    const todoIdToRemove = e.currentTarget.dataset.idToRemove;
-    if (currentDate.YMD === [year, month, day].join('-')) {
-      // if currentDate removes/adds a todo, template should adapt
-      removeFromTodosTemplate(todoIdToRemove);
+    if (isToday) { // if currentDate removes/adds a todo, template should adapt
+      removeFromTodosTemplate(todoId);
     }
-    removeFromCurrentTodoDataAndSync(todoIdToRemove);
+    removeFromCurrentTodoDataAndSync();
 
     focusWhenHelperMenuCloses(); // move focus to the nearest element
   }
-  function updateTodoStateHandler(e) {
-    const todoIdUpdate = e.currentTarget.dataset.idToUpdate;
-    // boolean converted into 0 and 1 to save memory
-    const checked = Number(e.currentTarget.checked);
-    updateAndSyncTodoState(todoIdUpdate, checked);
+  function updateTodoCheckedHandler(e) {
+    const checked = Number(e.currentTarget.checked); // boolean converted into 0 and 1 to save memory
+    updateAndSyncTodoValue(checked);
+  }
+  function updateTodoValueHandler(e) {
+    const newValue = e.currentTarget.value;
+    updateAndSyncTodoValue(newValue);
+  }
+  function updateTodoTypeHandler(e) {
+    const newType = e.currentTarget.selectedOptions[0].value;
+    if (isToday) { // if type changes, template should adapt
+      updateTypeOnTodosTemplate(todoId, newType);
+    }
+    updateAndSyncTodoType(newType);
+
+    resetAndSyncTodoValue(); // it's reset so that old value doesn't appear (otherwise checkbox => text: innerText === 1)
+
+    closeHelperMenu(); // close the helper menu
+    focusOnCurrentMenuToggler(); // move focus to the current todoToggler
   }
   function updateTodoStringHandler(e) {
     e.preventDefault();
     const submittedFormData = new FormData(e.currentTarget);
     const formDataReadable = Object.fromEntries(submittedFormData.entries());
     const todoString = String(formDataReadable.todoName);
-    const todoIdToUpdate = e.currentTarget.dataset.idToUpdate;
-    updateTodoStringAndSync(todoIdToUpdate, todoString);
+    updateTodoStringAndSync(todoString);
     
     closeHelperMenu(); // close the helper menu
     focusOnCurrentMenuToggler(); // move focus to the current todoToggler
@@ -222,27 +246,41 @@ const Todo = memo(({ updateCurrentTodoData, day, month, year, unitsAsInt, todoId
   return (<li className="column-container todo" ref={todoRef}>
     <div className="main-with-others-grouped-row-container">
       <h3 className="main-item styled-as-p">{todoDescription}</h3>
-      <input name="todo-state" type="checkbox" data-id-to-update={todoId} onChange={updateTodoStateHandler} checked={checked}
-        title={`Mark as ${!checked ? 'done' : 'undone'}.`}
-      />
-      <button
-        className="toggler-with-icon helper-menu-toggler"
-        onClick={() => toggleHelperState()}
-        title={helperState ? "Close helpers." : "Open helpers."}
-        type="button"
-        aria-haspopup="menu"
-        aria-expanded={helperState}
-      >
-        <FontAwesomeIcon icon={helperState ? faXmark : faBars} />
-      </button>
+      <div className="helper-wrapper flex-container"> {/* bundles the elements so that they get wrapped at once */}
+        <TodoState { ...{todoValue, todoType, updateTodoCheckedHandler, updateTodoValueHandler} } />
+        <button
+          className="toggler-with-icon helper-menu-toggler"
+          onClick={() => toggleHelperState()}
+          title={helperState ? "Close helpers." : "Open helpers."}
+          type="button"
+          aria-haspopup="menu"
+          aria-expanded={helperState}
+        >
+          <MemoizedFontAwesomeIcon icon={helperState ? faXmark : faBars} />
+       </button>
+      </div>
     </div>
     { helperState ?
-    <TodoHelpers { ...{todoId, updateTodoStringHandler, removeFromTodoHandler, closeHelperMenu, helperMenuClosersRef} } />
+    <TodoHelpers { ...{todoId, updateTodoStringHandler, todoType, updateTodoTypeHandler, removeFromTodoHandler, closeHelperMenu, helperMenuClosersRef} } />
     : false }
   </li>);
 });
 
-const TodoHelpers = ({ todoId, updateTodoStringHandler, removeFromTodoHandler, closeHelperMenu, helperMenuClosersRef }) => {
+const TodoState = ({ todoValue, todoType, updateTodoCheckedHandler, updateTodoValueHandler }) => {
+  const isTypeCheckbox = todoType === 'checkbox';
+  const isTypeNumber = todoType === 'number';
+  return (<input name="todo-state" type={todoType}
+    onChange={isTypeCheckbox ? updateTodoCheckedHandler : updateTodoValueHandler}
+    { ...(isTypeCheckbox ? {checked: todoValue} : {value: todoValue}) } // checkboxes use 'checked' attribute instead of 'value'
+    { ...(isTypeNumber ? {step: 'any'} : {}) }
+    title={isTypeCheckbox
+      ? `Mark as ${!todoValue ? 'done' : 'undone'}.`
+      : `Enter ${capitalizeString(todoType)}.`
+    }
+  />);
+};
+
+const TodoHelpers = ({ todoId, updateTodoStringHandler, todoType, updateTodoTypeHandler, removeFromTodoHandler, closeHelperMenu, helperMenuClosersRef }) => {
   useEffect(() => { // store the helperMenu closer in ref, will be used to close all at once
     helperMenuClosersRef.current[todoId] = closeHelperMenu; // since always set to false, old func with old scope is ok to use
     return () => { delete helperMenuClosersRef.current[todoId]; };
@@ -251,13 +289,19 @@ const TodoHelpers = ({ todoId, updateTodoStringHandler, removeFromTodoHandler, c
   // when any of the helpers are used, helper menu should be closed
   // focus should be managed when menu closes or opens
   return (<div className="row-container helpers" role="menu" aria-orientation="horizontal">
-    <form data-id-to-update={todoId} onSubmit={updateTodoStringHandler}>
+    <form onSubmit={updateTodoStringHandler}>
       {/* focus on first focusable item when mounts */}
-      <input autoFocus size="10" type="text" name="todoName" required 
+      <input autoFocus type="text" name="todoName" required 
         title="new task description"
       />
       <button>update todo</button>
     </form>
-    <button onClick={removeFromTodoHandler} type="button" data-id-to-remove={todoId}>remove</button>
+    <select onChange={updateTodoTypeHandler} value={todoType}>
+      <option value="checkbox">Checkbox</option>
+      <option value="text">Text</option>
+      <option value="number">Number</option>
+      <option value="time">Time</option>
+    </select>
+    <button onClick={removeFromTodoHandler} type="button">remove</button>
   </div>);
 };
