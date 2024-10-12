@@ -195,6 +195,9 @@ main {
       width: var(--checkbox-input-size);
       aspect-ratio: 1;
     }
+    input[type="time"] {
+      max-width: var(--text-input-size); /* only hours and minutes allowed, though some UAs make it big enough for milliseconds */
+    }
     input[type="text"], input[type="number"] {
       width: var(--text-input-size);
     }
