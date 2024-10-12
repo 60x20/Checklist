@@ -236,7 +236,7 @@ main {
   }
 }
 /* on small devices, give up alignment to avoid main-text having narrow space due to big fixed-width */
-@media (max-width: 750px) {
+@media (max-width: 500px) {
   #checklist .todo .main-with-others-grouped-row-container {
     flex-flow: row wrap;
     justify-content: center;
