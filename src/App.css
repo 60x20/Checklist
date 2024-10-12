@@ -192,11 +192,12 @@ main {
       width: 1.5rem;
       aspect-ratio: 1;
     }
+    --text-input-size: 10ch;
     input[type="text"], input[type="number"] {
-      width: 10ch;
+      width: var(--text-input-size);
     }
 
-    --biggest-input-size: 10ch + 2rem; /* 2rem added since 10ch is dynamic and bordex-box isn't used */
+    --biggest-input-size: var(--text-input-size) + 2rem; /* 2rem added since ch is dynamic and bordex-box isn't used */
     /* gap + dummy + gap + input + gap + button */
     --biggest-helper-wrapper-size: (1rem + 0px + 1rem + var(--biggest-input-size) + 1rem + var(--toggler-button-width));
   }
