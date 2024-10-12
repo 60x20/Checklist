@@ -1,5 +1,6 @@
 :root {
   --toggler-button-height: 2rem;
+  --toggler-button-width: var(--toggler-button-height);
 
   --slightly-brighten: rgb(255, 255, 255, .25);
 
@@ -194,6 +195,10 @@ main {
     input[type="text"], input[type="number"] {
       width: 10ch;
     }
+
+    --biggest-input-size: 10ch + 2rem; /* 2rem added since 10ch is dynamic and bordex-box isn't used */
+    /* gap + dummy + gap + input + gap + button */
+    --biggest-helper-wrapper-size: (1rem + 0px + 1rem + var(--biggest-input-size) + 1rem + var(--toggler-button-width));
   }
 
   .todo {
@@ -214,7 +219,7 @@ main {
 
       > .main-item {
         /* if all items don't use the same width, items will be misaligned */
-        width: calc(80% - 10ch); /* allow the other part at least 10ch so that we avoid wrapping when they can fit */
+        width: calc(100% - var(--biggest-helper-wrapper-size)); /* place the wrapper, then give the remaining space to main-items */
         flex-grow: 0; /* shouldn't be bigger than the fixed with */
       }
       > .dummy-element {
