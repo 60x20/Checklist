@@ -6,7 +6,7 @@ import { currentDateContext } from "../providers/CurrentDateProvider";
 import { refCallbackForFocus } from "../providers/RefProvider";
 
 // helpers
-import { monthNames } from "../helpers/validateUnitsFromDate";
+import { weekdayDayMonthFormatter } from "../helpers/validateUnitsFromDate";
 
 // custom hooks
 import changeDocumentTitle from "../custom-hooks/changeDocumentTitle";
@@ -20,7 +20,7 @@ const Home = () => {
     {/* focus on the anchor on mount  */}
     <h1>Today: <Link ref={refCallbackForFocus} to={currentDate.YMD.replaceAll('-', '/')}>
       <time dateTime={currentDate.YMD}>
-        {`${currentDate.date.day} ${monthNames[parseInt(currentDate.date.month, 10)]} ${currentDate.date.year}`}
+        { weekdayDayMonthFormatter.format(new Date()) }
       </time>
     </Link></h1>
   </div>);
