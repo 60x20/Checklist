@@ -13,7 +13,7 @@ import { refContext } from "../providers/RefProvider";
 import resetAllData from "../helpers/resetAllData";
 import { returnDateFromToday } from "../helpers/returnCurrentDate";
 import { resetTodoData } from "../helpers/todoDataHelpers";
-import { monthNamesTruncated } from "../helpers/validateUnitsFromDate";
+import { dayMonthYearTruncFormatter } from "../helpers/validateUnitsFromDate";
 
 const Menu = () => {
   const { menuState, closeTheMenu } = useContext(menuStateContext);
@@ -125,13 +125,12 @@ const Menu = () => {
         <ul className="column-stretch-container">
           { prevDates.map((el, i) => {
             const relativeDate = returnDateFromToday(-i);
-            const monthAsWord = monthNamesTruncated[parseInt(relativeDate.date.month, 10)];
             return (
               <li key={i}>
                 <Link to={relativeDate.YMD.replaceAll('-', '/')} onClick={focusOnCreateTodoAndCloseTheMenu}>
                   {i === 0 ? 'today: ' : ''}
                   <time dateTime={relativeDate.YMD}>
-                    {`${relativeDate.date.day} ${monthAsWord} ${relativeDate.date.year}`}
+                    { dayMonthYearTruncFormatter.format(new Date(relativeDate.YMD)) }
                   </time>
                 </Link>
               </li>
