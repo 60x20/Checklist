@@ -47,6 +47,11 @@ export function extractDay(day) {
     : NaN
   ;
 }
+
+export function getDayOfWeekFromDate({ year, month, day }) {
+  return new Date([year, month, day].join('-')).getDay();
+}
+
 export function validateDate(year = '2000', month = '01', day = '01') {
   dateInput.value = [year, month, day].join('-'); // returns '', if invalid
   const isValid = dateInput.checkValidity();
