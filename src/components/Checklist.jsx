@@ -16,7 +16,7 @@ import { refContext } from "../providers/RefProvider";
 import { addToTodosTemplate, removeFromTodosTemplate, updateTypeOnTodosTemplate } from "../helpers/todosTemplateHelpers";
 import { addToAllTodos, updateTodoString, returnCachedTodoDescription } from "../helpers/allTodosHelpers";
 import { returnTodoData, validateTodoData, addToTodoData, removeFromTodoData, updateTodoValue, updateTodoType } from "../helpers/todoDataHelpers";
-import { dayNames, getDayOfWeekFromDate, monthNames, monthNamesTruncated } from "../helpers/validateUnitsFromDate";
+import { monthNames, monthNamesTruncated, weekdayDayMonthFormatter } from "../helpers/validateUnitsFromDate";
 import { shouldUseAutoFocus } from "../helpers/keyboardDetection";
 import { capitalizeString } from "../helpers/utils";
 
@@ -31,7 +31,7 @@ const Checklist = () => {
   const { allDataCleared } = useContext(allDataClearedContext); // when changes, new data will be brought
   const { todayCleared } = useContext(todayClearedContext); // when changes, new data will be brought
 
-  const dayOfWeekAsInt = getDayOfWeekFromDate({ year, month, day });
+  const dateRequested = new Date([year, month, day].join('-'));
 
   // converted into numbers so that they are considered array indexes
   const monthAsInt = parseInt(month, 10);
@@ -52,7 +52,7 @@ const Checklist = () => {
     // keydown preferred, so that when browser popup gets closed, possible keyUps don't trigger closing
     onKeyDown={(e) => { if (e.key === 'Escape') closeAllHelpers(); }}
   >
-    <h1><time dateTime={`${year}-${month}-${day}`}>{`${dayNames[dayOfWeekAsInt]}, ${day} ${monthNames[monthAsInt]}`}</time></h1>
+    <h1><time dateTime={`${year}-${month}-${day}`}>{weekdayDayMonthFormatter.format(dateRequested)}</time></h1>
     <CreateTodo { ...{unitsAsInt, year, month, day, refForUpdateCurrentTodoData} } />
     {/* with key: re-create State / re-use Effect, so that the logic is sequential and race conditions are avoided */}
     {/* if data is cleared, clean-up and keep the state and localStorage in sync, otherwise old data will be seen */}

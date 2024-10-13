@@ -1,6 +1,6 @@
-export const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 export const monthNames = ['', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 export const monthNamesTruncated = ['', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
+export const weekdayDayMonthFormatter = createFormatter({ weekday: 'long', day: 'numeric', month: 'long' });
 function createFormatter(options) {
   return new Intl.DateTimeFormat(navigator.language, options);
 }
@@ -49,10 +49,6 @@ export function extractDay(day) {
     ? extractedDay
     : NaN
   ;
-}
-
-export function getDayOfWeekFromDate({ year, month, day }) {
-  return new Date([year, month, day].join('-')).getDay();
 }
 
 export function validateDate(year = '2000', month = '01', day = '01') {
