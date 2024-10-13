@@ -111,9 +111,7 @@ export const YearVisualizer = () => {
   if (!isValid) return (<p>invalid date</p>);
   
   const yearAsInt = parseInt(extractedYear, 10);
-
   const yearEntry = returnYearEntry(yearAsInt);
-
   if (!yearEntry) return (<p>no data for year</p>);
 
   return (<nav><ul className="column-container">
