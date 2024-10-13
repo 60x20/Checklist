@@ -1,6 +1,9 @@
 export const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 export const monthNames = ['', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 export const monthNamesTruncated = ['', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
+function createFormatter(options) {
+  return new Intl.DateTimeFormat(navigator.language, options);
+}
 
 // should be greedy, otherwise data will be lost
 const yearRegex = /\d{4}|\d{2}/;
