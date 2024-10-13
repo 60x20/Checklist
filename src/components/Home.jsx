@@ -19,9 +19,7 @@ const Home = () => {
   return (<div id="home">
     {/* focus on the anchor on mount  */}
     <h1>Today: <Link ref={refCallbackForFocus} to={currentDate.YMD.replaceAll('-', '/')}>
-      <time dateTime={currentDate.YMD}>
-        { weekdayDayMonthFormatter.format(new Date()) }
-      </time>
+      <time dateTime={currentDate.YMD}>{ weekdayDayMonthFormatter.format(new Date()) }</time>
     </Link></h1>
   </div>);
 }
