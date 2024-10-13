@@ -11,7 +11,7 @@ const dayRegex = /\d{1,2}/;
 // Date.parse considers 'Feb 31' as 'Feb 29 + 2 days'
 const dateInput = document.createElement('input');
 dateInput.type = 'date';
-dateInput.required = 'date';
+dateInput.required = true;
 
 export function validateUnitsFromDate({ year, month, day }) {
   // validation, in case the date is not in the desired format (failsafe)
