@@ -34,8 +34,7 @@ const Checklist = () => {
   const dateRequested = new Date([year, month, day].join('-'));
 
   // converted into numbers so that they are considered array indexes
-  const monthAsInt = parseInt(month, 10);
-  const unitsAsInt = useMemo(() => [parseInt(year, 10), monthAsInt, parseInt(day, 10)], [day, month, year]); // used as dependency
+  const unitsAsInt = useMemo(() => [parseInt(year, 10), parseInt(month, 10), parseInt(day, 10)], [day, month, year]); // used as dependency
 
   addSubtitleToDocumentTitle(dayMonthTruncFormatter.format(dateRequested)); // adding date to the title
   
