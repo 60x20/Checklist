@@ -7,7 +7,7 @@ import { faCheck, faXmark } from '@fortawesome/free-solid-svg-icons'
 
 // helpers
 import { returnAllYears } from "../helpers/allYearsHelpers";
-import { extractYear, extractMonth, validateDate, monthNames, monthNamesTruncated } from "../helpers/validateUnitsFromDate";
+import { extractYear, extractMonth, validateDate, monthFormatter, monthNamesTruncated } from "../helpers/validateUnitsFromDate";
 import { returnYearEntry } from "../helpers/todoDataHelpers";
 import { truncateString } from "../helpers/utils";
 
@@ -122,9 +122,10 @@ export const YearVisualizer = () => {
       // there are vacant indexes, so that months and indexes match
       if (monthArr) {
         const monthAsString = String(month).padStart(2, '0');
+        const localDate = [extractedYear, monthAsString].join('-');
         return (<li key={month} className="month">
           <Link to={monthAsString}>
-            <time dateTime={`${extractedYear}-${monthAsString}`}>{ monthNames[month] }</time>
+            <time dateTime={localDate}>{ monthFormatter.format(new Date(localDate)) }</time>
           </Link>
         </li>);
       } else return false;
