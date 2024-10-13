@@ -4,6 +4,7 @@ export const weekdayDayMonthFormatter = createFormatter({ weekday: 'long', day: 
 export const dayMonthTruncFormatter = createFormatter({ day: 'numeric', month: 'short' });
 export const dayMonthYearTruncFormatter = createFormatter({ day: 'numeric', month: 'short', year: 'numeric' });
 export const monthFormatter = createFormatter({ month: 'long' });
+export const monthYearTruncFormatter = createFormatter({ month: 'short', year: 'numeric' });
 function createFormatter(options) {
   return new Intl.DateTimeFormat(navigator.language, options);
 }

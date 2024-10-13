@@ -7,7 +7,7 @@ import { faCheck, faXmark } from '@fortawesome/free-solid-svg-icons'
 
 // helpers
 import { returnAllYears } from "../helpers/allYearsHelpers";
-import { extractYear, extractMonth, validateDate, monthFormatter, monthNamesTruncated } from "../helpers/validateUnitsFromDate";
+import { extractYear, extractMonth, validateDate, monthFormatter, monthYearTruncFormatter } from "../helpers/validateUnitsFromDate";
 import { returnYearEntry } from "../helpers/todoDataHelpers";
 import { truncateString } from "../helpers/utils";
 
@@ -45,7 +45,7 @@ export const MonthVisualizer = () => {
   const yearAsInt = parseInt(extractedYear, 10);
   const monthAsInt = parseInt(extractedMonth, 10);
 
-  const subtitle = isValid ? `${monthNamesTruncated[monthAsInt]} ${extractedYear}` : 'invalid date';
+  const subtitle = isValid ? monthYearTruncFormatter.format(new Date([extractedYear, extractedMonth].join('-'))) : 'invalid date';
   addSubtitleToDocumentTitle(subtitle);
   
   if (!isValid) return <p>invalid date</p>;
