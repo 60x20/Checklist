@@ -16,7 +16,7 @@ import { refContext } from "../providers/RefProvider";
 import { addToTodosTemplate, removeFromTodosTemplate, updateTypeOnTodosTemplate } from "../helpers/todosTemplateHelpers";
 import { addToAllTodos, updateTodoString, returnCachedTodoDescription } from "../helpers/allTodosHelpers";
 import { returnTodoData, validateTodoData, addToTodoData, removeFromTodoData, updateTodoValue, updateTodoType } from "../helpers/todoDataHelpers";
-import { monthNames, monthNamesTruncated, weekdayDayMonthFormatter } from "../helpers/validateUnitsFromDate";
+import { dayMonthTruncFormatter, weekdayDayMonthFormatter } from "../helpers/validateUnitsFromDate";
 import { shouldUseAutoFocus } from "../helpers/keyboardDetection";
 import { capitalizeString } from "../helpers/utils";
 
@@ -37,7 +37,7 @@ const Checklist = () => {
   const monthAsInt = parseInt(month, 10);
   const unitsAsInt = useMemo(() => [parseInt(year, 10), monthAsInt, parseInt(day, 10)], [day, month, year]); // used as dependency
 
-  addSubtitleToDocumentTitle(`${monthNamesTruncated[monthAsInt]} ${day}`); // adding date to the title
+  addSubtitleToDocumentTitle(dayMonthTruncFormatter.format(dateRequested)); // adding date to the title
   
   // for closing all helper menus
   const helperMenuClosersRef = useRef({});

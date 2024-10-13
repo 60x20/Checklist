@@ -1,6 +1,7 @@
 export const monthNames = ['', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 export const monthNamesTruncated = ['', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
 export const weekdayDayMonthFormatter = createFormatter({ weekday: 'long', day: 'numeric', month: 'long' });
+export const dayMonthTruncFormatter = createFormatter({ day: 'numeric', month: 'short' });
 function createFormatter(options) {
   return new Intl.DateTimeFormat(navigator.language, options);
 }
