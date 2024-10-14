@@ -22,7 +22,7 @@ const Header = () => {
     <header id="top-header" className="main-with-others-grouped-row-container">
       <button
         type="button"
-        className="toggler-with-icon"
+        className="toggler-icon-only"
         id="menu-toggler"
         ref={menuTogglerRef}
         onClick={() => toggleMenuState()}

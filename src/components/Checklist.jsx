@@ -250,7 +250,7 @@ const Todo = memo(({ updateCurrentTodoData, day, month, year, unitsAsInt, todoId
       <div className="helper-wrapper flex-container"> {/* bundles the elements so that they get wrapped at once */}
         <TodoState { ...{todoValue, todoType, updateTodoCheckedHandler, updateTodoValueHandler} } />
         <button
-          className="toggler-with-icon helper-menu-toggler"
+          className="toggler-icon-only helper-menu-toggler"
           onClick={() => toggleHelperState()}
           title={helperState ? "Close helpers." : "Open helpers."}
           type="button"

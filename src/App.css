@@ -68,7 +68,7 @@ ul {
   color: gray;
 }
 
-button.toggler-with-icon {
+.toggler-icon-only {
   box-sizing: border-box; /* it might have padding set by UA */
   width: var(--toggler-button-height);
   aspect-ratio: 1;
