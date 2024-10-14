@@ -79,6 +79,16 @@ ul {
   align-items: center;
   gap: .5rem;
 }
+.toggler-transition {
+  background-color: transparent;
+  border: 0; /* background will be transparent */
+  transition: background-color .2s;
+  border-radius: .25rem;
+
+  &:hover {
+    background-color: var(--slightly-brighten);
+  }
+}
 
 .styled-as-p {
   font-size: inherit;
@@ -104,9 +114,6 @@ ul {
   
   /* if background is dark become darker, if light become lighter */
   background-color: rgb(255, 0, 255, .5);
-  #theme-toggler:hover {
-    background-color: var(--slightly-brighten);
-  }
 
   > .main-item {
     /* text gets all the space, grouping siblings */
@@ -120,14 +127,8 @@ ul {
   }
 }
 #theme-toggler {
-  background-color: transparent;
-  border: 0; /* background will be transparent */
-  transition: background-color .2s;
-
   height: var(--toggler-button-height);
   box-sizing: border-box; /* padding by UA should respect the height */
-
-  border-radius: .25rem;
 }
 
 main {
