@@ -74,6 +74,11 @@ ul {
   aspect-ratio: 1;
   font-size: 1rem !important;
 }
+.toggler-text-and-icon {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+}
 
 .styled-as-p {
   font-size: inherit;
@@ -121,10 +126,6 @@ ul {
 
   height: var(--toggler-button-height);
   box-sizing: border-box; /* padding by UA should respect the height */
-
-  display: flex;
-  align-items: center;
-  gap: .5rem;
 
   border-radius: .25rem;
 }

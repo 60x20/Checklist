@@ -35,6 +35,7 @@ const Header = () => {
       </button>
       <button
         type="button"
+        className="toggler-text-and-icon"
         id="theme-toggler"
         onClick={() => toggleThemeMode()}
         title={`Switch to ${themeModeData[returnThemeMode(themeMode + 1)].asWord} theme.`}
