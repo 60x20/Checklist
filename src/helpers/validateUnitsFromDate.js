@@ -1,3 +1,5 @@
+import { dayInMs } from "./returnCurrentDate";
+
 const weekdayFormatter = createFormatter({ weekday: 'long' });
 export const weekdayDayMonthFormatter = createFormatter({ weekday: 'long', day: 'numeric', month: 'long' });
 export const dayMonthTruncFormatter = createFormatter({ day: 'numeric', month: 'short' });
@@ -58,4 +60,9 @@ export function validateDate(year = '2000', month = '01', day = '01') {
   dateInput.value = [year, month, day].join('-'); // returns '', if invalid
   const isValid = dateInput.checkValidity();
   return isValid;
+}
+
+const dateForSunday = new Date('2000-01-02').valueOf();
+export function returnWeekDayFromSunday(day) {
+  return weekdayFormatter.format(new Date(dateForSunday + day * dayInMs));
 }
