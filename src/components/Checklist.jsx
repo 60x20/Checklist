@@ -262,7 +262,7 @@ const Todo = memo(({ updateCurrentTodoData, day, month, year, unitsAsInt, todoId
       </div>
     </div>
     { helperState ?
-    <TodoHelpers { ...{todoId, updateTodoStringHandler, todoType, updateTodoTypeHandler, removeFromTodoHandler, closeHelperMenu, helperMenuClosersRef} } />
+    <TodoHelpers { ...{todoId, updateTodoStringHandler, todoType, updateTodoTypeHandler, removeFromTodoHandler, closeHelperMenu, helperMenuClosersRef, isToday} } />
     : false }
   </li>);
 });
@@ -281,7 +281,7 @@ const TodoState = ({ todoValue, todoType, updateTodoCheckedHandler, updateTodoVa
   />);
 };
 
-const TodoHelpers = ({ todoId, updateTodoStringHandler, todoType, updateTodoTypeHandler, removeFromTodoHandler, closeHelperMenu, helperMenuClosersRef }) => {
+const TodoHelpers = ({ todoId, updateTodoStringHandler, todoType, updateTodoTypeHandler, removeFromTodoHandler, closeHelperMenu, helperMenuClosersRef, isToday }) => {
   useEffect(() => { // store the helperMenu closer in ref, will be used to close all at once
     helperMenuClosersRef.current[todoId] = closeHelperMenu; // since always set to false, old func with old scope is ok to use
     return () => { delete helperMenuClosersRef.current[todoId]; };
