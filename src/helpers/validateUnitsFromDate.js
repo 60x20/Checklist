@@ -1,3 +1,4 @@
+const weekdayFormatter = createFormatter({ weekday: 'long' });
 export const weekdayDayMonthFormatter = createFormatter({ weekday: 'long', day: 'numeric', month: 'long' });
 export const dayMonthTruncFormatter = createFormatter({ day: 'numeric', month: 'short' });
 export const dayMonthYearTruncFormatter = createFormatter({ day: 'numeric', month: 'short', year: 'numeric' });
