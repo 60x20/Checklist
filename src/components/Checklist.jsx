@@ -287,6 +287,11 @@ const TodoHelpers = ({ todoId, updateTodoStringHandler, todoType, updateTodoType
     return () => { delete helperMenuClosersRef.current[todoId]; };
   }, [])
 
+  const [frequencyMenuState, setFrequencyMenuState] = useState(false);
+  function toggleFrequencyMenuState() {
+    setFrequencyMenuState(!frequencyMenuState);
+  }
+
   // when any of the helpers are used, helper menu should be closed
   // focus should be managed when menu closes or opens
   return (<div className="row-container helpers" role="menu" aria-orientation="horizontal">
@@ -303,6 +308,19 @@ const TodoHelpers = ({ todoId, updateTodoStringHandler, todoType, updateTodoType
       <option value="number">Number</option>
       <option value="time">Time</option>
     </select>
+    { isToday ?
+    <button
+      type="button"
+      className="toggler-text-and-icon"
+      onClick={() => toggleFrequencyMenuState()}
+      title={frequencyMenuState ? "Close menu." : "Open menu."}
+      aria-haspopup="menu"
+      aria-expanded={frequencyMenuState}
+    >
+      select days
+      <MemoizedFontAwesomeIcon icon={frequencyMenuState ? faXmark : faBars} />
+    </button>
+    : false }
     <button onClick={removeFromTodoHandler} type="button">remove</button>
   </div>);
 };
