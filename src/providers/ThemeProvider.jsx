@@ -33,6 +33,6 @@ const ThemeProvider = ({ children }) => {
   return (<themeContext.Provider value={{ preferenceForDark, themeMode, toggleThemeMode }}>
     {children}
   </themeContext.Provider>);
-}
+};
  
 export default ThemeProvider;

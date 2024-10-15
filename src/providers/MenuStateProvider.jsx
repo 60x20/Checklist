@@ -36,6 +36,6 @@ const MenuStateProvider = ({ children }) => {
   return (<menuStateContext.Provider value={{ menuState, toggleMenuState, closeTheMenu }}>
     {children}
   </menuStateContext.Provider>);
-}
+};
  
 export default MenuStateProvider;

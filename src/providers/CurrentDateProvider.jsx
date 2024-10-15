@@ -48,6 +48,6 @@ const CurrentDateProvider = ({ children }) => {
   return (<currentDateContext.Provider value={ currentDate }>
     { children }
   </currentDateContext.Provider>);
-}
+};
  
 export default CurrentDateProvider;

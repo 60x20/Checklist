@@ -11,6 +11,6 @@ const TodayClearedProvider = ({ children }) => {
   return (<todayClearedContext.Provider value={{ todayCleared, increaseTodayCleared }}>
     {children}
   </todayClearedContext.Provider>);
-}
+};
  
 export default TodayClearedProvider;

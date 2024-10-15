@@ -15,6 +15,6 @@ const RequestedDateValidatedProvider = ({ children }) => {
   return (<requestedDateValidatedContext.Provider value={ requestedDateValidated }>
     { children }
   </requestedDateValidatedContext.Provider>);
-}
+};
  
 export default RequestedDateValidatedProvider;

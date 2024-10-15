@@ -11,6 +11,6 @@ const AllDataClearedProvider = ({ children }) => {
   return (<allDataClearedContext.Provider value={{ allDataCleared, increaseAllDataCleared }}>
     {children}
   </allDataClearedContext.Provider>);
-}
+};
  
 export default AllDataClearedProvider;

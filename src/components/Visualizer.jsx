@@ -27,7 +27,7 @@ export const VisualizerLayout = () => {
   return (<div id="visualizer" ref={visualizerRef}>
     <Outlet />
   </div>);
-}
+};
 
 export const MonthVisualizer = () => {
   useContext(allDataClearedContext); // when data is cleared, re-render
@@ -86,7 +86,7 @@ export const MonthVisualizer = () => {
       // reversed, so that latest days are at the top of the document
     }).toReversed() }
   </div>);
-}
+};
 
 export const YearVisualizer = () => {
   useContext(allDataClearedContext); // when data is cleared, re-render
@@ -127,7 +127,7 @@ export const YearVisualizer = () => {
       // reversed, so that latest months are at the top of the document
     }).toReversed() }
   </ul></nav>);
-}
+};
 
 export const AllYearsVisualizer = () => {
   useContext(allDataClearedContext); // when data is cleared, re-render
@@ -156,4 +156,4 @@ export const AllYearsVisualizer = () => {
       </li>);
     }) }
   </ul></nav>);
-}
+};

@@ -13,6 +13,6 @@ const Main = ({ children }) => {
       </TodayClearedProvider>
     </AllDataClearedProvider>
   </main>);
-}
+};
  
 export default Main;
