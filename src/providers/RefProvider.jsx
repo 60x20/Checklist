@@ -24,10 +24,12 @@ export function refCallbackForFocus(el) {
   // ref callback should not change during renders otherwise react would re-attach and re-execute it
   focusFromEl(el);
 }
-export function focusOnFirstItemFromRef(ref) {
-  if (!ref.current) return;
-  const firstItem = ref.current.querySelector('a, button, input');
+function focusOnFirstItemFromEl(el) {
+  const firstItem = el.querySelector('a, button, input');
   focusFromEl(firstItem);
+}
+export function focusOnFirstItemFromRef(ref) {
+  if (ref.current) focusOnFirstItemFromEl(ref.current);
 }
 function focusOnLastItemFromRef(ref) {
   if (!ref.current) return;
