@@ -31,6 +31,9 @@ function focusOnFirstItemFromEl(el) {
 export function focusOnFirstItemFromRef(ref) {
   if (ref.current) focusOnFirstItemFromEl(ref.current);
 }
+function refCallbackToFocusOnFirstItem(el) {
+  if (el) focusOnFirstItemFromEl(el); // might be null since react executes the callback when element unmounts
+}
 function focusOnLastItemFromRef(ref) {
   if (!ref.current) return;
   const allItems = ref.current.querySelectorAll('a, button, input');
