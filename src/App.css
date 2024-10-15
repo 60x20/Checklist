@@ -244,6 +244,40 @@ main {
         flex-grow: 0; /* shouldn't be bigger than the fixed with */
       }
     }
+
+    .frequency-menu-wrapper {
+      position: relative;
+
+      .frequency-menu {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch; /* make sure elements line up */
+        
+        width: max-content; /* fit-content not used since it doesn't try to include the overflow from parent containing block */
+
+        /* centralize the menu and put it under the button */
+        position: absolute;
+        left: 50%;
+        translate: -50%;
+        top: 100%;
+
+        /* theme */
+        background-color: var(--root-light-bg);
+        border: 1px solid var(--root-dark-bg);
+        .dark-theme & {
+          background-color: var(--root-dark-bg);
+          border: 1px solid var(--root-light-bg);
+        }
+
+        .frequency-toggler-label {
+          width: 100%; /* get the full width of the alignment container */
+          box-sizing: border-box; /* don't be bigger than your parent */
+          padding: .25rem;
+
+          justify-content: space-between; /* make sure elements line up */
+        }
+      }
+    }
   }
 }
 /* on small devices, give up alignment to avoid main-text having narrow space due to big fixed-width */
