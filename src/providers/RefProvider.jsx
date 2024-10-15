@@ -21,6 +21,7 @@ function focusFromRef(ref) {
   focusFromEl(ref.current);
 }
 export function refCallbackForFocus(el) {
+  // ref callback should not change during renders otherwise react would re-attach and re-execute it
   focusFromEl(el);
 }
 export function focusOnFirstItemFromRef(ref) {
