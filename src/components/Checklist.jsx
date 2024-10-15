@@ -291,6 +291,9 @@ const TodoHelpers = ({ todoId, updateTodoStringHandler, todoType, updateTodoType
   function toggleFrequencyMenuState() {
     setFrequencyMenuState(!frequencyMenuState);
   }
+  function closeFrequencyMenu() {
+    setFrequencyMenuState(false);
+  }
 
   // when any of the helpers are used, helper menu should be closed
   // focus should be managed when menu closes or opens
@@ -322,13 +325,13 @@ const TodoHelpers = ({ todoId, updateTodoStringHandler, todoType, updateTodoType
     </button>
     : false }
     { frequencyMenuState ? 
-    <FrequencyMenu />
     : false }
+      <FrequencyMenu { ...{closeFrequencyMenu} } />
     <button onClick={removeFromTodoHandler} type="button">remove</button>
   </div>);
 };
 
-const FrequencyMenu = () => {
+const FrequencyMenu = ({ closeFrequencyMenu }) => {
   const [frequencyState, setFrequencyState] = useState([0, 0, 0, 0, 0, 0, 0]); // TODO: will be obtained from localStorage
   function toggleIndivualFrequencyState(dayIndex) {
     const newFrequencyState = [...frequencyState];
@@ -342,7 +345,9 @@ const FrequencyMenu = () => {
     toggleIndivualFrequencyState(dayIndex);
   }
 
-  return (<ul className="frequency-menu" role="menu">
+  return (<ul className="frequency-menu" role="menu"
+    onKeyDown={(e) => { if (e.key === 'Escape') { closeFrequencyMenu(); e.stopPropagation(); } }}
+  >
     { frequencyState.map((el, i) => {
       // start with monday end with sunday
       const dayIndex = i + 1 === 7 ? 0 : i + 1; // sunday uses 0 instead of 7 (since Date.prototype.getDay() returns 0 on Sunday)
