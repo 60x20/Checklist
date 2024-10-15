@@ -33,11 +33,9 @@ const MenuStateProvider = ({ children }) => {
     }
   }, [menuState]);
 
-  return ( 
-    <menuStateContext.Provider value={{ menuState, toggleMenuState, closeTheMenu }}>
-      {children}
-    </menuStateContext.Provider>
-  );
+  return (<menuStateContext.Provider value={{ menuState, toggleMenuState, closeTheMenu }}>
+    {children}
+  </menuStateContext.Provider>);
 }
  
 export default MenuStateProvider;

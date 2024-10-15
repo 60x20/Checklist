@@ -80,11 +80,9 @@ const RefProvider = ({ children }) => {
     }
   }
 
-  return (
-    <refContext.Provider value={valueToProvide}>
-      {children}
-    </refContext.Provider>
-  );
+  return (<refContext.Provider value={valueToProvide}>
+    {children}
+  </refContext.Provider>);
 }
  
 export default RefProvider;

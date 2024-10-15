@@ -4,17 +4,15 @@ import TodayClearedProvider from "../providers/TodayClearedProvider";
 import RequestedDateValidatedProvider from "../providers/RequestedDateValidatedProvider";
 
 const Main = ({ children }) => {
-  return (
-    <main>
-      <AllDataClearedProvider>
-        <TodayClearedProvider>
-          <RequestedDateValidatedProvider>
-            {children}
-          </RequestedDateValidatedProvider>
-        </TodayClearedProvider>
-      </AllDataClearedProvider>
-    </main>
-  );
+  return (<main>
+    <AllDataClearedProvider>
+      <TodayClearedProvider>
+        <RequestedDateValidatedProvider>
+          {children}
+        </RequestedDateValidatedProvider>
+      </TodayClearedProvider>
+    </AllDataClearedProvider>
+  </main>);
 }
  
 export default Main;

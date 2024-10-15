@@ -112,9 +112,8 @@ const Menu = () => {
   prevDates.length = prevDayAmount + 1; // 1 for today
   prevDates.fill(''); // if they're empty, map will skip them 
 
-  return (
-    <>
-    { menuState ? (
+  return (<>
+    { menuState ?
     // tabindex to make it focusable, so that when it's clicked it's not the body who gets the focus
     // otherwise handler to close the menu would kick in
     <aside tabIndex="-1" role="menu" id="menu" ref={menuRef} className="column-stretch-container"
@@ -125,16 +124,14 @@ const Menu = () => {
         <ul className="column-stretch-container">
           { prevDates.map((el, i) => {
             const relativeDate = returnDateFromToday(-i);
-            return (
-              <li key={i}>
-                <Link to={relativeDate.YMD.replaceAll('-', '/')} onClick={focusOnCreateTodoAndCloseTheMenu}>
-                  {i === 0 ? 'today: ' : ''}
-                  <time dateTime={relativeDate.YMD}>
-                    { dayMonthYearTruncFormatter.format(new Date(relativeDate.YMD)) }
-                  </time>
-                </Link>
-              </li>
-            );
+            return (<li key={i}>
+              <Link to={relativeDate.YMD.replaceAll('-', '/')} onClick={focusOnCreateTodoAndCloseTheMenu}>
+                {i === 0 ? 'today: ' : ''}
+                <time dateTime={relativeDate.YMD}>
+                  { dayMonthYearTruncFormatter.format(new Date(relativeDate.YMD)) }
+                </time>
+              </Link>
+            </li>);
           }) }
           <li>
             <label>
@@ -163,9 +160,8 @@ const Menu = () => {
         <button type="button" onClick={resetAllDataHandler}>reset all data</button>
       </div>
     </aside>
-    ) : false }
-    </>
-  );
+    : false }
+  </>);
 };
 
 export default Menu;

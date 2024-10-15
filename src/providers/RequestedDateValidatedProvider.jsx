@@ -12,11 +12,9 @@ const RequestedDateValidatedProvider = ({ children }) => {
   // if any of them undefined, validation will throw, so immediately return {}; can happen because of menu
   const requestedDateValidated = year && month && day ? validateUnitsFromDate(requestedDateAsParams) : {};
 
-  return (
-    <requestedDateValidatedContext.Provider value={ requestedDateValidated }>
-      { children }
-    </requestedDateValidatedContext.Provider>
-  );
+  return (<requestedDateValidatedContext.Provider value={ requestedDateValidated }>
+    { children }
+  </requestedDateValidatedContext.Provider>);
 }
  
 export default RequestedDateValidatedProvider;

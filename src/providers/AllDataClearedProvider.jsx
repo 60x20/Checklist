@@ -8,11 +8,9 @@ const AllDataClearedProvider = ({ children }) => {
   // instead of true-false, numbers used, with this approach there won't be unnecessary re-renderings
   const [allDataCleared, increaseAllDataCleared] = useReducer((prev) => prev + 1, 0);
 
-  return ( 
-    <allDataClearedContext.Provider value={{ allDataCleared, increaseAllDataCleared }}>
-      {children}
-    </allDataClearedContext.Provider>
-  );
+  return (<allDataClearedContext.Provider value={{ allDataCleared, increaseAllDataCleared }}>
+    {children}
+  </allDataClearedContext.Provider>);
 }
  
 export default AllDataClearedProvider;

@@ -8,11 +8,9 @@ const TodayClearedProvider = ({ children }) => {
   // instead of true-false, numbers used, with this approach there won't be unnecessary re-renderings
   const [todayCleared, increaseTodayCleared] = useReducer((prev) => prev + 1, 0);
 
-  return ( 
-    <todayClearedContext.Provider value={{ todayCleared, increaseTodayCleared }}>
-      {children}
-    </todayClearedContext.Provider>
-  );
+  return (<todayClearedContext.Provider value={{ todayCleared, increaseTodayCleared }}>
+    {children}
+  </todayClearedContext.Provider>);
 }
  
 export default TodayClearedProvider;

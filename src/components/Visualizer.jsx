@@ -24,11 +24,9 @@ const addSubtitleToDocumentTitle = changeDocumentTitle.bind(globalThis, mainTitl
 export const VisualizerLayout = () => {
   const { refs: { visualizerRef } } = useContext(refContext);
 
-  return (
-    <div id="visualizer" ref={visualizerRef}>
-      <Outlet />
-    </div>
-  );
+  return (<div id="visualizer" ref={visualizerRef}>
+    <Outlet />
+  </div>);
 }
 
 export const MonthVisualizer = () => {
