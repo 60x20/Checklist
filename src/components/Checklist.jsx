@@ -10,7 +10,7 @@ import { currentDateContext } from "../providers/CurrentDateProvider";
 import { allDataClearedContext } from "../providers/AllDataClearedProvider";
 import { requestedDateValidatedContext } from "../providers/RequestedDateValidatedProvider";
 import { todayClearedContext } from "../providers/TodayClearedProvider";
-import { focusFromRef, refContext } from "../providers/RefProvider";
+import { focusFromRef, refCallbackToFocusOnFirstItem, refContext } from "../providers/RefProvider";
 
 // helpers
 import { addToTodosTemplate, removeFromTodosTemplate, updateTypeOnTodosTemplate } from "../helpers/todosTemplateHelpers";
@@ -353,6 +353,7 @@ const FrequencyMenu = ({ closeFrequencyMenu }) => {
   }
 
   return (<ul className="frequency-menu" role="menu"
+    ref={refCallbackToFocusOnFirstItem} // on mount focus on first element 
     onKeyDown={(e) => { if (e.key === 'Escape') { closeFrequencyMenu(); e.stopPropagation(); } }}
   >
     { frequencyState.map((el, i) => {
