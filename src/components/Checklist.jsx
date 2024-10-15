@@ -16,7 +16,7 @@ import { refContext } from "../providers/RefProvider";
 import { addToTodosTemplate, removeFromTodosTemplate, updateTypeOnTodosTemplate } from "../helpers/todosTemplateHelpers";
 import { addToAllTodos, updateTodoString, returnCachedTodoDescription } from "../helpers/allTodosHelpers";
 import { returnTodoData, validateTodoData, addToTodoData, removeFromTodoData, updateTodoValue, updateTodoType } from "../helpers/todoDataHelpers";
-import { dayMonthTruncFormatter, weekdayDayMonthFormatter } from "../helpers/validateUnitsFromDate";
+import { dayMonthTruncFormatter, returnWeekDayFromSunday, weekdayDayMonthFormatter } from "../helpers/validateUnitsFromDate";
 import { shouldUseAutoFocus } from "../helpers/keyboardDetection";
 import { capitalizeString } from "../helpers/utils";
 
@@ -321,6 +321,26 @@ const TodoHelpers = ({ todoId, updateTodoStringHandler, todoType, updateTodoType
       <MemoizedFontAwesomeIcon icon={frequencyMenuState ? faXmark : faBars} />
     </button>
     : false }
+    { frequencyMenuState ? 
+    <FrequencyMenu />
+    : false }
     <button onClick={removeFromTodoHandler} type="button">remove</button>
   </div>);
+};
+
+const FrequencyMenu = () => {
+  const [frequencyState, setFrequencyState] = useState([0, 0, 0, 0, 0, 0, 0]); // TODO: will be obtained from localStorage
+  return (<ul className="frequency-menu" role="menu">
+    { frequencyState.map((el, i) => {
+      // start with monday end with sunday
+      const dayIndex = i + 1 === 7 ? 0 : i + 1; // sunday uses 0 instead of 7 (since Date.prototype.getDay() returns 0 on Sunday)
+      return (<li key={dayIndex}><label className="frequency-toggler-label toggler-text-and-icon toggler-transition">
+        <span className="unselectable">{returnWeekDayFromSunday(dayIndex)}</span>
+        <input type="checkbox"
+          value={dayIndex}
+          checked={frequencyState[dayIndex]}
+        />
+      </label></li>);
+    }) }
+  </ul>)
 };
