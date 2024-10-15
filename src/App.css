@@ -5,13 +5,15 @@
   --slightly-brighten: rgb(255, 255, 255, .25);
 
   /* theme */
+  --root-dark-bg: #111;
+  --root-light-bg: #ccc;
   color-scheme: light;
-  background-color: #ccc;
+  background-color: var(--root-light-bg);
   color: black;
 
   &:has(.dark-theme) {
     color-scheme: dark;
-    background-color: #111;
+    background-color: var(--root-dark-bg);
     color: white;
   }
 }
