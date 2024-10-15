@@ -101,7 +101,7 @@ const CreateTodo = memo(({ unitsAsInt, year, month, day, refForUpdateCurrentTodo
   </form>);
 });
 
-const Todos = ( {day, month, year, unitsAsInt, helperMenuClosersRef, refForUpdateCurrentTodoData} ) => {
+const Todos = ({ day, month, year, unitsAsInt, helperMenuClosersRef, refForUpdateCurrentTodoData }) => {
   // localStorage entry cached to avoid parsing; used to initialize local states, avoiding hoisting the state up and re-rendering
   const cachedTodoData = useRef();
 
