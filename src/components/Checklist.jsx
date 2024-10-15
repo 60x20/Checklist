@@ -330,6 +330,18 @@ const TodoHelpers = ({ todoId, updateTodoStringHandler, todoType, updateTodoType
 
 const FrequencyMenu = () => {
   const [frequencyState, setFrequencyState] = useState([0, 0, 0, 0, 0, 0, 0]); // TODO: will be obtained from localStorage
+  function toggleIndivualFrequencyState(dayIndex) {
+    const newFrequencyState = [...frequencyState];
+    newFrequencyState[dayIndex] = !newFrequencyState[dayIndex];
+    setFrequencyState(newFrequencyState);
+  }
+
+  // handlers
+  function toggleCheckedHandler(e) {
+    const dayIndex = e.currentTarget.value;
+    toggleIndivualFrequencyState(dayIndex);
+  }
+
   return (<ul className="frequency-menu" role="menu">
     { frequencyState.map((el, i) => {
       // start with monday end with sunday
@@ -339,6 +351,7 @@ const FrequencyMenu = () => {
         <input type="checkbox"
           value={dayIndex}
           checked={frequencyState[dayIndex]}
+          onChange={toggleCheckedHandler}
         />
       </label></li>);
     }) }
