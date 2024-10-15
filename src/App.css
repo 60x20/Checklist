@@ -92,6 +92,10 @@ ul {
   }
 }
 
+.unselectable {
+  user-select: none !important;
+}
+
 .styled-as-p {
   font-size: inherit;
   font-weight: normal;
