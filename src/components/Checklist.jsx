@@ -10,7 +10,7 @@ import { currentDateContext } from "../providers/CurrentDateProvider";
 import { allDataClearedContext } from "../providers/AllDataClearedProvider";
 import { requestedDateValidatedContext } from "../providers/RequestedDateValidatedProvider";
 import { todayClearedContext } from "../providers/TodayClearedProvider";
-import { refContext } from "../providers/RefProvider";
+import { focusFromRef, refContext } from "../providers/RefProvider";
 
 // helpers
 import { addToTodosTemplate, removeFromTodosTemplate, updateTypeOnTodosTemplate } from "../helpers/todosTemplateHelpers";
@@ -293,6 +293,12 @@ const TodoHelpers = ({ todoId, updateTodoStringHandler, todoType, updateTodoType
   }
   function closeFrequencyMenu() {
     setFrequencyMenuState(false);
+    focusOnFrequencyMenuButton();
+  }
+
+  const frequencyMenuButtonRef = useRef();
+  function focusOnFrequencyMenuButton() {
+    focusFromRef(frequencyMenuButtonRef);
   }
 
   // when any of the helpers are used, helper menu should be closed
@@ -314,6 +320,7 @@ const TodoHelpers = ({ todoId, updateTodoStringHandler, todoType, updateTodoType
     { isToday ?
     <button
       type="button"
+      ref={frequencyMenuButtonRef}
       className="toggler-text-and-icon"
       onClick={() => toggleFrequencyMenuState()}
       title={frequencyMenuState ? "Close menu." : "Open menu."}

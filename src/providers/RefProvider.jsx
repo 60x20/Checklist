@@ -17,7 +17,7 @@ function resetValueFromRef(ref) {
 function focusFromEl(el) {
   if (el) el.focus();
 }
-function focusFromRef(ref) {
+export function focusFromRef(ref) {
   focusFromEl(ref.current);
 }
 export function refCallbackForFocus(el) {
