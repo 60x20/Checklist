@@ -317,23 +317,23 @@ const TodoHelpers = ({ todoId, updateTodoStringHandler, todoType, updateTodoType
       <option value="number">Number</option>
       <option value="time">Time</option>
     </select>
-    { isToday ?
-    <button
-      type="button"
-      ref={frequencyMenuButtonRef}
-      className="toggler-text-and-icon"
-      onClick={() => toggleFrequencyMenuState()}
-      title={frequencyMenuState ? "Close menu." : "Open menu."}
-      aria-haspopup="menu"
-      aria-expanded={frequencyMenuState}
-    >
-      select days
-      <MemoizedFontAwesomeIcon icon={frequencyMenuState ? faXmark : faBars} />
-    </button>
-    : false }
-    { frequencyMenuState ? 
-    : false }
+    { isToday ? <div className="frequency-menu-wrapper">
+      <button
+        type="button"
+        ref={frequencyMenuButtonRef}
+        className="toggler-text-and-icon"
+        onClick={() => toggleFrequencyMenuState()}
+        title={frequencyMenuState ? "Close menu." : "Open menu."}
+        aria-haspopup="menu"
+        aria-expanded={frequencyMenuState}
+      >
+        select days
+        <MemoizedFontAwesomeIcon icon={frequencyMenuState ? faXmark : faBars} />
+      </button>
+      { frequencyMenuState ? 
       <FrequencyMenu { ...{closeFrequencyMenu} } />
+      : false }
+    </div> : false }
     <button onClick={removeFromTodoHandler} type="button">remove</button>
   </div>);
 };
