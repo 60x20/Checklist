@@ -246,7 +246,7 @@ main {
     }
 
     .frequency-menu-wrapper {
-      position: relative; /* for child alignment  */
+      position: relative; /* for child alignment */
 
       .frequency-menu {
         --padding-frequency-toggler-label: .25rem;
