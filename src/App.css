@@ -249,11 +249,17 @@ main {
       position: relative; /* for child alignment  */
 
       .frequency-menu {
+        --padding-frequency-toggler-label: .25rem;
+        --height-of-frequency-toggler-label: calc(var(--padding-frequency-toggler-label) * 2 + max(1rem, var(--checkbox-input-size)));
+
         display: flex;
         flex-direction: column;
         align-items: stretch; /* make sure elements line up */
         
-        width: max-content; /* fit-content not used since it doesn't try to include the overflow from parent containing block */
+        overflow-y: auto; /* show vertical scrollbar */
+        scrollbar-gutter: stable; /* assume the scrollbar width otherwise Firebox ignores it */
+        max-height: calc(5 * var(--height-of-frequency-toggler-label)); /* only show 5 elements */
+        
 
         /* centralize the menu and put it under the button */
         position: absolute;
