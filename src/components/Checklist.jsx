@@ -330,14 +330,14 @@ const TodoHelpers = ({ todoId, updateTodoStringHandler, todoType, updateTodoType
         <MemoizedFontAwesomeIcon icon={frequencyMenuState ? faXmark : faBars} />
       </button>
       { frequencyMenuState ? 
-      <FrequencyMenu { ...{closeFrequencyMenu, focusOnFrequencyMenuButton} } />
+      <FrequencyMenu { ...{closeFrequencyMenu, frequencyMenuButtonRef, focusOnFrequencyMenuButton} } />
       : false }
     </div> : false }
     <button onClick={removeFromTodoHandler} type="button">remove</button>
   </div>);
 };
 
-const FrequencyMenu = ({ closeFrequencyMenu, focusOnFrequencyMenuButton }) => {
+const FrequencyMenu = ({ closeFrequencyMenu, frequencyMenuButtonRef, focusOnFrequencyMenuButton }) => {
   const [frequencyState, setFrequencyState] = useState([0, 0, 0, 0, 0, 0, 0]); // TODO: will be obtained from localStorage
   function toggleIndivualFrequencyState(dayIndex) {
     const newFrequencyState = [...frequencyState];
@@ -350,6 +350,19 @@ const FrequencyMenu = ({ closeFrequencyMenu, focusOnFrequencyMenuButton }) => {
   useLayoutEffect(() => { // on mount focus on first element 
     focusOnFirstItemFromRef(frequencyMenuRef);
   }, [])
+  useEffect(() => {
+    function closeFrequencyMenuOnFocusOutHandler(e) {
+      const menuElement = frequencyMenuRef.current;
+      if (!menuElement) return; // already closed
+      if (e.relatedTarget === frequencyMenuButtonRef.current) return; // menu closing when toggler gets focus causes re-opening
+      if (!menuElement.contains(e.relatedTarget)) closeFrequencyMenu();
+    }
+
+    document.addEventListener('focusout', closeFrequencyMenuOnFocusOutHandler);
+    return () => document.removeEventListener('focusout', closeFrequencyMenuOnFocusOutHandler);
+  }, [])
+
+
   // handlers
   function toggleCheckedHandler(e) {
     const dayIndex = e.currentTarget.value;
@@ -357,6 +370,7 @@ const FrequencyMenu = ({ closeFrequencyMenu, focusOnFrequencyMenuButton }) => {
   }
 
   return (<ul className="frequency-menu" role="menu" ref={frequencyMenuRef}
+    tabIndex="-1" // so that when something unfocusable (like a text) is clicked, focus remains on the menu
     onKeyDown={(e) => {
       if (e.key === 'Escape') {
         closeFrequencyMenu();
