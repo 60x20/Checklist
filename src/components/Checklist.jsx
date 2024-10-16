@@ -293,7 +293,6 @@ const TodoHelpers = ({ todoId, updateTodoStringHandler, todoType, updateTodoType
   }
   function closeFrequencyMenu() {
     setFrequencyMenuState(false);
-    focusOnFrequencyMenuButton();
   }
 
   const frequencyMenuButtonRef = useRef();
@@ -331,14 +330,14 @@ const TodoHelpers = ({ todoId, updateTodoStringHandler, todoType, updateTodoType
         <MemoizedFontAwesomeIcon icon={frequencyMenuState ? faXmark : faBars} />
       </button>
       { frequencyMenuState ? 
-      <FrequencyMenu { ...{closeFrequencyMenu} } />
+      <FrequencyMenu { ...{closeFrequencyMenu, focusOnFrequencyMenuButton} } />
       : false }
     </div> : false }
     <button onClick={removeFromTodoHandler} type="button">remove</button>
   </div>);
 };
 
-const FrequencyMenu = ({ closeFrequencyMenu }) => {
+const FrequencyMenu = ({ closeFrequencyMenu, focusOnFrequencyMenuButton }) => {
   const [frequencyState, setFrequencyState] = useState([0, 0, 0, 0, 0, 0, 0]); // TODO: will be obtained from localStorage
   function toggleIndivualFrequencyState(dayIndex) {
     const newFrequencyState = [...frequencyState];
@@ -354,7 +353,13 @@ const FrequencyMenu = ({ closeFrequencyMenu }) => {
 
   return (<ul className="frequency-menu" role="menu"
     ref={refCallbackToFocusOnFirstItem} // on mount focus on first element 
-    onKeyDown={(e) => { if (e.key === 'Escape') { closeFrequencyMenu(); e.stopPropagation(); } }}
+    onKeyDown={(e) => {
+      if (e.key === 'Escape') {
+        closeFrequencyMenu();
+        focusOnFrequencyMenuButton(); // when closed with escape move the focus
+        e.stopPropagation(); // don't close any other menu before this menu is closed
+      }
+    }}
   >
     { frequencyState.map((el, i) => {
       // start with monday end with sunday
