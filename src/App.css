@@ -154,6 +154,8 @@ main {
   --indigo-as-hsl: 240, 20%;
   background-color: hsl(var(--indigo-as-hsl), 60%);
 
+  z-index: 10; /* there are other positioned elements, menu should always be on top */
+
   li {
     padding: 0 .25rem;
 
@@ -273,6 +275,7 @@ main {
         left: 50%;
         translate: -50%;
         top: 100%;
+        z-index: 1; /* there are other positioned elements, menu should be on top */
 
         /* theme */
         background-color: var(--root-light-bg);
