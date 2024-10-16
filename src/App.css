@@ -254,13 +254,20 @@ main {
 
         display: flex;
         flex-direction: column;
-        align-items: stretch; /* make sure elements line up */
         
         overflow-y: auto; /* show vertical scrollbar */
         scrollbar-gutter: stable; /* assume the scrollbar width otherwise Firebox ignores it */
         max-height: calc(5 * var(--height-of-frequency-toggler-label)); /* only show 5 elements */
         
+        align-items: stretch; /* make sure elements line up */
+        .frequency-toggler-label {
+          width: 100%; /* get the full width of the alignment container */
+          box-sizing: border-box; /* don't be bigger than your parent */
+          padding: var(--padding-frequency-toggler-label);
 
+          justify-content: space-between; /* make sure elements line up */
+        }
+        
         /* centralize the menu and put it under the button */
         position: absolute;
         left: 50%;
@@ -273,14 +280,6 @@ main {
         .dark-theme & {
           background-color: var(--root-dark-bg);
           border: 1px solid var(--root-light-bg);
-        }
-
-        .frequency-toggler-label {
-          width: 100%; /* get the full width of the alignment container */
-          box-sizing: border-box; /* don't be bigger than your parent */
-          padding: .25rem;
-
-          justify-content: space-between; /* make sure elements line up */
         }
       }
     }
