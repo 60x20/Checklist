@@ -246,7 +246,7 @@ main {
     }
 
     .frequency-menu-wrapper {
-      position: relative;
+      position: relative; /* for child alignment  */
 
       .frequency-menu {
         display: flex;
