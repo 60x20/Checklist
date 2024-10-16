@@ -1,4 +1,4 @@
-import { memo, useContext, useEffect, useMemo, useReducer, useRef, useState } from "react";
+import { memo, useContext, useEffect, useLayoutEffect, useMemo, useReducer, useRef, useState } from "react";
 
 // font awesome
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -10,7 +10,7 @@ import { currentDateContext } from "../providers/CurrentDateProvider";
 import { allDataClearedContext } from "../providers/AllDataClearedProvider";
 import { requestedDateValidatedContext } from "../providers/RequestedDateValidatedProvider";
 import { todayClearedContext } from "../providers/TodayClearedProvider";
-import { focusFromRef, refCallbackToFocusOnFirstItem, refContext } from "../providers/RefProvider";
+import { focusFromRef, focusOnFirstItemFromRef, refContext } from "../providers/RefProvider";
 
 // helpers
 import { addToTodosTemplate, removeFromTodosTemplate, updateTypeOnTodosTemplate } from "../helpers/todosTemplateHelpers";
@@ -345,14 +345,18 @@ const FrequencyMenu = ({ closeFrequencyMenu, focusOnFrequencyMenuButton }) => {
     setFrequencyState(newFrequencyState);
   }
 
+  // focus management
+  const frequencyMenuRef = useRef();
+  useLayoutEffect(() => { // on mount focus on first element 
+    focusOnFirstItemFromRef(frequencyMenuRef);
+  }, [])
   // handlers
   function toggleCheckedHandler(e) {
     const dayIndex = e.currentTarget.value;
     toggleIndivualFrequencyState(dayIndex);
   }
 
-  return (<ul className="frequency-menu" role="menu"
-    ref={refCallbackToFocusOnFirstItem} // on mount focus on first element 
+  return (<ul className="frequency-menu" role="menu" ref={frequencyMenuRef}
     onKeyDown={(e) => {
       if (e.key === 'Escape') {
         closeFrequencyMenu();
