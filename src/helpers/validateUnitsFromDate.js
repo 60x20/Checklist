@@ -63,6 +63,6 @@ export function validateDate(year = '2000', month = '01', day = '01') {
 }
 
 const dateForSunday = new Date('2000-01-02').valueOf();
-export function returnWeekDayFromSunday(day) {
+export function returnWeekdayFromSunday(day) {
   return weekdayFormatter.format(new Date(dateForSunday + day * dayInMs));
 }
