@@ -381,6 +381,10 @@ const FrequencyMenu = ({ closeFrequencyMenu, frequencyMenuButtonRef, focusOnFreq
     }
 
     determineWhereToPlaceTheMenu(); // on initial render place it below or over the button
+
+    // on-resize re-calculate
+    window.addEventListener('resize', determineWhereToPlaceTheMenu);
+    return () => window.removeEventListener('resize', determineWhereToPlaceTheMenu);
   }, [])
 
   // handlers
