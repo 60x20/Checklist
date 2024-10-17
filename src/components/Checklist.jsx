@@ -362,6 +362,26 @@ const FrequencyMenu = ({ closeFrequencyMenu, frequencyMenuButtonRef, focusOnFreq
     return () => document.removeEventListener('focusout', closeFrequencyMenuOnFocusOutHandler);
   }, [])
 
+  // placement
+  const {refs: { footerRef }} = useContext(refContext);
+  useLayoutEffect(() => { // if there isn't enough space place it over the button 
+    function isSpaceUnderButtonEnough() {
+      const menuElementHeight = frequencyMenuRef.current.getBoundingClientRect().height;
+      const menuTogglerButtonBottom = frequencyMenuButtonRef.current.getBoundingClientRect().bottom;
+      const footerTop = footerRef.current.getBoundingClientRect().top;
+      // buttonBottom + menuHeight approach used since menuBottom changes
+      const isFooterBelowMenu = footerTop > menuTogglerButtonBottom + menuElementHeight;
+      return isFooterBelowMenu;
+    }
+
+    function determineWhereToPlaceTheMenu() {
+      const menuElement = frequencyMenuRef.current;
+      if (isSpaceUnderButtonEnough()) menuElement.classList.remove('over-the-button');
+      else menuElement.classList.add('over-the-button');
+    }
+
+    determineWhereToPlaceTheMenu(); // on initial render place it below or over the button
+  }, [])
 
   // handlers
   function toggleCheckedHandler(e) {
