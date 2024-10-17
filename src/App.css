@@ -256,6 +256,9 @@ main {
 
         display: flex;
         flex-direction: column;
+        &.over-the-button {
+          flex-direction: column-reverse;
+        }
         
         overflow-y: auto; /* show vertical scrollbar */
         scrollbar-gutter: stable; /* assume the scrollbar width otherwise Firebox ignores it */
@@ -270,11 +273,15 @@ main {
           justify-content: space-between; /* make sure elements line up */
         }
         
-        /* centralize the menu and put it under the button */
+        /* centralize the menu and put it under or on top of the button */
         position: absolute;
         left: 50%;
         translate: -50%;
         top: 100%;
+        &.over-the-button {
+          top: unset;
+          bottom: 100%;
+        }
         z-index: 1; /* there are other positioned elements, menu should be on top */
 
         /* theme */
