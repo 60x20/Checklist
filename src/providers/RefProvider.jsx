@@ -69,12 +69,15 @@ const RefProvider = ({ children }) => {
     focusFromRef(menuTogglerRef);
   }
 
+  const footerRef = useRef();
+
   const valueToProvide = {
     refs: {
       createTodoRef,
       menuRef,
       visualizerRef,
       menuTogglerRef,
+      footerRef,
     },
     helpers: {
       focusOnCreateTodo,

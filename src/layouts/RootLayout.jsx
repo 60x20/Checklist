@@ -44,8 +44,8 @@ const RootLayout = () => {
             </Main>
           </CurrentDateProvider>
         </MenuStateProvider>
+        <Footer />
       </RefProvider>
-      <Footer />
     </ThemeProvider>
   </>);
 }
