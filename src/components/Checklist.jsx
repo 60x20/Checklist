@@ -300,6 +300,8 @@ const TodoHelpers = ({ todoId, updateTodoStringHandler, todoType, updateTodoType
     focusFromRef(frequencyMenuButtonRef);
   }
 
+  const isInsideTodosTemplate = todoId in todosTemplate.cache; // make sure it's in the localStorage
+
   // when any of the helpers are used, helper menu should be closed
   // focus should be managed when menu closes or opens
   return (<div className="row-container helpers" role="menu" aria-orientation="horizontal">
@@ -316,7 +318,7 @@ const TodoHelpers = ({ todoId, updateTodoStringHandler, todoType, updateTodoType
       <option value="number">Number</option>
       <option value="time">Time</option>
     </select>
-    { isToday ? <div className="frequency-menu-wrapper">
+    { isToday && isInsideTodosTemplate ? <div className="frequency-menu-wrapper">
       <button
         type="button"
         ref={frequencyMenuButtonRef}
