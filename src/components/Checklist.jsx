@@ -13,7 +13,7 @@ import { todayClearedContext } from "../providers/TodayClearedProvider";
 import { focusFromRef, focusOnFirstItemFromRef, refContext } from "../providers/RefProvider";
 
 // helpers
-import { addToTodosTemplate, removeFromTodosTemplate, updateIndividualFrequencyOnTodosTemplate, updateTypeOnTodosTemplate } from "../helpers/todosTemplateHelpers";
+import { todosTemplate, addToTodosTemplate, removeFromTodosTemplate, updateIndividualFrequencyOnTodosTemplate, updateTypeOnTodosTemplate } from "../helpers/todosTemplateHelpers";
 import { allTodos, addToAllTodos, updateTodoString } from "../helpers/allTodosHelpers";
 import { returnTodoData, validateTodoData, addToTodoData, removeFromTodoData, updateTodoValue, updateTodoType } from "../helpers/todoDataHelpers";
 import { dayMonthTruncFormatter, returnWeekdayFromSunday, weekdayDayMonthFormatter } from "../helpers/validateUnitsFromDate";
@@ -337,8 +337,8 @@ const TodoHelpers = ({ todoId, updateTodoStringHandler, todoType, updateTodoType
   </div>);
 };
 
-  const [frequencyState, setFrequencyState] = useState([0, 0, 0, 0, 0, 0, 0]); // TODO: will be obtained from localStorage
 const FrequencyMenu = ({ todoId, closeFrequencyMenu, frequencyMenuButtonRef, focusOnFrequencyMenuButton }) => {
+  const [frequencyState, setFrequencyState] = useState(todosTemplate.cache[todoId].frequency);
   function changeIndivualFrequencyState(dayIndex, dayState) {
     const newFrequencyState = [...frequencyState];
     newFrequencyState[dayIndex] = dayState;
