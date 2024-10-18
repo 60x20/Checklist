@@ -13,7 +13,7 @@ import { todayClearedContext } from "../providers/TodayClearedProvider";
 import { focusFromRef, focusOnFirstItemFromRef, refContext } from "../providers/RefProvider";
 
 // helpers
-import { addToTodosTemplate, removeFromTodosTemplate, updateTypeOnTodosTemplate } from "../helpers/todosTemplateHelpers";
+import { addToTodosTemplate, removeFromTodosTemplate, updateIndividualFrequencyOnTodosTemplate, updateTypeOnTodosTemplate } from "../helpers/todosTemplateHelpers";
 import { allTodos, addToAllTodos, updateTodoString } from "../helpers/allTodosHelpers";
 import { returnTodoData, validateTodoData, addToTodoData, removeFromTodoData, updateTodoValue, updateTodoType } from "../helpers/todoDataHelpers";
 import { dayMonthTruncFormatter, returnWeekdayFromSunday, weekdayDayMonthFormatter } from "../helpers/validateUnitsFromDate";
@@ -330,19 +330,31 @@ const TodoHelpers = ({ todoId, updateTodoStringHandler, todoType, updateTodoType
         <MemoizedFontAwesomeIcon icon={frequencyMenuState ? faXmark : faBars} />
       </button>
       { frequencyMenuState ? 
-      <FrequencyMenu { ...{closeFrequencyMenu, frequencyMenuButtonRef, focusOnFrequencyMenuButton} } />
+      <FrequencyMenu { ...{todoId, closeFrequencyMenu, frequencyMenuButtonRef, focusOnFrequencyMenuButton} } />
       : false }
     </div> : false }
     <button onClick={removeFromTodoHandler} type="button">remove</button>
   </div>);
 };
 
-const FrequencyMenu = ({ closeFrequencyMenu, frequencyMenuButtonRef, focusOnFrequencyMenuButton }) => {
   const [frequencyState, setFrequencyState] = useState([0, 0, 0, 0, 0, 0, 0]); // TODO: will be obtained from localStorage
-  function toggleIndivualFrequencyState(dayIndex) {
+const FrequencyMenu = ({ todoId, closeFrequencyMenu, frequencyMenuButtonRef, focusOnFrequencyMenuButton }) => {
+  function changeIndivualFrequencyState(dayIndex, dayState) {
     const newFrequencyState = [...frequencyState];
-    newFrequencyState[dayIndex] = !newFrequencyState[dayIndex];
+    newFrequencyState[dayIndex] = dayState;
     setFrequencyState(newFrequencyState);
+  }
+
+  function changeAndSyncFrequency(dayIndex, dayState) {
+    updateIndividualFrequencyOnTodosTemplate(todoId, dayIndex, dayState);
+    changeIndivualFrequencyState(dayIndex, dayState);
+  }
+
+  // handlers
+  function toggleCheckedHandler(e) {
+    const dayIndex = e.currentTarget.value;
+    const dayState = Number(e.currentTarget.checked); // 1-0 used instead of true-false, to save space
+    changeAndSyncFrequency(dayIndex, dayState);
   }
 
   // focus management
@@ -386,12 +398,6 @@ const FrequencyMenu = ({ closeFrequencyMenu, frequencyMenuButtonRef, focusOnFreq
     window.addEventListener('resize', determineWhereToPlaceTheMenu);
     return () => window.removeEventListener('resize', determineWhereToPlaceTheMenu);
   }, [])
-
-  // handlers
-  function toggleCheckedHandler(e) {
-    const dayIndex = e.currentTarget.value;
-    toggleIndivualFrequencyState(dayIndex);
-  }
 
   return (<ul className="frequency-menu" role="menu" ref={frequencyMenuRef}
     tabIndex="-1" // so that when something unfocusable (like a text) is clicked, focus remains on the menu
