@@ -15,19 +15,19 @@ export function returnTodosTemplate() {
 }
 
 export function addToTodosTemplate(id, type = 'checkbox') {
-  const todosTemplate = returnTodosTemplate();
-  todosTemplate[id] = { value: '', type };
-  setTodosTemplate(todosTemplate);
+  const localTodosTemplate = returnTodosTemplate();
+  localTodosTemplate[id] = { value: '', type };
+  setTodosTemplate(localTodosTemplate);
 }
 
 export function updateTypeOnTodosTemplate(id, type) {
-  const todosTemplate = returnTodosTemplate();
-  todosTemplate[id].type = type;
-  setTodosTemplate(todosTemplate);
+  const localTodosTemplate = returnTodosTemplate();
+  localTodosTemplate[id].type = type;
+  setTodosTemplate(localTodosTemplate);
 }
 
 export function removeFromTodosTemplate(idToRemove) {
-  const todosTemplate = returnTodosTemplate();
-  delete todosTemplate[idToRemove];
-  setTodosTemplate(todosTemplate);
+  const localTodosTemplate = returnTodosTemplate();
+  delete localTodosTemplate[idToRemove];
+  setTodosTemplate(localTodosTemplate);
 }
