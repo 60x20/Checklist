@@ -74,7 +74,7 @@ const Menu = () => {
         if (oldDateToGo.current === dateToGo.current) {
           // if dateToGo didn't change, then clean-up
           clearInterval(intervalID.current);
-          intervalID.current = undefined;
+          dateToGo.current = oldDateToGo.current = intervalID.current = undefined; // reset, otherwise old data would cause problems
           return; // short circuit
         };
         oldDateToGo.current = dateToGo.current;
