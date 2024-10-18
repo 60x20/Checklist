@@ -28,6 +28,12 @@ export function updateTypeOnTodosTemplate(id, type) {
   setTodosTemplate(localTodosTemplate);
 }
 
+export function updateIndividualFrequencyOnTodosTemplate(id, dayIndex, dayState) {
+  const localTodosTemplate = returnTodosTemplate();
+  localTodosTemplate[id].frequency[dayIndex] = dayState;
+  setTodosTemplate(localTodosTemplate);
+}
+
 export function removeFromTodosTemplate(idToRemove) {
   const localTodosTemplate = returnTodosTemplate();
   delete localTodosTemplate[idToRemove];
