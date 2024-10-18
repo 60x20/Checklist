@@ -25,15 +25,15 @@ export function returnCachedTodoDescription(todoId) {
 }
 
 export function addToAllTodos(todoString) {
-  const allTodos = returnAllTodos();
-  allTodos.push(todoString);
-  setAllTodos(allTodos);
+  const localAllTodos = returnAllTodos();
+  localAllTodos.push(todoString);
+  setAllTodos(localAllTodos);
   // returns the ID assigned to todoString
-  return allTodos.length - 1;
+  return localAllTodos.length - 1;
 }
 
 export function updateTodoString(id, todoString) {
-  const allTodos = returnAllTodos();
-  allTodos[id] = todoString;
-  setAllTodos(allTodos);
+  const localAllTodos = returnAllTodos();
+  localAllTodos[id] = todoString;
+  setAllTodos(localAllTodos);
 }
