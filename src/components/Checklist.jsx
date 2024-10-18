@@ -16,7 +16,7 @@ import { focusFromRef, focusOnFirstItemFromRef, refContext } from "../providers/
 import { todosTemplate, addToTodosTemplate, removeFromTodosTemplate, updateIndividualFrequencyOnTodosTemplate, updateTypeOnTodosTemplate } from "../helpers/todosTemplateHelpers";
 import { allTodos, addToAllTodos, updateTodoString } from "../helpers/allTodosHelpers";
 import { returnTodoData, validateTodoData, addToTodoData, removeFromTodoData, updateTodoValue, updateTodoType } from "../helpers/todoDataHelpers";
-import { dayMonthTruncFormatter, returnWeekdayFromSunday, weekdayDayMonthFormatter } from "../helpers/validateUnitsFromDate";
+import { dayMonthTruncFormatter, returnWeekday, returnWeekdayFromSunday, weekdayDayMonthFormatter } from "../helpers/validateUnitsFromDate";
 import { shouldUseAutoFocus } from "../helpers/keyboardDetection";
 import { capitalizeString } from "../helpers/utils";
 
@@ -118,7 +118,7 @@ const Todos = ({ day, month, year, unitsAsInt, helperMenuClosersRef, refForUpdat
       };
       case 'SYNC': {
         // syncing with localStorage entry initally or when the key changes
-        validateTodoData(...unitsAsInt); // if it doesn't exist create it
+        validateTodoData(...unitsAsInt, returnWeekday(year, month, day)); // if it doesn't exist create it
         return cachedTodoData.current = returnTodoData(...unitsAsInt); // keeping cache in sync
       };
     }

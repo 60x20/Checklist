@@ -16,7 +16,7 @@ export function validateTodosTemplate() {
   }
 }
 
-export function returnTodosTemplate() {
+function returnTodosTemplate() {
   return JSON.parse(localStorage.getItem('todos-template'));
 }
 
