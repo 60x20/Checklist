@@ -66,3 +66,7 @@ const dateForSunday = new Date('2000-01-02').valueOf();
 export function returnWeekdayFromSunday(day) {
   return weekdayFormatter.format(new Date(dateForSunday + day * dayInMs));
 }
+
+export function returnWeekday(year, month, day) {
+  return new Date([year, month, day].join('-')).getDay();
+}
