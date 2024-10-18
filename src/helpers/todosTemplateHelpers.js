@@ -20,7 +20,18 @@ export function returnTodosTemplate() {
   return JSON.parse(localStorage.getItem('todos-template'));
 }
 
+export function returnTodosTemplateForWeekday(weekday) {
   const localTodosTemplate = returnTodosTemplate();
+  const todosTemplateForWeekday = {};
+  for (const todoId in localTodosTemplate) {
+    if (localTodosTemplate[todoId].frequency[weekday]) {
+      delete localTodosTemplate[todoId].frequency; // frequency only stored in todoTemplate entry 
+      todosTemplateForWeekday[todoId] = localTodosTemplate[todoId];
+    }
+  }
+  return todosTemplateForWeekday;
+}
+
 const frequencyEveryDay = [1, 1, 1, 1, 1, 1, 1];
 export function addToTodosTemplate(id, type = 'checkbox', frequency = frequencyEveryDay) {
   const localTodosTemplate = returnTodosTemplate();
