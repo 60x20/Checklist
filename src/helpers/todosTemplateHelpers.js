@@ -14,9 +14,11 @@ export function returnTodosTemplate() {
   return JSON.parse(localStorage.getItem('todos-template'));
 }
 
-export function addToTodosTemplate(id, type = 'checkbox') {
   const localTodosTemplate = returnTodosTemplate();
-  localTodosTemplate[id] = { value: '', type };
+const frequencyEveryDay = [1, 1, 1, 1, 1, 1, 1];
+export function addToTodosTemplate(id, type = 'checkbox', frequency = frequencyEveryDay) {
+  const localTodosTemplate = returnTodosTemplate();
+  localTodosTemplate[id] = { value: '', type, frequency };
   setTodosTemplate(localTodosTemplate);
 }
 
