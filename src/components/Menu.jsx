@@ -43,8 +43,8 @@ const Menu = ({ closeTheMenu }) => {
   useLayoutEffect(() => { // layout prefferred to avoid flickers
     focusOnFirstItemFromRef(menuRef);
   }, []);
+  // on click away, tab away or when another elements gets focused menu will be closed
   useEffect(() => {
-    // on click away, tab away or when another elements gets focused menu will be closed
     function closeMenuOnFocusOutHandler(e) {
       // focusing on other elements, either by user interaction or programmatically, causes blur events
       // so, it's risky to focus when blur events trigger (focus collisions will occur)
@@ -57,11 +57,9 @@ const Menu = ({ closeTheMenu }) => {
     }
 
     // if closed, remove the event listener; if opened, add the event listener
-    if (menuState) {
-      document.addEventListener('focusout', closeMenuOnFocusOutHandler);
-      return () => document.removeEventListener('focusout', closeMenuOnFocusOutHandler);
-    }
-  }, [closeTheMenu, menuState])
+    document.addEventListener('focusout', closeMenuOnFocusOutHandler);
+    return () => document.removeEventListener('focusout', closeMenuOnFocusOutHandler);
+  }, [closeTheMenu])
 
   const navigate = useNavigate();
   // variables used for debouncing
