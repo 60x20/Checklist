@@ -32,7 +32,7 @@ function focusOnFirstItemFromEl(el) {
 export function focusOnFirstItemFromRef(ref) {
   if (ref.current) focusOnFirstItemFromEl(ref.current);
 }
-function refCallbackToFocusOnFirstItemOnMount(el) {
+export function refCallbackToFocusOnFirstItemOnMount(el) {
   if (el) focusOnFirstItemFromEl(el); // might be null since react executes the callback when element unmounts
 }
 function focusOnLastItemFromRef(ref) {

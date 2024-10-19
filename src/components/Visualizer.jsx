@@ -1,5 +1,5 @@
 import { Link, Outlet, useParams } from "react-router-dom";
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 
 // font awesome
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -13,7 +13,7 @@ import { truncateString } from "../helpers/utils";
 
 // contexts
 import { allDataClearedContext } from "../providers/AllDataClearedProvider";
-import { refContext } from "../providers/RefProvider";
+import { refCallbackToFocusOnFirstItemOnMount, refContext } from "../providers/RefProvider";
 
 // custom hooks
 import changeDocumentTitle from "../custom-hooks/changeDocumentTitle";
@@ -94,11 +94,6 @@ export const YearVisualizer = () => {
   // a specific year requested
   const { year } = useParams();
 
-  // when rendered or URL changes focus on the first link
-  const { helpers: { focusOnFirstItemInsideVisualizer } } = useContext(refContext);
-  // layoutEffect not used since ref used on parent (and child layout runs before the parent mounts and gets the ref)
-  useEffect(focusOnFirstItemInsideVisualizer, [year]);
-
   const extractedYear = extractYear(year);
 
   const isValid = validateDate(extractedYear);
@@ -112,7 +107,7 @@ export const YearVisualizer = () => {
   const yearEntry = returnYearEntry(yearAsInt);
   if (!yearEntry) return (<p>no data for year</p>);
 
-  return (<nav><ul className="column-container">
+  return (<nav><ul className="column-container" ref={refCallbackToFocusOnFirstItemOnMount}>
     { yearEntry.map((monthArr, month) => {
       // there are vacant indexes, so that months and indexes match
       if (monthArr) {
@@ -131,10 +126,6 @@ export const YearVisualizer = () => {
 
 export const AllYearsVisualizer = () => {
   useContext(allDataClearedContext); // when data is cleared, re-render
-  
-  // when rendered focus on the first link
-  const { helpers: { focusOnFirstItemInsideVisualizer } } = useContext(refContext);
-  useEffect(focusOnFirstItemInsideVisualizer, []); // layout effect can't be used since ref isn't used here or on children
 
   addSubtitleToDocumentTitle('Years');
 
@@ -145,7 +136,7 @@ export const AllYearsVisualizer = () => {
 
   const allYearsDescending = allYears.sort((a, b) => b - a);
 
-  return (<nav><ul className="column-container">
+  return (<nav><ul className="column-container" ref={refCallbackToFocusOnFirstItemOnMount}>
     { allYearsDescending.map((year) => {
       const yearAsString = String(year).padStart(4, '0');
       return ( // there aren't any vacant indexes, but years are unique
