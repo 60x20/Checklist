@@ -1,4 +1,4 @@
-import { createContext, useCallback, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 
 export const menuStateContext = createContext();
 
@@ -10,10 +10,9 @@ const MenuStateProvider = ({ children }) => {
   function toggleMenuState() {
     setMenuState(!menuState);
   }
-  // memoized because used as a dependency
-  const closeTheMenu = useCallback(() => {
+  const closeTheMenu = () => {
     setMenuState(false);
-  }, [setMenuState]);
+  };
 
   // close the menu when escape pressed (for accessibility)
   const { helpers: { focusOnMenuToggler } } = useContext(refContext);

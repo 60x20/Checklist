@@ -59,7 +59,7 @@ const Menu = ({ closeTheMenu }) => {
     // if closed, remove the event listener; if opened, add the event listener
     document.addEventListener('focusout', closeMenuOnFocusOutHandler);
     return () => document.removeEventListener('focusout', closeMenuOnFocusOutHandler);
-  }, [closeTheMenu])
+  }, [])
 
   const navigate = useNavigate();
   // variables used for debouncing
