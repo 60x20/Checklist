@@ -17,7 +17,7 @@ const Home = () => {
   changeDocumentTitle(undefined, 'Home'); // add to original title
 
   return (<div id="home">
-    {/* focus on the anchor on mount */}
+    {/* focus on the anchor on mount; autoFocus isn't used since it doesn't work with <a> elements */}
     <h1>Today: <Link ref={refCallbackForFocus} to={currentDate.YMD.replaceAll('-', '/')}>
       <time dateTime={currentDate.YMD}>{ weekdayDayMonthFormatter.format(new Date()) }</time>
     </Link></h1>
