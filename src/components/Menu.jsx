@@ -7,7 +7,7 @@ import { currentDateContext } from '../providers/CurrentDateProvider';
 import { allDataClearedContext } from "../providers/AllDataClearedProvider";
 import { todayClearedContext } from "../providers/TodayClearedProvider";
 import { requestedDateValidatedContext } from "../providers/RequestedDateValidatedProvider";
-import { refContext } from "../providers/RefProvider";
+import { focusOnFirstItemFromRef, refContext } from "../providers/RefProvider";
 
 // helpers
 import resetAllData from "../helpers/resetAllData";
@@ -39,12 +39,10 @@ const Menu = ({ closeTheMenu }) => {
     focusOnCreateTodo(); // move focus to create-todo
     closeTheMenu(); // closing explicitly due to focusing being conditonal
   }
-
   // when menu opens, focus on first menu item
   useLayoutEffect(() => { // layout prefferred to avoid flickers
-    if (menuState) focusOnFirstMenuItem();
-  }, [menuState]);
-
+    focusOnFirstItemFromRef(menuRef);
+  }, []);
   useEffect(() => {
     // on click away, tab away or when another elements gets focused menu will be closed
     function closeMenuOnFocusOutHandler(e) {
