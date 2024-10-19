@@ -70,12 +70,10 @@ const Menu = ({ closeTheMenu }) => {
     };
 
     // if closed, remove the event listener; if opened, add the event listener
-    if (menuState) {
-      // keydown used instead of keyup, so that when a browser popup closed with esc, menu won't close
-      document.addEventListener('keydown', closeMenuHandler);
-      return () => document.removeEventListener('keydown', closeMenuHandler);
-    }
-  }, [menuState]);
+    // keydown used instead of keyup, so that when a browser popup closed with esc, menu won't close
+    document.addEventListener('keydown', closeMenuHandler);
+    return () => document.removeEventListener('keydown', closeMenuHandler);
+  }, []);
 
   const navigate = useNavigate();
   // variables used for debouncing
