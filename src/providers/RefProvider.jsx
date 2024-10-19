@@ -20,8 +20,9 @@ function focusFromEl(el) {
 export function focusFromRef(ref) {
   focusFromEl(ref.current);
 }
-export function refCallbackForFocus(el) {
-  // ref callback should not change during renders otherwise react would re-attach and re-execute it
+export function refCallbackForFocusOnMount(el) { // preferred over Effect to avoid flickers
+  // if refCallback isn't re-created, react will avoid re-attaching it; therefore it only runs on mount/unmount, but not re-render
+  // since refCallback runs with null on unmount, before you focus make sure it's not null
   focusFromEl(el);
 }
 function focusOnFirstItemFromEl(el) {
@@ -31,7 +32,7 @@ function focusOnFirstItemFromEl(el) {
 export function focusOnFirstItemFromRef(ref) {
   if (ref.current) focusOnFirstItemFromEl(ref.current);
 }
-function refCallbackToFocusOnFirstItem(el) {
+function refCallbackToFocusOnFirstItemOnMount(el) {
   if (el) focusOnFirstItemFromEl(el); // might be null since react executes the callback when element unmounts
 }
 function focusOnLastItemFromRef(ref) {

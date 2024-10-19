@@ -3,7 +3,7 @@ import { useContext } from "react";
 
 // contexts
 import { currentDateContext } from "../providers/CurrentDateProvider";
-import { refCallbackForFocus } from "../providers/RefProvider";
+import { refCallbackForFocusOnMount } from "../providers/RefProvider";
 
 // helpers
 import { weekdayDayMonthFormatter } from "../helpers/validateUnitsFromDate";
@@ -18,7 +18,7 @@ const Home = () => {
 
   return (<div id="home">
     {/* focus on the anchor on mount; autoFocus isn't used since it doesn't work with <a> elements */}
-    <h1>Today: <Link ref={refCallbackForFocus} to={currentDate.YMD.replaceAll('-', '/')}>
+    <h1>Today: <Link ref={refCallbackForFocusOnMount} to={currentDate.YMD.replaceAll('-', '/')}>
       <time dateTime={currentDate.YMD}>{ weekdayDayMonthFormatter.format(new Date()) }</time>
     </Link></h1>
   </div>);
