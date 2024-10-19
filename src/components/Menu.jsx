@@ -34,7 +34,7 @@ const Menu = ({ closeTheMenu }) => {
 
   // focus management and ease of use
   const menuRef = useRef();
-  const { helpers: { focusOnCreateTodo, focusOnFirstItemInsideVisualizer } } = useContext(refContext);
+  const { helpers: { focusOnCreateTodo, focusOnMenuToggler, focusOnFirstItemInsideVisualizer } } = useContext(refContext);
   function focusOnCreateTodoAndCloseTheMenu() {
     focusOnCreateTodo(); // move focus to create-todo
     closeTheMenu(); // closing explicitly due to focusing being conditonal
@@ -60,6 +60,22 @@ const Menu = ({ closeTheMenu }) => {
     document.addEventListener('focusout', closeMenuOnFocusOutHandler);
     return () => document.removeEventListener('focusout', closeMenuOnFocusOutHandler);
   }, [])
+  // close the menu when escape pressed (for accessibility)
+  useEffect(() => {
+    const closeMenuHandler = (e) => {
+      if (e.key === 'Escape') {
+        focusOnMenuToggler();
+        closeTheMenu(); // focusing on menu toggler does not close the menu, even if it trigges blur
+      };
+    };
+
+    // if closed, remove the event listener; if opened, add the event listener
+    if (menuState) {
+      // keydown used instead of keyup, so that when a browser popup closed with esc, menu won't close
+      document.addEventListener('keydown', closeMenuHandler);
+      return () => document.removeEventListener('keydown', closeMenuHandler);
+    }
+  }, [menuState]);
 
   const navigate = useNavigate();
   // variables used for debouncing
