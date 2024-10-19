@@ -18,6 +18,12 @@ import { dayMonthYearTruncFormatter } from "../helpers/validateUnitsFromDate";
 const MenuWrapper = () => {
   const { menuState, closeTheMenu } = useContext(menuStateContext);
   
+  return menuState ? (<Menu { ...{closeTheMenu} }/>) : (<></>);
+};
+
+export default MenuWrapper;
+
+const Menu = ({ closeTheMenu }) => {
   const currentDate = useContext(currentDateContext);
   
   const { year, month, day } = useContext(requestedDateValidatedContext);
@@ -112,56 +118,51 @@ const MenuWrapper = () => {
   prevDates.length = prevDayAmount + 1; // 1 for today
   prevDates.fill(''); // if they're empty, map will skip them 
 
-  return (<>
-    { menuState ?
-    // tabindex to make it focusable, so that when it's clicked it's not the body who gets the focus
-    // otherwise handler to close the menu would kick in
-    <aside tabIndex="-1" role="menu" id="menu" ref={menuRef} className="column-stretch-container"
-      onKeyDown={menuKeyPressFocusHandler}
-    >
-      <h2>Previous Checklists</h2>
-      <nav>
-        <ul className="column-stretch-container">
-          { prevDates.map((el, i) => {
-            const relativeDate = returnDateFromToday(-i);
-            return (<li key={i}>
-              <Link to={relativeDate.YMD.replaceAll('-', '/')} onClick={focusOnCreateTodoAndCloseTheMenu}>
-                {i === 0 ? 'today: ' : ''}
-                <time dateTime={relativeDate.YMD}>
-                  { dayMonthYearTruncFormatter.format(new Date(relativeDate.YMD)) }
-                </time>
-              </Link>
-            </li>);
-          }) }
-          <li>
-            <label>
-              <span>go to: </span>
-              <input 
-                // keyup preferred over keydown to allow opening the date picker with 'Enter-keydown'
-                onKeyUp={(e) => { if (e.key === 'Enter') focusOnCreateTodoAndCloseTheMenu(); }}
-                onChange={goToRequestedDateHandler}
-                type="date"
-                min="2000-01-01"
-                defaultValue={currentDate.YMD}
-                max="2100-12-31"
-              />
-            </label>
-          </li>
-          <li><Link to='all' onClick={() => {
-            closeTheMenu();
-            focusOnFirstItemInsideVisualizer();
-          }}>all</Link></li>
-        </ul>
-      </nav>
-      <div className="place-content-at-the-end">
-        { year && month && day ? 
-        <button type="button" onClick={resetCurrentDayHandler}>reset current day</button>
-        : false }
-        <button type="button" onClick={resetAllDataHandler}>reset all data</button>
-      </div>
-    </aside>
-    : false }
-  </>);
+  return ( // tabindex to make it focusable, so that when it's clicked it's not the body who gets the focus
+  // otherwise handler to close the menu would kick in
+  <aside tabIndex="-1" role="menu" id="menu" ref={menuRef} className="column-stretch-container"
+    onKeyDown={menuKeyPressFocusHandler}
+  >
+    <h2>Previous Checklists</h2>
+    <nav>
+      <ul className="column-stretch-container">
+        { prevDates.map((el, i) => {
+          const relativeDate = returnDateFromToday(-i);
+          return (<li key={i}>
+            <Link to={relativeDate.YMD.replaceAll('-', '/')} onClick={focusOnCreateTodoAndCloseTheMenu}>
+              {i === 0 ? 'today: ' : ''}
+              <time dateTime={relativeDate.YMD}>
+                { dayMonthYearTruncFormatter.format(new Date(relativeDate.YMD)) }
+              </time>
+            </Link>
+          </li>);
+        }) }
+        <li>
+          <label>
+            <span>go to: </span>
+            <input 
+              // keyup preferred over keydown to allow opening the date picker with 'Enter-keydown'
+              onKeyUp={(e) => { if (e.key === 'Enter') focusOnCreateTodoAndCloseTheMenu(); }}
+              onChange={goToRequestedDateHandler}
+              type="date"
+              min="2000-01-01"
+              defaultValue={currentDate.YMD}
+              max="2100-12-31"
+            />
+          </label>
+        </li>
+        <li><Link to='all' onClick={() => {
+          closeTheMenu();
+          focusOnFirstItemInsideVisualizer();
+        }}>all</Link></li>
+      </ul>
+    </nav>
+    <div className="place-content-at-the-end">
+      { year && month && day ? 
+      <button type="button" onClick={resetCurrentDayHandler}>reset current day</button>
+      : false }
+      <button type="button" onClick={resetAllDataHandler}>reset all data</button>
+    </div>
+  </aside>
+  );
 };
-
-export default MenuWrapper;
