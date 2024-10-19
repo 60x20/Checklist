@@ -32,7 +32,9 @@ const Menu = ({ closeTheMenu }) => {
   const { increaseAllDataCleared } = useContext(allDataClearedContext);
   const { increaseTodayCleared } = useContext(todayClearedContext);
 
-  const { refs: { menuRef }, helpers: { focusOnCreateTodo, focusOnFirstMenuItem, focusOnLastMenuItem, focusOnFirstItemInsideVisualizer } } = useContext(refContext);
+  // focus management and ease of use
+  const menuRef = useRef();
+  const { helpers: { focusOnCreateTodo, focusOnFirstItemInsideVisualizer } } = useContext(refContext);
   function focusOnCreateTodoAndCloseTheMenu() {
     focusOnCreateTodo(); // move focus to create-todo
     closeTheMenu(); // closing explicitly due to focusing being conditonal
