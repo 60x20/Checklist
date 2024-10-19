@@ -7,7 +7,7 @@ import { currentDateContext } from '../providers/CurrentDateProvider';
 import { allDataClearedContext } from "../providers/AllDataClearedProvider";
 import { todayClearedContext } from "../providers/TodayClearedProvider";
 import { requestedDateValidatedContext } from "../providers/RequestedDateValidatedProvider";
-import { focusOnFirstItemFromRef, refContext } from "../providers/RefProvider";
+import { focusOnFirstItemFromRef, focusOnLastItemFromRef, refContext } from "../providers/RefProvider";
 
 // helpers
 import resetAllData from "../helpers/resetAllData";
@@ -105,8 +105,8 @@ const Menu = ({ closeTheMenu }) => {
   function menuKeyPressFocusHandler(e) {
     // if (e.target && e.target.matches('input[type="text"], input:not([type])')) return; // allowing default behavior
     switch (e.key) {
-      case 'Home': focusOnFirstMenuItem(); break;
-      case 'End': focusOnLastMenuItem(); break;
+      case 'Home': focusOnFirstItemFromRef(menuRef); break;
+      case 'End': focusOnLastItemFromRef(menuRef); break;
     }
   }
 
