@@ -15,7 +15,7 @@ import { returnDateFromToday } from "../helpers/returnCurrentDate";
 import { resetTodoData } from "../helpers/todoDataHelpers";
 import { dayMonthYearTruncFormatter } from "../helpers/validateUnitsFromDate";
 
-const Menu = () => {
+const MenuWrapper = () => {
   const { menuState, closeTheMenu } = useContext(menuStateContext);
   
   const currentDate = useContext(currentDateContext);
@@ -164,4 +164,4 @@ const Menu = () => {
   </>);
 };
 
-export default Menu;
+export default MenuWrapper;
