@@ -45,9 +45,9 @@ export function updateTypeOnTodosTemplate(id, type) {
   setTodosTemplate(localTodosTemplate);
 }
 
-export function updateIndividualFrequencyOnTodosTemplate(id, dayIndex, dayState) {
+export function updateFrequencyOnTodosTemplate(id, frequency) {
   const localTodosTemplate = returnTodosTemplate();
-  localTodosTemplate[id].frequency[dayIndex] = dayState;
+  localTodosTemplate[id].frequency = frequency;
   setTodosTemplate(localTodosTemplate);
 }
 
