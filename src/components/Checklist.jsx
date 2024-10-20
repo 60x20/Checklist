@@ -13,7 +13,7 @@ import { todayClearedContext } from "../providers/TodayClearedProvider";
 import { focusFromRef, focusOnFirstItemFromRef, refContext } from "../providers/RefProvider";
 
 // helpers
-import { todosTemplate, addToTodosTemplate, removeFromTodosTemplate, updateIndividualFrequencyOnTodosTemplate, updateTypeOnTodosTemplate } from "../helpers/todosTemplateHelpers";
+import { todosTemplate, addToTodosTemplate, removeFromTodosTemplate, updateIndividualFrequencyOnTodosTemplate, isTodoInTodosTemplate, updateTypeOnTodosTemplate } from "../helpers/todosTemplateHelpers";
 import { allTodos, addToAllTodos, updateTodoString } from "../helpers/allTodosHelpers";
 import { returnTodoData, validateTodoData, addToTodoData, removeFromTodoData, updateTodoValue, updateTodoType } from "../helpers/todoDataHelpers";
 import { dayMonthTruncFormatter, returnWeekday, returnWeekdayFromSunday, weekdayDayMonthFormatter } from "../helpers/validateUnitsFromDate";
@@ -135,16 +135,13 @@ const Todos = ({ day, month, year, unitsAsInt, helperMenuClosersRef, refForUpdat
       <Todo 
         // since parent has a key with date, it's unnecessary to pass it here; when date changes uncontrolled inputs will reset
         key={todoId}
-        { ...{updateCurrentTodoData, day, month, year, unitsAsInt, todoId, helperMenuClosersRef, cachedTodoData} }
+        { ...{updateCurrentTodoData, unitsAsInt, todoId, helperMenuClosersRef, cachedTodoData} }
       />)
     ) }
   </ul>);
 };
  
-const Todo = memo(({ updateCurrentTodoData, day, month, year, unitsAsInt, todoId, helperMenuClosersRef, cachedTodoData }) => {
-  const currentDate = useContext(currentDateContext);
-  const isToday = currentDate.YMD === [year, month, day].join('-');
-
+const Todo = memo(({ updateCurrentTodoData, unitsAsInt, todoId, helperMenuClosersRef, cachedTodoData }) => {
   // for easier focus management
   const todoRef = useRef();
 
@@ -204,9 +201,7 @@ const Todo = memo(({ updateCurrentTodoData, day, month, year, unitsAsInt, todoId
 
   // handlers
   function removeFromTodoHandler(e) {
-    if (isToday) { // if currentDate removes/adds a todo, template should adapt
-      removeFromTodosTemplate(todoId);
-    }
+    if (isTodoInTodosTemplate(todoId)) removeFromTodosTemplate(todoId); // also remove it from the template if it's there
     removeFromCurrentTodoDataAndSync();
 
     focusWhenHelperMenuCloses(); // move focus to the nearest element
@@ -221,9 +216,7 @@ const Todo = memo(({ updateCurrentTodoData, day, month, year, unitsAsInt, todoId
   }
   function updateTodoTypeHandler(e) {
     const newType = e.currentTarget.selectedOptions[0].value;
-    if (isToday) { // if type changes, template should adapt
-      updateTypeOnTodosTemplate(todoId, newType);
-    }
+    if (isTodoInTodosTemplate(todoId)) updateTypeOnTodosTemplate(todoId, newType); // template should adapt if it's there
     updateAndSyncTodoType(newType);
 
     resetAndSyncTodoValue(); // it's reset so that old value doesn't appear (otherwise checkbox => text: innerText === 1)
