@@ -27,6 +27,7 @@ const Menu = ({ closeTheMenu }) => {
   const currentDate = useContext(currentDateContext);
   
   const { year, month, day } = useContext(requestedDateValidatedContext);
+  const isDateRequested = year && month && day;
   const unitsAsInt = [parseInt(year, 10), parseInt(month, 10), parseInt(day, 10)]; // used as array indexes
 
   const { increaseAllDataCleared } = useContext(allDataClearedContext);
@@ -170,7 +171,7 @@ const Menu = ({ closeTheMenu }) => {
       </ul>
     </nav>
     <div className="place-content-at-the-end">
-      { year && month && day ? 
+      { isDateRequested ? 
       <button type="button" onClick={resetCurrentDayHandler}>reset current day</button>
       : false }
       <button type="button" onClick={resetAllDataHandler}>reset all data</button>
