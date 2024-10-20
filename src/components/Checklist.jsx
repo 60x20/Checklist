@@ -135,13 +135,16 @@ const Todos = ({ day, month, year, unitsAsInt, helperMenuClosersRef, refForUpdat
       <Todo 
         // since parent has a key with date, it's unnecessary to pass it here; when date changes uncontrolled inputs will reset
         key={todoId}
-        { ...{updateCurrentTodoData, unitsAsInt, todoId, helperMenuClosersRef, cachedTodoData} }
+        { ...{updateCurrentTodoData, day, month, year, unitsAsInt, todoId, helperMenuClosersRef, cachedTodoData} }
       />)
     ) }
   </ul>);
 };
  
-const Todo = memo(({ updateCurrentTodoData, unitsAsInt, todoId, helperMenuClosersRef, cachedTodoData }) => {
+const Todo = memo(({ updateCurrentTodoData, day, month, year, unitsAsInt, todoId, helperMenuClosersRef, cachedTodoData }) => {
+  const currentDate = useContext(currentDateContext);
+  const isToday = currentDate.YMD === [year, month, day].join('-');
+  
   // for easier focus management
   const todoRef = useRef();
 
@@ -201,7 +204,9 @@ const Todo = memo(({ updateCurrentTodoData, unitsAsInt, todoId, helperMenuCloser
 
   // handlers
   function removeFromTodoHandler(e) {
-    if (isTodoInTodosTemplate(todoId)) removeFromTodosTemplate(todoId); // also remove it from the template if it's there
+    // also remove it from the template if it's there and if it's today
+    // make sure it's today otherwise frequencyNever-todo can remove frequencyEveryday-todo
+    if (isToday && isTodoInTodosTemplate(todoId)) removeFromTodosTemplate(todoId); // if removed, frequency is never
     removeFromCurrentTodoDataAndSync();
 
     focusWhenHelperMenuCloses(); // move focus to the nearest element
