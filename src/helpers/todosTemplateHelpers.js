@@ -56,3 +56,7 @@ export function removeFromTodosTemplate(idToRemove) {
   delete localTodosTemplate[idToRemove];
   setTodosTemplate(localTodosTemplate);
 }
+
+export function isTodoInTodosTemplate(todoId) {
+  return todoId in todosTemplate.cache;
+}
