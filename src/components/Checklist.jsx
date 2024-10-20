@@ -13,12 +13,12 @@ import { todayClearedContext } from "../providers/TodayClearedProvider";
 import { focusFromRef, focusOnFirstItemFromRef, refContext } from "../providers/RefProvider";
 
 // helpers
-import { todosTemplate, addToTodosTemplate, removeFromTodosTemplate, updateIndividualFrequencyOnTodosTemplate, isTodoInTodosTemplate, updateTypeOnTodosTemplate } from "../helpers/todosTemplateHelpers";
+import { todosTemplate, addToTodosTemplate, removeFromTodosTemplate, updateTypeOnTodosTemplate, isTodoInTodosTemplate, updateFrequencyOnTodosTemplate } from "../helpers/todosTemplateHelpers";
 import { allTodos, addToAllTodos, updateTodoString } from "../helpers/allTodosHelpers";
 import { returnTodoData, validateTodoData, addToTodoData, removeFromTodoData, updateTodoValue, updateTodoType } from "../helpers/todoDataHelpers";
 import { dayMonthTruncFormatter, returnWeekday, returnWeekdayFromSunday, weekdayDayMonthFormatter } from "../helpers/validateUnitsFromDate";
 import { shouldUseAutoFocus } from "../helpers/keyboardDetection";
-import { capitalizeString } from "../helpers/utils";
+import { capitalizeString, isArrTruthy } from "../helpers/utils";
 
 // custom hooks
 import changeDocumentTitle from "../custom-hooks/changeDocumentTitle";
@@ -330,22 +330,22 @@ const TodoHelpers = ({ todoId, updateTodoStringHandler, todoType, updateTodoType
 
 const FrequencyMenu = ({ todoId, closeFrequencyMenu, frequencyMenuButtonRef, focusOnFrequencyMenuButton }) => {
   const [frequencyState, setFrequencyState] = useState(todosTemplate.cache[todoId].frequency);
-  function changeIndivualFrequencyState(dayIndex, dayState) {
-    const newFrequencyState = [...frequencyState];
-    newFrequencyState[dayIndex] = dayState;
-    setFrequencyState(newFrequencyState);
-  }
+  function changeAndSyncFrequency(frequency) {
+    if (isArrTruthy(frequency)) { // frequency isn't never
+      if (isTodoInTodosTemplate(todoId)) updateFrequencyOnTodosTemplate(todoId, frequency); // if it exists just update it
+      else addToTodosTemplate(todoId, undefined, frequency); // if it doesn't exist already, add it
+    } else removeFromTodosTemplate(todoId); // remove it if it's never ([0, 0, 0, 0, 0, 0, 0])
 
-  function changeAndSyncFrequency(dayIndex, dayState) {
-    updateIndividualFrequencyOnTodosTemplate(todoId, dayIndex, dayState);
-    changeIndivualFrequencyState(dayIndex, dayState);
+    setFrequencyState(frequency);
   }
 
   // handlers
   function toggleCheckedHandler(e) {
     const dayIndex = e.currentTarget.value;
     const dayState = Number(e.currentTarget.checked); // 1-0 used instead of true-false, to save space
-    changeAndSyncFrequency(dayIndex, dayState);
+    const newFrequency = [...frequencyState];
+    newFrequency[dayIndex] = dayState;
+    changeAndSyncFrequency(newFrequency);
   }
 
   // focus management
