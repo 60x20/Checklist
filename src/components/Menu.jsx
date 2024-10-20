@@ -3,42 +3,46 @@ import { Link, useNavigate } from "react-router-dom";
 
 // contexts
 import { menuStateContext } from '../providers/MenuStateProvider';
-import { currentDateContext } from '../providers/CurrentDateProvider';
 import { allDataClearedContext } from "../providers/AllDataClearedProvider";
 import { todayClearedContext } from "../providers/TodayClearedProvider";
 import { requestedDateValidatedContext } from "../providers/RequestedDateValidatedProvider";
-import { refContext } from "../providers/RefProvider";
+import { focusOnFirstItemFromRef, focusOnLastItemFromRef, refContext } from "../providers/RefProvider";
 
 // helpers
 import resetAllData from "../helpers/resetAllData";
 import { returnDateFromToday } from "../helpers/returnCurrentDate";
 import { resetTodoData } from "../helpers/todoDataHelpers";
-import { monthNamesTruncated } from "../helpers/validateUnitsFromDate";
+import { dayMonthYearTruncFormatter } from "../helpers/validateUnitsFromDate";
 
-const Menu = () => {
+const MenuWrapper = () => {
   const { menuState, closeTheMenu } = useContext(menuStateContext);
   
-  const currentDate = useContext(currentDateContext);
-  
+  return menuState ? (<Menu { ...{closeTheMenu} }/>) : (<></>);
+};
+
+export default MenuWrapper;
+
+const Menu = ({ closeTheMenu }) => {
   const { year, month, day } = useContext(requestedDateValidatedContext);
+  const isDateRequested = year && month && day;
   const unitsAsInt = [parseInt(year, 10), parseInt(month, 10), parseInt(day, 10)]; // used as array indexes
 
   const { increaseAllDataCleared } = useContext(allDataClearedContext);
   const { increaseTodayCleared } = useContext(todayClearedContext);
 
-  const { refs: { menuRef }, helpers: { focusOnCreateTodo, focusOnFirstMenuItem, focusOnLastMenuItem, focusOnFirstItemInsideVisualizer } } = useContext(refContext);
+  // focus management and ease of use
+  const menuRef = useRef();
+  const { helpers: { focusOnCreateTodo, focusOnMenuToggler, focusOnFirstItemInsideVisualizer } } = useContext(refContext);
   function focusOnCreateTodoAndCloseTheMenu() {
     focusOnCreateTodo(); // move focus to create-todo
     closeTheMenu(); // closing explicitly due to focusing being conditonal
   }
-
   // when menu opens, focus on first menu item
   useLayoutEffect(() => { // layout prefferred to avoid flickers
-    if (menuState) focusOnFirstMenuItem();
-  }, [menuState]);
-
+    focusOnFirstItemFromRef(menuRef);
+  }, []);
+  // on click away, tab away or when another elements gets focused menu will be closed
   useEffect(() => {
-    // on click away, tab away or when another elements gets focused menu will be closed
     function closeMenuOnFocusOutHandler(e) {
       // focusing on other elements, either by user interaction or programmatically, causes blur events
       // so, it's risky to focus when blur events trigger (focus collisions will occur)
@@ -51,11 +55,23 @@ const Menu = () => {
     }
 
     // if closed, remove the event listener; if opened, add the event listener
-    if (menuState) {
-      document.addEventListener('focusout', closeMenuOnFocusOutHandler);
-      return () => document.removeEventListener('focusout', closeMenuOnFocusOutHandler);
-    }
-  }, [closeTheMenu, menuState])
+    document.addEventListener('focusout', closeMenuOnFocusOutHandler);
+    return () => document.removeEventListener('focusout', closeMenuOnFocusOutHandler);
+  }, [])
+  // close the menu when escape pressed (for accessibility)
+  useEffect(() => {
+    function closeMenuHandler(e) {
+      if (e.key === 'Escape') {
+        focusOnMenuToggler();
+        closeTheMenu(); // focusing on menu toggler does not close the menu, even if it trigges blur
+      };
+    };
+
+    // if closed, remove the event listener; if opened, add the event listener
+    // keydown used instead of keyup, so that when a browser popup closed with esc, menu won't close
+    document.addEventListener('keydown', closeMenuHandler);
+    return () => document.removeEventListener('keydown', closeMenuHandler);
+  }, []);
 
   const navigate = useNavigate();
   // variables used for debouncing
@@ -74,7 +90,7 @@ const Menu = () => {
         if (oldDateToGo.current === dateToGo.current) {
           // if dateToGo didn't change, then clean-up
           clearInterval(intervalID.current);
-          intervalID.current = undefined;
+          dateToGo.current = oldDateToGo.current = intervalID.current = undefined; // reset, otherwise old data would cause problems
           return; // short circuit
         };
         oldDateToGo.current = dateToGo.current;
@@ -101,8 +117,8 @@ const Menu = () => {
   function menuKeyPressFocusHandler(e) {
     // if (e.target && e.target.matches('input[type="text"], input:not([type])')) return; // allowing default behavior
     switch (e.key) {
-      case 'Home': focusOnFirstMenuItem(); break;
-      case 'End': focusOnLastMenuItem(); break;
+      case 'Home': focusOnFirstItemFromRef(menuRef); break;
+      case 'End': focusOnLastItemFromRef(menuRef); break;
     }
   }
 
@@ -112,61 +128,51 @@ const Menu = () => {
   prevDates.length = prevDayAmount + 1; // 1 for today
   prevDates.fill(''); // if they're empty, map will skip them 
 
-  return (
-    <>
-    { menuState ? (
-    // tabindex to make it focusable, so that when it's clicked it's not the body who gets the focus
-    // otherwise handler to close the menu would kick in
-    <aside tabIndex="-1" role="menu" id="menu" ref={menuRef} className="column-stretch-container"
-      onKeyDown={menuKeyPressFocusHandler}
-    >
-      <h2>Previous Checklists</h2>
-      <nav>
-        <ul className="column-stretch-container">
-          { prevDates.map((el, i) => {
-            const relativeDate = returnDateFromToday(-i);
-            const monthAsWord = monthNamesTruncated[parseInt(relativeDate.date.month, 10)];
-            return (
-              <li key={i}>
-                <Link to={relativeDate.YMD.replaceAll('-', '/')} onClick={focusOnCreateTodoAndCloseTheMenu}>
-                  {i === 0 ? 'today: ' : ''}
-                  <time dateTime={relativeDate.YMD}>
-                    {`${relativeDate.date.day} ${monthAsWord} ${relativeDate.date.year}`}
-                  </time>
-                </Link>
-              </li>
-            );
-          }) }
-          <li>
-            <label>
-              <span>go to: </span>
-              <input 
-                // keyup preferred over keydown to allow opening the date picker with 'Enter-keydown'
-                onKeyUp={(e) => { if (e.key === 'Enter') focusOnCreateTodoAndCloseTheMenu(); }}
-                onChange={goToRequestedDateHandler}
-                type="date"
-                min="2000-01-01"
-                defaultValue={currentDate.YMD}
-                max="2100-12-31"
-              />
-            </label>
-          </li>
-          <li><Link to='all' onClick={() => {
-            closeTheMenu();
-            focusOnFirstItemInsideVisualizer();
-          }}>all</Link></li>
-        </ul>
-      </nav>
-      <div className="place-content-at-the-end">
-        { year && month && day ? 
-        <button type="button" onClick={resetCurrentDayHandler}>reset current day</button>
-        : false }
-        <button type="button" onClick={resetAllDataHandler}>reset all data</button>
-      </div>
-    </aside>
-    ) : false }
-    </>
+  return ( // tabindex to make it focusable, so that when it's clicked it's not the body who gets the focus
+  // otherwise handler to close the menu would kick in
+  <aside tabIndex="-1" role="menu" id="menu" ref={menuRef} className="column-stretch-container"
+    onKeyDown={menuKeyPressFocusHandler}
+  >
+    <h2>Previous Checklists</h2>
+    <nav>
+      <ul className="column-stretch-container">
+        { prevDates.map((el, i) => {
+          const relativeDate = returnDateFromToday(-i);
+          return (<li key={i}>
+            <Link to={relativeDate.YMD.replaceAll('-', '/')} onClick={focusOnCreateTodoAndCloseTheMenu}>
+              {i === 0 ? 'today: ' : ''}
+              <time dateTime={relativeDate.YMD}>
+                { dayMonthYearTruncFormatter.format(new Date(relativeDate.YMD)) }
+              </time>
+            </Link>
+          </li>);
+        }) }
+        <li>
+          <label>
+            <span>go to: </span>
+            <input 
+              // keyup preferred over keydown to allow opening the date picker with 'Enter-keydown'
+              onKeyUp={(e) => { if (e.key === 'Enter') focusOnCreateTodoAndCloseTheMenu(); }}
+              onChange={goToRequestedDateHandler}
+              type="date"
+              min="2000-01-01"
+              defaultValue={isDateRequested ? [year, month, day].join('-') : ''}
+              max="2100-12-31"
+            />
+          </label>
+        </li>
+        <li><Link to='all' onClick={() => {
+          closeTheMenu();
+          focusOnFirstItemInsideVisualizer();
+        }}>all</Link></li>
+      </ul>
+    </nav>
+    <div className="place-content-at-the-end">
+      { isDateRequested ? 
+      <button type="button" onClick={resetCurrentDayHandler}>reset current day</button>
+      : false }
+      <button type="button" onClick={resetAllDataHandler}>reset all data</button>
+    </div>
+  </aside>
   );
 };
-
-export default Menu;

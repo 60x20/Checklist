@@ -5,13 +5,15 @@
   --slightly-brighten: rgb(255, 255, 255, .25);
 
   /* theme */
+  --root-dark-bg: #111;
+  --root-light-bg: #ccc;
   color-scheme: light;
-  background-color: #ccc;
+  background-color: var(--root-light-bg);
   color: black;
 
   &:has(.dark-theme) {
     color-scheme: dark;
-    background-color: #111;
+    background-color: var(--root-dark-bg);
     color: white;
   }
 }
@@ -68,11 +70,30 @@ ul {
   color: gray;
 }
 
-button.toggler-with-icon {
+.toggler-icon-only {
   box-sizing: border-box; /* it might have padding set by UA */
   width: var(--toggler-button-height);
   aspect-ratio: 1;
   font-size: 1rem !important;
+}
+.toggler-text-and-icon {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+}
+.toggler-transition {
+  background-color: transparent;
+  border: 0; /* background will be transparent */
+  transition: background-color .2s;
+  border-radius: .25rem;
+
+  &:hover {
+    background-color: var(--slightly-brighten);
+  }
+}
+
+.unselectable {
+  user-select: none !important;
 }
 
 .styled-as-p {
@@ -99,9 +120,6 @@ button.toggler-with-icon {
   
   /* if background is dark become darker, if light become lighter */
   background-color: rgb(255, 0, 255, .5);
-  #theme-toggler:hover {
-    background-color: var(--slightly-brighten);
-  }
 
   > .main-item {
     /* text gets all the space, grouping siblings */
@@ -115,18 +133,8 @@ button.toggler-with-icon {
   }
 }
 #theme-toggler {
-  background-color: transparent;
-  border: 0; /* background will be transparent */
-  transition: background-color .2s;
-
   height: var(--toggler-button-height);
   box-sizing: border-box; /* padding by UA should respect the height */
-
-  display: flex;
-  align-items: center;
-  gap: .5rem;
-
-  border-radius: .25rem;
 }
 
 main {
@@ -145,6 +153,8 @@ main {
   
   --indigo-as-hsl: 240, 20%;
   background-color: hsl(var(--indigo-as-hsl), 60%);
+
+  z-index: 10; /* there are other positioned elements, menu should always be on top */
 
   li {
     padding: 0 .25rem;
@@ -234,6 +244,53 @@ main {
         /* if all items don't use the same width, items will be misaligned */
         width: calc(100% - var(--biggest-helper-wrapper-size)); /* place the wrapper, then give the remaining space to main-items */
         flex-grow: 0; /* shouldn't be bigger than the fixed with */
+      }
+    }
+
+    .frequency-menu-wrapper {
+      position: relative; /* for child alignment */
+
+      .frequency-menu {
+        --padding-frequency-toggler-label: .25rem;
+        --height-of-frequency-toggler-label: calc(var(--padding-frequency-toggler-label) * 2 + max(1rem, var(--checkbox-input-size)));
+
+        display: flex;
+        flex-direction: column;
+        &.over-the-button {
+          flex-direction: column-reverse;
+        }
+        
+        overflow-y: auto; /* show vertical scrollbar */
+        scrollbar-gutter: stable; /* assume the scrollbar width otherwise Firebox ignores it */
+        max-height: calc(5 * var(--height-of-frequency-toggler-label)); /* only show 5 elements */
+        
+        align-items: stretch; /* make sure elements line up */
+        .frequency-toggler-label {
+          width: 100%; /* get the full width of the alignment container */
+          box-sizing: border-box; /* don't be bigger than your parent */
+          padding: var(--padding-frequency-toggler-label);
+
+          justify-content: space-between; /* make sure elements line up */
+        }
+        
+        /* centralize the menu and put it under or on top of the button */
+        position: absolute;
+        left: 50%;
+        translate: -50%;
+        top: 100%;
+        &.over-the-button {
+          top: unset;
+          bottom: 100%;
+        }
+        z-index: 1; /* there are other positioned elements, menu should be on top */
+
+        /* theme */
+        background-color: var(--root-light-bg);
+        border: 1px solid var(--root-dark-bg);
+        .dark-theme & {
+          background-color: var(--root-dark-bg);
+          border: 1px solid var(--root-light-bg);
+        }
       }
     }
   }

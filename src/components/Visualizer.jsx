@@ -1,5 +1,5 @@
 import { Link, Outlet, useParams } from "react-router-dom";
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 
 // font awesome
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -7,13 +7,13 @@ import { faCheck, faXmark } from '@fortawesome/free-solid-svg-icons'
 
 // helpers
 import { returnAllYears } from "../helpers/allYearsHelpers";
-import { extractYear, extractMonth, validateDate, monthNames, monthNamesTruncated } from "../helpers/validateUnitsFromDate";
+import { extractYear, extractMonth, validateDate, monthFormatter, monthYearTruncFormatter } from "../helpers/validateUnitsFromDate";
 import { returnYearEntry } from "../helpers/todoDataHelpers";
 import { truncateString } from "../helpers/utils";
 
 // contexts
 import { allDataClearedContext } from "../providers/AllDataClearedProvider";
-import { refContext } from "../providers/RefProvider";
+import { refCallbackToFocusOnFirstItemOnMount, refContext } from "../providers/RefProvider";
 
 // custom hooks
 import changeDocumentTitle from "../custom-hooks/changeDocumentTitle";
@@ -24,12 +24,10 @@ const addSubtitleToDocumentTitle = changeDocumentTitle.bind(globalThis, mainTitl
 export const VisualizerLayout = () => {
   const { refs: { visualizerRef } } = useContext(refContext);
 
-  return (
-    <div id="visualizer" ref={visualizerRef}>
-      <Outlet />
-    </div>
-  );
-}
+  return (<div id="visualizer" ref={visualizerRef}>
+    <Outlet />
+  </div>);
+};
 
 export const MonthVisualizer = () => {
   useContext(allDataClearedContext); // when data is cleared, re-render
@@ -42,17 +40,16 @@ export const MonthVisualizer = () => {
 
   const isValid = validateDate(extractedYear, extractedMonth);
 
-  const yearAsInt = parseInt(extractedYear, 10);
-  const monthAsInt = parseInt(extractedMonth, 10);
-
-  const subtitle = isValid ? `${monthNamesTruncated[monthAsInt]} ${extractedYear}` : 'invalid date';
+  const subtitle = isValid ? monthYearTruncFormatter.format(new Date([extractedYear, extractedMonth].join('-'))) : 'invalid date';
   addSubtitleToDocumentTitle(subtitle);
   
   if (!isValid) return <p>invalid date</p>;
 
+  const yearAsInt = parseInt(extractedYear, 10);
   const yearEntry = returnYearEntry(yearAsInt);
   if (!yearEntry) return (<p>no data for year</p>);
 
+  const monthAsInt = parseInt(extractedMonth, 10);
   const monthEntry = yearEntry[monthAsInt];
   if (!monthEntry) return (<p>no data for month</p>);
 
@@ -89,18 +86,13 @@ export const MonthVisualizer = () => {
       // reversed, so that latest days are at the top of the document
     }).toReversed() }
   </div>);
-}
+};
 
 export const YearVisualizer = () => {
   useContext(allDataClearedContext); // when data is cleared, re-render
 
   // a specific year requested
   const { year } = useParams();
-
-  // when rendered or URL changes focus on the first link
-  const { helpers: { focusOnFirstItemInsideVisualizer } } = useContext(refContext);
-  // layoutEffect not used since ref used on parent (and child layout runs before the parent mounts and gets the ref)
-  useEffect(focusOnFirstItemInsideVisualizer, [year]);
 
   const extractedYear = extractYear(year);
 
@@ -112,33 +104,28 @@ export const YearVisualizer = () => {
   if (!isValid) return (<p>invalid date</p>);
   
   const yearAsInt = parseInt(extractedYear, 10);
-
   const yearEntry = returnYearEntry(yearAsInt);
-
   if (!yearEntry) return (<p>no data for year</p>);
 
-  return (<nav><ul className="column-container">
+  return (<nav><ul className="column-container" ref={refCallbackToFocusOnFirstItemOnMount}>
     { yearEntry.map((monthArr, month) => {
       // there are vacant indexes, so that months and indexes match
       if (monthArr) {
         const monthAsString = String(month).padStart(2, '0');
+        const localDate = [extractedYear, monthAsString].join('-');
         return (<li key={month} className="month">
           <Link to={monthAsString}>
-            <time dateTime={`${extractedYear}-${monthAsString}`}>{ monthNames[month] }</time>
+            <time dateTime={localDate}>{ monthFormatter.format(new Date(localDate)) }</time>
           </Link>
         </li>);
       } else return false;
       // reversed, so that latest months are at the top of the document
     }).toReversed() }
   </ul></nav>);
-}
+};
 
 export const AllYearsVisualizer = () => {
   useContext(allDataClearedContext); // when data is cleared, re-render
-  
-  // when rendered focus on the first link
-  const { helpers: { focusOnFirstItemInsideVisualizer } } = useContext(refContext);
-  useEffect(focusOnFirstItemInsideVisualizer, []); // layout effect can't be used since ref isn't used here or on children
 
   addSubtitleToDocumentTitle('Years');
 
@@ -149,7 +136,7 @@ export const AllYearsVisualizer = () => {
 
   const allYearsDescending = allYears.sort((a, b) => b - a);
 
-  return (<nav><ul className="column-container">
+  return (<nav><ul className="column-container" ref={refCallbackToFocusOnFirstItemOnMount}>
     { allYearsDescending.map((year) => {
       const yearAsString = String(year).padStart(4, '0');
       return ( // there aren't any vacant indexes, but years are unique
@@ -160,4 +147,4 @@ export const AllYearsVisualizer = () => {
       </li>);
     }) }
   </ul></nav>);
-}
+};

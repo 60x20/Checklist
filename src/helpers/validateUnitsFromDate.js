@@ -1,5 +1,14 @@
-export const monthNames = ['', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-export const monthNamesTruncated = ['', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
+import { dayInMs } from "./returnCurrentDate";
+
+const weekdayFormatter = createFormatter({ weekday: 'long' });
+export const weekdayDayMonthFormatter = createFormatter({ weekday: 'long', day: 'numeric', month: 'long' });
+export const dayMonthTruncFormatter = createFormatter({ day: 'numeric', month: 'short' });
+export const dayMonthYearTruncFormatter = createFormatter({ day: 'numeric', month: 'short', year: 'numeric' });
+export const monthFormatter = createFormatter({ month: 'long' });
+export const monthYearTruncFormatter = createFormatter({ month: 'short', year: 'numeric' });
+function createFormatter(options) {
+  return new Intl.DateTimeFormat(navigator.language, options);
+}
 
 // should be greedy, otherwise data will be lost
 const yearRegex = /\d{4}|\d{2}/;
@@ -11,7 +20,7 @@ const dayRegex = /\d{1,2}/;
 // Date.parse considers 'Feb 31' as 'Feb 29 + 2 days'
 const dateInput = document.createElement('input');
 dateInput.type = 'date';
-dateInput.required = 'date';
+dateInput.required = true;
 
 export function validateUnitsFromDate({ year, month, day }) {
   // validation, in case the date is not in the desired format (failsafe)
@@ -46,8 +55,18 @@ export function extractDay(day) {
     : NaN
   ;
 }
+
 export function validateDate(year = '2000', month = '01', day = '01') {
   dateInput.value = [year, month, day].join('-'); // returns '', if invalid
   const isValid = dateInput.checkValidity();
   return isValid;
+}
+
+const dateForSunday = new Date('2000-01-02').valueOf();
+export function returnWeekdayFromSunday(day) {
+  return weekdayFormatter.format(new Date(dateForSunday + day * dayInMs));
+}
+
+export function returnWeekday(year, month, day) {
+  return new Date([year, month, day].join('-')).getDay();
 }

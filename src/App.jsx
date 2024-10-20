@@ -9,9 +9,12 @@ import Checklist from './components/Checklist';
 import Home from './components/Home';
 import { VisualizerLayout, AllYearsVisualizer, YearVisualizer, MonthVisualizer } from './components/Visualizer';
 
+// loaders
+import { redirectToCurrentDateLoader } from './providers/CurrentDateProvider';
+
 // TODO: don't use hash router; used to allow refreshing
 const router = createHashRouter(createRoutesFromElements(
-  <Route path="/" element={<RootLayout />}>
+  <Route path="/" element={<RootLayout />} loader={redirectToCurrentDateLoader}>
     <Route index element={<Home />} />
     <Route path="all" element={<VisualizerLayout />}>
       <Route index element={<AllYearsVisualizer />} />

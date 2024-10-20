@@ -17,18 +17,25 @@ function resetValueFromRef(ref) {
 function focusFromEl(el) {
   if (el) el.focus();
 }
-function focusFromRef(ref) {
+export function focusFromRef(ref) {
   focusFromEl(ref.current);
 }
-export function refCallbackForFocus(el) {
+export function refCallbackForFocusOnMount(el) { // preferred over Effect to avoid flickers
+  // if refCallback isn't re-created, react will avoid re-attaching it; therefore it only runs on mount/unmount, but not re-render
+  // since refCallback runs with null on unmount, before you focus make sure it's not null
   focusFromEl(el);
 }
-export function focusOnFirstItemFromRef(ref) {
-  if (!ref.current) return;
-  const firstItem = ref.current.querySelector('a, button, input');
+function focusOnFirstItemFromEl(el) {
+  const firstItem = el.querySelector('a, button, input');
   focusFromEl(firstItem);
 }
-function focusOnLastItemFromRef(ref) {
+export function focusOnFirstItemFromRef(ref) {
+  if (ref.current) focusOnFirstItemFromEl(ref.current);
+}
+export function refCallbackToFocusOnFirstItemOnMount(el) {
+  if (el) focusOnFirstItemFromEl(el); // might be null since react executes the callback when element unmounts
+}
+export function focusOnLastItemFromRef(ref) {
   if (!ref.current) return;
   const allItems = ref.current.querySelectorAll('a, button, input');
   const lastItem = allItems[allItems.length - 1];
@@ -45,14 +52,6 @@ const RefProvider = ({ children }) => {
     resetValueFromRef(createTodoRef);
   }
 
-  const menuRef = useRef();
-  function focusOnFirstMenuItem() {
-    focusOnFirstItemFromRef(menuRef);
-  }
-  function focusOnLastMenuItem() {
-    focusOnLastItemFromRef(menuRef);
-  }
-
   const visualizerRef = useRef();
   function focusOnFirstItemInsideVisualizer() {
     focusOnFirstItemFromRef(visualizerRef);
@@ -63,28 +62,26 @@ const RefProvider = ({ children }) => {
     focusFromRef(menuTogglerRef);
   }
 
+  const footerRef = useRef();
+
   const valueToProvide = {
     refs: {
       createTodoRef,
-      menuRef,
       visualizerRef,
       menuTogglerRef,
+      footerRef,
     },
     helpers: {
       focusOnCreateTodo,
-      focusOnFirstMenuItem,
-      focusOnLastMenuItem,
       focusOnFirstItemInsideVisualizer,
       focusOnMenuToggler,
       resetValueOfCreateTodo,
     }
   }
 
-  return (
-    <refContext.Provider value={valueToProvide}>
-      {children}
-    </refContext.Provider>
-  );
-}
+  return (<refContext.Provider value={valueToProvide}>
+    {children}
+  </refContext.Provider>);
+};
  
 export default RefProvider;

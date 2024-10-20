@@ -1,4 +1,4 @@
-const dayInMs = 1000 * 60 * 60 * 24;
+export const dayInMs = 1000 * 60 * 60 * 24;
 
 function returnDate(date) {
   const year = date.getFullYear();

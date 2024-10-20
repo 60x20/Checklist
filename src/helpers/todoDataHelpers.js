@@ -1,7 +1,7 @@
 // TODO: IndexedDB might be used instead of LocalStorage, due to how structured the data is
 // and this might help with localization of state
 
-import { returnTodosTemplate } from "./todosTemplateHelpers";
+import { returnTodosTemplateForWeekday } from "./todosTemplateHelpers";
 import { addToAllYears } from "./allYearsHelpers";
 
 function setYearEntry(year, toDoData) {
@@ -13,7 +13,7 @@ export function returnYearEntry(year) {
 }
 
 // make sure date exists in the localStorage
-export function validateTodoData(year, month, day) {
+export function validateTodoData(year, month, day, weekday) {
   if (!returnYearEntry(year)) {
     setYearEntry(year, []); // array for months
     addToAllYears(year);
@@ -29,7 +29,7 @@ export function validateTodoData(year, month, day) {
     !Object.keys(yearEntry[month][day]).length // if it's an empty object, try the template, it might be populated
   ) {
     // use the latest one (might return an empty object)
-    yearEntry[month][day] = returnTodosTemplate(); // key-value pairs are used
+    yearEntry[month][day] = returnTodosTemplateForWeekday(weekday); // key-value pairs are used
 
     // if any time unit doesn't exist, day will be recreated, if all exist won't; so it's only set here
     setYearEntry(year, yearEntry);

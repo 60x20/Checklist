@@ -2,7 +2,7 @@ import { Outlet } from "react-router-dom";
 
 // components
 import Header from "../components/Header";
-import Menu from "../components/Menu";
+import MenuWrapper from "../components/Menu";
 import Main from "../components/Main";
 import Footer from "../components/Footer";
 
@@ -18,7 +18,8 @@ import { validateAllTodos } from "../helpers/allTodosHelpers";
 import { validateAllYears } from "../helpers/allYearsHelpers";
 
 // make checkboxes interactable with 'enter'
-document.addEventListener('keyup', e => {
+document.addEventListener('keydown', e => {
+  // keydown prefferred since keyup can trigger on a checkbox after keydown pressed on a button that moves the focus
   if (e.key === 'Enter' && e.target.matches('input[type="checkbox"]')) {
     e.target.click();
     e.preventDefault(); // in case browser already implements it, avoiding extra clicks
@@ -38,13 +39,13 @@ const RootLayout = () => {
           <Header />
           <CurrentDateProvider>
             <Main>
-              <Menu />
+              <MenuWrapper />
               <Outlet />
             </Main>
           </CurrentDateProvider>
         </MenuStateProvider>
+        <Footer />
       </RefProvider>
-      <Footer />
     </ThemeProvider>
   </>);
 }
