@@ -253,7 +253,7 @@ const Todo = memo(({ updateCurrentTodoData, unitsAsInt, todoId, helperMenuCloser
       </div>
     </div>
     { helperState ?
-    <TodoHelpers { ...{todoId, updateTodoStringHandler, todoType, updateTodoTypeHandler, removeFromTodoHandler, closeHelperMenu, helperMenuClosersRef, isToday} } />
+    <TodoHelpers { ...{todoId, updateTodoStringHandler, todoType, updateTodoTypeHandler, removeFromTodoHandler, closeHelperMenu, helperMenuClosersRef} } />
     : false }
   </li>);
 });
@@ -272,7 +272,7 @@ const TodoState = ({ todoValue, todoType, updateTodoCheckedHandler, updateTodoVa
   />);
 };
 
-const TodoHelpers = ({ todoId, updateTodoStringHandler, todoType, updateTodoTypeHandler, removeFromTodoHandler, closeHelperMenu, helperMenuClosersRef, isToday }) => {
+const TodoHelpers = ({ todoId, updateTodoStringHandler, todoType, updateTodoTypeHandler, removeFromTodoHandler, closeHelperMenu, helperMenuClosersRef }) => {
   useEffect(() => { // store the helperMenu closer in ref, will be used to close all at once
     helperMenuClosersRef.current[todoId] = closeHelperMenu; // since always set to false, old func with old scope is ok to use
     return () => { delete helperMenuClosersRef.current[todoId]; };
@@ -291,8 +291,6 @@ const TodoHelpers = ({ todoId, updateTodoStringHandler, todoType, updateTodoType
     focusFromRef(frequencyMenuButtonRef);
   }
 
-  const isInsideTodosTemplate = todoId in todosTemplate.cache; // make sure it's in the localStorage
-
   // when any of the helpers are used, helper menu should be closed
   // focus should be managed when menu closes or opens
   return (<div className="row-container helpers" role="menu" aria-orientation="horizontal">
@@ -309,7 +307,7 @@ const TodoHelpers = ({ todoId, updateTodoStringHandler, todoType, updateTodoType
       <option value="number">Number</option>
       <option value="time">Time</option>
     </select>
-    { isToday && isInsideTodosTemplate ? <div className="frequency-menu-wrapper">
+    <div className="frequency-menu-wrapper">
       <button
         type="button"
         ref={frequencyMenuButtonRef}
@@ -325,7 +323,7 @@ const TodoHelpers = ({ todoId, updateTodoStringHandler, todoType, updateTodoType
       { frequencyMenuState ? 
       <FrequencyMenu { ...{todoId, closeFrequencyMenu, frequencyMenuButtonRef, focusOnFrequencyMenuButton} } />
       : false }
-    </div> : false }
+    </div>
     <button onClick={removeFromTodoHandler} type="button">remove</button>
   </div>);
 };
