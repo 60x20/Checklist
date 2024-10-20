@@ -13,7 +13,7 @@ import { todayClearedContext } from "../providers/TodayClearedProvider";
 import { focusFromRef, focusOnFirstItemFromRef, refContext } from "../providers/RefProvider";
 
 // helpers
-import { todosTemplate, addToTodosTemplate, removeFromTodosTemplate, updateTypeOnTodosTemplate, isTodoInTodosTemplate, updateFrequencyOnTodosTemplate } from "../helpers/todosTemplateHelpers";
+import { todosTemplate, addToTodosTemplate, removeFromTodosTemplate, updateTypeOnTodosTemplate, isTodoInTodosTemplate, frequencyNever, updateFrequencyOnTodosTemplate } from "../helpers/todosTemplateHelpers";
 import { allTodos, addToAllTodos, updateTodoString } from "../helpers/allTodosHelpers";
 import { returnTodoData, validateTodoData, addToTodoData, removeFromTodoData, updateTodoValue, updateTodoType } from "../helpers/todoDataHelpers";
 import { dayMonthTruncFormatter, returnWeekday, returnWeekdayFromSunday, weekdayDayMonthFormatter } from "../helpers/validateUnitsFromDate";
@@ -329,7 +329,11 @@ const TodoHelpers = ({ todoId, updateTodoStringHandler, todoType, updateTodoType
 };
 
 const FrequencyMenu = ({ todoId, closeFrequencyMenu, frequencyMenuButtonRef, focusOnFrequencyMenuButton }) => {
-  const [frequencyState, setFrequencyState] = useState(todosTemplate.cache[todoId].frequency);
+  const [frequencyState, setFrequencyState] = useState(() => isTodoInTodosTemplate(todoId)
+    ? todosTemplate.cache[todoId].frequency
+    : frequencyNever
+  );
+
   function changeAndSyncFrequency(frequency) {
     if (isArrTruthy(frequency)) { // frequency isn't never
       if (isTodoInTodosTemplate(todoId)) updateFrequencyOnTodosTemplate(todoId, frequency); // if it exists just update it

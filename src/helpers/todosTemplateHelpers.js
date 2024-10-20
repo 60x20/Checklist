@@ -33,6 +33,7 @@ export function returnTodosTemplateForWeekday(weekday) {
 }
 
 const frequencyEveryDay = [1, 1, 1, 1, 1, 1, 1];
+export const frequencyNever = [0, 0, 0, 0, 0, 0, 0];
 export function addToTodosTemplate(id, type = 'checkbox', frequency = frequencyEveryDay) {
   const localTodosTemplate = returnTodosTemplate();
   localTodosTemplate[id] = { value: '', type, frequency };
