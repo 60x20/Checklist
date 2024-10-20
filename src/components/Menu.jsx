@@ -3,7 +3,6 @@ import { Link, useNavigate } from "react-router-dom";
 
 // contexts
 import { menuStateContext } from '../providers/MenuStateProvider';
-import { currentDateContext } from '../providers/CurrentDateProvider';
 import { allDataClearedContext } from "../providers/AllDataClearedProvider";
 import { todayClearedContext } from "../providers/TodayClearedProvider";
 import { requestedDateValidatedContext } from "../providers/RequestedDateValidatedProvider";
@@ -24,8 +23,6 @@ const MenuWrapper = () => {
 export default MenuWrapper;
 
 const Menu = ({ closeTheMenu }) => {
-  const currentDate = useContext(currentDateContext);
-  
   const { year, month, day } = useContext(requestedDateValidatedContext);
   const isDateRequested = year && month && day;
   const unitsAsInt = [parseInt(year, 10), parseInt(month, 10), parseInt(day, 10)]; // used as array indexes
@@ -159,7 +156,7 @@ const Menu = ({ closeTheMenu }) => {
               onChange={goToRequestedDateHandler}
               type="date"
               min="2000-01-01"
-              defaultValue={currentDate.YMD}
+              defaultValue={isDateRequested ? [year, month, day].join('-') : ''}
               max="2100-12-31"
             />
           </label>
