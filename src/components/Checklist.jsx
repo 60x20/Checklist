@@ -83,9 +83,7 @@ const CreateTodo = memo(({ unitsAsInt, year, month, day, refForUpdateCurrentTodo
     const formDataReadable = Object.fromEntries(submittedFormData.entries());
     const todoString = String(formDataReadable.todoName);
     const idAssigned = addToAllTodos(todoString); // should be in sync with localStorage entry
-    if (isToday) { // if currentDate removes/adds a todo, template should adapt
-      addToTodosTemplate(idAssigned, 'checkbox');
-    }
+    if (isToday) addToTodosTemplate(idAssigned, 'checkbox'); // if it's today add it to the template
     addToCurrentTodoDataAndSync(idAssigned);
 
     resetValueOfCreateTodo(); // value is reset on submit to make known value is added
