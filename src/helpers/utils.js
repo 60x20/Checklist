@@ -5,3 +5,7 @@ export function capitalizeString(str) {
 export function truncateString(str, maxCharSize = 10) {
   return str.length > maxCharSize ? str.substring(0, maxCharSize) + '...' : str;
 }
+
+export function isArrTruthy(arr) {
+  return arr.some((el) => el);
+}
