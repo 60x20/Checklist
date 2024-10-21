@@ -48,9 +48,6 @@ const RefProvider = ({ children }) => {
     // avoid focusing on editable regions on mobile since it causes an annoying visual keyboard
     if (shouldUseAutoFocus) focusFromRef(createTodoRef);
   }
-  function resetValueOfCreateTodo() {
-    resetValueFromRef(createTodoRef);
-  }
 
   const visualizerRef = useRef();
   function focusOnFirstItemInsideVisualizer() {
@@ -75,7 +72,6 @@ const RefProvider = ({ children }) => {
       focusOnCreateTodo,
       focusOnFirstItemInsideVisualizer,
       focusOnMenuToggler,
-      resetValueOfCreateTodo,
     }
   }
 

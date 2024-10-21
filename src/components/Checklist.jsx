@@ -65,7 +65,7 @@ export default Checklist;
 
 const CreateTodo = memo(({ unitsAsInt, year, month, day, refForUpdateCurrentTodoData }) => {
   // when mounts, focus on the create todo button; button preferred instead of input to avoid virtual keyboard
-  const { refs: { createTodoRef }, helpers: { resetValueOfCreateTodo } } = useContext(refContext);
+  const { refs: { createTodoRef } } = useContext(refContext);
 
   const currentDate = useContext(currentDateContext);
   const isToday = currentDate.YMD === [year, month, day].join('-');
@@ -86,7 +86,7 @@ const CreateTodo = memo(({ unitsAsInt, year, month, day, refForUpdateCurrentTodo
     if (isToday) addToTodosTemplate(idAssigned, 'checkbox'); // if it's today add it to the template
     addToCurrentTodoDataAndSync(idAssigned);
 
-    resetValueOfCreateTodo(); // value is reset on submit to make known value is added
+    e.currentTarget.reset(); // value is reset on submit to make known value is added
   }
 
   return (<form onSubmit={createTodoHandler}>
