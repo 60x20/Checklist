@@ -336,3 +336,9 @@ footer {
   background-color: black;
   height: 1rem;
 }
+
+@media (prefers-reduced-motion) {
+  .toggler-transition {
+    transition: none !important;
+  }
+}
