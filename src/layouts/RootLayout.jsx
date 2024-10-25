@@ -19,7 +19,7 @@ import { validateAllYears } from "../helpers/allYearsHelpers";
 
 // make checkboxes interactable with 'enter'
 document.addEventListener('keydown', e => {
-  // keydown prefferred since keyup can trigger on a checkbox after keydown pressed on a button that moves the focus
+  // keydown preferred since keyup can trigger on a checkbox after keydown pressed on a button that moves the focus
   if (e.key === 'Enter' && e.target.matches('input[type="checkbox"]')) {
     e.target.click();
     e.preventDefault(); // in case browser already implements it, avoiding extra clicks

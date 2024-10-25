@@ -129,7 +129,7 @@ export const AllYearsVisualizer = () => {
 
   addSubtitleToDocumentTitle('Years');
 
-  // everyting requested
+  // everything requested
   const allYears = returnAllYears();
 
   if (allYears.length === 0) return <p>no data</p>;

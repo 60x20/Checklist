@@ -35,10 +35,10 @@ const Menu = ({ closeTheMenu }) => {
   const { helpers: { focusOnCreateTodo, focusOnMenuToggler, focusOnFirstItemInsideVisualizer } } = useContext(refContext);
   function focusOnCreateTodoAndCloseTheMenu() {
     focusOnCreateTodo(); // move focus to create-todo
-    closeTheMenu(); // closing explicitly due to focusing being conditonal
+    closeTheMenu(); // closing explicitly due to focusing being conditional
   }
   // when menu opens, focus on first menu item
-  useLayoutEffect(() => { // layout prefferred to avoid flickers
+  useLayoutEffect(() => { // layout preferred to avoid flickers
     focusOnFirstItemFromRef(menuRef);
   }, []);
   // on click away, tab away or when another elements gets focused menu will be closed
@@ -63,7 +63,7 @@ const Menu = ({ closeTheMenu }) => {
     function closeMenuHandler(e) {
       if (e.key === 'Escape') {
         focusOnMenuToggler();
-        closeTheMenu(); // focusing on menu toggler does not close the menu, even if it trigges blur
+        closeTheMenu(); // focusing on menu toggler does not close the menu, even if it triggers blur
       };
     };
 
