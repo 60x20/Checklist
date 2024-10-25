@@ -1,4 +1,4 @@
-import { memo, useContext, useEffect, useLayoutEffect, useMemo, useReducer, useRef, useState } from "react";
+import { memo, useContext, useEffect, useImperativeHandle, useLayoutEffect, useMemo, useReducer, useRef, useState } from "react";
 
 // font awesome
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -122,9 +122,7 @@ const Todos = ({ day, month, year, unitsAsInt, helperMenuClosersRef, refForUpdat
     }
   }
 
-  useEffect(() => {
-    refForUpdateCurrentTodoData.current = updateCurrentTodoData;
-  }, []);
+  useImperativeHandle(refForUpdateCurrentTodoData, () => updateCurrentTodoData, []);
 
   // for rendering todos
   const currentTodoTasks = Object.keys(currentTodoData); // by default, components are rendered in ascending order by ID
