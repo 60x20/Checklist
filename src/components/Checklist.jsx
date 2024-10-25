@@ -44,7 +44,7 @@ const Checklist = () => {
     Object.values(helperMenuClosersRef.current).forEach((closer) => closer());
   }
 
-  // state updater created in Todos passed to its sibling (= CreateTodo) using ref
+  // updater in Todos passed to its sibling (= CreateTodo) using ref; hoisting avoided since Todos has a special key
   const refForUpdateCurrentTodoData = useRef();
 
   return (<div id="checklist" className="column-container" tabIndex="-1"
