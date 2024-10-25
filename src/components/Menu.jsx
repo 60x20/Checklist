@@ -74,7 +74,7 @@ const Menu = ({ closeTheMenu }) => {
   }, []);
 
   const navigate = useNavigate();
-  // variables used for debouncing
+  // variables used for throttling
   const dateToGo = useRef();
   const oldDateToGo = useRef();
   const intervalID = useRef();
@@ -84,7 +84,7 @@ const Menu = ({ closeTheMenu }) => {
     if (requestedDate) {
       dateToGo.current = requestedDate;
     }
-    // debouncing, otherwise performance issues might occur
+    // throttling, otherwise performance issues might occur
     if (!intervalID.current) {
       intervalID.current = setInterval(() => {
         if (oldDateToGo.current === dateToGo.current) {
