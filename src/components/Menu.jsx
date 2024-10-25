@@ -74,29 +74,17 @@ const Menu = ({ closeTheMenu }) => {
   }, []);
 
   const navigate = useNavigate();
-  // variables used for throttling
+  // throttling, otherwise performance issues might occur
   const dateToGo = useRef();
-  const oldDateToGo = useRef();
-  const intervalID = useRef();
+  const timeoutSet = useRef();
   function goToRequestedDateHandler(e) {
     const requestedDate = e.currentTarget.value;
-    // requestedDate might be an empty string in case it's an invalid date
-    if (requestedDate) {
-      dateToGo.current = requestedDate;
-    }
-    // throttling, otherwise performance issues might occur
-    if (!intervalID.current) {
-      intervalID.current = setInterval(() => {
-        if (oldDateToGo.current === dateToGo.current) {
-          // if dateToGo didn't change, then clean-up
-          clearInterval(intervalID.current);
-          dateToGo.current = oldDateToGo.current = intervalID.current = undefined; // reset, otherwise old data would cause problems
-          return; // short circuit
-        };
-        oldDateToGo.current = dateToGo.current;
-        navigate(dateToGo.current.replaceAll('-', '/'));
-      }, 100);
-    }
+    if (!requestedDate) return; // if requestedDate is invalid, don't continue
+    dateToGo.current = requestedDate;
+    if (!timeoutSet.current) timeoutSet.current = setTimeout(() => {
+      navigate(dateToGo.current.replaceAll('-', '/'));
+      dateToGo.current = timeoutSet.current = undefined; // reset, so that old data doesn't cause problems
+    }, 100);
   }
   
   function resetAllDataHandler() {
