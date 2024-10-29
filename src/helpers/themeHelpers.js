@@ -3,7 +3,7 @@ import { faSun, faMoon, faCircleHalfStroke } from '@fortawesome/free-solid-svg-i
 
 export const colorSchemeMediaQuery = matchMedia('(prefers-color-scheme: dark)');
 
-function isDarkPreferred() {
+export function isDarkPreferred() {
   return colorSchemeMediaQuery.matches;
 }
 

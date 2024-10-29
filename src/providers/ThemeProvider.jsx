@@ -1,10 +1,7 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useCallback, useState, useSyncExternalStore } from "react";
 
 // helpers
-import { colorSchemeMediaQuery, changeThemeModeEntry, returnThemeMode, themeModeData, returnThemeEntry } from "../helpers/themeHelpers";
-
-// custom hooks
-import useForceRender from "../custom-hooks/useForceRender";
+import { colorSchemeMediaQuery, changeThemeModeEntry, returnThemeMode, themeModeData, returnThemeEntry, isDarkPreferred } from "../helpers/themeHelpers";
 
 export const themeContext = createContext();
 
@@ -17,19 +14,18 @@ const ThemeProvider = ({ children }) => {
     changeThemeModeEntry(nextThemeMode);
     setThemeMode(nextThemeMode);
   }
-
-  // if theme mode or preference changes, preference will adapt (variable preferred over useEffect to avoid extra re-renders)
-  const [preferenceChanged, increasePreferenceChanged] = useForceRender();
-  const preferenceForDark = themeModeData[themeMode].preferenceForDark;
-
-  // detect changes if auto
-  useEffect(() => {
+  
+  // detect theme preferences if auto
+  const subscribeToThemeChangeHandler = useCallback((handler) => { // memoized to avoid unnecessary re-attaching
     if (themeMode === 0) {
-      const changePreferenceFromEvent = () => increasePreferenceChanged();
-      colorSchemeMediaQuery.addEventListener('change', changePreferenceFromEvent);
-      return () => colorSchemeMediaQuery.removeEventListener('change', changePreferenceFromEvent);
+      colorSchemeMediaQuery.addEventListener('change', handler);
+      return () => colorSchemeMediaQuery.removeEventListener('change', handler);
     }
   }, [themeMode]);
+  useSyncExternalStore(subscribeToThemeChangeHandler, isDarkPreferred);
+  
+  // if theme mode or preference changes, preference will adapt (variable preferred over useEffect to avoid extra re-renders)
+  const preferenceForDark = themeModeData[themeMode].preferenceForDark;
 
   preferenceForDark ? bodyClassList.add('dark-theme') : bodyClassList.remove('dark-theme');
 
