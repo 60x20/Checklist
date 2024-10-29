@@ -1,7 +1,10 @@
-import { createContext, useEffect, useReducer, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 
 // helpers
 import { colorSchemeMediaQuery, changeThemeModeEntry, returnThemeMode, themeModeData, returnThemeEntry } from "../helpers/themeHelpers";
+
+// custom hooks
+import useForceRender from "../custom-hooks/useForceRender";
 
 export const themeContext = createContext();
 
@@ -16,7 +19,7 @@ const ThemeProvider = ({ children }) => {
   }
 
   // if theme mode or preference changes, preference will adapt (variable preferred over useEffect to avoid extra re-renders)
-  const [preferenceChanged, increasePreferenceChanged] = useReducer((prev) => prev + 1, 0);
+  const [preferenceChanged, increasePreferenceChanged] = useForceRender();
   const preferenceForDark = themeModeData[themeMode].preferenceForDark;
 
   // detect changes if auto

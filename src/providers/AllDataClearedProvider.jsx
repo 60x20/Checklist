@@ -1,12 +1,14 @@
-import { createContext, useReducer } from "react";
+import { createContext } from "react";
+
+// custom hooks
+import useForceRender from "../custom-hooks/useForceRender";
 
 export const allDataClearedContext = createContext();
 
 const AllDataClearedProvider = ({ children }) => {
   // inform the children, if clear occurs; let them clean-up
 
-  // instead of true-false, numbers used, with this approach there won't be unnecessary re-renderings
-  const [allDataCleared, increaseAllDataCleared] = useReducer((prev) => prev + 1, 0);
+  const [allDataCleared, increaseAllDataCleared] = useForceRender();
 
   return (<allDataClearedContext.Provider value={{ allDataCleared, increaseAllDataCleared }}>
     {children}
