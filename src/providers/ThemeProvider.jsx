@@ -16,7 +16,7 @@ const ThemeProvider = ({ children }) => {
   }
 
   // if theme mode or preference changes, preference will adapt (variable preferred over useEffect to avoid extra re-renders)
-  const [preferenceChanged, increasePreferenceChanged] = useReducer((prev) => prev + 1, '', () => themeModeData[themeMode].preferenceForDark);
+  const [preferenceChanged, increasePreferenceChanged] = useReducer((prev) => prev + 1, 0);
   const preferenceForDark = themeModeData[themeMode].preferenceForDark;
 
   // detect changes if auto
