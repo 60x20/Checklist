@@ -9,12 +9,12 @@ import { refCallbackForFocusOnMount } from "../providers/RefProvider";
 import { weekdayDayMonthFormatter } from "../helpers/validateUnitsFromDate";
 
 // custom hooks
-import changeDocumentTitle from "../custom-hooks/changeDocumentTitle";
+import useDocumentTitle from "../custom-hooks/useDocumentTitle";
 
 const Home = () => {
   const currentDate = useContext(currentDateContext);
   
-  changeDocumentTitle(undefined, 'Home'); // add to original title
+  useDocumentTitle(undefined, 'Home'); // add to original title
 
   return (<div id="home">
     {/* focus on the anchor on mount; autoFocus isn't used since it doesn't work with <a> elements */}

@@ -2,7 +2,7 @@ import { useLayoutEffect } from "react";
 
 const originalTitle = document.title;
 
-export default function changeDocumentTitle(mainTitle = originalTitle, subtitle = '') {
+export default function useDocumentTitle(mainTitle = originalTitle, subtitle = '') {
   // layout effect preferred to decrease the delay
   useLayoutEffect(() => { // when mounts or subtitle changes, use the titles
     document.title = subtitle ? [mainTitle, subtitle].join(' - ') : mainTitle;

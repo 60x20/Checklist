@@ -21,10 +21,10 @@ import { shouldUseAutoFocus } from "../helpers/keyboardDetection";
 import { capitalizeString, isArrTruthy } from "../helpers/utils";
 
 // custom hooks
-import changeDocumentTitle from "../custom-hooks/changeDocumentTitle";
+import useDocumentTitle from "../custom-hooks/useDocumentTitle";
 
 const mainTitle = 'Checklist'; // will be put in document.title
-const addSubtitleToDocumentTitle = changeDocumentTitle.bind(globalThis, mainTitle);
+const addSubtitleToDocumentTitle = useDocumentTitle.bind(globalThis, mainTitle);
 
 const Checklist = () => {
   const { year, month, day } = useContext(requestedDateValidatedContext);

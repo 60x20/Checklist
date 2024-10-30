@@ -16,10 +16,10 @@ import { allDataClearedContext } from "../providers/AllDataClearedProvider";
 import { refCallbackToFocusOnFirstItemOnMount, refContext } from "../providers/RefProvider";
 
 // custom hooks
-import changeDocumentTitle from "../custom-hooks/changeDocumentTitle";
+import useDocumentTitle from "../custom-hooks/useDocumentTitle";
 
 const mainTitle = 'Visualize'; // will be put in document.title
-const addSubtitleToDocumentTitle = changeDocumentTitle.bind(globalThis, mainTitle);
+const addSubtitleToDocumentTitle = useDocumentTitle.bind(globalThis, mainTitle);
 
 export const VisualizerLayout = () => {
   const { refs: { visualizerRef } } = useContext(refContext);
