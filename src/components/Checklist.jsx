@@ -113,12 +113,12 @@ const Todos = ({ day, month, year, unitsAsInt, helperMenuClosersRef, refForUpdat
         const latestData = {...prevData};
         delete latestData[todoId];
         return cachedTodoData.current = latestData; // keeping cache in sync
-      };
+      }
       case 'SYNC': {
         // syncing with localStorage entry initially or when the key changes
         validateTodoData(...unitsAsInt, returnWeekday(year, month, day)); // if it doesn't exist create it
         return cachedTodoData.current = returnTodoData(...unitsAsInt); // keeping cache in sync
-      };
+      }
     }
   }
 

@@ -64,8 +64,8 @@ const Menu = ({ closeTheMenu }) => {
       if (e.key === 'Escape') {
         focusOnMenuToggler();
         closeTheMenu(); // focusing on menu toggler does not close the menu, even if it triggers blur
-      };
-    };
+      }
+    }
 
     // if closed, remove the event listener; if opened, add the event listener
     // keydown used instead of keyup, so that when a browser popup closed with esc, menu won't close

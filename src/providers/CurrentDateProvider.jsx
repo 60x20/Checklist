@@ -36,8 +36,8 @@ const CurrentDateProvider = ({ children }) => {
       setCurrentDateState(latestDate);
       navigate(latestDate.YMD.replaceAll('-', '/')); // if currentDate changes, go to the new date
       setTodayVisited(latestDate.YMD); // if currentDate changes, update todayVisited entry, so that url is changeable
-    };
   }
+    }
 
   // interval that checks to see if current date has changed
   useEffect(() => {
