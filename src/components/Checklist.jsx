@@ -392,7 +392,7 @@ const FrequencyMenu = ({ todoId, closeFrequencyMenu, frequencyMenuButtonRef, foc
     // on-resize re-calculate
     window.addEventListener('resize', determineWhereToPlaceTheMenu);
     return () => window.removeEventListener('resize', determineWhereToPlaceTheMenu);
-  }, [])
+  }, [footerRef, frequencyMenuButtonRef])
 
   return (<ul className="frequency-menu" role="menu" ref={frequencyMenuRef}
     tabIndex="-1" // so that when something unfocusable (like a text) is clicked, focus remains on the menu
