@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useCallback, useState } from "react";
 
 export const menuStateContext = createContext();
 
@@ -7,9 +7,7 @@ const MenuStateProvider = ({ children }) => {
   function toggleMenuState() {
     setMenuState(!menuState);
   }
-  const closeTheMenu = () => {
-    setMenuState(false);
-  };
+  const closeTheMenu = useCallback(() => setMenuState(false), []);
 
   return (<menuStateContext.Provider value={{ menuState, toggleMenuState, closeTheMenu }}>
     {children}
