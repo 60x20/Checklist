@@ -1,4 +1,4 @@
-import { createContext, useState, useEffect } from "react";
+import { createContext, useState, useEffect, useCallback } from "react";
 
 import { redirect, useNavigate } from "react-router-dom";
 
@@ -29,15 +29,15 @@ const CurrentDateProvider = ({ children }) => {
   const navigate = useNavigate();
 
   const [currentDate, setCurrentDateState] = useState(returnCurrentDate);
-  function refreshCurrentDate() {
+  const refreshCurrentDate = useCallback(() => {
     const latestDate = returnCurrentDate();
     // since returnCurrentDate returns an object, validation is done manually
     if (latestDate.YMD !== currentDate.YMD) {
       setCurrentDateState(latestDate);
       navigate(latestDate.YMD.replaceAll('-', '/')); // if currentDate changes, go to the new date
       setTodayVisited(latestDate.YMD); // if currentDate changes, update todayVisited entry, so that url is changeable
-  }
     }
+  }, [currentDate, navigate]);
 
   // interval that checks to see if current date has changed
   useEffect(() => {
@@ -45,7 +45,7 @@ const CurrentDateProvider = ({ children }) => {
     const intervalID = setInterval(refreshCurrentDate, 3e3);
     // clean-up: clear the previous refresher, so that there's 1 refresher at a time
     return clearInterval.bind(globalThis, intervalID);
-  }, [currentDate]);
+  }, [refreshCurrentDate]);
 
   return (<currentDateContext.Provider value={ currentDate }>
     { children }
