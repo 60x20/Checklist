@@ -275,8 +275,9 @@ const TodoState = ({ todoValue, todoType, updateTodoCheckedHandler, updateTodoVa
 
 const TodoHelpers = ({ todoId, updateTodoStringHandler, todoType, updateTodoTypeHandler, removeFromTodoHandler, closeHelperMenu, helperMenuClosersRef }) => {
   useEffect(() => { // store the helperMenu closer in ref, will be used to close all at once
-    helperMenuClosersRef.current[todoId] = closeHelperMenu;
-    return () => { delete helperMenuClosersRef.current[todoId]; };
+    const helperMenuClosers = helperMenuClosersRef.current;
+    helperMenuClosers[todoId] = closeHelperMenu;
+    return () => { delete helperMenuClosers[todoId]; };
   }, [closeHelperMenu, helperMenuClosersRef, todoId]);
 
   const [frequencyMenuState, setFrequencyMenuState] = useState(false);
