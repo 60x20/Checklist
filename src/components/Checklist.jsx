@@ -1,4 +1,4 @@
-import { memo, useContext, useEffect, useImperativeHandle, useLayoutEffect, useMemo, useReducer, useRef, useState } from "react";
+import { memo, useCallback, useContext, useEffect, useImperativeHandle, useLayoutEffect, useMemo, useReducer, useRef, useState } from "react";
 
 // font awesome
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -151,9 +151,7 @@ const Todo = memo(({ updateCurrentTodoData, day, month, year, unitsAsInt, todoId
   function toggleHelperState() {
     setHelperState(!helperState);
   }
-  function closeHelperMenu() {
-    setHelperState(false);
-  }
+  const closeHelperMenu = useCallback(() => setHelperState(false), []); // memoized since used as a dependency
   const { helpers: { focusOnCreateTodo } } = useContext(refContext);
   function focusOnCurrentMenuToggler() {
     const currentTodo = todoRef.current;
@@ -277,9 +275,9 @@ const TodoState = ({ todoValue, todoType, updateTodoCheckedHandler, updateTodoVa
 
 const TodoHelpers = ({ todoId, updateTodoStringHandler, todoType, updateTodoTypeHandler, removeFromTodoHandler, closeHelperMenu, helperMenuClosersRef }) => {
   useEffect(() => { // store the helperMenu closer in ref, will be used to close all at once
-    helperMenuClosersRef.current[todoId] = closeHelperMenu; // since always set to false, old func with old scope is ok to use
+    helperMenuClosersRef.current[todoId] = closeHelperMenu;
     return () => { delete helperMenuClosersRef.current[todoId]; };
-  }, [])
+  }, [closeHelperMenu, helperMenuClosersRef, todoId]);
 
   const [frequencyMenuState, setFrequencyMenuState] = useState(false);
   function toggleFrequencyMenuState() {
