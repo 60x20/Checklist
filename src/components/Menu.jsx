@@ -71,7 +71,7 @@ const Menu = ({ closeTheMenu }) => {
     // keydown used instead of keyup, so that when a browser popup closed with esc, menu won't close
     document.addEventListener('keydown', closeMenuHandler);
     return () => document.removeEventListener('keydown', closeMenuHandler);
-  }, []);
+  }, [closeTheMenu, focusOnMenuToggler]);
 
   const navigate = useNavigate();
   // throttling, otherwise performance issues might occur
