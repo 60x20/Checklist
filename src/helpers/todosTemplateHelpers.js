@@ -1,13 +1,12 @@
 // todosTemplate: todos that used lastly, used as a template for vacant dates
 
 // todosTemplate cached to avoid unnecessary parsing
-export const todosTemplate = {};
-todosTemplate.cache = returnTodosTemplate();
+export let cachedTodosTemplate = returnTodosTemplate();
 
 function setTodosTemplate(ObjectOfIds) {
   localStorage.setItem('todos-template', JSON.stringify(ObjectOfIds));
 
-  todosTemplate.cache = ObjectOfIds; // keeping cached version in sync
+  cachedTodosTemplate = ObjectOfIds; // keeping cached version in sync
 }
 
 export function validateTodosTemplate() {
@@ -59,5 +58,5 @@ export function removeFromTodosTemplate(idToRemove) {
 }
 
 export function isTodoInTodosTemplate(todoId) {
-  return todoId in todosTemplate.cache;
+  return todoId in cachedTodosTemplate;
 }

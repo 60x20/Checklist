@@ -13,8 +13,8 @@ import { todayClearedContext } from "../providers/TodayClearedProvider";
 import { focusFromRef, focusOnFirstItemFromRef, refContext } from "../providers/RefProvider";
 
 // helpers
-import { todosTemplate, addToTodosTemplate, removeFromTodosTemplate, updateTypeOnTodosTemplate, isTodoInTodosTemplate, frequencyNever, updateFrequencyOnTodosTemplate } from "../helpers/todosTemplateHelpers";
 import { allTodos, addToAllTodos, updateTodoString } from "../helpers/allTodosHelpers";
+import { cachedTodosTemplate, addToTodosTemplate, removeFromTodosTemplate, updateTypeOnTodosTemplate, isTodoInTodosTemplate, frequencyNever, updateFrequencyOnTodosTemplate } from "../helpers/todosTemplateHelpers";
 import { returnTodoData, validateTodoData, addToTodoData, removeFromTodoData, updateTodoValue, updateTodoType } from "../helpers/todoDataHelpers";
 import { dayMonthTruncFormatter, returnWeekday, returnWeekdayFromSunday, weekdayDayMonthFormatter } from "../helpers/validateUnitsFromDate";
 import { shouldUseAutoFocus } from "../helpers/keyboardDetection";
@@ -333,7 +333,7 @@ const TodoHelpers = ({ todoId, updateTodoStringHandler, todoType, updateTodoType
 
 const FrequencyMenu = ({ todoId, closeFrequencyMenu, frequencyMenuButtonRef, focusOnFrequencyMenuButton, todoType }) => {
   const [frequencyState, setFrequencyState] = useState(() => isTodoInTodosTemplate(todoId)
-    ? todosTemplate.cache[todoId].frequency
+    ? cachedTodosTemplate[todoId].frequency
     : frequencyNever
   );
 
