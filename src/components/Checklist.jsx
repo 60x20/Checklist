@@ -284,9 +284,7 @@ const TodoHelpers = ({ todoId, updateTodoStringHandler, todoType, updateTodoType
   function toggleFrequencyMenuState() {
     setFrequencyMenuState(!frequencyMenuState);
   }
-  function closeFrequencyMenu() {
-    setFrequencyMenuState(false);
-  }
+  const closeFrequencyMenu = useCallback(() => setFrequencyMenuState(false), []);
 
   const frequencyMenuButtonRef = useRef();
   function focusOnFrequencyMenuButton() {
@@ -369,7 +367,7 @@ const FrequencyMenu = ({ todoId, closeFrequencyMenu, frequencyMenuButtonRef, foc
 
     document.addEventListener('focusout', closeFrequencyMenuOnFocusOutHandler);
     return () => document.removeEventListener('focusout', closeFrequencyMenuOnFocusOutHandler);
-  }, [])
+  }, [frequencyMenuRef, closeFrequencyMenu, frequencyMenuButtonRef])
 
   // placement
   const {refs: { footerRef }} = useContext(refContext);
