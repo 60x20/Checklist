@@ -13,8 +13,8 @@ import { todayClearedContext } from "../providers/TodayClearedProvider";
 import { focusFromRef, focusOnFirstItemFromRef, refContext } from "../providers/RefProvider";
 
 // helpers
-import { allTodos, addToAllTodos, updateTodoString } from "../helpers/allTodosHelpers";
 import { cachedTodosTemplate, addToTodosTemplate, removeFromTodosTemplate, updateTypeOnTodosTemplate, isTodoInTodosTemplate, frequencyNever, updateFrequencyOnTodosTemplate } from "../helpers/todosTemplateHelpers";
+import { cachedAllTodos, addToAllTodos, updateTodoString } from "../helpers/allTodosHelpers";
 import { returnTodoData, validateTodoData, addToTodoData, removeFromTodoData, updateTodoValue, updateTodoType } from "../helpers/todoDataHelpers";
 import { dayMonthTruncFormatter, returnWeekday, returnWeekdayFromSunday, weekdayDayMonthFormatter } from "../helpers/validateUnitsFromDate";
 import { shouldUseAutoFocus } from "../helpers/keyboardDetection";
@@ -173,7 +173,7 @@ const Todo = memo(({ updateCurrentTodoData, day, month, year, unitsAsInt, todoId
   const [todoType, setTodoType] = useState(cachedTodoData.current[todoId].type);
 
   // todo description (allTodos[todoId]) locally managed
-  const [todoDescription, setTodoDescription] = useState(allTodos.cache[todoId]);
+  const [todoDescription, setTodoDescription] = useState(cachedAllTodos[todoId]);
 
   // currentTodoData should be in sync with localStorage entry
   function removeFromCurrentTodoDataAndSync() {
