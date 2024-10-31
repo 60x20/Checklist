@@ -27,9 +27,9 @@ export function addToAllTodos(todoDescription, todoType = 'checkbox') {
   return localAllTodos.length - 1; // returns the ID assigned to todoDescription
 }
 
-export function updateTodoString(id, todoString) {
+export function updateTodoDescription(id, todoDescription) {
   const localAllTodos = returnAllTodos();
-  localAllTodos[id] = todoString;
+  localAllTodos[id].description = todoDescription;
   setAllTodos(localAllTodos);
 }
 
