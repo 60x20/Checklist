@@ -59,12 +59,6 @@ export function updateTodoValue(todoId, year, month, day, value) {
   setYearEntry(year, yearEntry);
 }
 
-export function updateTodoType(todoId, year, month, day, type) {
-  const yearEntry = returnYearEntry(year);
-  yearEntry[month][day][todoId].type = type;
-  setYearEntry(year, yearEntry);
-}
-
 export function resetTodoData(year, month, day) {
   const yearEntry = returnYearEntry(year);
   yearEntry[month][day] = {};
