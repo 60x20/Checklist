@@ -9,7 +9,7 @@ import { requestedDateValidatedContext } from "../providers/RequestedDateValidat
 import { focusOnFirstItemFromRef, focusOnLastItemFromRef, refContext } from "../providers/RefProvider";
 
 // helpers
-import resetAllData from "../helpers/resetAllData";
+import { confirmToResetAllData } from "../helpers/resetAllData";
 import { returnDateFromToday } from "../helpers/returnCurrentDate";
 import { resetTodoData } from "../helpers/todoDataHelpers";
 import { dayMonthYearTruncFormatter } from "../helpers/validateUnitsFromDate";
@@ -88,12 +88,11 @@ const Menu = ({ closeTheMenu }) => {
   }
   
   function resetAllDataHandler() {
-    const confirmed = window.confirm('Are you sure you want to permanently delete all your data? This action cannot be undone.');
-    if (!confirmed) return;
-    resetAllData();
-    increaseAllDataCleared(); // informing checklist that data is reset, allowing it to clean-up (otherwise old data will be seen)
-
-    focusOnCreateTodoAndCloseTheMenu();
+    if (confirmToResetAllData()) {
+      increaseAllDataCleared(); // informing checklist that data is reset, allowing it to clean-up (otherwise old data will be seen)
+  
+      focusOnCreateTodoAndCloseTheMenu();
+    }
   }
   function resetCurrentDayHandler() {
     resetTodoData(...unitsAsInt);
