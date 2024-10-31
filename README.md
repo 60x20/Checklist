@@ -20,6 +20,7 @@ A checklist application that auto refreshes everyday, and saves previous checkli
 - [x] Localized state
 - [x] Different input types (besides Checkboxes)
 - [x] Allow customizing days of the week
+- [ ] Different types of visualization
 - [ ] Drag and Drop
 - [ ] Export/Import data
 - [ ] Saving data to cloud instead of device storage
