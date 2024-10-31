@@ -24,8 +24,7 @@ export function addToAllTodos(todoString) {
   const localAllTodos = returnAllTodos();
   localAllTodos.push(todoString);
   setAllTodos(localAllTodos);
-  // returns the ID assigned to todoString
-  return localAllTodos.length - 1;
+  return localAllTodos.length - 1; // returns the ID assigned to todoString
 }
 
 export function updateTodoString(id, todoString) {
