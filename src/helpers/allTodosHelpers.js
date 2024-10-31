@@ -1,13 +1,13 @@
-// All ToDos: binds todo string to unique ids, used to access todo strings
+// All Todos: binds todo data to unique ids, used to access todo data
 
 // allTodos cached to avoid unnecessary parsing, hence faster
 export let cachedAllTodos = returnAllTodos();
 
-function setAllTodos(arrayOfTodoStrings) {
-  // array indexes are used as references to ToDos, so indexes MUST NOT change
-  localStorage.setItem('todos', JSON.stringify(arrayOfTodoStrings));
+function setAllTodos(arrayOfTodoDatas) {
+  // array indexes are used as references to Todos, so indexes MUST NOT change
+  localStorage.setItem('todos', JSON.stringify(arrayOfTodoDatas));
 
-  cachedAllTodos = arrayOfTodoStrings; // keeping cached version in sync
+  cachedAllTodos = arrayOfTodoDatas; // keeping cached version in sync
 }
 
 export function validateAllTodos() {
@@ -24,7 +24,7 @@ export function addToAllTodos(todoDescription, todoType = 'checkbox') {
   const localAllTodos = returnAllTodos();
   localAllTodos.push({ description: todoDescription, type: todoType });
   setAllTodos(localAllTodos);
-  return localAllTodos.length - 1; // returns the ID assigned to todoString
+  return localAllTodos.length - 1; // returns the ID assigned to todoDescription
 }
 
 export function updateTodoString(id, todoString) {
