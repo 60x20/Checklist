@@ -325,7 +325,7 @@ const TodoHelpers = ({ todoId, updateTodoDescriptionHandler, todoType, updateTod
   </div>);
 };
 
-const FrequencyMenu = ({ todoId, closeFrequencyMenu, frequencyMenuButtonRef, focusOnFrequencyMenuButton, todoType }) => {
+const FrequencyMenu = ({ todoId, closeFrequencyMenu, frequencyMenuButtonRef, focusOnFrequencyMenuButton }) => {
   const [frequencyState, setFrequencyState] = useState(() => isTodoInTodosTemplate(todoId)
     ? cachedTodosTemplate[todoId].frequency
     : frequencyNever
@@ -334,7 +334,7 @@ const FrequencyMenu = ({ todoId, closeFrequencyMenu, frequencyMenuButtonRef, foc
   function changeAndSyncFrequency(frequency) {
     if (isArrTruthy(frequency)) { // frequency isn't never
       if (isTodoInTodosTemplate(todoId)) updateFrequencyOnTodosTemplate(todoId, frequency); // if it exists just update it
-      else addToTodosTemplate(todoId, todoType, frequency); // if it doesn't exist already, add it
+      else addToTodosTemplate(todoId, frequency); // if it doesn't exist already, add it
     } else removeFromTodosTemplate(todoId); // remove it if it's never ([0, 0, 0, 0, 0, 0, 0])
 
     setFrequencyState(frequency);
