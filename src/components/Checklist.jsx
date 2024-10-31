@@ -13,9 +13,9 @@ import { todayClearedContext } from "../providers/TodayClearedProvider";
 import { focusFromRef, focusOnFirstItemFromRef, refContext } from "../providers/RefProvider";
 
 // helpers
-import { returnTodoData, validateTodoData, addToTodoData, removeFromTodoData, updateTodoValue, updateTodoType } from "../helpers/todoDataHelpers";
 import { cachedTodosTemplate, addToTodosTemplate, removeFromTodosTemplate, isTodoInTodosTemplate, frequencyNever, updateFrequencyOnTodosTemplate } from "../helpers/todosTemplateHelpers";
-import { cachedAllTodos, addToAllTodos, updateTodoDescription } from "../helpers/allTodosHelpers";
+import { cachedAllTodos, addToAllTodos, updateTodoDescription, updateTodoType } from "../helpers/allTodosHelpers";
+import { returnTodoData, validateTodoData, addToTodoData, removeFromTodoData, updateTodoValue } from "../helpers/todoDataHelpers";
 import { dayMonthTruncFormatter, returnWeekday, returnWeekdayFromSunday, weekdayDayMonthFormatter } from "../helpers/validateUnitsFromDate";
 import { shouldUseAutoFocus } from "../helpers/keyboardDetection";
 import { capitalizeString, isArrTruthy } from "../helpers/utils";
