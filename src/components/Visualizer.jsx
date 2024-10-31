@@ -72,11 +72,9 @@ export const MonthVisualizer = () => {
             return `${amountOfCheckedTodos}/${amountOfTodos}`;
           })() }</p>
           <ul>{ Object.entries(dayData).map(([todoId, { value, type }]) => (
-            <li key={todoId}
-              { ...(type === 'checkbox' ? {className: value ? 'checked' : 'unchecked'} : {}) }
-            >
+            <li key={todoId}>
               { type === 'checkbox'
-                ? <FontAwesomeIcon icon={value ? faCheck : faXmark} />
+                ? <FontAwesomeIcon icon={value ? faCheck : faXmark} className={value ? 'checked' : 'unchecked'} />
                 : <span>{truncateString(value)}</span>
               }
             </li>
