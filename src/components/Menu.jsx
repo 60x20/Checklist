@@ -114,7 +114,7 @@ const Menu = ({ closeTheMenu }) => {
   const prevDates = [];
   const prevDayAmount = 3;
   prevDates.length = prevDayAmount + 1; // 1 for today
-  prevDates.fill(''); // if they're empty, map will skip them 
+  prevDates.fill(''); // if they're empty, .map() will skip them 
 
   return ( // tabindex to make it focusable, so that when it's clicked it's not the body who gets the focus
   // otherwise handler to close the menu would kick in
