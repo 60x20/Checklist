@@ -81,8 +81,8 @@ const CreateTodo = memo(({ unitsAsInt, year, month, day, refForUpdateCurrentTodo
     e.preventDefault();
     const submittedFormData = new FormData(e.currentTarget);
     const formDataReadable = Object.fromEntries(submittedFormData.entries());
-    const todoString = String(formDataReadable.todoName);
     const idAssigned = addToAllTodos(todoString); // should be in sync with localStorage entry
+    const todoDescription = String(formDataReadable['todo-description']);
     if (isToday) addToTodosTemplate(idAssigned); // if it's today add it to the template
     addToCurrentTodoDataAndSync(idAssigned);
 
@@ -91,7 +91,7 @@ const CreateTodo = memo(({ unitsAsInt, year, month, day, refForUpdateCurrentTodo
 
   return (<form onSubmit={createTodoHandler}>
     {/* create-todo gets focus, shouldn't be re-created (keys shouldn't be used here) */}
-    <input autoFocus={shouldUseAutoFocus} id="create-todo" ref={createTodoRef} type="text" name="todoName" required
+    <input autoFocus={shouldUseAutoFocus} id="create-todo" ref={createTodoRef} type="text" name="todo-description" required
       title="task to add"
       autoComplete="off"
     />
@@ -228,8 +228,8 @@ const Todo = memo(({ updateCurrentTodoData, day, month, year, unitsAsInt, todoId
     e.preventDefault();
     const submittedFormData = new FormData(e.currentTarget);
     const formDataReadable = Object.fromEntries(submittedFormData.entries());
-    const todoString = String(formDataReadable.todoName);
     updateTodoStringAndSync(todoString);
+    const todoDescription = String(formDataReadable['todo-description']);
     
     closeHelperMenu(); // close the helper menu
     focusOnCurrentMenuToggler(); // move focus to the current todoToggler
@@ -295,7 +295,7 @@ const TodoHelpers = ({ todoId, updateTodoStringHandler, todoType, updateTodoType
   return (<div className="row-container helpers" role="menu" aria-orientation="horizontal">
     <form onSubmit={updateTodoStringHandler}>
       {/* focus on first focusable item when mounts */}
-      <input autoFocus type="text" name="todoName" required 
+      <input autoFocus type="text" name="todo-description" required 
         title="new task description"
       />
       <button>update todo</button>
