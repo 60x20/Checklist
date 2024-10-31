@@ -192,6 +192,10 @@ main {
   h1 {
     font-size: 1.25em;
   }
+
+  * {
+    margin: 0; /* padding used, margin unnecessary */
+  }
 }
 
 #checklist {
@@ -323,12 +327,6 @@ main {
   }
   .unchecked {
     color: red;
-  }
-}
-
-#home {
-  * {
-    margin: 0; /* padding used, margin unnecessary */
   }
 }
 
