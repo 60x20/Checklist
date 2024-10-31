@@ -59,12 +59,12 @@ export const MonthVisualizer = () => {
       // there are vacant indexes, so that days and indexes match
       if (dayData) {
         const dayAsString = String(day).padStart(2, '0');
+        const dayTodoData = Object.entries(dayData);
         return (<article key={day} className="day">
           <h3 className="styled-as-p">
             day: <time dateTime={`${extractedYear}-${extractedMonth}-${dayAsString}`}>{dayAsString}</time>
           </h3>
           <p>completion: { (() => {
-            const dayTodoData = Object.entries(dayData);
             const dayCheckboxData = dayTodoData.filter(([todoId]) => cachedAllTodos[todoId].type === 'checkbox');
             const dayCheckedData = dayCheckboxData.map(([, todoData]) => todoData.value);
             const amountOfTodos = dayCheckedData.length;
@@ -72,7 +72,7 @@ export const MonthVisualizer = () => {
             for (const checked of dayCheckedData) if (checked) amountOfCheckedTodos++;
             return `${amountOfCheckedTodos}/${amountOfTodos}`;
           })() }</p>
-          <ul>{ Object.entries(dayData).map(([todoId, { value }]) => (
+          <ul>{ dayTodoData.map(([todoId, { value }]) => (
             <li key={todoId}>
               { cachedAllTodos[todoId].type === 'checkbox'
                 ? <FontAwesomeIcon icon={value ? faCheck : faXmark} className={value ? 'checked' : 'unchecked'} />
