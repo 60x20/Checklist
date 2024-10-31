@@ -166,12 +166,10 @@ const Todo = memo(({ updateCurrentTodoData, day, month, year, unitsAsInt, todoId
     focusOnCreateTodo(); // last resort
   }
 
-  // todo value and type locally managed
-  const [todoValue, setTodoValue] = useState(cachedTodoData.current[todoId].value);
-
-  // todo description (allTodos[todoId]) locally managed
-  const [todoDescription, setTodoDescription] = useState(cachedAllTodos[todoId]);
+  // todo value, type and description locally managed
+  const [todoValue, setTodoValue] = useState(cachedTodoData.current[todoId].value); 
   const [todoType, setTodoType] = useState(cachedAllTodos[todoId].type);
+  const [todoDescription, setTodoDescription] = useState(cachedAllTodos[todoId].description);
 
   // currentTodoData should be in sync with localStorage entry
   function removeFromCurrentTodoDataAndSync() {
