@@ -10,6 +10,7 @@ import { returnAllYears } from "../helpers/allYearsHelpers";
 import { extractYear, extractMonth, validateDate, monthFormatter, monthYearTruncFormatter } from "../helpers/validateUnitsFromDate";
 import { returnYearEntry } from "../helpers/todoDataHelpers";
 import { truncateString } from "../helpers/utils";
+import { cachedAllTodos } from "../helpers/allTodosHelpers";
 
 // contexts
 import { allDataClearedContext } from "../providers/AllDataClearedProvider";
@@ -63,17 +64,17 @@ export const MonthVisualizer = () => {
             day: <time dateTime={`${extractedYear}-${extractedMonth}-${dayAsString}`}>{dayAsString}</time>
           </h3>
           <p>completion: { (() => {
-            const dayTodoData = Object.values(dayData);
-            const dayCheckboxData = dayTodoData.filter((todo) => todo.type === 'checkbox');
-            const dayCheckedData = dayCheckboxData.map((todo) => todo.value);
+            const dayTodoData = Object.entries(dayData);
+            const dayCheckboxData = dayTodoData.filter(([todoId]) => cachedAllTodos[todoId].type === 'checkbox');
+            const dayCheckedData = dayCheckboxData.map(([, todoData]) => todoData.value);
             const amountOfTodos = dayCheckedData.length;
             let amountOfCheckedTodos = 0;
             for (const checked of dayCheckedData) if (checked) amountOfCheckedTodos++;
             return `${amountOfCheckedTodos}/${amountOfTodos}`;
           })() }</p>
-          <ul>{ Object.entries(dayData).map(([todoId, { value, type }]) => (
+          <ul>{ Object.entries(dayData).map(([todoId, { value }]) => (
             <li key={todoId}>
-              { type === 'checkbox'
+              { cachedAllTodos[todoId].type === 'checkbox'
                 ? <FontAwesomeIcon icon={value ? faCheck : faXmark} className={value ? 'checked' : 'unchecked'} />
                 : <span>{truncateString(value)}</span>
               }
