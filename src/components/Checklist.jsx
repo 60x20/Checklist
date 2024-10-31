@@ -192,7 +192,7 @@ const Todo = memo(({ updateCurrentTodoData, day, month, year, unitsAsInt, todoId
   }
   // for performance optimization, todoType locally managed
   function updateAndSyncTodoType(type) {
-    updateTodoType(todoId, ...unitsAsInt, type);
+    updateTodoType(todoId, type);
     setTodoType(type);
   }
 
