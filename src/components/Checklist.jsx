@@ -13,9 +13,9 @@ import { todayClearedContext } from "../providers/TodayClearedProvider";
 import { focusFromRef, focusOnFirstItemFromRef, refContext } from "../providers/RefProvider";
 
 // helpers
-import { cachedAllTodos, addToAllTodos, updateTodoString } from "../helpers/allTodosHelpers";
 import { returnTodoData, validateTodoData, addToTodoData, removeFromTodoData, updateTodoValue, updateTodoType } from "../helpers/todoDataHelpers";
 import { cachedTodosTemplate, addToTodosTemplate, removeFromTodosTemplate, isTodoInTodosTemplate, frequencyNever, updateFrequencyOnTodosTemplate } from "../helpers/todosTemplateHelpers";
+import { cachedAllTodos, addToAllTodos, updateTodoDescription } from "../helpers/allTodosHelpers";
 import { dayMonthTruncFormatter, returnWeekday, returnWeekdayFromSunday, weekdayDayMonthFormatter } from "../helpers/validateUnitsFromDate";
 import { shouldUseAutoFocus } from "../helpers/keyboardDetection";
 import { capitalizeString, isArrTruthy } from "../helpers/utils";
@@ -181,8 +181,8 @@ const Todo = memo(({ updateCurrentTodoData, day, month, year, unitsAsInt, todoId
 
   // todoDescription should be in sync with localStorage entry
   function updateTodoStringAndSync(todoString) {
-    updateTodoString(todoId, todoString);
     setTodoDescription(todoString);
+    updateTodoDescription(todoId, todoDescription);
   }
   // for performance optimization, todoValue locally managed, hence only in sync with localStorage (not with currentTodoData)
   function updateAndSyncTodoValue(value) {
