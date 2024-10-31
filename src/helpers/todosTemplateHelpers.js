@@ -39,12 +39,6 @@ export function addToTodosTemplate(id, frequency = frequencyEveryDay) {
   setTodosTemplate(localTodosTemplate);
 }
 
-export function updateTypeOnTodosTemplate(id, type) {
-  const localTodosTemplate = returnTodosTemplate();
-  localTodosTemplate[id].type = type;
-  setTodosTemplate(localTodosTemplate);
-}
-
 export function updateFrequencyOnTodosTemplate(id, frequency) {
   const localTodosTemplate = returnTodosTemplate();
   localTodosTemplate[id].frequency = frequency;

@@ -13,9 +13,9 @@ import { todayClearedContext } from "../providers/TodayClearedProvider";
 import { focusFromRef, focusOnFirstItemFromRef, refContext } from "../providers/RefProvider";
 
 // helpers
-import { cachedTodosTemplate, addToTodosTemplate, removeFromTodosTemplate, updateTypeOnTodosTemplate, isTodoInTodosTemplate, frequencyNever, updateFrequencyOnTodosTemplate } from "../helpers/todosTemplateHelpers";
 import { cachedAllTodos, addToAllTodos, updateTodoString } from "../helpers/allTodosHelpers";
 import { returnTodoData, validateTodoData, addToTodoData, removeFromTodoData, updateTodoValue, updateTodoType } from "../helpers/todoDataHelpers";
+import { cachedTodosTemplate, addToTodosTemplate, removeFromTodosTemplate, isTodoInTodosTemplate, frequencyNever, updateFrequencyOnTodosTemplate } from "../helpers/todosTemplateHelpers";
 import { dayMonthTruncFormatter, returnWeekday, returnWeekdayFromSunday, weekdayDayMonthFormatter } from "../helpers/validateUnitsFromDate";
 import { shouldUseAutoFocus } from "../helpers/keyboardDetection";
 import { capitalizeString, isArrTruthy } from "../helpers/utils";
@@ -217,7 +217,6 @@ const Todo = memo(({ updateCurrentTodoData, day, month, year, unitsAsInt, todoId
   }
   function updateTodoTypeHandler(e) {
     const newType = e.currentTarget.selectedOptions[0].value;
-    if (isTodoInTodosTemplate(todoId)) updateTypeOnTodosTemplate(todoId, newType); // template should adapt if it's there
     updateAndSyncTodoType(newType);
 
     resetAndSyncTodoValue(); // it's reset so that old value doesn't appear (otherwise checkbox => text: innerText === 1)
