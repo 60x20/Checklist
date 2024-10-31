@@ -81,8 +81,8 @@ const CreateTodo = memo(({ unitsAsInt, year, month, day, refForUpdateCurrentTodo
     e.preventDefault();
     const submittedFormData = new FormData(e.currentTarget);
     const formDataReadable = Object.fromEntries(submittedFormData.entries());
-    const idAssigned = addToAllTodos(todoString); // should be in sync with localStorage entry
     const todoDescription = String(formDataReadable['todo-description']);
+    const idAssigned = addToAllTodos(todoDescription); // should be in sync with localStorage entry
     if (isToday) addToTodosTemplate(idAssigned); // if it's today add it to the template
     addToCurrentTodoDataAndSync(idAssigned);
 
@@ -180,9 +180,9 @@ const Todo = memo(({ updateCurrentTodoData, day, month, year, unitsAsInt, todoId
   }
 
   // todoDescription should be in sync with localStorage entry
-  function updateTodoStringAndSync(todoString) {
-    setTodoDescription(todoString);
+  function updateTodoDescriptionAndSync(todoDescription) {
     updateTodoDescription(todoId, todoDescription);
+    setTodoDescription(todoDescription);
   }
   // for performance optimization, todoValue locally managed, hence only in sync with localStorage (not with currentTodoData)
   function updateAndSyncTodoValue(value) {
@@ -224,12 +224,12 @@ const Todo = memo(({ updateCurrentTodoData, day, month, year, unitsAsInt, todoId
     closeHelperMenu(); // close the helper menu
     focusOnCurrentMenuToggler(); // move focus to the current todoToggler
   }
-  function updateTodoStringHandler(e) {
+  function updateTodoDescriptionHandler(e) {
     e.preventDefault();
     const submittedFormData = new FormData(e.currentTarget);
     const formDataReadable = Object.fromEntries(submittedFormData.entries());
-    updateTodoStringAndSync(todoString);
     const todoDescription = String(formDataReadable['todo-description']);
+    updateTodoDescriptionAndSync(todoDescription);
     
     closeHelperMenu(); // close the helper menu
     focusOnCurrentMenuToggler(); // move focus to the current todoToggler
@@ -253,7 +253,7 @@ const Todo = memo(({ updateCurrentTodoData, day, month, year, unitsAsInt, todoId
       </div>
     </div>
     { helperState ?
-    <TodoHelpers { ...{todoId, updateTodoStringHandler, todoType, updateTodoTypeHandler, removeFromTodoHandler, closeHelperMenu, helperMenuClosersRef} } />
+    <TodoHelpers { ...{todoId, updateTodoDescriptionHandler, todoType, updateTodoTypeHandler, removeFromTodoHandler, closeHelperMenu, helperMenuClosersRef} } />
     : false }
   </li>);
 });
@@ -272,7 +272,7 @@ const TodoState = ({ todoValue, todoType, updateTodoCheckedHandler, updateTodoVa
   />);
 };
 
-const TodoHelpers = ({ todoId, updateTodoStringHandler, todoType, updateTodoTypeHandler, removeFromTodoHandler, closeHelperMenu, helperMenuClosersRef }) => {
+const TodoHelpers = ({ todoId, updateTodoDescriptionHandler, todoType, updateTodoTypeHandler, removeFromTodoHandler, closeHelperMenu, helperMenuClosersRef }) => {
   useEffect(() => { // store the helperMenu closer in ref, will be used to close all at once
     const helperMenuClosers = helperMenuClosersRef.current;
     helperMenuClosers[todoId] = closeHelperMenu;
@@ -293,7 +293,7 @@ const TodoHelpers = ({ todoId, updateTodoStringHandler, todoType, updateTodoType
   // when any of the helpers are used, helper menu should be closed
   // focus should be managed when menu closes or opens
   return (<div className="row-container helpers" role="menu" aria-orientation="horizontal">
-    <form onSubmit={updateTodoStringHandler}>
+    <form onSubmit={updateTodoDescriptionHandler}>
       {/* focus on first focusable item when mounts */}
       <input autoFocus type="text" name="todo-description" required 
         title="new task description"
