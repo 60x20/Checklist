@@ -180,7 +180,7 @@ main {
 }
 
 /* hero section */
-#checklist, #visualizer, #home {
+#checklist, #visualizer, #home, #data-error {
   width: 90%;
   min-width: min-content; /* if anything overflows, contain them */
   padding: 1rem 0;
