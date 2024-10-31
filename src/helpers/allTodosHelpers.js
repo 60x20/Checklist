@@ -20,9 +20,9 @@ function returnAllTodos() {
   return JSON.parse(localStorage.getItem('todos'));
 }
 
-export function addToAllTodos(todoString) {
+export function addToAllTodos(todoDescription, todoType = 'checkbox') {
   const localAllTodos = returnAllTodos();
-  localAllTodos.push(todoString);
+  localAllTodos.push({ description: todoDescription, type: todoType });
   setAllTodos(localAllTodos);
   return localAllTodos.length - 1; // returns the ID assigned to todoString
 }
