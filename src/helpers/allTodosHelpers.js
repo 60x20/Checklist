@@ -32,3 +32,9 @@ export function updateTodoString(id, todoString) {
   localAllTodos[id] = todoString;
   setAllTodos(localAllTodos);
 }
+
+export function updateTodoType(id, todoType) {
+  const localAllTodos = returnAllTodos();
+  localAllTodos[id].type = todoType;
+  setAllTodos(localAllTodos);
+}
