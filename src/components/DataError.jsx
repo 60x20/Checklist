@@ -1,12 +1,13 @@
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 // helpers
 import { confirmToResetAllData } from "../helpers/resetAllData";
 
 const DataError = () => {
   const navigate = useNavigate();
+  const { pathname } = useLocation();
   function resetAllDataAndNavigateHandler() {
-    if (confirmToResetAllData()) navigate(0); // if reset, then refresh
+    if (confirmToResetAllData()) navigate(pathname); // if reset, then refresh; pathname used over (0) to avoid re-loading
   }
 
   return (<div id="data-error" className="column-container">
