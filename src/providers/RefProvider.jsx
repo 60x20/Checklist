@@ -71,7 +71,7 @@ const RefProvider = ({ children }) => {
       focusOnFirstItemInsideVisualizer,
       focusOnMenuToggler,
     }
-  }
+  };
 
   return (<refContext.Provider value={valueToProvide}>
     {children}
