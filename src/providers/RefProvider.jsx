@@ -1,4 +1,4 @@
-import { createContext, useCallback, useRef } from "react";
+import { createContext, useRef } from "react";
 
 // helpers
 import { shouldUseAutoFocus } from "../helpers/keyboardDetection";
@@ -55,7 +55,9 @@ const RefProvider = ({ children }) => {
   }
 
   const menuTogglerRef = useRef();
-  const focusOnMenuToggler = useCallback(() => focusFromRef(menuTogglerRef), []);
+  function focusOnMenuToggler() {
+    focusFromRef(menuTogglerRef);
+  }
 
   const footerRef = useRef();
 
