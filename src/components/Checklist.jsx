@@ -281,7 +281,7 @@ const TodoHelpers = ({ todoId, updateTodoDescriptionHandler, todoType, updateTod
   function toggleFrequencyMenuState() {
     setFrequencyMenuState(!frequencyMenuState);
   }
-  const closeFrequencyMenu = useCallback(() => setFrequencyMenuState(false), []);
+  const closeFrequencyMenu = useCallback(() => setFrequencyMenuState(false), []); // memoized to avoid unnecessary re-attaching
 
   const frequencyMenuButtonRef = useRef();
   function focusOnFrequencyMenuButton() {

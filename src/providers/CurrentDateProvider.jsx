@@ -29,7 +29,7 @@ const CurrentDateProvider = ({ children }) => {
   const navigate = useNavigate();
 
   const [currentDate, setCurrentDateState] = useState(returnCurrentDate);
-  const refreshCurrentDate = useCallback(() => {
+  const refreshCurrentDate = useCallback(() => { // memoized to avoid unnecessary re-attaching
     const latestDate = returnCurrentDate();
     // since returnCurrentDate returns an object, validation is done manually
     if (latestDate.YMD !== currentDate.YMD) {
