@@ -3,7 +3,7 @@
 // todosTemplate cached to avoid unnecessary parsing
 export let cachedTodosTemplate = returnTodosTemplate();
 
-function setTodosTemplate(ObjectOfIds) {
+function updateTodosTemplate(ObjectOfIds) {
   localStorage.setItem('todos-template', JSON.stringify(ObjectOfIds));
 
   cachedTodosTemplate = ObjectOfIds; // keeping cached version in sync
@@ -11,7 +11,7 @@ function setTodosTemplate(ObjectOfIds) {
 
 export function validateTodosTemplate() {
   if (!localStorage.getItem('todos-template')) {
-    setTodosTemplate({});
+    updateTodosTemplate({});
   }
 }
 
@@ -36,19 +36,19 @@ export const frequencyNever = [0, 0, 0, 0, 0, 0, 0];
 export function addToTodosTemplate(id, frequency = frequencyEveryDay) {
   const localTodosTemplate = returnTodosTemplate();
   localTodosTemplate[id] = { value: '', frequency };
-  setTodosTemplate(localTodosTemplate);
+  updateTodosTemplate(localTodosTemplate);
 }
 
 export function updateFrequencyOnTodosTemplate(id, frequency) {
   const localTodosTemplate = returnTodosTemplate();
   localTodosTemplate[id].frequency = frequency;
-  setTodosTemplate(localTodosTemplate);
+  updateTodosTemplate(localTodosTemplate);
 }
 
 export function removeFromTodosTemplate(idToRemove) {
   const localTodosTemplate = returnTodosTemplate();
   delete localTodosTemplate[idToRemove];
-  setTodosTemplate(localTodosTemplate);
+  updateTodosTemplate(localTodosTemplate);
 }
 
 export function isTodoInTodosTemplate(todoId) {

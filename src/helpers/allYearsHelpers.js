@@ -1,12 +1,12 @@
 // All years: years that have an entry in the local storage
 
-function setAllYears(arrayOfYears) {
+function updateAllYears(arrayOfYears) {
   localStorage.setItem('years', JSON.stringify(arrayOfYears));
 }
 
 export function validateAllYears() {
   if (!returnAllYears()) {
-    setAllYears([]);
+    updateAllYears([]);
   }
 }
 
@@ -17,5 +17,5 @@ export function returnAllYears() {
 export function addToAllYears(year) {
   const allYears = returnAllYears();
   allYears.push(year);
-  setAllYears(allYears);
+  updateAllYears(allYears);
 }

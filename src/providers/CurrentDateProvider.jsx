@@ -7,7 +7,7 @@ import { returnCurrentDate } from "../helpers/returnCurrentDate";
 function getTodayVisited() {
   return JSON.parse(localStorage.getItem('today-visited'));
 }
-function setTodayVisited(newDate) {
+function updateTodayVisited(newDate) {
   // by storing only the current date, instead of all the dates, we're cleaning up
   localStorage.setItem('today-visited', JSON.stringify(newDate));
 }
@@ -18,7 +18,7 @@ export function redirectToCurrentDateLoader() { // when the app renders for the 
   // localStorage preferred over sessionStorage, so that when links opened in new tab, this doesn't trigger
   const currentDate = returnCurrentDate();
   if (getTodayVisited() !== currentDate.YMD) {
-    setTodayVisited(currentDate.YMD);
+    updateTodayVisited(currentDate.YMD);
     return redirect(currentDate.YMD.replaceAll('-', '/'));
   }
   return null;
@@ -35,7 +35,7 @@ const CurrentDateProvider = ({ children }) => {
     if (latestDate.YMD !== currentDate.YMD) {
       setCurrentDateState(latestDate);
       navigate(latestDate.YMD.replaceAll('-', '/')); // if currentDate changes, go to the new date
-      setTodayVisited(latestDate.YMD); // if currentDate changes, update todayVisited entry, so that url is changeable
+      updateTodayVisited(latestDate.YMD); // if currentDate changes, update todayVisited entry, so that url is changeable
     }
   }, [currentDate, navigate]);
 

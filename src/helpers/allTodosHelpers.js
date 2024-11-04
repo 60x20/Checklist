@@ -3,7 +3,7 @@
 // allTodos cached to avoid unnecessary parsing, hence faster
 export let cachedAllTodos = returnAllTodos();
 
-function setAllTodos(arrayOfTodoDatas) {
+function updateAllTodos(arrayOfTodoDatas) {
   // array indexes are used as references to Todos, so indexes MUST NOT change
   localStorage.setItem('todos', JSON.stringify(arrayOfTodoDatas));
 
@@ -12,7 +12,7 @@ function setAllTodos(arrayOfTodoDatas) {
 
 export function validateAllTodos() {
   if (!returnAllTodos()) {
-    setAllTodos([]);
+    updateAllTodos([]);
   }
 }
 
@@ -23,18 +23,18 @@ function returnAllTodos() {
 export function addToAllTodos(todoDescription, todoType = 'checkbox') {
   const localAllTodos = returnAllTodos();
   localAllTodos.push({ description: todoDescription, type: todoType });
-  setAllTodos(localAllTodos);
+  updateAllTodos(localAllTodos);
   return localAllTodos.length - 1; // returns the ID assigned to todoDescription
 }
 
 export function updateTodoDescription(id, todoDescription) {
   const localAllTodos = returnAllTodos();
   localAllTodos[id].description = todoDescription;
-  setAllTodos(localAllTodos);
+  updateAllTodos(localAllTodos);
 }
 
 export function updateTodoType(id, todoType) {
   const localAllTodos = returnAllTodos();
   localAllTodos[id].type = todoType;
-  setAllTodos(localAllTodos);
+  updateAllTodos(localAllTodos);
 }
