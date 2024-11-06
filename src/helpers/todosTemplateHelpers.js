@@ -24,7 +24,7 @@ export function returnTodosTemplateForWeekday(weekday) {
   const todosTemplateForWeekday = {};
   for (const todoId in localTodosTemplate) {
     if (localTodosTemplate[todoId].frequency[weekday]) {
-      delete localTodosTemplate[todoId].frequency; // frequency only stored in todoTemplate entry 
+      delete localTodosTemplate[todoId].frequency; // frequency only stored in todoTemplate entry
       todosTemplateForWeekday[todoId] = localTodosTemplate[todoId];
     }
   }

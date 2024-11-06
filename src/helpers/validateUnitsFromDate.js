@@ -1,4 +1,4 @@
-import { dayInMs } from "./returnCurrentDate";
+import { dayInMs } from './returnCurrentDate';
 
 const weekdayFormatter = createFormatter({ weekday: 'long' });
 export const weekdayDayMonthFormatter = createFormatter({ weekday: 'long', day: 'numeric', month: 'long' });
@@ -28,10 +28,9 @@ export function validateUnitsFromDate({ year, month, day }) {
   const extractedMonth = extractMonth(month);
   const extractedDay = extractDay(day);
   const isValid = validateDate(extractedYear, extractedMonth, extractedDay);
-  return isValid 
+  return isValid
     ? { year: extractedYear, month: extractedMonth, day: extractedDay }
-    : { year: '2000', month: '01', day: '01' }
-  ;
+    : { year: '2000', month: '01', day: '01' };
 }
 
 export function extractYear(year) {
@@ -42,18 +41,12 @@ export function extractYear(year) {
 export function extractMonth(month) {
   const monthRegexResult = month.match(monthRegex)?.[0];
   const extractedMonth = monthRegexResult ? monthRegexResult.padStart(2, '0') : NaN;
-  return extractedMonth >= 1 && extractedMonth <= 12
-    ? extractedMonth
-    : NaN
-  ;
+  return extractedMonth >= 1 && extractedMonth <= 12 ? extractedMonth : NaN;
 }
 export function extractDay(day) {
   const dayRegexResult = day.match(dayRegex)?.[0];
   const extractedDay = dayRegexResult ? dayRegexResult.padStart(2, '0') : NaN;
-  return extractedDay >= 1 && extractedDay <= 31
-    ? extractedDay
-    : NaN
-  ;
+  return extractedDay >= 1 && extractedDay <= 31 ? extractedDay : NaN;
 }
 
 export function validateDate(year = '2000', month = '01', day = '01') {

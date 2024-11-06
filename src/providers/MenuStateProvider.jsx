@@ -1,4 +1,4 @@
-import { createContext, useCallback, useState } from "react";
+import { createContext, useCallback, useState } from 'react';
 
 export const menuStateContext = createContext();
 
@@ -9,9 +9,11 @@ const MenuStateProvider = ({ children }) => {
   }
   const closeTheMenu = useCallback(() => setMenuState(false), []); // memoized to avoid unnecessary re-attaching
 
-  return (<menuStateContext.Provider value={{ menuState, toggleMenuState, closeTheMenu }}>
-    {children}
-  </menuStateContext.Provider>);
+  return (
+    <menuStateContext.Provider value={{ menuState, toggleMenuState, closeTheMenu }}>
+      {children}
+    </menuStateContext.Provider>
+  );
 };
- 
+
 export default MenuStateProvider;

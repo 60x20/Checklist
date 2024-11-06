@@ -1,9 +1,9 @@
-import { createContext, useState, useEffect } from "react";
+import { createContext, useState, useEffect } from 'react';
 
-import { redirect, useNavigate } from "react-router-dom";
+import { redirect, useNavigate } from 'react-router-dom';
 
 // helpers
-import { returnCurrentDate } from "../helpers/returnCurrentDate";
+import { returnCurrentDate } from '../helpers/returnCurrentDate';
 function getTodayVisited() {
   return JSON.parse(localStorage.getItem('today-visited'));
 }
@@ -13,7 +13,8 @@ function updateTodayVisited(newDate) {
 }
 
 // loaders
-export function redirectToCurrentDateLoader() { // when the app renders for the first time, go to current date
+export function redirectToCurrentDateLoader() {
+  // when the app renders for the first time, go to current date
   // do it only once per date, otherwise url won't be changeable
   // localStorage preferred over sessionStorage, so that when links opened in new tab, this doesn't trigger
   const currentDate = returnCurrentDate();
@@ -48,9 +49,7 @@ const CurrentDateProvider = ({ children }) => {
     return () => clearInterval(intervalID);
   }, [currentDate.YMD, navigate]);
 
-  return (<currentDateContext.Provider value={ currentDate }>
-    { children }
-  </currentDateContext.Provider>);
+  return <currentDateContext.Provider value={currentDate}>{children}</currentDateContext.Provider>;
 };
- 
+
 export default CurrentDateProvider;

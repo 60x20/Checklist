@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef } from 'react';
 
 function depsShallowlyEqual(firstDeps, secondDeps) {
   // deps assumed to be arrays of the same length

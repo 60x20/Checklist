@@ -1,7 +1,7 @@
-import { createContext, useRef } from "react";
+import { createContext, useRef } from 'react';
 
 // helpers
-import { shouldUseAutoFocus } from "../helpers/keyboardDetection";
+import { shouldUseAutoFocus } from '../helpers/keyboardDetection';
 
 export const refContext = createContext();
 
@@ -20,7 +20,9 @@ function focusFromEl(el) {
 export function focusFromRef(ref) {
   focusFromEl(ref.current);
 }
-export function refCallbackForFocusOnMount(el) { // preferred over Effect to avoid flickers
+export function refCallbackForFocusOnMount(el) {
+  // preferred over Effect to avoid flickers
+
   // if refCallback isn't re-created, react will avoid re-attaching it; therefore it only runs on mount/unmount, but not re-render
   // since refCallback runs with null on unmount, before you focus make sure it's not null
   focusFromEl(el);
@@ -66,18 +68,16 @@ const RefProvider = ({ children }) => {
       createTodoRef,
       visualizerRef,
       menuTogglerRef,
-      footerRef,
+      footerRef
     },
     helpers: {
       focusOnCreateTodo,
       focusOnFirstItemInsideVisualizer,
-      focusOnMenuToggler,
+      focusOnMenuToggler
     }
   };
 
-  return (<refContext.Provider value={valueToProvide}>
-    {children}
-  </refContext.Provider>);
+  return <refContext.Provider value={valueToProvide}>{children}</refContext.Provider>;
 };
- 
+
 export default RefProvider;

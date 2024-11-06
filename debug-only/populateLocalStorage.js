@@ -5,7 +5,7 @@ function populateDate(population = 1000, year = 2024, month = 1, day = 1) {
   const newDayData = [];
   newDayData.length = population;
   newDayData.fill(0);
-  yearEntry[month][day] = ({...newDayData});
+  yearEntry[month][day] = { ...newDayData };
   localStorage.setItem(year, JSON.stringify(yearEntry));
 }
 

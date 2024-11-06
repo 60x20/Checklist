@@ -1,19 +1,19 @@
-import { Link } from "react-router-dom";
-import { useContext } from "react";
+import { Link } from 'react-router-dom';
+import { useContext } from 'react';
 
 // contexts
-import { currentDateContext } from "../providers/CurrentDateProvider";
-import { refCallbackForFocusOnMount } from "../providers/RefProvider";
+import { currentDateContext } from '../providers/CurrentDateProvider';
+import { refCallbackForFocusOnMount } from '../providers/RefProvider';
 
 // helpers
-import { weekdayDayMonthFormatter } from "../helpers/validateUnitsFromDate";
+import { weekdayDayMonthFormatter } from '../helpers/validateUnitsFromDate';
 
 // custom hooks
-import useDocumentTitle from "../custom-hooks/useDocumentTitle";
+import useDocumentTitle from '../custom-hooks/useDocumentTitle';
 
 const Home = () => {
   const currentDate = useContext(currentDateContext);
-  
+
   useDocumentTitle(undefined, 'Home'); // add to original title
 
   return (<div id="home">

@@ -1,4 +1,15 @@
-import { memo, useCallback, useContext, useEffect, useImperativeHandle, useLayoutEffect, useMemo, useReducer, useRef, useState } from "react";
+import {
+  memo,
+  useCallback,
+  useContext,
+  useEffect,
+  useImperativeHandle,
+  useLayoutEffect,
+  useMemo,
+  useReducer,
+  useRef,
+  useState
+} from 'react';
 
 // font awesome
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -6,22 +17,40 @@ import { faBars, faXmark } from '@fortawesome/free-solid-svg-icons';
 const MemoizedFontAwesomeIcon = memo((props) => <FontAwesomeIcon {...props} />);
 
 // contexts
-import { currentDateContext } from "../providers/CurrentDateProvider";
-import { allDataClearedContext } from "../providers/AllDataClearedProvider";
-import { requestedDateValidatedContext } from "../providers/RequestedDateValidatedProvider";
-import { todayClearedContext } from "../providers/TodayClearedProvider";
-import { focusFromRef, focusOnFirstItemFromRef, refContext } from "../providers/RefProvider";
+import { currentDateContext } from '../providers/CurrentDateProvider';
+import { allDataClearedContext } from '../providers/AllDataClearedProvider';
+import { requestedDateValidatedContext } from '../providers/RequestedDateValidatedProvider';
+import { todayClearedContext } from '../providers/TodayClearedProvider';
+import { focusFromRef, focusOnFirstItemFromRef, refContext } from '../providers/RefProvider';
 
 // helpers
-import { cachedTodosTemplate, addToTodosTemplate, removeFromTodosTemplate, isTodoInTodosTemplate, frequencyNever, updateFrequencyOnTodosTemplate } from "../helpers/todosTemplateHelpers";
-import { cachedAllTodos, addToAllTodos, updateTodoDescription, updateTodoType } from "../helpers/allTodosHelpers";
-import { returnTodoData, validateTodoData, addToTodoData, removeFromTodoData, updateTodoValue } from "../helpers/todoDataHelpers";
-import { dayMonthTruncFormatter, returnWeekday, returnWeekdayFromSunday, weekdayDayMonthFormatter } from "../helpers/validateUnitsFromDate";
-import { shouldUseAutoFocus } from "../helpers/keyboardDetection";
-import { capitalizeString, isArrTruthy } from "../helpers/utils";
+import {
+  cachedTodosTemplate,
+  addToTodosTemplate,
+  removeFromTodosTemplate,
+  isTodoInTodosTemplate,
+  frequencyNever,
+  updateFrequencyOnTodosTemplate
+} from '../helpers/todosTemplateHelpers';
+import { cachedAllTodos, addToAllTodos, updateTodoDescription, updateTodoType } from '../helpers/allTodosHelpers';
+import {
+  returnTodoData,
+  validateTodoData,
+  addToTodoData,
+  removeFromTodoData,
+  updateTodoValue
+} from '../helpers/todoDataHelpers';
+import {
+  dayMonthTruncFormatter,
+  returnWeekday,
+  returnWeekdayFromSunday,
+  weekdayDayMonthFormatter
+} from '../helpers/validateUnitsFromDate';
+import { shouldUseAutoFocus } from '../helpers/keyboardDetection';
+import { capitalizeString, isArrTruthy } from '../helpers/utils';
 
 // custom hooks
-import useDocumentTitle from "../custom-hooks/useDocumentTitle";
+import useDocumentTitle from '../custom-hooks/useDocumentTitle';
 
 const mainTitle = 'Checklist'; // will be put in document.title
 const addSubtitleToDocumentTitle = useDocumentTitle.bind(globalThis, mainTitle);
@@ -37,7 +66,7 @@ const Checklist = () => {
   const unitsAsInt = useMemo(() => [parseInt(year, 10), parseInt(month, 10), parseInt(day, 10)], [day, month, year]); // used as dependency
 
   addSubtitleToDocumentTitle(dayMonthTruncFormatter.format(dateRequested)); // adding date to the title
-  
+
   // for closing all helper menus
   const helperMenuClosersRef = useRef({});
   function closeAllHelpers() {
@@ -47,25 +76,37 @@ const Checklist = () => {
   // updater in Todos passed to its sibling (= CreateTodo) using ref; hoisting avoided since Todos has a special key
   const refForUpdateCurrentTodoData = useRef();
 
-  return (<div id="checklist" className="column-container" tabIndex="-1"
-    // keydown preferred, so that when browser popup gets closed, possible keyUps don't trigger closing
-    onKeyDown={(e) => { if (e.key === 'Escape') closeAllHelpers(); }}
-  >
-    <h1><time dateTime={`${year}-${month}-${day}`}>{weekdayDayMonthFormatter.format(dateRequested)}</time></h1>
-    <CreateTodo { ...{unitsAsInt, year, month, day, refForUpdateCurrentTodoData} } />
-    {/* with key: re-create State / re-use Effect, so that the logic is sequential and race conditions are avoided */}
-    {/* if data is cleared, clean-up and keep the state and localStorage in sync, otherwise old data will be seen */}
-    <Todos key={ [unitsAsInt, allDataCleared, todayCleared].join('-') } 
-      { ...{day, month, year, unitsAsInt, helperMenuClosersRef, refForUpdateCurrentTodoData} }
-    />
-  </div>);
+  return (
+    <div
+      id="checklist"
+      className="column-container"
+      tabIndex="-1"
+      // keydown preferred, so that when browser popup gets closed, possible keyUps don't trigger closing
+      onKeyDown={(e) => {
+        if (e.key === 'Escape') closeAllHelpers();
+      }}
+    >
+      <h1>
+        <time dateTime={`${year}-${month}-${day}`}>{weekdayDayMonthFormatter.format(dateRequested)}</time>
+      </h1>
+      <CreateTodo {...{ unitsAsInt, year, month, day, refForUpdateCurrentTodoData }} />
+      <Todos
+        // with key: re-create State / re-use Effect, so that the logic is sequential and race conditions are avoided
+        // if data is cleared, clean-up and keep the state and localStorage in sync, otherwise old data will be seen
+        key={[unitsAsInt, allDataCleared, todayCleared].join('-')}
+        {...{ day, month, year, unitsAsInt, helperMenuClosersRef, refForUpdateCurrentTodoData }}
+      />
+    </div>
+  );
 };
- 
+
 export default Checklist;
 
 const CreateTodo = memo(({ unitsAsInt, year, month, day, refForUpdateCurrentTodoData }) => {
   // when mounts, focus on the create todo button; button preferred instead of input to avoid virtual keyboard
-  const { refs: { createTodoRef } } = useContext(refContext);
+  const {
+    refs: { createTodoRef }
+  } = useContext(refContext);
 
   const currentDate = useContext(currentDateContext);
   const isToday = currentDate.YMD === [year, month, day].join('-');
@@ -89,14 +130,22 @@ const CreateTodo = memo(({ unitsAsInt, year, month, day, refForUpdateCurrentTodo
     e.currentTarget.reset(); // value is reset on submit to make known value is added
   }
 
-  return (<form onSubmit={createTodoHandler}>
-    {/* create-todo gets focus, shouldn't be re-created (keys shouldn't be used here) */}
-    <input autoFocus={shouldUseAutoFocus} id="create-todo" ref={createTodoRef} type="text" name="todo-description" required
-      title="task to add"
-      autoComplete="off"
-    />
-    <button>create</button>
-  </form>);
+  return (
+    <form onSubmit={createTodoHandler}>
+      {/* create-todo gets focus, shouldn't be re-created (keys shouldn't be used here) */}
+      <input
+        autoFocus={shouldUseAutoFocus}
+        id="create-todo"
+        ref={createTodoRef}
+        type="text"
+        name="todo-description"
+        required
+        title="task to add"
+        autoComplete="off"
+      />
+      <button>create</button>
+    </form>
+  );
 });
 
 const Todos = ({ day, month, year, unitsAsInt, helperMenuClosersRef, refForUpdateCurrentTodoData }) => {
@@ -104,20 +153,25 @@ const Todos = ({ day, month, year, unitsAsInt, helperMenuClosersRef, refForUpdat
   const cachedTodoData = useRef();
 
   // only the tasks used, since values locally managed
-  const [currentTodoData, updateCurrentTodoData] = useReducer(reducerForCurrrentTodoData, {}, reducerForCurrrentTodoData);
-  function reducerForCurrrentTodoData (prevData, { action = 'SYNC', todoId } = {}) {
+  const [currentTodoData, updateCurrentTodoData] = useReducer(
+    reducerForCurrrentTodoData,
+    {},
+    reducerForCurrrentTodoData
+  );
+  function reducerForCurrrentTodoData(prevData, { action = 'SYNC', todoId } = {}) {
     switch (action) {
       // keeping cache in sync; value used for initialization
-      case 'ADD': return cachedTodoData.current = { ...prevData, [todoId]: { value: '' } };
+      case 'ADD':
+        return (cachedTodoData.current = { ...prevData, [todoId]: { value: '' } });
       case 'REMOVE': {
-        const latestData = {...prevData};
+        const latestData = { ...prevData };
         delete latestData[todoId];
-        return cachedTodoData.current = latestData; // keeping cache in sync
+        return (cachedTodoData.current = latestData); // keeping cache in sync
       }
       case 'SYNC': {
         // syncing with localStorage entry initially or when the key changes
         validateTodoData(...unitsAsInt, returnWeekday(year, month, day)); // if it doesn't exist create it
-        return cachedTodoData.current = returnTodoData(...unitsAsInt); // keeping cache in sync
+        return (cachedTodoData.current = returnTodoData(...unitsAsInt)); // keeping cache in sync
       }
     }
   }
@@ -128,153 +182,186 @@ const Todos = ({ day, month, year, unitsAsInt, helperMenuClosersRef, refForUpdat
   const currentTodoTasks = Object.keys(currentTodoData); // by default, components are rendered in ascending order by ID
   // TODO: ordering can be changed by changing the way this array is created, without avoiding memoization of components
 
-  return (<ul className="column-container" id="todos">
-    { currentTodoTasks.map((todoId) => (
-      <Todo 
-        // since parent has a key with date, it's unnecessary to pass it here; when date changes uncontrolled inputs will reset
-        key={todoId}
-        { ...{updateCurrentTodoData, day, month, year, unitsAsInt, todoId, helperMenuClosersRef, cachedTodoData} }
-      />)
-    ) }
-  </ul>);
+  return (
+    <ul className="column-container" id="todos">
+      {currentTodoTasks.map((todoId) => (
+        <Todo
+          // since parent has a key with date, it's unnecessary to pass it here; when date changes uncontrolled inputs will reset
+          key={todoId}
+          {...{ updateCurrentTodoData, day, month, year, unitsAsInt, todoId, helperMenuClosersRef, cachedTodoData }}
+        />
+      ))}
+    </ul>
+  );
 };
- 
-const Todo = memo(({ updateCurrentTodoData, day, month, year, unitsAsInt, todoId, helperMenuClosersRef, cachedTodoData }) => {
-  const currentDate = useContext(currentDateContext);
-  const isToday = currentDate.YMD === [year, month, day].join('-');
-  
-  // for easier focus management
-  const todoRef = useRef();
 
-  // for the appearance of helpers (individually)
-  const [helperState, setHelperState] = useState(false); // by default helper closed
-  function toggleHelperState() {
-    setHelperState(!helperState);
-  }
-  const closeHelperMenu = useCallback(() => setHelperState(false), []); // memoized since used as a dependency
-  const { helpers: { focusOnCreateTodo } } = useContext(refContext);
-  function focusOnCurrentMenuToggler() {
-    const currentTodo = todoRef.current;
-    currentTodo.querySelector('.helper-menu-toggler').focus();
-  }
-  function focusWhenHelperMenuCloses() {
-    const currentTodo = todoRef.current;
-    const nextTodo = currentTodo.nextElementSibling;
-    if (nextTodo) return nextTodo.querySelector('.helper-menu-toggler').focus(); // first try next, since replaces the removed todo
-    const prevTodo = currentTodo.previousElementSibling;
-    if (prevTodo) return prevTodo.querySelector('.helper-menu-toggler').focus(); // then try previous
-    focusOnCreateTodo(); // last resort
-  }
+const Todo = memo(
+  ({ updateCurrentTodoData, day, month, year, unitsAsInt, todoId, helperMenuClosersRef, cachedTodoData }) => {
+    const currentDate = useContext(currentDateContext);
+    const isToday = currentDate.YMD === [year, month, day].join('-');
 
-  // todo value, type and description locally managed
-  const [todoValue, setTodoValue] = useState(cachedTodoData.current[todoId].value); 
-  const [todoType, setTodoType] = useState(cachedAllTodos[todoId].type);
-  const [todoDescription, setTodoDescription] = useState(cachedAllTodos[todoId].description);
+    // for easier focus management
+    const todoRef = useRef();
 
-  // currentTodoData should be in sync with localStorage entry
-  function removeFromCurrentTodoDataAndSync() {
-    removeFromTodoData(todoId, ...unitsAsInt);
-    updateCurrentTodoData({ action: 'REMOVE', todoId });
-  }
+    // for the appearance of helpers (individually)
+    const [helperState, setHelperState] = useState(false); // by default helper closed
+    function toggleHelperState() {
+      setHelperState(!helperState);
+    }
+    const closeHelperMenu = useCallback(() => setHelperState(false), []); // memoized since used as a dependency
+    const {
+      helpers: { focusOnCreateTodo }
+    } = useContext(refContext);
+    function focusOnCurrentMenuToggler() {
+      const currentTodo = todoRef.current;
+      currentTodo.querySelector('.helper-menu-toggler').focus();
+    }
+    function focusWhenHelperMenuCloses() {
+      const currentTodo = todoRef.current;
+      const nextTodo = currentTodo.nextElementSibling;
+      if (nextTodo) return nextTodo.querySelector('.helper-menu-toggler').focus(); // first try next, since replaces the removed todo
+      const prevTodo = currentTodo.previousElementSibling;
+      if (prevTodo) return prevTodo.querySelector('.helper-menu-toggler').focus(); // then try previous
+      focusOnCreateTodo(); // last resort
+    }
 
-  // todoDescription should be in sync with localStorage entry
-  function updateTodoDescriptionAndSync(todoDescription) {
-    updateTodoDescription(todoId, todoDescription);
-    setTodoDescription(todoDescription);
-  }
-  // for performance optimization, todoValue locally managed, hence only in sync with localStorage (not with currentTodoData)
-  function updateAndSyncTodoValue(value) {
-    updateTodoValue(todoId, ...unitsAsInt, value);
-    setTodoValue(value);
-  }
-  function resetAndSyncTodoValue() {
-    updateAndSyncTodoValue('');
-  }
-  // for performance optimization, todoType locally managed
-  function updateAndSyncTodoType(type) {
-    updateTodoType(todoId, type);
-    setTodoType(type);
-  }
+    // todo value, type and description locally managed
+    const [todoValue, setTodoValue] = useState(cachedTodoData.current[todoId].value);
+    const [todoType, setTodoType] = useState(cachedAllTodos[todoId].type);
+    const [todoDescription, setTodoDescription] = useState(cachedAllTodos[todoId].description);
 
-  // handlers
-  function removeFromTodoHandler(e) {
-    // also remove it from the template if it's there and if it's today
-    // make sure it's today otherwise frequencyNever-todo can remove frequencyEveryday-todo
-    if (isToday && isTodoInTodosTemplate(todoId)) removeFromTodosTemplate(todoId); // if removed, frequency is never
-    removeFromCurrentTodoDataAndSync();
+    // currentTodoData should be in sync with localStorage entry
+    function removeFromCurrentTodoDataAndSync() {
+      removeFromTodoData(todoId, ...unitsAsInt);
+      updateCurrentTodoData({ action: 'REMOVE', todoId });
+    }
 
-    focusWhenHelperMenuCloses(); // move focus to the nearest element
-  }
-  function updateTodoCheckedHandler(e) {
-    const checked = Number(e.currentTarget.checked); // boolean converted into 0 and 1 to save memory
-    updateAndSyncTodoValue(checked);
-  }
-  function updateTodoValueHandler(e) {
-    const newValue = e.currentTarget.value;
-    updateAndSyncTodoValue(newValue);
-  }
-  function updateTodoTypeHandler(e) {
-    const newType = e.currentTarget.selectedOptions[0].value;
-    updateAndSyncTodoType(newType);
+    // todoDescription should be in sync with localStorage entry
+    function updateTodoDescriptionAndSync(todoDescription) {
+      updateTodoDescription(todoId, todoDescription);
+      setTodoDescription(todoDescription);
+    }
+    // for performance optimization, todoValue locally managed, hence only in sync with localStorage (not with currentTodoData)
+    function updateAndSyncTodoValue(value) {
+      updateTodoValue(todoId, ...unitsAsInt, value);
+      setTodoValue(value);
+    }
+    function resetAndSyncTodoValue() {
+      updateAndSyncTodoValue('');
+    }
+    // for performance optimization, todoType locally managed
+    function updateAndSyncTodoType(type) {
+      updateTodoType(todoId, type);
+      setTodoType(type);
+    }
 
-    resetAndSyncTodoValue(); // it's reset so that old value doesn't appear (otherwise checkbox => text: innerText === 1)
+    // handlers
+    function removeFromTodoHandler(e) {
+      // also remove it from the template if it's there and if it's today
+      // make sure it's today otherwise frequencyNever-todo can remove frequencyEveryday-todo
+      if (isToday && isTodoInTodosTemplate(todoId)) removeFromTodosTemplate(todoId); // if removed, frequency is never
+      removeFromCurrentTodoDataAndSync();
 
-    closeHelperMenu(); // close the helper menu
-    focusOnCurrentMenuToggler(); // move focus to the current todoToggler
-  }
-  function updateTodoDescriptionHandler(e) {
-    e.preventDefault();
-    const submittedFormData = new FormData(e.currentTarget);
-    const formDataReadable = Object.fromEntries(submittedFormData.entries());
-    const todoDescription = String(formDataReadable['todo-description']);
-    updateTodoDescriptionAndSync(todoDescription);
-    
-    closeHelperMenu(); // close the helper menu
-    focusOnCurrentMenuToggler(); // move focus to the current todoToggler
-  }
+      focusWhenHelperMenuCloses(); // move focus to the nearest element
+    }
+    function updateTodoCheckedHandler(e) {
+      const checked = Number(e.currentTarget.checked); // boolean converted into 0 and 1 to save memory
+      updateAndSyncTodoValue(checked);
+    }
+    function updateTodoValueHandler(e) {
+      const newValue = e.currentTarget.value;
+      updateAndSyncTodoValue(newValue);
+    }
+    function updateTodoTypeHandler(e) {
+      const newType = e.currentTarget.selectedOptions[0].value;
+      updateAndSyncTodoType(newType);
 
-  return (<li className="column-container todo" ref={todoRef}>
-    <div className="main-with-others-grouped-row-container">
-      <h3 className="main-item styled-as-p">{todoDescription}</h3>
-      <div className="helper-wrapper flex-container"> {/* bundles the elements so that they get wrapped at once */}
-        <TodoState { ...{todoValue, todoType, updateTodoCheckedHandler, updateTodoValueHandler} } />
-        <button
-          className="toggler-icon-only helper-menu-toggler"
-          onClick={() => toggleHelperState()}
-          title={helperState ? "Close helpers." : "Open helpers."}
-          type="button"
-          aria-haspopup="menu"
-          aria-expanded={helperState}
-        >
-          <MemoizedFontAwesomeIcon icon={helperState ? faXmark : faBars} />
-       </button>
-      </div>
-    </div>
-    { helperState ?
-    <TodoHelpers { ...{todoId, updateTodoDescriptionHandler, todoType, updateTodoTypeHandler, removeFromTodoHandler, closeHelperMenu, helperMenuClosersRef} } />
-    : false }
-  </li>);
-});
+      resetAndSyncTodoValue(); // it's reset so that old value doesn't appear (otherwise checkbox => text: innerText === 1)
+
+      closeHelperMenu(); // close the helper menu
+      focusOnCurrentMenuToggler(); // move focus to the current todoToggler
+    }
+    function updateTodoDescriptionHandler(e) {
+      e.preventDefault();
+      const submittedFormData = new FormData(e.currentTarget);
+      const formDataReadable = Object.fromEntries(submittedFormData.entries());
+      const todoDescription = String(formDataReadable['todo-description']);
+      updateTodoDescriptionAndSync(todoDescription);
+
+      closeHelperMenu(); // close the helper menu
+      focusOnCurrentMenuToggler(); // move focus to the current todoToggler
+    }
+
+    return (
+      <li className="column-container todo" ref={todoRef}>
+        <div className="main-with-others-grouped-row-container">
+          <h3 className="main-item styled-as-p">{todoDescription}</h3>
+          {/* bundles the elements so that they get wrapped at once */}
+          <div className="helper-wrapper flex-container">
+            <TodoState {...{ todoValue, todoType, updateTodoCheckedHandler, updateTodoValueHandler }} />
+            <button
+              className="toggler-icon-only helper-menu-toggler"
+              onClick={() => toggleHelperState()}
+              title={helperState ? 'Close helpers.' : 'Open helpers.'}
+              type="button"
+              aria-haspopup="menu"
+              aria-expanded={helperState}
+            >
+              <MemoizedFontAwesomeIcon icon={helperState ? faXmark : faBars} />
+            </button>
+          </div>
+        </div>
+        {helperState ? (
+          <TodoHelpers
+            {...{
+              todoId,
+              updateTodoDescriptionHandler,
+              todoType,
+              updateTodoTypeHandler,
+              removeFromTodoHandler,
+              closeHelperMenu,
+              helperMenuClosersRef
+            }}
+          />
+        ) : (
+          false
+        )}
+      </li>
+    );
+  }
+);
 
 const TodoState = ({ todoValue, todoType, updateTodoCheckedHandler, updateTodoValueHandler }) => {
   const isTypeCheckbox = todoType === 'checkbox';
   const isTypeNumber = todoType === 'number';
-  return (<input name="todo-state" type={todoType}
-    onChange={isTypeCheckbox ? updateTodoCheckedHandler : updateTodoValueHandler}
-    { ...(isTypeCheckbox ? {checked: todoValue} : {value: todoValue}) } // checkboxes use 'checked' attribute instead of 'value'
-    { ...(isTypeNumber ? {step: 'any'} : {}) }
-    title={isTypeCheckbox
-      ? `Mark as ${!todoValue ? 'done' : 'undone'}.`
-      : `Enter ${capitalizeString(todoType)}.`
-    }
-  />);
+  return (
+    <input
+      name="todo-state"
+      type={todoType}
+      onChange={isTypeCheckbox ? updateTodoCheckedHandler : updateTodoValueHandler}
+      {...(isTypeCheckbox ? { checked: todoValue } : { value: todoValue })} // checkboxes use 'checked' attribute instead of 'value'
+      {...(isTypeNumber ? { step: 'any' } : {})}
+      title={isTypeCheckbox ? `Mark as ${!todoValue ? 'done' : 'undone'}.` : `Enter ${capitalizeString(todoType)}.`}
+    />
+  );
 };
 
-const TodoHelpers = ({ todoId, updateTodoDescriptionHandler, todoType, updateTodoTypeHandler, removeFromTodoHandler, closeHelperMenu, helperMenuClosersRef }) => {
-  useEffect(() => { // store the helperMenu closer in ref, will be used to close all at once
+const TodoHelpers = ({
+  todoId,
+  updateTodoDescriptionHandler,
+  todoType,
+  updateTodoTypeHandler,
+  removeFromTodoHandler,
+  closeHelperMenu,
+  helperMenuClosersRef
+}) => {
+  useEffect(() => {
+    // store the helperMenu closer in ref, will be used to close all at once
     const helperMenuClosers = helperMenuClosersRef.current;
     helperMenuClosers[todoId] = closeHelperMenu;
-    return () => { delete helperMenuClosers[todoId]; };
+    return () => {
+      delete helperMenuClosers[todoId];
+    };
   }, [closeHelperMenu, helperMenuClosersRef, todoId]);
 
   const [frequencyMenuState, setFrequencyMenuState] = useState(false);
@@ -290,51 +377,58 @@ const TodoHelpers = ({ todoId, updateTodoDescriptionHandler, todoType, updateTod
 
   // when any of the helpers are used, helper menu should be closed
   // focus should be managed when menu closes or opens
-  return (<div className="row-container helpers" role="menu" aria-orientation="horizontal">
-    <form onSubmit={updateTodoDescriptionHandler}>
-      {/* focus on first focusable item when mounts */}
-      <input autoFocus type="text" name="todo-description" required 
-        title="new task description"
-      />
-      <button>update todo</button>
-    </form>
-    <select onChange={updateTodoTypeHandler} value={todoType}>
-      <option value="checkbox">Checkbox</option>
-      <option value="text">Text</option>
-      <option value="number">Number</option>
-      <option value="time">Time</option>
-    </select>
-    <div className="frequency-menu-wrapper">
-      <button
-        type="button"
-        ref={frequencyMenuButtonRef}
-        className="toggler-text-and-icon"
-        onClick={() => toggleFrequencyMenuState()}
-        title={frequencyMenuState ? "Close menu." : "Open menu."}
-        aria-haspopup="menu"
-        aria-expanded={frequencyMenuState}
-      >
-        select days
-        <MemoizedFontAwesomeIcon icon={frequencyMenuState ? faXmark : faBars} />
+  return (
+    <div className="row-container helpers" role="menu" aria-orientation="horizontal">
+      <form onSubmit={updateTodoDescriptionHandler}>
+        {/* focus on first focusable item when mounts */}
+        <input autoFocus type="text" name="todo-description" required title="new task description" />
+        <button>update todo</button>
+      </form>
+      <select onChange={updateTodoTypeHandler} value={todoType}>
+        <option value="checkbox">Checkbox</option>
+        <option value="text">Text</option>
+        <option value="number">Number</option>
+        <option value="time">Time</option>
+      </select>
+      <div className="frequency-menu-wrapper">
+        <button
+          type="button"
+          ref={frequencyMenuButtonRef}
+          className="toggler-text-and-icon"
+          onClick={() => toggleFrequencyMenuState()}
+          title={frequencyMenuState ? 'Close menu.' : 'Open menu.'}
+          aria-haspopup="menu"
+          aria-expanded={frequencyMenuState}
+        >
+          select days
+          <MemoizedFontAwesomeIcon icon={frequencyMenuState ? faXmark : faBars} />
+        </button>
+        {frequencyMenuState ? (
+          <FrequencyMenu
+            {...{ todoId, closeFrequencyMenu, frequencyMenuButtonRef, focusOnFrequencyMenuButton, todoType }}
+          />
+        ) : (
+          false
+        )}
+      </div>
+      <button onClick={removeFromTodoHandler} type="button">
+        remove
       </button>
-      { frequencyMenuState ? 
-      <FrequencyMenu { ...{todoId, closeFrequencyMenu, frequencyMenuButtonRef, focusOnFrequencyMenuButton, todoType} } />
-      : false }
     </div>
-    <button onClick={removeFromTodoHandler} type="button">remove</button>
-  </div>);
+  );
 };
 
 const FrequencyMenu = ({ todoId, closeFrequencyMenu, frequencyMenuButtonRef, focusOnFrequencyMenuButton }) => {
-  const [frequencyState, setFrequencyState] = useState(() => isTodoInTodosTemplate(todoId)
-    ? cachedTodosTemplate[todoId].frequency
-    : frequencyNever
+  const [frequencyState, setFrequencyState] = useState(() =>
+    isTodoInTodosTemplate(todoId) ? cachedTodosTemplate[todoId].frequency : frequencyNever
   );
 
   function changeAndSyncFrequency(frequency) {
-    if (isArrTruthy(frequency)) { // frequency isn't never
-      if (isTodoInTodosTemplate(todoId)) updateFrequencyOnTodosTemplate(todoId, frequency); // if it exists just update it
-      else addToTodosTemplate(todoId, frequency); // if it doesn't exist already, add it
+    if (isArrTruthy(frequency)) {
+      // frequency isn't never
+      if (isTodoInTodosTemplate(todoId)) {
+        updateFrequencyOnTodosTemplate(todoId, frequency); // if it exists just update it
+      } else addToTodosTemplate(todoId, frequency); // if it doesn't exist already, add it
     } else removeFromTodosTemplate(todoId); // remove it if it's never ([0, 0, 0, 0, 0, 0, 0])
 
     setFrequencyState(frequency);
@@ -351,9 +445,9 @@ const FrequencyMenu = ({ todoId, closeFrequencyMenu, frequencyMenuButtonRef, foc
 
   // focus management
   const frequencyMenuRef = useRef();
-  useLayoutEffect(() => { // on mount focus on first element 
-    focusOnFirstItemFromRef(frequencyMenuRef);
-  }, [])
+  useLayoutEffect(() => {
+    focusOnFirstItemFromRef(frequencyMenuRef); // on mount focus on first element
+  }, []);
   useEffect(() => {
     function closeFrequencyMenuOnFocusOutHandler(e) {
       const menuElement = frequencyMenuRef.current;
@@ -364,11 +458,14 @@ const FrequencyMenu = ({ todoId, closeFrequencyMenu, frequencyMenuButtonRef, foc
 
     document.addEventListener('focusout', closeFrequencyMenuOnFocusOutHandler);
     return () => document.removeEventListener('focusout', closeFrequencyMenuOnFocusOutHandler);
-  }, [frequencyMenuRef, closeFrequencyMenu, frequencyMenuButtonRef])
+  }, [frequencyMenuRef, closeFrequencyMenu, frequencyMenuButtonRef]);
 
   // placement
-  const {refs: { footerRef }} = useContext(refContext);
-  useLayoutEffect(() => { // if there isn't enough space place it over the button 
+  const {
+    refs: { footerRef }
+  } = useContext(refContext);
+  useLayoutEffect(() => {
+    // if there isn't enough space place it over the button
     function isSpaceUnderButtonEnough() {
       const menuElementHeight = frequencyMenuRef.current.getBoundingClientRect().height;
       const menuTogglerButtonBottom = frequencyMenuButtonRef.current.getBoundingClientRect().bottom;
@@ -389,29 +486,39 @@ const FrequencyMenu = ({ todoId, closeFrequencyMenu, frequencyMenuButtonRef, foc
     // on-resize re-calculate
     window.addEventListener('resize', determineWhereToPlaceTheMenu);
     return () => window.removeEventListener('resize', determineWhereToPlaceTheMenu);
-  }, [footerRef, frequencyMenuButtonRef])
+  }, [footerRef, frequencyMenuButtonRef]);
 
-  return (<ul className="frequency-menu" role="menu" ref={frequencyMenuRef}
-    tabIndex="-1" // so that when something unfocusable (like a text) is clicked, focus remains on the menu
-    onKeyDown={(e) => {
-      if (e.key === 'Escape') {
-        closeFrequencyMenu();
-        focusOnFrequencyMenuButton(); // when closed with escape move the focus
-        e.stopPropagation(); // don't close any other menu before this menu is closed
-      }
-    }}
-  >
-    { frequencyState.map((el, i) => {
-      // start with monday end with sunday
-      const dayIndex = i + 1 === 7 ? 0 : i + 1; // sunday uses 0 instead of 7 (since Date.prototype.getDay() returns 0 on Sunday)
-      return (<li key={dayIndex}><label className="frequency-toggler-label toggler-text-and-icon toggler-transition">
-        <span className="unselectable">{returnWeekdayFromSunday(dayIndex)}</span>
-        <input type="checkbox"
-          value={dayIndex}
-          checked={frequencyState[dayIndex]}
-          onChange={toggleCheckedHandler}
-        />
-      </label></li>);
-    }) }
-  </ul>)
+  return (
+    <ul
+      className="frequency-menu"
+      role="menu"
+      ref={frequencyMenuRef}
+      tabIndex="-1" // so that when something unfocusable (like a text) is clicked, focus remains on the menu
+      onKeyDown={(e) => {
+        if (e.key === 'Escape') {
+          closeFrequencyMenu();
+          focusOnFrequencyMenuButton(); // when closed with escape move the focus
+          e.stopPropagation(); // don't close any other menu before this menu is closed
+        }
+      }}
+    >
+      {frequencyState.map((el, i) => {
+        // start with monday end with sunday
+        const dayIndex = i + 1 === 7 ? 0 : i + 1; // sunday uses 0 instead of 7 (since Date.prototype.getDay() returns 0 on Sunday)
+        return (
+          <li key={dayIndex}>
+            <label className="frequency-toggler-label toggler-text-and-icon toggler-transition">
+              <span className="unselectable">{returnWeekdayFromSunday(dayIndex)}</span>
+              <input
+                type="checkbox"
+                value={dayIndex}
+                checked={frequencyState[dayIndex]}
+                onChange={toggleCheckedHandler}
+              />
+            </label>
+          </li>
+        );
+      })}
+    </ul>
+  );
 };

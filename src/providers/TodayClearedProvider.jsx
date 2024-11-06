@@ -1,7 +1,7 @@
-import { createContext } from "react";
+import { createContext } from 'react';
 
 // custom hooks
-import useForceRender from "../custom-hooks/useForceRender";
+import useForceRender from '../custom-hooks/useForceRender';
 
 export const todayClearedContext = createContext();
 
@@ -10,9 +10,11 @@ const TodayClearedProvider = ({ children }) => {
 
   const [todayCleared, increaseTodayCleared] = useForceRender();
 
-  return (<todayClearedContext.Provider value={{ todayCleared, increaseTodayCleared }}>
-    {children}
-  </todayClearedContext.Provider>);
+  return (
+    <todayClearedContext.Provider value={{ todayCleared, increaseTodayCleared }}>
+      {children}
+    </todayClearedContext.Provider>
+  );
 };
- 
+
 export default TodayClearedProvider;

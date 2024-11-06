@@ -1,8 +1,8 @@
 // TODO: IndexedDB might be used instead of LocalStorage, due to how structured the data is
 // and this might help with localization of state
 
-import { returnTodosTemplateForWeekday } from "./todosTemplateHelpers";
-import { addToAllYears } from "./allYearsHelpers";
+import { returnTodosTemplateForWeekday } from './todosTemplateHelpers';
+import { addToAllYears } from './allYearsHelpers';
 
 function updateYearEntry(year, toDoData) {
   localStorage.setItem(year, JSON.stringify(toDoData));
@@ -25,7 +25,8 @@ export function validateTodoData(year, month, day, weekday) {
     yearEntry[month] = []; // array for days
   }
 
-  if (!yearEntry[month][day] || // if empty, initialize it
+  if (
+    !yearEntry[month][day] || // if empty, initialize it
     !Object.keys(yearEntry[month][day]).length // if it's an empty object, try the template, it might be populated
   ) {
     // use the latest one (might return an empty object)

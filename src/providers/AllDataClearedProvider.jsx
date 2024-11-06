@@ -1,7 +1,7 @@
-import { createContext } from "react";
+import { createContext } from 'react';
 
 // custom hooks
-import useForceRender from "../custom-hooks/useForceRender";
+import useForceRender from '../custom-hooks/useForceRender';
 
 export const allDataClearedContext = createContext();
 
@@ -10,9 +10,11 @@ const AllDataClearedProvider = ({ children }) => {
 
   const [allDataCleared, increaseAllDataCleared] = useForceRender();
 
-  return (<allDataClearedContext.Provider value={{ allDataCleared, increaseAllDataCleared }}>
-    {children}
-  </allDataClearedContext.Provider>);
+  return (
+    <allDataClearedContext.Provider value={{ allDataCleared, increaseAllDataCleared }}>
+      {children}
+    </allDataClearedContext.Provider>
+  );
 };
- 
+
 export default AllDataClearedProvider;
