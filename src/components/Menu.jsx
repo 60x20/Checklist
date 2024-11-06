@@ -92,14 +92,14 @@ const Menu = ({ closeTheMenu }) => {
     }
   }
 
-  function resetAllDataHandler() {
+  function resetAllDataHandler(e) {
     if (confirmToResetAllData()) {
       increaseAllDataCleared(); // informing checklist that data is reset, allowing it to clean-up (otherwise old data will be seen)
 
       focusOnCreateTodoAndCloseTheMenu();
     }
   }
-  function resetCurrentDayHandler() {
+  function resetCurrentDayHandler(e) {
     resetTodoData(...unitsAsInt);
     increaseTodayCleared(); // informing checklist
 

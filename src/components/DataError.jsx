@@ -6,7 +6,7 @@ import { confirmToResetAllData } from '../helpers/resetAllData';
 const DataError = () => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  function resetAllDataAndNavigateHandler() {
+  function resetAllDataAndNavigateHandler(e) {
     if (confirmToResetAllData()) navigate(pathname); // if reset, then refresh; pathname used over (0) to avoid re-loading
   }
 
