@@ -7,5 +7,5 @@ export function truncateString(str, maxCharSize = 10) {
 }
 
 export function isArrTruthy(arr) {
-  return arr.some((el) => el);
+  return arr.some(Boolean);
 }
