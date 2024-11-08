@@ -15,12 +15,12 @@ const yearRegex = /\d{4}|\d{2}/;
 const monthRegex = /\d{1,2}/;
 const dayRegex = /\d{1,2}/;
 
-// input date is used instead of Date.parse, because Date.parse is lenient
-// Feb 31: Date.parse('2000-02-31') === Date.parse('2000-03-02')
+// date input is used instead of Date.parse for validation, because Date.parse is lenient
+// for example (Feb 31): Date.parse('2000-02-31') === Date.parse('2000-03-02')
 // Date.parse considers 'Feb 31' as 'Feb 29 + 2 days'
 const dateInput = document.createElement('input');
 dateInput.type = 'date';
-dateInput.required = true;
+dateInput.required = true; // so that empty dates are invalid
 
 export function validateUnitsFromDate({ year, month, day }) {
   // validation, in case the date is not in the desired format (failsafe)
