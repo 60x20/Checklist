@@ -81,14 +81,16 @@ const Menu = ({ closeTheMenu }) => {
   const dateToGo = useRef();
   const timeoutSet = useRef();
   function goToRequestedDateHandler(e) {
-    const requestedDate = e.currentTarget.value;
-    if (!requestedDate) return; // if requestedDate is invalid, don't continue
-    dateToGo.current = requestedDate;
-    if (!timeoutSet.current) {
-      timeoutSet.current = setTimeout(() => {
-        navigate(dateToGo.current.replaceAll('-', '/'));
-        dateToGo.current = timeoutSet.current = undefined; // reset, so that old data doesn't cause problems
-      }, 100);
+    // if requestedDate is invalid, don't continue
+    if (e.currentTarget.checkValidity()) {
+      const requestedDate = e.currentTarget.value;
+      dateToGo.current = requestedDate;
+      if (!timeoutSet.current) {
+        timeoutSet.current = setTimeout(() => {
+          navigate(dateToGo.current.replaceAll('-', '/'));
+          dateToGo.current = timeoutSet.current = undefined; // reset, so that old data doesn't cause problems
+        }, 100);
+      }
     }
   }
 
@@ -161,6 +163,7 @@ const Menu = ({ closeTheMenu }) => {
                 }}
                 onChange={goToRequestedDateHandler}
                 type="date"
+                required
                 min="2000-01-01"
                 defaultValue={isDateRequested ? [year, month, day].join('-') : ''}
                 max="2100-12-31"
