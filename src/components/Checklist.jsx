@@ -256,7 +256,7 @@ const Todo = memo(
     }
 
     // handlers
-    function removeFromTodoHandler(e) {
+    function removeFromTodoHandler() {
       // also remove it from the template if it's there and if it's today
       // make sure it's today otherwise frequencyNever-todo can remove frequencyEveryday-todo
       if (isToday && isTodoInTodosTemplate(todoId)) removeFromTodosTemplate(todoId); // if removed, frequency is never

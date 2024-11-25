@@ -12,7 +12,6 @@ module.exports = {
   settings: { react: { version: 'detect' } },
   plugins: ['react-refresh'],
   rules: {
-    'no-unused-vars': 'warn',
     'react/prop-types': 'off',
     'react/display-name': 'off'
   }
