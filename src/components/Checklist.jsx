@@ -273,7 +273,7 @@ const Todo = memo(
       updateAndSyncTodoValue(newValue);
     }
     function updateTodoTypeHandler(e) {
-      const newType = e.currentTarget.selectedOptions[0].value;
+      const newType = e.currentTarget.value;
       updateAndSyncTodoType(newType);
 
       resetAndSyncTodoValue(); // it's reset so that old value doesn't appear (otherwise checkbox => text: innerText === 1)
