@@ -5,7 +5,7 @@ import { refContext } from '../providers/RefProvider';
 
 const Footer = () => {
   const {
-    refs: { footerRef }
+    refs: { footerRef },
   } = useContext(refContext);
 
   return <footer ref={footerRef}></footer>;

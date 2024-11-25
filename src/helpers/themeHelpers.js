@@ -32,16 +32,16 @@ export const themeModeData = {
     icon: faCircleHalfStroke,
     get preferenceForDark() {
       return isDarkPreferred();
-    }
+    },
   },
   1: {
     asWord: 'light',
     icon: faSun,
-    preferenceForDark: false
+    preferenceForDark: false,
   },
   2: {
     asWord: 'dark',
     icon: faMoon,
-    preferenceForDark: true
-  }
+    preferenceForDark: true,
+  },
 };

@@ -12,7 +12,7 @@ import {
   extractMonth,
   validateDate,
   monthFormatter,
-  monthYearTruncFormatter
+  monthYearTruncFormatter,
 } from '../helpers/validateUnitsFromDate';
 import { returnYearEntry } from '../helpers/todoDataHelpers';
 import { truncateString } from '../helpers/utils';
@@ -30,7 +30,7 @@ const addSubtitleToDocumentTitle = useDocumentTitle.bind(globalThis, mainTitle);
 
 export const VisualizerLayout = () => {
   const {
-    refs: { visualizerRef }
+    refs: { visualizerRef },
   } = useContext(refContext);
 
   return (

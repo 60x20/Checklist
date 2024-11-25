@@ -68,13 +68,13 @@ const RefProvider = ({ children }) => {
       createTodoRef,
       visualizerRef,
       menuTogglerRef,
-      footerRef
+      footerRef,
     },
     helpers: {
       focusOnCreateTodo,
       focusOnFirstItemInsideVisualizer,
-      focusOnMenuToggler
-    }
+      focusOnMenuToggler,
+    },
   };
 
   return <refContext.Provider value={valueToProvide}>{children}</refContext.Provider>;

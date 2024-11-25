@@ -8,7 +8,7 @@ import {
   useMemo,
   useReducer,
   useRef,
-  useState
+  useState,
 } from 'react';
 
 // font awesome
@@ -30,7 +30,7 @@ import {
   removeFromTodosTemplate,
   isTodoInTodosTemplate,
   frequencyNever,
-  updateFrequencyOnTodosTemplate
+  updateFrequencyOnTodosTemplate,
 } from '../helpers/todosTemplateHelpers';
 import { cachedAllTodos, addToAllTodos, updateTodoDescription, updateTodoType } from '../helpers/allTodosHelpers';
 import {
@@ -38,13 +38,13 @@ import {
   validateTodoData,
   addToTodoData,
   removeFromTodoData,
-  updateTodoValue
+  updateTodoValue,
 } from '../helpers/todoDataHelpers';
 import {
   dayMonthTruncFormatter,
   returnWeekday,
   returnWeekdayFromSunday,
-  weekdayDayMonthFormatter
+  weekdayDayMonthFormatter,
 } from '../helpers/validateUnitsFromDate';
 import { shouldUseAutoFocus } from '../helpers/keyboardDetection';
 import { capitalizeString, isArrTruthy } from '../helpers/utils';
@@ -105,7 +105,7 @@ export default Checklist;
 const CreateTodo = memo(({ unitsAsInt, year, month, day, refForUpdateCurrentTodoData }) => {
   // when mounts, focus on the create todo button; button preferred instead of input to avoid virtual keyboard
   const {
-    refs: { createTodoRef }
+    refs: { createTodoRef },
   } = useContext(refContext);
 
   const currentDate = useContext(currentDateContext);
@@ -156,7 +156,7 @@ const Todos = ({ day, month, year, unitsAsInt, helperMenuClosersRef, refForUpdat
   const [currentTodoData, updateCurrentTodoData] = useReducer(
     reducerForCurrrentTodoData,
     {},
-    reducerForCurrrentTodoData
+    reducerForCurrrentTodoData,
   );
   function reducerForCurrrentTodoData(prevData, { action = 'SYNC', todoId } = {}) {
     switch (action) {
@@ -210,7 +210,7 @@ const Todo = memo(
     }
     const closeHelperMenu = useCallback(() => setHelperState(false), []); // memoized since used as a dependency
     const {
-      helpers: { focusOnCreateTodo }
+      helpers: { focusOnCreateTodo },
     } = useContext(refContext);
     function focusOnCurrentMenuToggler() {
       const currentTodo = todoRef.current;
@@ -320,7 +320,7 @@ const Todo = memo(
               updateTodoTypeHandler,
               removeFromTodoHandler,
               closeHelperMenu,
-              helperMenuClosersRef
+              helperMenuClosersRef,
             }}
           />
         ) : (
@@ -328,7 +328,7 @@ const Todo = memo(
         )}
       </li>
     );
-  }
+  },
 );
 
 const TodoState = ({ todoValue, todoType, updateTodoCheckedHandler, updateTodoValueHandler }) => {
@@ -353,7 +353,7 @@ const TodoHelpers = ({
   updateTodoTypeHandler,
   removeFromTodoHandler,
   closeHelperMenu,
-  helperMenuClosersRef
+  helperMenuClosersRef,
 }) => {
   useEffect(() => {
     // store the helperMenu closer in ref, will be used to close all at once
@@ -420,7 +420,7 @@ const TodoHelpers = ({
 
 const FrequencyMenu = ({ todoId, closeFrequencyMenu, frequencyMenuButtonRef, focusOnFrequencyMenuButton }) => {
   const [frequencyState, setFrequencyState] = useState(() =>
-    isTodoInTodosTemplate(todoId) ? cachedTodosTemplate[todoId].frequency : frequencyNever
+    isTodoInTodosTemplate(todoId) ? cachedTodosTemplate[todoId].frequency : frequencyNever,
   );
 
   function changeAndSyncFrequency(frequency) {
@@ -462,7 +462,7 @@ const FrequencyMenu = ({ todoId, closeFrequencyMenu, frequencyMenuButtonRef, foc
 
   // placement
   const {
-    refs: { footerRef }
+    refs: { footerRef },
   } = useContext(refContext);
   useLayoutEffect(() => {
     // if there isn't enough space place it over the button

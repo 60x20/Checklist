@@ -17,7 +17,7 @@ const Header = () => {
   const { menuState, toggleMenuState } = useContext(menuStateContext);
   const { preferenceForDark, themeMode, toggleThemeMode } = useContext(themeContext);
   const {
-    refs: { menuTogglerRef }
+    refs: { menuTogglerRef },
   } = useContext(refContext);
 
   return (

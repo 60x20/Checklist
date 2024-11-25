@@ -7,7 +7,7 @@ import {
   returnThemeMode,
   themeModeData,
   returnThemeEntry,
-  isDarkPreferred
+  isDarkPreferred,
 } from '../helpers/themeHelpers';
 
 export const themeContext = createContext();
@@ -30,7 +30,7 @@ const ThemeProvider = ({ children }) => {
         return () => colorSchemeMediaQuery.removeEventListener('change', handler);
       }
     },
-    [themeMode]
+    [themeMode],
   );
   useSyncExternalStore(subscribeToThemeChangeHandler, isDarkPreferred);
 

@@ -27,8 +27,8 @@ const router = createHashRouter(
         <Route path=":year/:month/:day" element={<Checklist />} />
       </Route>
       <Route path="*" element={<Home />} />
-    </Route>
-  )
+    </Route>,
+  ),
 );
 // since hash router parses location.hash, base is always relative to the place of index.html
 // so, hosting from subdirectories won't cause problems

@@ -33,7 +33,7 @@ const Menu = ({ closeTheMenu }) => {
   // focus management and ease of use
   const menuRef = useRef();
   const {
-    helpers: { focusOnCreateTodo, focusOnMenuToggler, focusOnFirstItemInsideVisualizer }
+    helpers: { focusOnCreateTodo, focusOnMenuToggler, focusOnFirstItemInsideVisualizer },
   } = useContext(refContext);
   function focusOnCreateTodoAndCloseTheMenu() {
     focusOnCreateTodo(); // move focus to create-todo
