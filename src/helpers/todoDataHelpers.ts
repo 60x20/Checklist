@@ -4,8 +4,8 @@
 import { returnTodosTemplateForWeekday } from './todosTemplateHelpers';
 import { addToAllYears } from './allYearsHelpers';
 
-function updateYearEntry(year, toDoData) {
-  localStorage.setItem(year, JSON.stringify(toDoData));
+function updateYearEntry(year, todoData) {
+  localStorage.setItem(year, JSON.stringify(todoData));
 }
 
 export function returnYearEntry(year) {
