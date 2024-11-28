@@ -2,12 +2,18 @@ import { createContext, useState, useEffect } from 'react';
 
 import { redirect, useNavigate } from 'react-router-dom';
 
+// types
+import ChildrenProp from '../custom-types/ChildrenProp';
+
 // helpers
-import { returnCurrentDate } from '../helpers/returnCurrentDate';
+import { DateWithFormats, returnCurrentDate } from '../helpers/returnCurrentDate';
+import useSafeContext from '../custom-hooks/useSafeContext';
 function getTodayVisited() {
-  return JSON.parse(localStorage.getItem('today-visited'));
+  const todayVisitedEntry = localStorage.getItem('today-visited');
+  if (todayVisitedEntry !== null) return JSON.parse(todayVisitedEntry) as string;
+  return null;
 }
-function updateTodayVisited(newDate) {
+function updateTodayVisited(newDate: string) {
   // by storing only the current date, instead of all the dates, we're cleaning up
   localStorage.setItem('today-visited', JSON.stringify(newDate));
 }
@@ -25,8 +31,9 @@ export function redirectToCurrentDateLoader() {
   return null;
 }
 
-export const currentDateContext = createContext();
-const CurrentDateProvider = ({ children }) => {
+const currentDateContext = createContext<DateWithFormats | null>(null);
+
+const CurrentDateProvider = ({ children }: ChildrenProp) => {
   const navigate = useNavigate();
 
   const [currentDate, setCurrentDateState] = useState(returnCurrentDate);
@@ -51,5 +58,9 @@ const CurrentDateProvider = ({ children }) => {
 
   return <currentDateContext.Provider value={currentDate}>{children}</currentDateContext.Provider>;
 };
+
+export function useCurrentDateContext() {
+  return useSafeContext(currentDateContext);
+}
 
 export default CurrentDateProvider;

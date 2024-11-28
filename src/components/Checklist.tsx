@@ -17,8 +17,8 @@ import { faBars, faXmark } from '@fortawesome/free-solid-svg-icons';
 const MemoizedFontAwesomeIcon = memo((props) => <FontAwesomeIcon {...props} />);
 
 // contexts
-import { currentDateContext } from '../providers/CurrentDateProvider';
 import { allDataClearedContext } from '../providers/AllDataClearedProvider';
+import { useCurrentDateContext } from '../providers/CurrentDateProvider';
 import { useRequestedDateValidatedContext } from '../providers/RequestedDateValidatedProvider';
 import { useTodayClearedContext } from '../providers/TodayClearedProvider';
 import { focusFromRef, focusOnFirstItemFromRef, useRefContext } from '../providers/RefProvider';
@@ -109,7 +109,7 @@ const CreateTodo = memo(({ unitsAsInt, year, month, day, refForUpdateCurrentTodo
     refs: { createTodoRef },
   } = useRefContext();
 
-  const currentDate = useContext(currentDateContext);
+  const currentDate = useCurrentDateContext();
   const isToday = currentDate.YMD === [year, month, day].join('-');
 
   // currentTodoData should be in sync with localStorage entry
@@ -198,7 +198,7 @@ const Todos = ({ day, month, year, unitsAsInt, helperMenuClosersRef, refForUpdat
 
 const Todo = memo(
   ({ updateCurrentTodoData, day, month, year, unitsAsInt, todoId, helperMenuClosersRef, cachedTodoData }) => {
-    const currentDate = useContext(currentDateContext);
+    const currentDate = useCurrentDateContext();
     const isToday = currentDate.YMD === [year, month, day].join('-');
 
     // for easier focus management
