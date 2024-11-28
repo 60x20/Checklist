@@ -2,7 +2,7 @@ import { useEffect, useLayoutEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 // contexts
-import { useMenuStateContext } from '../providers/MenuStateProvider';
+import { MenuStateContext, useMenuStateContext } from '../providers/MenuStateProvider';
 import { useAllDataClearedContext } from '../providers/AllDataClearedProvider';
 import { useTodayClearedContext } from '../providers/TodayClearedProvider';
 import { useRequestedDateValidatedContext } from '../providers/RequestedDateValidatedProvider';
@@ -22,7 +22,11 @@ const MenuWrapper = () => {
 
 export default MenuWrapper;
 
-const Menu = ({ closeTheMenu }) => {
+interface MenuProps {
+  closeTheMenu: MenuStateContext['closeTheMenu'];
+}
+
+const Menu = ({ closeTheMenu }: MenuProps) => {
   const { year, month, day } = useRequestedDateValidatedContext();
   const isDateRequested = year && month && day;
 
@@ -30,7 +34,7 @@ const Menu = ({ closeTheMenu }) => {
   const { increaseTodayCleared } = useTodayClearedContext();
 
   // focus management and ease of use
-  const menuRef = useRef();
+  const menuRef = useRef<HTMLElement>(null);
   const {
     helpers: { focusOnCreateTodo, focusOnMenuToggler, focusOnFirstItemInsideVisualizer },
   } = useRefContext();
@@ -45,15 +49,15 @@ const Menu = ({ closeTheMenu }) => {
   }, []);
   // on click away, tab away or when another elements gets focused menu will be closed
   useEffect(() => {
-    function closeMenuOnFocusOutHandler(e) {
+    function closeMenuOnFocusOutHandler(e: FocusEvent) {
       // focusing on other elements, either by user interaction or programmatically, causes blur events
       // so, it's risky to focus when blur events trigger (focus collisions will occur)
       const menuElement = menuRef.current;
       // if null, it's already closed; might happen since cleanup runs after rendering is complete
       if (!menuElement) return; // for example: key of a component changing / focusing during rendering / focusing inside effect cleanup
       // related target might be null, for example when window changes (using Alt Tab)
-      if (e.relatedTarget && e.relatedTarget.matches('#menu-toggler')) return; // menu closing when toggler gets focus causes re-opening
-      if (!menuElement.contains(e.relatedTarget)) closeTheMenu();
+      if (e.relatedTarget instanceof HTMLElement && e.relatedTarget.matches('#menu-toggler')) return; // menu closing when toggler gets focus causes re-opening
+      if (!(e.relatedTarget instanceof Node && menuElement.contains(e.relatedTarget))) closeTheMenu();
     }
 
     // if closed, remove the event listener; if opened, add the event listener
@@ -62,7 +66,7 @@ const Menu = ({ closeTheMenu }) => {
   }, [closeTheMenu]);
   // close the menu when escape pressed (for accessibility)
   useEffect(() => {
-    function closeMenuHandler(e) {
+    function closeMenuHandler(e: KeyboardEvent) {
       if (e.key === 'Escape') {
         focusOnMenuToggler();
         closeTheMenu(); // focusing on menu toggler does not close the menu, even if it triggers blur
@@ -77,17 +81,19 @@ const Menu = ({ closeTheMenu }) => {
 
   const navigate = useNavigate();
   // throttling, otherwise performance issues might occur
-  const dateToGo = useRef();
-  const timeoutSet = useRef();
-  function goToRequestedDateHandler(e) {
+  const dateToGo = useRef<string>('');
+  const timeoutSet = useRef<number | undefined>(undefined);
+  function goToRequestedDateHandler(e: React.ChangeEvent<HTMLInputElement>) {
     // if requestedDate is invalid, don't continue
     if (e.currentTarget.checkValidity()) {
       const requestedDate = e.currentTarget.value;
       dateToGo.current = requestedDate;
-      if (!timeoutSet.current) {
+      if (timeoutSet.current === undefined) {
         timeoutSet.current = setTimeout(() => {
           navigate(dateToGo.current.replaceAll('-', '/'));
-          dateToGo.current = timeoutSet.current = undefined; // reset, so that old data doesn't cause problems
+          // reset, so that old data doesn't cause problems
+          dateToGo.current = '';
+          timeoutSet.current = undefined;
         }, 100);
       }
     }
@@ -118,7 +124,7 @@ const Menu = ({ closeTheMenu }) => {
     );
   }
 
-  function menuKeyPressFocusHandler(e) {
+  function menuKeyPressFocusHandler(e: React.KeyboardEvent<HTMLElement>) {
     // if (e.target && e.target.matches('input[type="text"], input:not([type])')) return; // allowing default behavior
     switch (e.key) {
       case 'Home':
@@ -131,7 +137,7 @@ const Menu = ({ closeTheMenu }) => {
   }
 
   // for creating links relative to today
-  const prevDates = [];
+  const prevDates: ''[] = [];
   const prevDayAmount = 3;
   prevDates.length = prevDayAmount + 1; // 1 for today
   prevDates.fill(''); // if they're empty, .map() will skip them
@@ -140,7 +146,7 @@ const Menu = ({ closeTheMenu }) => {
     // tabindex to make it focusable, so that when it's clicked it's not the body who gets the focus
     // otherwise handler to close the menu would kick in
     <aside
-      tabIndex="-1"
+      tabIndex={-1}
       role="menu"
       id="menu"
       ref={menuRef}
@@ -150,7 +156,7 @@ const Menu = ({ closeTheMenu }) => {
       <h2>Previous Checklists</h2>
       <nav>
         <ul className="column-stretch-container">
-          {prevDates.map((el, i) => {
+          {prevDates.map((_el, i) => {
             const relativeDate = returnDateFromToday(-i);
             return (
               <li key={i}>

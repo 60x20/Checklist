@@ -6,7 +6,7 @@ import ChildrenProp from '../custom-types/ChildrenProp';
 
 const menuStateContext = createContext<MenuStateContext | null>(null);
 
-interface MenuStateContext {
+export interface MenuStateContext {
   menuState: boolean;
   toggleMenuState: () => void;
   closeTheMenu: () => void;
