@@ -93,7 +93,7 @@ const Menu = ({ closeTheMenu }) => {
     }
   }
 
-  function resetAllDataHandler(e) {
+  function resetAllDataHandler() {
     if (confirmToResetAllData()) {
       increaseAllDataCleared(); // informing checklist that data is reset, allowing it to clean-up (otherwise old data will be seen)
 
