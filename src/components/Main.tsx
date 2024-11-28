@@ -3,7 +3,10 @@ import AllDataClearedProvider from '../providers/AllDataClearedProvider';
 import TodayClearedProvider from '../providers/TodayClearedProvider';
 import RequestedDateValidatedProvider from '../providers/RequestedDateValidatedProvider';
 
-const Main = ({ children }) => {
+// types
+import ChildrenProp from '../custom-types/ChildrenProp';
+
+const Main = ({ children }: ChildrenProp) => {
   return (
     <main>
       <AllDataClearedProvider>
