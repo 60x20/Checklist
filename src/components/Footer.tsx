@@ -1,12 +1,10 @@
-import { useContext } from 'react';
-
 // contexts
-import { refContext } from '../providers/RefProvider';
+import { useRefContext } from '../providers/RefProvider';
 
 const Footer = () => {
   const {
     refs: { footerRef },
-  } = useContext(refContext);
+  } = useRefContext();
 
   return <footer ref={footerRef}></footer>;
 };

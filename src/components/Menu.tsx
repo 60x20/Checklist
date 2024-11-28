@@ -5,8 +5,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import { menuStateContext } from '../providers/MenuStateProvider';
 import { allDataClearedContext } from '../providers/AllDataClearedProvider';
 import { todayClearedContext } from '../providers/TodayClearedProvider';
-import { focusOnFirstItemFromRef, focusOnLastItemFromRef, refContext } from '../providers/RefProvider';
 import { useRequestedDateValidatedContext } from '../providers/RequestedDateValidatedProvider';
+import { focusOnFirstItemFromRef, focusOnLastItemFromRef, useRefContext } from '../providers/RefProvider';
 
 // helpers
 import { confirmToResetAllData } from '../helpers/resetAllData';
@@ -33,7 +33,7 @@ const Menu = ({ closeTheMenu }) => {
   const menuRef = useRef();
   const {
     helpers: { focusOnCreateTodo, focusOnMenuToggler, focusOnFirstItemInsideVisualizer },
-  } = useContext(refContext);
+  } = useRefContext();
   function focusOnCreateTodoAndCloseTheMenu() {
     focusOnCreateTodo(); // move focus to create-todo
     closeTheMenu(); // closing explicitly due to focusing being conditional

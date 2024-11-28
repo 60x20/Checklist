@@ -20,7 +20,7 @@ import { cachedAllTodos } from '../helpers/allTodosHelpers';
 
 // contexts
 import { allDataClearedContext } from '../providers/AllDataClearedProvider';
-import { refCallbackToFocusOnFirstItemOnMount, refContext } from '../providers/RefProvider';
+import { refCallbackToFocusOnFirstItemOnMount, useRefContext } from '../providers/RefProvider';
 
 // custom hooks
 import useDocumentTitle from '../custom-hooks/useDocumentTitle';
@@ -31,7 +31,7 @@ const addSubtitleToDocumentTitle = useDocumentTitle.bind(globalThis, mainTitle);
 export const VisualizerLayout = () => {
   const {
     refs: { visualizerRef },
-  } = useContext(refContext);
+  } = useRefContext();
 
   return (
     <div id="visualizer" ref={visualizerRef}>

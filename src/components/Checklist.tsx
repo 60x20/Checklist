@@ -19,9 +19,9 @@ const MemoizedFontAwesomeIcon = memo((props) => <FontAwesomeIcon {...props} />);
 // contexts
 import { currentDateContext } from '../providers/CurrentDateProvider';
 import { allDataClearedContext } from '../providers/AllDataClearedProvider';
-import { focusFromRef, focusOnFirstItemFromRef, refContext } from '../providers/RefProvider';
 import { useRequestedDateValidatedContext } from '../providers/RequestedDateValidatedProvider';
 import { useTodayClearedContext } from '../providers/TodayClearedProvider';
+import { focusFromRef, focusOnFirstItemFromRef, useRefContext } from '../providers/RefProvider';
 
 // helpers
 import {
@@ -107,7 +107,7 @@ const CreateTodo = memo(({ unitsAsInt, year, month, day, refForUpdateCurrentTodo
   // when mounts, focus on the create todo button; button preferred instead of input to avoid virtual keyboard
   const {
     refs: { createTodoRef },
-  } = useContext(refContext);
+  } = useRefContext();
 
   const currentDate = useContext(currentDateContext);
   const isToday = currentDate.YMD === [year, month, day].join('-');
@@ -212,7 +212,7 @@ const Todo = memo(
     const closeHelperMenu = useCallback(() => setHelperState(false), []); // memoized since used as a dependency
     const {
       helpers: { focusOnCreateTodo },
-    } = useContext(refContext);
+    } = useRefContext();
     function focusOnCurrentMenuToggler() {
       const currentTodo = todoRef.current;
       currentTodo.querySelector('.helper-menu-toggler').focus();
@@ -464,7 +464,7 @@ const FrequencyMenu = ({ todoId, closeFrequencyMenu, frequencyMenuButtonRef, foc
   // placement
   const {
     refs: { footerRef },
-  } = useContext(refContext);
+  } = useRefContext();
   useLayoutEffect(() => {
     // if there isn't enough space place it over the button
     function isSpaceUnderButtonEnough() {

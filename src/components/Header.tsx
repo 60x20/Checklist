@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 
 // context providers
 import { menuStateContext } from '../providers/MenuStateProvider';
-import { refContext } from '../providers/RefProvider';
 import { useThemeContext } from '../providers/ThemeProvider';
+import { useRefContext } from '../providers/RefProvider';
 
 // font awesome
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -18,7 +18,7 @@ const Header = () => {
   const { preferenceForDark, themeMode, toggleThemeMode } = useThemeContext;
   const {
     refs: { menuTogglerRef },
-  } = useContext(refContext);
+  } = useRefContext();
 
   return (
     <header id="top-header" className="main-with-others-grouped-row-container">
