@@ -6,7 +6,7 @@ export const dayMonthTruncFormatter = createFormatter({ day: 'numeric', month: '
 export const dayMonthYearTruncFormatter = createFormatter({ day: 'numeric', month: 'short', year: 'numeric' });
 export const monthFormatter = createFormatter({ month: 'long' });
 export const monthYearTruncFormatter = createFormatter({ month: 'short', year: 'numeric' });
-function createFormatter(options) {
+function createFormatter(options: Intl.DateTimeFormatOptions) {
   return new Intl.DateTimeFormat(navigator.language, options);
 }
 
@@ -22,7 +22,12 @@ const dateInput = document.createElement('input');
 dateInput.type = 'date';
 dateInput.required = true; // so that empty dates are invalid
 
-export function validateUnitsFromDate({ year, month, day }) {
+export interface FullDate {
+  year: string;
+  month: string;
+  day: string;
+}
+export function validateUnitsFromDate({ year, month, day }: FullDate): FullDate {
   // validation, in case the date is not in the desired format (failsafe)
   const extractedYear = extractYear(year);
   const extractedMonth = extractMonth(month);
@@ -33,33 +38,43 @@ export function validateUnitsFromDate({ year, month, day }) {
     : { year: '2000', month: '01', day: '01' };
 }
 
-export function extractYear(year) {
+export function extractYear(year: string) {
   const yearRegexResult = year.match(yearRegex)?.[0];
-  const extractedYear = yearRegexResult ? yearRegexResult.padStart(4, '20') : NaN;
-  return extractedYear;
+  if (yearRegexResult) {
+    const extractedYear = yearRegexResult.padStart(4, '20');
+    if (Number(extractedYear) !== 0) return extractedYear;
+  }
+  return '';
 }
-export function extractMonth(month) {
+export function extractMonth(month: string) {
   const monthRegexResult = month.match(monthRegex)?.[0];
-  const extractedMonth = monthRegexResult ? monthRegexResult.padStart(2, '0') : NaN;
-  return extractedMonth >= 1 && extractedMonth <= 12 ? extractedMonth : NaN;
+  if (monthRegexResult) {
+    const extractedMonth = monthRegexResult.padStart(2, '0');
+    if (Number(extractedMonth) >= 1 && Number(extractedMonth) <= 12) return extractedMonth;
+  }
+  return '';
 }
-export function extractDay(day) {
+export function extractDay(day: string) {
   const dayRegexResult = day.match(dayRegex)?.[0];
-  const extractedDay = dayRegexResult ? dayRegexResult.padStart(2, '0') : NaN;
-  return extractedDay >= 1 && extractedDay <= 31 ? extractedDay : NaN;
+  if (dayRegexResult) {
+    const extractedDay = dayRegexResult.padStart(2, '0');
+    if (Number(extractedDay) >= 1 && Number(extractedDay) <= 31) return extractedDay;
+  }
+  return '';
 }
 
-export function validateDate(year = '2000', month = '01', day = '01') {
+export function validateDate(year: string = '2000', month: string = '01', day: string = '01') {
+  if (year === '' || month === '' || day === '') return false;
   dateInput.value = [year, month, day].join('-'); // returns '', if invalid
   const isValid = dateInput.checkValidity();
   return isValid;
 }
 
 const dateForSunday = new Date('2000-01-02').valueOf();
-export function returnWeekdayFromSunday(day) {
+export function returnWeekdayFromSunday(day: number) {
   return weekdayFormatter.format(new Date(dateForSunday + day * dayInMs));
 }
 
-export function returnWeekday(year, month, day) {
+export function returnWeekday(year: string, month: string, day: string) {
   return new Date([year, month, day].join('-')).getDay();
 }
