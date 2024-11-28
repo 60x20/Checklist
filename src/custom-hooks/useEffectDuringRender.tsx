@@ -1,3 +1,4 @@
+/*
 import { useRef } from 'react';
 
 function depsShallowlyEqual(firstDeps: unknown[] | null, secondDeps: unknown[] | null) {
@@ -19,3 +20,4 @@ function useEffectDuringRender(callback: () => void, currentDeps: unknown[] = []
     prevDeps.current = currentDeps;
   }
 }
+*/
