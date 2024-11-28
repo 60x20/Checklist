@@ -14,7 +14,7 @@ import { returnThemeMode, themeModeData } from '../helpers/themeHelpers';
 
 const Header = () => {
   const { menuState, toggleMenuState } = useMenuStateContext();
-  const { preferenceForDark, themeMode, toggleThemeMode } = useThemeContext;
+  const { preferenceForDark, themeMode, toggleThemeMode } = useThemeContext();
   const {
     refs: { menuTogglerRef },
   } = useRefContext();
