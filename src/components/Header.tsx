@@ -1,8 +1,7 @@
-import { useContext } from 'react';
 import { Link } from 'react-router-dom';
 
 // context providers
-import { menuStateContext } from '../providers/MenuStateProvider';
+import { useMenuStateContext } from '../providers/MenuStateProvider';
 import { useThemeContext } from '../providers/ThemeProvider';
 import { useRefContext } from '../providers/RefProvider';
 
@@ -14,7 +13,7 @@ import { faBars, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { returnThemeMode, themeModeData } from '../helpers/themeHelpers';
 
 const Header = () => {
-  const { menuState, toggleMenuState } = useContext(menuStateContext);
+  const { menuState, toggleMenuState } = useMenuStateContext();
   const { preferenceForDark, themeMode, toggleThemeMode } = useThemeContext;
   const {
     refs: { menuTogglerRef },

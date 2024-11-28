@@ -1,8 +1,18 @@
 import { createContext, useCallback, useState } from 'react';
+import useSafeContext from '../custom-hooks/useSafeContext';
 
-export const menuStateContext = createContext();
+// types
+import ChildrenProp from '../custom-types/ChildrenProp';
 
-const MenuStateProvider = ({ children }) => {
+const menuStateContext = createContext<MenuStateContext | null>(null);
+
+interface MenuStateContext {
+  menuState: boolean;
+  toggleMenuState: () => void;
+  closeTheMenu: () => void;
+}
+
+const MenuStateProvider = ({ children }: ChildrenProp) => {
   const [menuState, setMenuState] = useState(false);
   function toggleMenuState() {
     setMenuState(!menuState);
@@ -15,5 +25,9 @@ const MenuStateProvider = ({ children }) => {
     </menuStateContext.Provider>
   );
 };
+
+export function useMenuStateContext() {
+  return useSafeContext(menuStateContext);
+}
 
 export default MenuStateProvider;

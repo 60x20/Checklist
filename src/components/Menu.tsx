@@ -2,9 +2,9 @@ import { useContext, useEffect, useLayoutEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 // contexts
-import { menuStateContext } from '../providers/MenuStateProvider';
 import { allDataClearedContext } from '../providers/AllDataClearedProvider';
 import { todayClearedContext } from '../providers/TodayClearedProvider';
+import { useMenuStateContext } from '../providers/MenuStateProvider';
 import { useRequestedDateValidatedContext } from '../providers/RequestedDateValidatedProvider';
 import { focusOnFirstItemFromRef, focusOnLastItemFromRef, useRefContext } from '../providers/RefProvider';
 
@@ -15,7 +15,7 @@ import { resetTodoData } from '../helpers/todoDataHelpers';
 import { dayMonthYearTruncFormatter } from '../helpers/validateUnitsFromDate';
 
 const MenuWrapper = () => {
-  const { menuState, closeTheMenu } = useContext(menuStateContext);
+  const { menuState, closeTheMenu } = useMenuStateContext();
 
   return menuState ? <Menu {...{ closeTheMenu }} /> : <></>;
 };
