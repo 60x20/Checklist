@@ -19,8 +19,8 @@ const MemoizedFontAwesomeIcon = memo((props) => <FontAwesomeIcon {...props} />);
 // contexts
 import { currentDateContext } from '../providers/CurrentDateProvider';
 import { allDataClearedContext } from '../providers/AllDataClearedProvider';
-import { requestedDateValidatedContext } from '../providers/RequestedDateValidatedProvider';
 import { focusFromRef, focusOnFirstItemFromRef, refContext } from '../providers/RefProvider';
+import { useRequestedDateValidatedContext } from '../providers/RequestedDateValidatedProvider';
 import { useTodayClearedContext } from '../providers/TodayClearedProvider';
 
 // helpers
@@ -56,8 +56,9 @@ const mainTitle = 'Checklist'; // will be put in document.title
 const addSubtitleToDocumentTitle = useDocumentTitle.bind(globalThis, mainTitle);
 
 const Checklist = () => {
-  const { year, month, day } = useContext(requestedDateValidatedContext);
   const { allDataCleared } = useContext(allDataClearedContext); // when changes, new data will be brought
+  const { year, month, day } = useRequestedDateValidatedContext();
+  if (year === undefined || month === undefined || day === undefined) throw new Error(`requested date isn't valid`);
   const { todayCleared } = useTodayClearedContext(); // when changes, new data will be brought
 
   const dateRequested = new Date([year, month, day].join('-'));

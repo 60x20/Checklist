@@ -5,8 +5,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import { menuStateContext } from '../providers/MenuStateProvider';
 import { allDataClearedContext } from '../providers/AllDataClearedProvider';
 import { todayClearedContext } from '../providers/TodayClearedProvider';
-import { requestedDateValidatedContext } from '../providers/RequestedDateValidatedProvider';
 import { focusOnFirstItemFromRef, focusOnLastItemFromRef, refContext } from '../providers/RefProvider';
+import { useRequestedDateValidatedContext } from '../providers/RequestedDateValidatedProvider';
 
 // helpers
 import { confirmToResetAllData } from '../helpers/resetAllData';
@@ -23,9 +23,8 @@ const MenuWrapper = () => {
 export default MenuWrapper;
 
 const Menu = ({ closeTheMenu }) => {
-  const { year, month, day } = useContext(requestedDateValidatedContext);
+  const { year, month, day } = useRequestedDateValidatedContext();
   const isDateRequested = year && month && day;
-  const unitsAsInt = [parseInt(year, 10), parseInt(month, 10), parseInt(day, 10)]; // used as array indexes
 
   const { increaseAllDataCleared } = useContext(allDataClearedContext);
   const { increaseTodayCleared } = useContext(todayClearedContext);
@@ -101,11 +100,22 @@ const Menu = ({ closeTheMenu }) => {
       focusOnCreateTodoAndCloseTheMenu();
     }
   }
-  function resetCurrentDayHandler(e) {
-    resetTodoData(...unitsAsInt);
-    increaseTodayCleared(); // informing checklist
+  let resetCurrentDayButton = <></>;
+  if (isDateRequested) {
+    const unitsAsInt: [number, number, number] = [parseInt(year, 10), parseInt(month, 10), parseInt(day, 10)]; // used as array indexes
 
-    focusOnCreateTodoAndCloseTheMenu();
+    function resetCurrentDayHandler() {
+      resetTodoData(...unitsAsInt);
+      increaseTodayCleared(); // informing checklist
+
+      focusOnCreateTodoAndCloseTheMenu();
+    }
+
+    resetCurrentDayButton = (
+      <button type="button" onClick={resetCurrentDayHandler}>
+        reset current day
+      </button>
+    );
   }
 
   function menuKeyPressFocusHandler(e) {
@@ -184,13 +194,7 @@ const Menu = ({ closeTheMenu }) => {
         </ul>
       </nav>
       <div className="place-content-at-the-end">
-        {isDateRequested ? (
-          <button type="button" onClick={resetCurrentDayHandler}>
-            reset current day
-          </button>
-        ) : (
-          false
-        )}
+        {resetCurrentDayButton}
         <button type="button" onClick={resetAllDataHandler}>
           reset all data
         </button>
