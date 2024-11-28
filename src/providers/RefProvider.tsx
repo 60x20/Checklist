@@ -11,7 +11,10 @@ const refContext = createContext<RefContext | null>(null);
 
 interface RefContext {
   refs: {
-    [elementRef: string]: React.RefObject<HTMLElement>;
+    createTodoRef: React.RefObject<HTMLInputElement>;
+    visualizerRef: React.RefObject<HTMLDivElement>;
+    menuTogglerRef: React.RefObject<HTMLButtonElement>;
+    footerRef: React.RefObject<HTMLElement>;
   };
   helpers: {
     [helperFunc: string]: () => void;
@@ -65,7 +68,7 @@ const RefProvider = ({ children }: ChildrenProp) => {
     if (shouldUseAutoFocus) focusFromRef(createTodoRef);
   }
 
-  const visualizerRef = useRef<HTMLElement>(null);
+  const visualizerRef = useRef<HTMLDivElement>(null);
   function focusOnFirstItemInsideVisualizer() {
     focusOnFirstItemFromRef(visualizerRef);
   }
