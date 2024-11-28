@@ -20,8 +20,8 @@ const MemoizedFontAwesomeIcon = memo((props) => <FontAwesomeIcon {...props} />);
 import { currentDateContext } from '../providers/CurrentDateProvider';
 import { allDataClearedContext } from '../providers/AllDataClearedProvider';
 import { requestedDateValidatedContext } from '../providers/RequestedDateValidatedProvider';
-import { todayClearedContext } from '../providers/TodayClearedProvider';
 import { focusFromRef, focusOnFirstItemFromRef, refContext } from '../providers/RefProvider';
+import { useTodayClearedContext } from '../providers/TodayClearedProvider';
 
 // helpers
 import {
@@ -58,7 +58,7 @@ const addSubtitleToDocumentTitle = useDocumentTitle.bind(globalThis, mainTitle);
 const Checklist = () => {
   const { year, month, day } = useContext(requestedDateValidatedContext);
   const { allDataCleared } = useContext(allDataClearedContext); // when changes, new data will be brought
-  const { todayCleared } = useContext(todayClearedContext); // when changes, new data will be brought
+  const { todayCleared } = useTodayClearedContext(); // when changes, new data will be brought
 
   const dateRequested = new Date([year, month, day].join('-'));
 

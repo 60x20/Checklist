@@ -2,10 +2,19 @@ import { createContext } from 'react';
 
 // custom hooks
 import useForceRender from '../custom-hooks/useForceRender';
+import useSafeContext from '../custom-hooks/useSafeContext';
 
-export const todayClearedContext = createContext();
+// types
+import ChildrenProp from '../custom-types/ChildrenProp';
 
-const TodayClearedProvider = ({ children }) => {
+const todayClearedContext = createContext<TodayClearedContext | null>(null);
+
+interface TodayClearedContext {
+  todayCleared: number;
+  increaseTodayCleared: React.DispatchWithoutAction;
+}
+
+const TodayClearedProvider = ({ children }: ChildrenProp) => {
   // inform the children, if clear occurs; let them clean-up
 
   const [todayCleared, increaseTodayCleared] = useForceRender();
@@ -16,5 +25,9 @@ const TodayClearedProvider = ({ children }) => {
     </todayClearedContext.Provider>
   );
 };
+
+export function useTodayClearedContext() {
+  return useSafeContext(todayClearedContext);
+}
 
 export default TodayClearedProvider;
