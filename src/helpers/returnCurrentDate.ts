@@ -1,6 +1,12 @@
 export const dayInMs = 1000 * 60 * 60 * 24;
 
-function returnDate(date) {
+export interface DateWithFormats {
+  DMY: string;
+  YMD: string;
+  date: { year: number; month: string; day: string };
+}
+
+function returnDate(date: Date): DateWithFormats {
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, '0'); // month is zero-indexed
   const day = String(date.getDate()).padStart(2, '0');
@@ -17,7 +23,7 @@ export function returnCurrentDate() {
   return returnDate(currentDate);
 }
 
-export function returnDateFromToday(day) {
+export function returnDateFromToday(day: number) {
   const currentDate = Date.now();
   const relativeDate = new Date(currentDate + day * dayInMs);
   return returnDate(relativeDate);
