@@ -2,10 +2,19 @@ import { createContext } from 'react';
 
 // custom hooks
 import useForceRender from '../custom-hooks/useForceRender';
+import useSafeContext from '../custom-hooks/useSafeContext';
 
-export const allDataClearedContext = createContext();
+// types
+import ChildrenProp from '../custom-types/ChildrenProp';
 
-const AllDataClearedProvider = ({ children }) => {
+const allDataClearedContext = createContext<AllDataClearedContext | null>(null);
+
+interface AllDataClearedContext {
+  allDataCleared: number;
+  increaseAllDataCleared: React.DispatchWithoutAction;
+}
+
+const AllDataClearedProvider = ({ children }: ChildrenProp) => {
   // inform the children, if clear occurs; let them clean-up
 
   const [allDataCleared, increaseAllDataCleared] = useForceRender();
@@ -16,5 +25,9 @@ const AllDataClearedProvider = ({ children }) => {
     </allDataClearedContext.Provider>
   );
 };
+
+export function useAllDataClearedContext() {
+  return useSafeContext(allDataClearedContext);
+}
 
 export default AllDataClearedProvider;

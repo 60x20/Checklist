@@ -1,7 +1,6 @@
 import {
   memo,
   useCallback,
-  useContext,
   useEffect,
   useImperativeHandle,
   useLayoutEffect,
@@ -17,8 +16,8 @@ import { faBars, faXmark } from '@fortawesome/free-solid-svg-icons';
 const MemoizedFontAwesomeIcon = memo((props) => <FontAwesomeIcon {...props} />);
 
 // contexts
-import { allDataClearedContext } from '../providers/AllDataClearedProvider';
 import { useCurrentDateContext } from '../providers/CurrentDateProvider';
+import { useAllDataClearedContext } from '../providers/AllDataClearedProvider';
 import { useRequestedDateValidatedContext } from '../providers/RequestedDateValidatedProvider';
 import { useTodayClearedContext } from '../providers/TodayClearedProvider';
 import { focusFromRef, focusOnFirstItemFromRef, useRefContext } from '../providers/RefProvider';
@@ -56,9 +55,9 @@ const mainTitle = 'Checklist'; // will be put in document.title
 const addSubtitleToDocumentTitle = useDocumentTitle.bind(globalThis, mainTitle);
 
 const Checklist = () => {
-  const { allDataCleared } = useContext(allDataClearedContext); // when changes, new data will be brought
   const { year, month, day } = useRequestedDateValidatedContext();
   if (year === undefined || month === undefined || day === undefined) throw new Error(`requested date isn't valid`);
+  const { allDataCleared } = useAllDataClearedContext(); // when changes, new data will be brought
   const { todayCleared } = useTodayClearedContext(); // when changes, new data will be brought
 
   const dateRequested = new Date([year, month, day].join('-'));

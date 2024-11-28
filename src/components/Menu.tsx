@@ -2,9 +2,9 @@ import { useContext, useEffect, useLayoutEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 // contexts
-import { allDataClearedContext } from '../providers/AllDataClearedProvider';
 import { todayClearedContext } from '../providers/TodayClearedProvider';
 import { useMenuStateContext } from '../providers/MenuStateProvider';
+import { useAllDataClearedContext } from '../providers/AllDataClearedProvider';
 import { useRequestedDateValidatedContext } from '../providers/RequestedDateValidatedProvider';
 import { focusOnFirstItemFromRef, focusOnLastItemFromRef, useRefContext } from '../providers/RefProvider';
 
@@ -26,8 +26,8 @@ const Menu = ({ closeTheMenu }) => {
   const { year, month, day } = useRequestedDateValidatedContext();
   const isDateRequested = year && month && day;
 
-  const { increaseAllDataCleared } = useContext(allDataClearedContext);
   const { increaseTodayCleared } = useContext(todayClearedContext);
+  const { increaseAllDataCleared } = useAllDataClearedContext();
 
   // focus management and ease of use
   const menuRef = useRef();

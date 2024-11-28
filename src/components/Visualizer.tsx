@@ -1,5 +1,4 @@
 import { Link, Outlet, useParams } from 'react-router-dom';
-import { useContext } from 'react';
 
 // font awesome
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -19,7 +18,7 @@ import { truncateString } from '../helpers/utils';
 import { cachedAllTodos } from '../helpers/allTodosHelpers';
 
 // contexts
-import { allDataClearedContext } from '../providers/AllDataClearedProvider';
+import { useAllDataClearedContext } from '../providers/AllDataClearedProvider';
 import { refCallbackToFocusOnFirstItemOnMount, useRefContext } from '../providers/RefProvider';
 
 // custom hooks
@@ -41,7 +40,7 @@ export const VisualizerLayout = () => {
 };
 
 export const MonthVisualizer = () => {
-  useContext(allDataClearedContext); // when data is cleared, re-render
+  useAllDataClearedContext(); // when data is cleared, re-render
 
   // a specific month requested
   const { year, month } = useParams();
@@ -118,7 +117,7 @@ export const MonthVisualizer = () => {
 };
 
 export const YearVisualizer = () => {
-  useContext(allDataClearedContext); // when data is cleared, re-render
+  useAllDataClearedContext(); // when data is cleared, re-render
 
   // a specific year requested
   const { year } = useParams();
@@ -163,7 +162,7 @@ export const YearVisualizer = () => {
 };
 
 export const AllYearsVisualizer = () => {
-  useContext(allDataClearedContext); // when data is cleared, re-render
+  useAllDataClearedContext(); // when data is cleared, re-render
 
   addSubtitleToDocumentTitle('Years');
 
