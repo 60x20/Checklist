@@ -8,14 +8,27 @@ import {
   themeModeData,
   returnThemeEntry,
   isDarkPreferred,
+  ThemeMode,
 } from '../helpers/themeHelpers';
 
-export const themeContext = createContext();
+// types
+import ChildrenProp from '../custom-types/ChildrenProp';
+
+// custom hooks
+import useSafeContext from '../custom-hooks/useSafeContext';
+
+const themeContext = createContext<ThemeContext | null>(null);
+
+interface ThemeContext {
+  preferenceForDark: boolean;
+  themeMode: ThemeMode;
+  toggleThemeMode: () => void;
+}
 
 const bodyClassList = document.body.classList;
 
-const ThemeProvider = ({ children }) => {
-  const [themeMode, setThemeMode] = useState(() => returnThemeMode(returnThemeEntry()));
+const ThemeProvider = ({ children }: ChildrenProp) => {
+  const [themeMode, setThemeMode] = useState<ThemeMode>(() => returnThemeMode(returnThemeEntry()));
   function toggleThemeMode() {
     const nextThemeMode = returnThemeMode(themeMode + 1);
     changeThemeModeEntry(nextThemeMode);
@@ -24,11 +37,12 @@ const ThemeProvider = ({ children }) => {
 
   // detect theme preferences if auto; memoized to avoid unnecessary re-attaching
   const subscribeToThemeChangeHandler = useCallback(
-    (handler) => {
+    (handler: () => void) => {
       if (themeMode === 0) {
         colorSchemeMediaQuery.addEventListener('change', handler);
         return () => colorSchemeMediaQuery.removeEventListener('change', handler);
       }
+      return () => {}; // return a dummy callback to satisfy function signature
     },
     [themeMode],
   );
@@ -37,11 +51,16 @@ const ThemeProvider = ({ children }) => {
   // if theme mode or preference changes, preference will adapt (variable preferred over useEffect to avoid extra re-renders)
   const preferenceForDark = themeModeData[themeMode].preferenceForDark;
 
-  preferenceForDark ? bodyClassList.add('dark-theme') : bodyClassList.remove('dark-theme');
+  if (preferenceForDark) bodyClassList.add('dark-theme');
+  else bodyClassList.remove('dark-theme');
 
   return (
     <themeContext.Provider value={{ preferenceForDark, themeMode, toggleThemeMode }}>{children}</themeContext.Provider>
   );
 };
+
+export function useThemeContext() {
+  return useSafeContext(themeContext);
+}
 
 export default ThemeProvider;

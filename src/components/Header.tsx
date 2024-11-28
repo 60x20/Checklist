@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 
 // context providers
 import { menuStateContext } from '../providers/MenuStateProvider';
-import { themeContext } from '../providers/ThemeProvider';
 import { refContext } from '../providers/RefProvider';
+import { useThemeContext } from '../providers/ThemeProvider';
 
 // font awesome
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -15,7 +15,7 @@ import { returnThemeMode, themeModeData } from '../helpers/themeHelpers';
 
 const Header = () => {
   const { menuState, toggleMenuState } = useContext(menuStateContext);
-  const { preferenceForDark, themeMode, toggleThemeMode } = useContext(themeContext);
+  const { preferenceForDark, themeMode, toggleThemeMode } = useThemeContext;
   const {
     refs: { menuTogglerRef },
   } = useContext(refContext);
