@@ -154,11 +154,11 @@ const Todos = ({ day, month, year, unitsAsInt, helperMenuClosersRef, refForUpdat
 
   // only the tasks used, since values locally managed
   const [currentTodoData, updateCurrentTodoData] = useReducer(
-    reducerForCurrrentTodoData,
+    reducerForCurrentTodoData,
     {},
-    reducerForCurrrentTodoData,
+    reducerForCurrentTodoData,
   );
-  function reducerForCurrrentTodoData(prevData, { action = 'SYNC', todoId } = {}) {
+  function reducerForCurrentTodoData(prevData, { action = 'SYNC', todoId } = {}) {
     switch (action) {
       // keeping cache in sync; value used for initialization
       case 'ADD':
