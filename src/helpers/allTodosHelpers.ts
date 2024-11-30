@@ -13,6 +13,7 @@ export interface TodoTypeValueMap {
 }
 export type TodoType = keyof TodoTypeValueMap;
 export type TodoValueType = TodoTypeValueMap[TodoType];
+export type CheckboxValueType = TodoTypeValueMap['checkbox'];
 interface GlobalTodoData {
   description: string;
   type: TodoType;

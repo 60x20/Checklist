@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck, faXmark } from '@fortawesome/free-solid-svg-icons';
 
 // helpers
-import { returnAllYears } from '../helpers/allYearsHelpers';
+import { AllYears, returnAllYears } from '../helpers/allYearsHelpers';
 import {
   extractYear,
   extractMonth,
@@ -13,9 +13,9 @@ import {
   monthFormatter,
   monthYearTruncFormatter,
 } from '../helpers/validateUnitsFromDate';
-import { returnYearEntry } from '../helpers/todoDataHelpers';
-import { truncateString } from '../helpers/utils';
-import { cachedAllTodos } from '../helpers/allTodosHelpers';
+import { LocalTodoData, returnYearEntry } from '../helpers/todoDataHelpers';
+import { parseDecimal, truncateString } from '../helpers/utils';
+import { cachedAllTodos, CheckboxValueType } from '../helpers/allTodosHelpers';
 
 // contexts
 import { useAllDataClearedContext } from '../providers/AllDataClearedProvider';
@@ -44,6 +44,7 @@ export const MonthVisualizer = () => {
 
   // a specific month requested
   const { year, month } = useParams();
+  if (year === undefined || month === undefined) throw new Error('date is invalid');
 
   const extractedYear = extractYear(year);
   const extractedMonth = extractMonth(month);
@@ -70,10 +71,11 @@ export const MonthVisualizer = () => {
       {
         monthEntry
           .map((dayData, day) => {
-            // there are vacant indexes, so that days and indexes match
             if (dayData) {
               const dayAsString = String(day).padStart(2, '0');
-              const dayTodoData = Object.entries(dayData);
+              const dayTodoData = Object.entries(dayData).map(
+                ([id, todoData]: [string, LocalTodoData]): [number, LocalTodoData] => [parseDecimal(id), todoData],
+              );
               return (
                 <article key={day} className="day">
                   <h3 className="styled-as-p">
@@ -82,13 +84,12 @@ export const MonthVisualizer = () => {
                   <p>
                     completion:{' '}
                     {(() => {
-                      const dayCheckedData = [];
+                      const dayCheckedData: CheckboxValueType[] = [];
                       dayTodoData.forEach(([todoId, todoData]) => {
-                        if (cachedAllTodos[todoId].type === 'checkbox') dayCheckedData.push(todoData.value);
+                        if (cachedAllTodos[todoId].type === 'checkbox') dayCheckedData.push(todoData.value ? 1 : 0);
                       });
                       const amountOfTodos = dayCheckedData.length;
-                      let amountOfCheckedTodos = 0;
-                      for (const checked of dayCheckedData) if (checked) amountOfCheckedTodos++;
+                      const amountOfCheckedTodos = dayCheckedData.filter(Boolean).length;
                       return `${amountOfCheckedTodos}/${amountOfTodos}`;
                     })()}
                   </p>
@@ -101,7 +102,7 @@ export const MonthVisualizer = () => {
                             className={value ? 'checked' : 'unchecked'}
                           />
                         ) : (
-                          <span>{truncateString(value)}</span>
+                          <span>{truncateString(String(value))}</span>
                         )}
                       </li>
                     ))}
@@ -121,6 +122,7 @@ export const YearVisualizer = () => {
 
   // a specific year requested
   const { year } = useParams();
+  if (year === undefined) throw new Error('year is invalid');
 
   const extractedYear = extractYear(year);
 
@@ -141,7 +143,6 @@ export const YearVisualizer = () => {
         {
           yearEntry
             .map((monthArr, month) => {
-              // there are vacant indexes, so that months and indexes match
               if (monthArr) {
                 const monthAsString = String(month).padStart(2, '0');
                 const localDate = [extractedYear, monthAsString].join('-');
@@ -171,7 +172,7 @@ export const AllYearsVisualizer = () => {
 
   if (allYears.length === 0) return <p>no data</p>;
 
-  const allYearsDescending = allYears.sort((a, b) => b - a);
+  const allYearsDescending: AllYears = allYears.toSorted((a, b) => b - a);
 
   return (
     <nav>
@@ -179,7 +180,6 @@ export const AllYearsVisualizer = () => {
         {allYearsDescending.map((year) => {
           const yearAsString = String(year).padStart(4, '0');
           return (
-            // there aren't any vacant indexes, but years are unique
             <li key={year} className="year">
               <Link to={yearAsString}>
                 <time dateTime={yearAsString}>{year}</time>
