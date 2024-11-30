@@ -9,3 +9,9 @@ export function truncateString(str: string, maxCharSize = 10) {
 export function isArrTruthy(arr: unknown[]) {
   return arr.some(Boolean);
 }
+
+export function parseDecimal(str: string) {
+  // this shouldn't be used if number isn't necessarily an integer
+  return parseInt(str, 10);
+}
+
