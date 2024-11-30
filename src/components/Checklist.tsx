@@ -39,6 +39,7 @@ import {
   updateTodoDescription,
   updateTodoType,
   ID,
+  TodoType,
   TodoValueType,
 } from '../helpers/allTodosHelpers';
 import {
@@ -56,7 +57,7 @@ import {
   weekdayDayMonthFormatter,
 } from '../helpers/validateUnitsFromDate';
 import { shouldUseAutoFocus } from '../helpers/keyboardDetection';
-import { capitalizeString, isArrTruthy, parseDecimal } from '../helpers/utils';
+import { avoidNaN, capitalizeString, isArrTruthy, parseDecimal } from '../helpers/utils';
 
 // custom hooks
 import useDocumentTitle from '../custom-hooks/useDocumentTitle';
@@ -248,13 +249,32 @@ const Todos = ({ day, month, year, unitsAsInt, helperMenuClosersRef, refForUpdat
   );
 };
 
+interface TodoProps {
+  updateCurrentTodoData: React.Dispatch<Action>;
+  todoId: ID;
+  helperMenuClosersRef: React.MutableRefObject<HelperMenuClosers>;
+  cachedTodoData: React.MutableRefObject<DayTodoData>;
+  unitsAsInt: [number, number, number];
+  year: string;
+  month: string;
+  day: string;
+}
 const Todo = memo(
-  ({ updateCurrentTodoData, day, month, year, unitsAsInt, todoId, helperMenuClosersRef, cachedTodoData }) => {
+  ({
+    updateCurrentTodoData,
+    day,
+    month,
+    year,
+    unitsAsInt,
+    todoId,
+    helperMenuClosersRef,
+    cachedTodoData,
+  }: TodoProps) => {
     const currentDate = useCurrentDateContext();
     const isToday = currentDate.YMD === [year, month, day].join('-');
 
     // for easier focus management
-    const todoRef = useRef();
+    const todoRef = useRef<HTMLLIElement>(null);
 
     // for the appearance of helpers (individually)
     const [helperState, setHelperState] = useState(false); // by default helper closed
@@ -267,20 +287,21 @@ const Todo = memo(
     } = useRefContext();
     function focusOnCurrentMenuToggler() {
       const currentTodo = todoRef.current;
-      currentTodo.querySelector('.helper-menu-toggler').focus();
+      if (currentTodo !== null) (currentTodo.querySelector('.helper-menu-toggler') as HTMLElement).focus();
     }
     function focusWhenHelperMenuCloses() {
       const currentTodo = todoRef.current;
+      if (currentTodo === null) return;
       const nextTodo = currentTodo.nextElementSibling;
-      if (nextTodo) return nextTodo.querySelector('.helper-menu-toggler').focus(); // first try next, since replaces the removed todo
+      if (nextTodo) return (nextTodo.querySelector('.helper-menu-toggler') as HTMLElement).focus(); // first try next, since replaces the removed todo
       const prevTodo = currentTodo.previousElementSibling;
-      if (prevTodo) return prevTodo.querySelector('.helper-menu-toggler').focus(); // then try previous
+      if (prevTodo) return (prevTodo.querySelector('.helper-menu-toggler') as HTMLElement).focus(); // then try previous
       focusOnCreateTodo(); // last resort
     }
 
     // todo value, type and description locally managed
-    const [todoValue, setTodoValue] = useState(cachedTodoData.current[todoId].value);
-    const [todoType, setTodoType] = useState(cachedAllTodos[todoId].type);
+    const [todoValue, setTodoValue] = useState<TodoValueType>(cachedTodoData.current[todoId].value);
+    const [todoType, setTodoType] = useState<TodoType>(cachedAllTodos[todoId].type);
     const [todoDescription, setTodoDescription] = useState(cachedAllTodos[todoId].description);
 
     // currentTodoData should be in sync with localStorage entry
@@ -290,20 +311,29 @@ const Todo = memo(
     }
 
     // todoDescription should be in sync with localStorage entry
-    function updateTodoDescriptionAndSync(todoDescription) {
+    function updateTodoDescriptionAndSync(todoDescription: string) {
       updateTodoDescription(todoId, todoDescription);
       setTodoDescription(todoDescription);
     }
     // for performance optimization, todoValue locally managed, hence only in sync with localStorage (not with currentTodoData)
-    function updateAndSyncTodoValue(value) {
+    function updateAndSyncTodoValue<Type extends TodoType>(value: TodoTypeValueMap[Type]) {
       updateTodoValue(todoId, ...unitsAsInt, value);
       setTodoValue(value);
     }
-    function resetAndSyncTodoValue() {
-      updateAndSyncTodoValue('');
+    function resetAndSyncTodoValue(newType: TodoType) {
+      switch (newType) {
+        case 'number':
+        case 'checkbox':
+          updateAndSyncTodoValue<typeof newType>(0);
+          break;
+        case 'time':
+        case 'text':
+          updateAndSyncTodoValue<typeof newType>('');
+          break;
+      }
     }
     // for performance optimization, todoType locally managed
-    function updateAndSyncTodoType(type) {
+    function updateAndSyncTodoType(type: TodoType) {
       updateTodoType(todoId, type);
       setTodoType(type);
     }
@@ -317,24 +347,36 @@ const Todo = memo(
 
       focusWhenHelperMenuCloses(); // move focus to the nearest element
     }
-    function updateTodoCheckedHandler(e) {
-      const checked = Number(e.currentTarget.checked); // boolean converted into 0 and 1 to save memory
-      updateAndSyncTodoValue(checked);
+    function updateTodoValueHandler(e: React.ChangeEvent<HTMLInputElement>) {
+      switch (todoType) {
+        case 'checkbox': {
+          const checked: CheckboxValueType = e.currentTarget.checked ? 1 : 0; // boolean converted into 0 and 1 to save memory
+          updateAndSyncTodoValue<typeof todoType>(checked);
+          break;
+        }
+        case 'number': {
+          const number = avoidNaN(e.currentTarget.valueAsNumber);
+          updateAndSyncTodoValue<typeof todoType>(number);
+          break;
+        }
+        case 'time':
+        case 'text': {
+          const value = e.currentTarget.value;
+          updateAndSyncTodoValue<typeof todoType>(value);
+          break;
+        }
+      }
     }
-    function updateTodoValueHandler(e) {
-      const newValue = e.currentTarget.value;
-      updateAndSyncTodoValue(newValue);
-    }
-    function updateTodoTypeHandler(e) {
-      const newType = e.currentTarget.value;
+    function updateTodoTypeHandler(e: React.ChangeEvent<HTMLSelectElement>) {
+      const newType = e.currentTarget.value as TodoType;
       updateAndSyncTodoType(newType);
 
-      resetAndSyncTodoValue(); // it's reset so that old value doesn't appear (otherwise checkbox => text: innerText === 1)
+      resetAndSyncTodoValue(newType); // it's reset so that old value doesn't appear (otherwise checkbox => text: innerText === 1)
 
       closeHelperMenu(); // close the helper menu
       focusOnCurrentMenuToggler(); // move focus to the current todoToggler
     }
-    function updateTodoDescriptionHandler(e) {
+    function updateTodoDescriptionHandler(e: React.FormEvent<HTMLFormElement>) {
       e.preventDefault();
       const submittedFormData = new FormData(e.currentTarget);
       const formDataReadable = Object.fromEntries(submittedFormData.entries());
@@ -351,7 +393,7 @@ const Todo = memo(
           <h3 className="main-item styled-as-p">{todoDescription}</h3>
           {/* bundles the elements so that they get wrapped at once */}
           <div className="helper-wrapper flex-container">
-            <TodoState {...{ todoValue, todoType, updateTodoCheckedHandler, updateTodoValueHandler }} />
+            <TodoState {...{ todoValue, todoType, updateTodoValueHandler }} />
             <button
               className="toggler-icon-only helper-menu-toggler"
               onClick={() => toggleHelperState()}
