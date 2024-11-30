@@ -15,3 +15,6 @@ export function parseDecimal(str: string) {
   return parseInt(str, 10);
 }
 
+export function avoidNaN(num: number) {
+  return num ? num : 0;
+}
