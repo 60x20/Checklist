@@ -39,6 +39,7 @@ import {
   updateTodoDescription,
   updateTodoType,
   ID,
+  TodoValueType,
 } from '../helpers/allTodosHelpers';
 import {
   returnTodoData,
@@ -46,6 +47,7 @@ import {
   addToTodoData,
   removeFromTodoData,
   updateTodoValue,
+  DayTodoData,
 } from '../helpers/todoDataHelpers';
 import {
   dayMonthTruncFormatter,
@@ -54,7 +56,7 @@ import {
   weekdayDayMonthFormatter,
 } from '../helpers/validateUnitsFromDate';
 import { shouldUseAutoFocus } from '../helpers/keyboardDetection';
-import { capitalizeString, isArrTruthy } from '../helpers/utils';
+import { capitalizeString, isArrTruthy, parseDecimal } from '../helpers/utils';
 
 // custom hooks
 import useDocumentTitle from '../custom-hooks/useDocumentTitle';
@@ -172,21 +174,48 @@ const CreateTodo = memo(({ unitsAsInt, year, month, day, refForUpdateCurrentTodo
   );
 });
 
-const Todos = ({ day, month, year, unitsAsInt, helperMenuClosersRef, refForUpdateCurrentTodoData }) => {
+interface TodosProps {
+  unitsAsInt: [number, number, number];
+  year: string;
+  month: string;
+  day: string;
+  helperMenuClosersRef: React.MutableRefObject<HelperMenuClosers>;
+  refForUpdateCurrentTodoData: React.RefObject<React.Dispatch<Action>>;
+}
+
+type Action =
+  | { action: 'SYNC'; todoId?: never; todoType?: never }
+  | { action: 'ADD'; todoId: ID; todoType?: TodoType }
+  | { action: 'REMOVE'; todoId: ID; todoType?: never };
+
+const Todos = ({ day, month, year, unitsAsInt, helperMenuClosersRef, refForUpdateCurrentTodoData }: TodosProps) => {
   // localStorage entry cached to avoid parsing; used to initialize local states, avoiding hoisting the state up and re-rendering
-  const cachedTodoData = useRef();
+  const cachedTodoData = useRef<DayTodoData>({});
 
   // only the tasks used, since values locally managed
-  const [currentTodoData, updateCurrentTodoData] = useReducer(
-    reducerForCurrentTodoData,
-    {},
-    reducerForCurrentTodoData,
+  const [currentTodoData, updateCurrentTodoData] = useReducer(reducerForCurrentTodoData, {}, (init) =>
+    reducerForCurrentTodoData(init, { action: 'SYNC' }),
   );
-  function reducerForCurrentTodoData(prevData, { action = 'SYNC', todoId } = {}) {
+  function reducerForCurrentTodoData(
+    prevData: DayTodoData,
+    { action, todoId, todoType = 'checkbox' }: Action,
+  ): DayTodoData {
     switch (action) {
       // keeping cache in sync; value used for initialization
-      case 'ADD':
-        return (cachedTodoData.current = { ...prevData, [todoId]: { value: '' } });
+      case 'ADD': {
+        let initialValue: TodoValueType = '';
+        switch (todoType) {
+          case 'number':
+          case 'checkbox':
+            initialValue = 0;
+            break;
+          case 'time':
+          case 'text':
+            initialValue = '';
+            break;
+        }
+        return (cachedTodoData.current = { ...prevData, [todoId]: { value: initialValue } });
+      }
       case 'REMOVE': {
         const latestData = { ...prevData };
         delete latestData[todoId];
@@ -203,7 +232,7 @@ const Todos = ({ day, month, year, unitsAsInt, helperMenuClosersRef, refForUpdat
   useImperativeHandle(refForUpdateCurrentTodoData, () => updateCurrentTodoData, []);
 
   // for rendering todos
-  const currentTodoTasks = Object.keys(currentTodoData); // by default, components are rendered in ascending order by ID
+  const currentTodoTasks = Object.keys(currentTodoData).map<ID>(parseDecimal); // by default, components are rendered in ascending order by ID
   // TODO: ordering can be changed by changing the way this array is created, without avoiding memoization of components
 
   return (
