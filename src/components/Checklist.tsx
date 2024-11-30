@@ -426,19 +426,28 @@ const Todo = memo(
   },
 );
 
-const TodoState = ({ todoValue, todoType, updateTodoCheckedHandler, updateTodoValueHandler }) => {
-  const isTypeCheckbox = todoType === 'checkbox';
-  const isTypeNumber = todoType === 'number';
-  return (
-    <input
-      name="todo-state"
-      type={todoType}
-      onChange={isTypeCheckbox ? updateTodoCheckedHandler : updateTodoValueHandler}
-      {...(isTypeCheckbox ? { checked: todoValue } : { value: todoValue })} // checkboxes use 'checked' attribute instead of 'value'
-      {...(isTypeNumber ? { step: 'any' } : {})}
-      title={isTypeCheckbox ? `Mark as ${!todoValue ? 'done' : 'undone'}.` : `Enter ${capitalizeString(todoType)}.`}
-    />
-  );
+interface TodoStateProps {
+  todoValue: TodoValueType;
+  todoType: TodoType;
+  updateTodoValueHandler: (e: React.ChangeEvent<HTMLInputElement>) => void;
+}
+const TodoState = ({ todoValue, todoType, updateTodoValueHandler }: TodoStateProps) => {
+  const inputProps = {
+    type: todoType,
+    name: 'todo-state',
+    onChange: updateTodoValueHandler,
+    title:
+      todoType === 'checkbox' ? `Mark as ${!todoValue ? 'done' : 'undone'}.` : `Enter ${capitalizeString(todoType)}.`,
+  };
+  switch (todoType) {
+    case 'checkbox':
+      return <input {...inputProps} checked={Boolean(todoValue)} />;
+    case 'number':
+      return <input {...inputProps} value={avoidNaN(Number(todoValue))} step="any" />;
+    case 'time':
+    case 'text':
+      return <input {...inputProps} value={String(todoValue)} />;
+  }
 };
 
 const TodoHelpers = ({
