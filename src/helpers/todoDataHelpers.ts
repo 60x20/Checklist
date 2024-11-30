@@ -26,7 +26,8 @@ function updateYearEntry(year: number, todoData: YearTodoData) {
 
 export function returnYearEntry(year: number): YearTodoData | null {
   const yearEntry = localStorage.getItem(String(year));
-  return yearEntry === null ? null : JSON.parse(yearEntry);
+  if (yearEntry !== null) return JSON.parse(yearEntry);
+  return null;
 }
 function returnValidYearEntry(year: number): ValidYearTodoData {
   // if year entry, along with month and day, is already validated, prefer this version to avoid nullish return

@@ -24,7 +24,7 @@ interface TodosTemplate extends DayTodoData {
 type TransferableTodoData = LocalTodoData & { frequency?: Frequency };
 
 // todosTemplate cached to avoid unnecessary parsing
-export let cachedTodosTemplate = returnTodosTemplate();
+export let cachedTodosTemplate = returnTodosTemplate()!; // validated before use
 
 function updateTodosTemplate(ObjectOfIds: TodosTemplate) {
   localStorage.setItem('todos-template', JSON.stringify(ObjectOfIds));
@@ -33,19 +33,24 @@ function updateTodosTemplate(ObjectOfIds: TodosTemplate) {
 }
 
 export function validateTodosTemplate() {
-  if (!localStorage.getItem('todos-template')) {
+  if (!returnTodosTemplate()) {
     updateTodosTemplate({});
   }
 }
 
-function returnTodosTemplate(): TodosTemplate {
+function returnTodosTemplate(): TodosTemplate | null {
+  const todosTemplateEntry = localStorage.getItem('todos-template');
+  if (todosTemplateEntry !== null) return JSON.parse(todosTemplateEntry);
+  return null;
+}
+function returnValidTodosTemplate(): TodosTemplate {
   const todosTemplateEntry = localStorage.getItem('todos-template');
   if (todosTemplateEntry !== null) return JSON.parse(todosTemplateEntry);
   throw new Error(`"TodosTemplate" isn't valid`);
 }
 
 export function returnTodosTemplateForWeekday(weekday: Weekday) {
-  const localTodosTemplate = returnTodosTemplate();
+  const localTodosTemplate = returnValidTodosTemplate();
   const todosTemplateForWeekday: DayTodoData = {};
   for (const todoId in localTodosTemplate) {
     if (localTodosTemplate[todoId].frequency[weekday]) {
@@ -71,13 +76,13 @@ export function addToTodosTemplate(
 }
 
 export function updateFrequencyOnTodosTemplate(id: ID, frequency: Frequency) {
-  const localTodosTemplate = returnTodosTemplate();
+  const localTodosTemplate = returnValidTodosTemplate();
   localTodosTemplate[id].frequency = frequency;
   updateTodosTemplate(localTodosTemplate);
 }
 
 export function removeFromTodosTemplate(idToRemove: ID) {
-  const localTodosTemplate = returnTodosTemplate();
+  const localTodosTemplate = returnValidTodosTemplate();
   delete localTodosTemplate[idToRemove];
   updateTodosTemplate(localTodosTemplate);
 }

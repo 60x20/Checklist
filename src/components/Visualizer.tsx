@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck, faXmark } from '@fortawesome/free-solid-svg-icons';
 
 // helpers
-import { AllYears, returnAllYears } from '../helpers/allYearsHelpers';
+import { AllYears, returnValidAllYears } from '../helpers/allYearsHelpers';
 import {
   extractYear,
   extractMonth,
@@ -189,7 +189,7 @@ export const AllYearsVisualizer = () => {
   addSubtitleToDocumentTitle('Years');
 
   // everything requested
-  const allYears = returnAllYears();
+  const allYears = returnValidAllYears();
 
   if (allYears.length === 0) return <p>no data</p>;
 

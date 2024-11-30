@@ -3,7 +3,7 @@
 import { BooleanAsNum } from './todosTemplateHelpers';
 
 // allTodos cached to avoid unnecessary parsing, hence faster
-export let cachedAllTodos = returnAllTodos();
+export let cachedAllTodos = returnAllTodos()!; // validated before use
 
 export interface TodoTypeValueMap {
   checkbox: BooleanAsNum;
@@ -35,7 +35,12 @@ export function validateAllTodos() {
   }
 }
 
-function returnAllTodos(): AllTodos {
+function returnAllTodos(): AllTodos | null {
+  const allTodosEntry = localStorage.getItem('todos');
+  if (allTodosEntry !== null) return JSON.parse(allTodosEntry);
+  return null;
+}
+function returnValidAllTodos(): AllTodos {
   const allTodosEntry = localStorage.getItem('todos');
   if (allTodosEntry !== null) return JSON.parse(allTodosEntry);
   throw new Error(`"AllTodos" isn't valid`);
@@ -45,7 +50,7 @@ export function addToAllTodos(
   todoDescription: TodoDescription,
   todoType: TodoType = 'checkbox',
 ): ID {
-  const localAllTodos = returnAllTodos();
+  const localAllTodos = returnValidAllTodos();
   localAllTodos.push({ description: todoDescription, type: todoType });
   updateAllTodos(localAllTodos);
   return localAllTodos.length - 1; // returns the ID assigned to todoDescription
@@ -55,13 +60,13 @@ export function updateTodoDescription(
   id: ID,
   todoDescription: TodoDescription,
 ) {
-  const localAllTodos = returnAllTodos();
+  const localAllTodos = returnValidAllTodos();
   localAllTodos[id].description = todoDescription;
   updateAllTodos(localAllTodos);
 }
 
 export function updateTodoType(id: ID, todoType: TodoType) {
-  const localAllTodos = returnAllTodos();
+  const localAllTodos = returnValidAllTodos();
   localAllTodos[id].type = todoType;
   updateAllTodos(localAllTodos);
 }

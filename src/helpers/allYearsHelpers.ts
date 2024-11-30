@@ -12,14 +12,19 @@ export function validateAllYears() {
   }
 }
 
-export function returnAllYears(): AllYears {
+function returnAllYears(): AllYears | null {
+  const yearsEntry = localStorage.getItem('years');
+  if (yearsEntry !== null) return JSON.parse(yearsEntry);
+  return null;
+}
+export function returnValidAllYears(): AllYears {
   const yearsEntry = localStorage.getItem('years');
   if (yearsEntry !== null) return JSON.parse(yearsEntry);
   throw new Error(`"AllYears" isn't valid`);
 }
 
 export function addToAllYears(year: number) {
-  const allYears = returnAllYears();
+  const allYears = returnValidAllYears();
   allYears.push(year);
   updateAllYears(allYears);
 }
