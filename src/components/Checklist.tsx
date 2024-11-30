@@ -32,6 +32,7 @@ import {
   updateFrequencyOnTodosTemplate,
   Frequency,
   Weekday,
+  BooleanAsNum,
 } from '../helpers/todosTemplateHelpers';
 import {
   cachedAllTodos,
@@ -531,12 +532,23 @@ const TodoHelpers = ({
   );
 };
 
-const FrequencyMenu = ({ todoId, closeFrequencyMenu, frequencyMenuButtonRef, focusOnFrequencyMenuButton }) => {
+interface FrequencyMenuProps {
+  todoId: ID;
+  closeFrequencyMenu: () => void;
+  frequencyMenuButtonRef: React.RefObject<HTMLButtonElement>;
+  focusOnFrequencyMenuButton: () => void;
+}
+const FrequencyMenu = ({
+  todoId,
+  closeFrequencyMenu,
+  frequencyMenuButtonRef,
+  focusOnFrequencyMenuButton,
+}: FrequencyMenuProps) => {
   const [frequencyState, setFrequencyState] = useState(() =>
     isTodoInTodosTemplate(todoId) ? cachedTodosTemplate[todoId].frequency : frequencyNever,
   );
 
-  function changeAndSyncFrequency(frequency) {
+  function changeAndSyncFrequency(frequency: Frequency) {
     if (isArrTruthy(frequency)) {
       // frequency isn't never
       if (isTodoInTodosTemplate(todoId)) {
@@ -548,25 +560,25 @@ const FrequencyMenu = ({ todoId, closeFrequencyMenu, frequencyMenuButtonRef, foc
   }
 
   // handlers
-  function toggleCheckedHandler(e) {
-    const dayIndex = e.currentTarget.value;
-    const dayState = Number(e.currentTarget.checked); // 1-0 used instead of true-false, to save space
-    const newFrequency = [...frequencyState];
+  function toggleCheckedHandler(e: React.ChangeEvent<HTMLInputElement>) {
+    const dayIndex = parseDecimal(e.currentTarget.value) as Weekday;
+    const dayState: BooleanAsNum = e.currentTarget.checked ? 1 : 0; // 1-0 used instead of true-false, to save space
+    const newFrequency: Frequency = [...frequencyState];
     newFrequency[dayIndex] = dayState;
     changeAndSyncFrequency(newFrequency);
   }
 
   // focus management
-  const frequencyMenuRef = useRef();
+  const frequencyMenuRef = useRef<HTMLUListElement>(null);
   useLayoutEffect(() => {
     focusOnFirstItemFromRef(frequencyMenuRef); // on mount focus on first element
   }, []);
   useEffect(() => {
-    function closeFrequencyMenuOnFocusOutHandler(e) {
+    function closeFrequencyMenuOnFocusOutHandler(e: FocusEvent) {
       const menuElement = frequencyMenuRef.current;
       if (!menuElement) return; // already closed
       if (e.relatedTarget === frequencyMenuButtonRef.current) return; // menu closing when toggler gets focus causes re-opening
-      if (!menuElement.contains(e.relatedTarget)) closeFrequencyMenu();
+      if (!(e.relatedTarget instanceof Node && menuElement.contains(e.relatedTarget))) closeFrequencyMenu();
     }
 
     document.addEventListener('focusout', closeFrequencyMenuOnFocusOutHandler);
@@ -580,6 +592,8 @@ const FrequencyMenu = ({ todoId, closeFrequencyMenu, frequencyMenuButtonRef, foc
   useLayoutEffect(() => {
     // if there isn't enough space place it over the button
     function isSpaceUnderButtonEnough() {
+      if (frequencyMenuButtonRef.current === null || frequencyMenuRef.current === null || footerRef.current === null)
+        throw new Error('element is null');
       const menuElementHeight = frequencyMenuRef.current.getBoundingClientRect().height;
       const menuTogglerButtonBottom = frequencyMenuButtonRef.current.getBoundingClientRect().bottom;
       const footerTop = footerRef.current.getBoundingClientRect().top;
@@ -590,6 +604,7 @@ const FrequencyMenu = ({ todoId, closeFrequencyMenu, frequencyMenuButtonRef, foc
 
     function determineWhereToPlaceTheMenu() {
       const menuElement = frequencyMenuRef.current;
+      if (menuElement === null) throw new Error('menu is null');
       if (isSpaceUnderButtonEnough()) menuElement.classList.remove('over-the-button');
       else menuElement.classList.add('over-the-button');
     }
@@ -601,12 +616,25 @@ const FrequencyMenu = ({ todoId, closeFrequencyMenu, frequencyMenuButtonRef, foc
     return () => window.removeEventListener('resize', determineWhereToPlaceTheMenu);
   }, [footerRef, frequencyMenuButtonRef]);
 
+  const monThruSun = frequencyState.map((checked, dayIndex) => {
+    return (
+      <li key={dayIndex}>
+        <label className="frequency-toggler-label toggler-text-and-icon toggler-transition">
+          <span className="unselectable">{returnWeekdayFromSunday(dayIndex)}</span>
+          <input type="checkbox" value={dayIndex} checked={Boolean(checked)} onChange={toggleCheckedHandler} />
+        </label>
+      </li>
+    );
+  });
+  // since sunday uses 0 instead of 7 (due to .getDay()), we need to put it at the end to get a mon-sun list
+  monThruSun[6] = monThruSun.shift()!;
+
   return (
     <ul
       className="frequency-menu"
       role="menu"
       ref={frequencyMenuRef}
-      tabIndex="-1" // so that when something unfocusable (like a text) is clicked, focus remains on the menu
+      tabIndex={-1} // so that when something unfocusable (like a text) is clicked, focus remains on the menu
       onKeyDown={(e) => {
         if (e.key === 'Escape') {
           closeFrequencyMenu();
@@ -615,23 +643,7 @@ const FrequencyMenu = ({ todoId, closeFrequencyMenu, frequencyMenuButtonRef, foc
         }
       }}
     >
-      {frequencyState.map((el, i) => {
-        // start with monday end with sunday
-        const dayIndex = i + 1 === 7 ? 0 : i + 1; // sunday uses 0 instead of 7 (since Date.prototype.getDay() returns 0 on Sunday)
-        return (
-          <li key={dayIndex}>
-            <label className="frequency-toggler-label toggler-text-and-icon toggler-transition">
-              <span className="unselectable">{returnWeekdayFromSunday(dayIndex)}</span>
-              <input
-                type="checkbox"
-                value={dayIndex}
-                checked={frequencyState[dayIndex]}
-                onChange={toggleCheckedHandler}
-              />
-            </label>
-          </li>
-        );
-      })}
+      {monThruSun}
     </ul>
   );
 };
