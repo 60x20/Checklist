@@ -1,6 +1,6 @@
 # Checklist
 
-A checklist application that auto refreshes everyday, and saves previous checklists, and also visualizes them. React and React-Router are used.
+A checklist application that auto refreshes everyday, saves previous checklists, and visualizes them. TypeScript, React and React-Router are used.
 
 ## Features
 
