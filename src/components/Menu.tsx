@@ -138,10 +138,19 @@ const Menu = ({ closeTheMenu }: MenuProps) => {
   }
 
   // for creating links relative to today
-  const prevDates: ''[] = [];
-  const prevDayAmount = 3;
-  prevDates.length = prevDayAmount + 1; // 1 for today
-  prevDates.fill(''); // if they're empty, .map() will skip them
+  const prevDates: JSX.Element[] = [];
+  const prevDayAmount = 3 + 1; // 1 for today
+  for (let i = 0; i < prevDayAmount; i++) {
+    const relativeDate = returnDateFromToday(-i);
+    prevDates.push(
+      <li key={i}>
+        <Link to={relativeDate.YMD.replaceAll('-', '/')} onClick={focusOnCreateTodoAndCloseTheMenu}>
+          {i === 0 ? 'today: ' : ''}
+          <time dateTime={relativeDate.YMD}>{dayMonthYearTruncFormatter.format(new Date(relativeDate.YMD))}</time>
+        </Link>
+      </li>,
+    );
+  }
 
   return (
     // tabindex to make it focusable, so that when it's clicked it's not the body who gets the focus
@@ -157,19 +166,7 @@ const Menu = ({ closeTheMenu }: MenuProps) => {
       <h2>Previous Checklists</h2>
       <nav>
         <ul className="column-stretch-container">
-          {prevDates.map((_el, i) => {
-            const relativeDate = returnDateFromToday(-i);
-            return (
-              <li key={i}>
-                <Link to={relativeDate.YMD.replaceAll('-', '/')} onClick={focusOnCreateTodoAndCloseTheMenu}>
-                  {i === 0 ? 'today: ' : ''}
-                  <time dateTime={relativeDate.YMD}>
-                    {dayMonthYearTruncFormatter.format(new Date(relativeDate.YMD))}
-                  </time>
-                </Link>
-              </li>
-            );
-          })}
+          {prevDates}
           <li>
             <label>
               <span>go to: </span>
