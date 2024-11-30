@@ -118,7 +118,14 @@ const Checklist = () => {
 
 export default Checklist;
 
-const CreateTodo = memo(({ unitsAsInt, year, month, day, refForUpdateCurrentTodoData }) => {
+interface CreateTodoProps {
+  unitsAsInt: [number, number, number];
+  year: string;
+  month: string;
+  day: string;
+  refForUpdateCurrentTodoData: React.RefObject<React.Dispatch<Action>>;
+}
+const CreateTodo = memo(({ unitsAsInt, year, month, day, refForUpdateCurrentTodoData }: CreateTodoProps) => {
   // when mounts, focus on the create todo button; button preferred instead of input to avoid virtual keyboard
   const {
     refs: { createTodoRef },
@@ -128,13 +135,14 @@ const CreateTodo = memo(({ unitsAsInt, year, month, day, refForUpdateCurrentTodo
   const isToday = currentDate.YMD === [year, month, day].join('-');
 
   // currentTodoData should be in sync with localStorage entry
-  function addToCurrentTodoDataAndSync(todoIdToAdd) {
+  function addToCurrentTodoDataAndSync(todoIdToAdd: ID) {
+    if (refForUpdateCurrentTodoData.current === null) throw new Error('updater is null');
     addToTodoData(todoIdToAdd, ...unitsAsInt);
     refForUpdateCurrentTodoData.current({ action: 'ADD', todoId: todoIdToAdd });
   }
 
   // handlers
-  function createTodoHandler(e) {
+  function createTodoHandler(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const submittedFormData = new FormData(e.currentTarget);
     const formDataReadable = Object.fromEntries(submittedFormData.entries());
