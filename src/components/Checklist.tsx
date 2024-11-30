@@ -450,6 +450,15 @@ const TodoState = ({ todoValue, todoType, updateTodoValueHandler }: TodoStatePro
   }
 };
 
+interface TodoHelpersProps {
+  todoId: ID;
+  updateTodoDescriptionHandler: (e: React.FormEvent<HTMLFormElement>) => void;
+  todoType: TodoType;
+  updateTodoTypeHandler: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+  removeFromTodoHandler: () => void;
+  closeHelperMenu: () => void;
+  helperMenuClosersRef: React.MutableRefObject<HelperMenuClosers>;
+}
 const TodoHelpers = ({
   todoId,
   updateTodoDescriptionHandler,
@@ -458,7 +467,7 @@ const TodoHelpers = ({
   removeFromTodoHandler,
   closeHelperMenu,
   helperMenuClosersRef,
-}) => {
+}: TodoHelpersProps) => {
   useEffect(() => {
     // store the helperMenu closer in ref, will be used to close all at once
     const helperMenuClosers = helperMenuClosersRef.current;
@@ -474,7 +483,7 @@ const TodoHelpers = ({
   }
   const closeFrequencyMenu = useCallback(() => setFrequencyMenuState(false), []); // memoized to avoid unnecessary re-attaching
 
-  const frequencyMenuButtonRef = useRef();
+  const frequencyMenuButtonRef = useRef<HTMLButtonElement>(null);
   function focusOnFrequencyMenuButton() {
     focusFromRef(frequencyMenuButtonRef);
   }
