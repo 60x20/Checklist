@@ -9,9 +9,9 @@ export function isDarkPreferred() {
 
 export type ThemeMode = 0 | 1 | 2;
 
-export function returnThemeEntry() {
+export function returnThemeEntry(): ThemeMode | null {
   const themeEntry = localStorage.getItem('theme');
-  if (themeEntry !== null) return JSON.parse(themeEntry) as ThemeMode;
+  if (themeEntry !== null) return JSON.parse(themeEntry);
   return null;
 }
 

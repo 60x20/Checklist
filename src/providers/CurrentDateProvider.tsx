@@ -8,9 +8,9 @@ import ChildrenProp from '../custom-types/ChildrenProp';
 // helpers
 import { DateWithFormats, returnCurrentDate } from '../helpers/returnCurrentDate';
 import useSafeContext from '../custom-hooks/useSafeContext';
-function getTodayVisited() {
+function getTodayVisited(): string | null {
   const todayVisitedEntry = localStorage.getItem('today-visited');
-  if (todayVisitedEntry !== null) return JSON.parse(todayVisitedEntry) as string;
+  if (todayVisitedEntry !== null) return JSON.parse(todayVisitedEntry);
   return null;
 }
 function updateTodayVisited(newDate: string) {
