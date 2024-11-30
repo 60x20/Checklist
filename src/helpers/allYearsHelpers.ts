@@ -1,6 +1,8 @@
 // All years: years that have an entry in the local storage
 
-function updateAllYears(arrayOfYears) {
+export type AllYears = number[];
+
+function updateAllYears(arrayOfYears: AllYears) {
   localStorage.setItem('years', JSON.stringify(arrayOfYears));
 }
 
@@ -10,11 +12,13 @@ export function validateAllYears() {
   }
 }
 
-export function returnAllYears() {
-  return JSON.parse(localStorage.getItem('years'));
+export function returnAllYears(): AllYears {
+  const yearsEntry = localStorage.getItem('years');
+  if (yearsEntry !== null) return JSON.parse(yearsEntry);
+  throw new Error(`"AllYears" isn't valid`);
 }
 
-export function addToAllYears(year) {
+export function addToAllYears(year: number) {
   const allYears = returnAllYears();
   allYears.push(year);
   updateAllYears(allYears);
