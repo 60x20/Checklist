@@ -1,5 +1,8 @@
 import { dayInMs } from './returnCurrentDate';
 
+// types
+import { Weekday } from './todosTemplateHelpers';
+
 const weekdayFormatter = createFormatter({ weekday: 'long' });
 export const weekdayDayMonthFormatter = createFormatter({ weekday: 'long', day: 'numeric', month: 'long' });
 export const dayMonthTruncFormatter = createFormatter({ day: 'numeric', month: 'short' });
@@ -75,6 +78,8 @@ export function returnWeekdayFromSunday(day: number) {
   return weekdayFormatter.format(new Date(dateForSunday + day * dayInMs));
 }
 
-export function returnWeekday(year: string, month: string, day: string) {
-  return new Date([year, month, day].join('-')).getDay();
+export function returnWeekday(year: string, month: string, day: string): Weekday {
+  const weekday = new Date([year, month, day].join('-')).getDay();
+  if (isNaN(weekday)) throw new Error('not a weekday');
+  return weekday as Weekday;
 }
