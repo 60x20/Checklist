@@ -30,8 +30,16 @@ import {
   isTodoInTodosTemplate,
   frequencyNever,
   updateFrequencyOnTodosTemplate,
+  Frequency,
+  Weekday,
 } from '../helpers/todosTemplateHelpers';
-import { cachedAllTodos, addToAllTodos, updateTodoDescription, updateTodoType } from '../helpers/allTodosHelpers';
+import {
+  cachedAllTodos,
+  addToAllTodos,
+  updateTodoDescription,
+  updateTodoType,
+  ID,
+} from '../helpers/allTodosHelpers';
 import {
   returnTodoData,
   validateTodoData,
@@ -50,6 +58,11 @@ import { capitalizeString, isArrTruthy } from '../helpers/utils';
 
 // custom hooks
 import useDocumentTitle from '../custom-hooks/useDocumentTitle';
+
+// types
+interface HelperMenuClosers {
+  [id: ID]: () => void;
+}
 
 const mainTitle = 'Checklist'; // will be put in document.title
 const addSubtitleToDocumentTitle = useDocumentTitle.bind(globalThis, mainTitle);
@@ -71,19 +84,19 @@ const Checklist = () => {
   addSubtitleToDocumentTitle(dayMonthTruncFormatter.format(dateRequested)); // adding date to the title
 
   // for closing all helper menus
-  const helperMenuClosersRef = useRef({});
+  const helperMenuClosersRef = useRef<HelperMenuClosers>({});
   function closeAllHelpers() {
-    Object.values(helperMenuClosersRef.current).forEach((closer) => closer());
+    Object.values(helperMenuClosersRef.current).forEach((closer: HelperMenuClosers[ID]) => closer());
   }
 
   // updater in Todos passed to its sibling (= CreateTodo) using ref; hoisting avoided since Todos has a special key
-  const refForUpdateCurrentTodoData = useRef();
+  const refForUpdateCurrentTodoData = useRef<React.Dispatch<Action>>(null);
 
   return (
     <div
       id="checklist"
       className="column-container"
-      tabIndex="-1"
+      tabIndex={-1}
       // keydown preferred, so that when browser popup gets closed, possible keyUps don't trigger closing
       onKeyDown={(e) => {
         if (e.key === 'Escape') closeAllHelpers();
