@@ -11,9 +11,9 @@ import {
 } from 'react';
 
 // font awesome
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { FontAwesomeIcon, FontAwesomeIconProps } from '@fortawesome/react-fontawesome';
 import { faBars, faXmark } from '@fortawesome/free-solid-svg-icons';
-const MemoizedFontAwesomeIcon = memo((props) => <FontAwesomeIcon {...props} />);
+const MemoizedFontAwesomeIcon = memo((props: FontAwesomeIconProps) => <FontAwesomeIcon {...props} />);
 
 // contexts
 import { useCurrentDateContext } from '../providers/CurrentDateProvider';
