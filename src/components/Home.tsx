@@ -20,8 +20,13 @@ const Home = () => {
       {/* focus on the anchor on mount; autoFocus isn't used since it doesn't work with <a> elements */}
       <h1>
         Today:{' '}
-        <Link ref={refCallbackForFocusOnMount} to={currentDate.YMD.replaceAll('-', '/')}>
-          <time dateTime={currentDate.YMD}>{weekdayDayMonthFormatter.format(new Date())}</time>
+        <Link
+          ref={refCallbackForFocusOnMount}
+          to={currentDate.YMD.replaceAll('-', '/')}
+        >
+          <time dateTime={currentDate.YMD}>
+            {weekdayDayMonthFormatter.format(new Date())}
+          </time>
         </Link>
       </h1>
     </div>

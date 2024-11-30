@@ -11,16 +11,25 @@ import {
 } from 'react';
 
 // font awesome
-import { FontAwesomeIcon, FontAwesomeIconProps } from '@fortawesome/react-fontawesome';
+import {
+  FontAwesomeIcon,
+  FontAwesomeIconProps,
+} from '@fortawesome/react-fontawesome';
 import { faBars, faXmark } from '@fortawesome/free-solid-svg-icons';
-const MemoizedFontAwesomeIcon = memo((props: FontAwesomeIconProps) => <FontAwesomeIcon {...props} />);
+const MemoizedFontAwesomeIcon = memo((props: FontAwesomeIconProps) => (
+  <FontAwesomeIcon {...props} />
+));
 
 // contexts
 import { useCurrentDateContext } from '../providers/CurrentDateProvider';
 import { useAllDataClearedContext } from '../providers/AllDataClearedProvider';
 import { useRequestedDateValidatedContext } from '../providers/RequestedDateValidatedProvider';
 import { useTodayClearedContext } from '../providers/TodayClearedProvider';
-import { focusFromRef, focusOnFirstItemFromRef, useRefContext } from '../providers/RefProvider';
+import {
+  focusFromRef,
+  focusOnFirstItemFromRef,
+  useRefContext,
+} from '../providers/RefProvider';
 
 // helpers
 import {
@@ -60,7 +69,12 @@ import {
   weekdayDayMonthFormatter,
 } from '../helpers/validateUnitsFromDate';
 import { shouldUseAutoFocus } from '../helpers/keyboardDetection';
-import { avoidNaN, capitalizeString, isArrTruthy, parseDecimal } from '../helpers/utils';
+import {
+  avoidNaN,
+  capitalizeString,
+  isArrTruthy,
+  parseDecimal,
+} from '../helpers/utils';
 
 // custom hooks
 import useDocumentTitle from '../custom-hooks/useDocumentTitle';
@@ -75,7 +89,8 @@ const addSubtitleToDocumentTitle = useDocumentTitle.bind(globalThis, mainTitle);
 
 const Checklist = () => {
   const { year, month, day } = useRequestedDateValidatedContext();
-  if (year === undefined || month === undefined || day === undefined) throw new Error(`requested date isn't valid`);
+  if (year === undefined || month === undefined || day === undefined)
+    throw new Error(`requested date isn't valid`);
   const { allDataCleared } = useAllDataClearedContext(); // when changes, new data will be brought
   const { todayCleared } = useTodayClearedContext(); // when changes, new data will be brought
 
@@ -92,7 +107,9 @@ const Checklist = () => {
   // for closing all helper menus
   const helperMenuClosersRef = useRef<HelperMenuClosers>({});
   function closeAllHelpers() {
-    Object.values(helperMenuClosersRef.current).forEach((closer: HelperMenuClosers[ID]) => closer());
+    Object.values(helperMenuClosersRef.current).forEach(
+      (closer: HelperMenuClosers[ID]) => closer(),
+    );
   }
 
   // updater in Todos passed to its sibling (= CreateTodo) using ref; hoisting avoided since Todos has a special key
@@ -109,14 +126,25 @@ const Checklist = () => {
       }}
     >
       <h1>
-        <time dateTime={`${year}-${month}-${day}`}>{weekdayDayMonthFormatter.format(dateRequested)}</time>
+        <time dateTime={`${year}-${month}-${day}`}>
+          {weekdayDayMonthFormatter.format(dateRequested)}
+        </time>
       </h1>
-      <CreateTodo {...{ unitsAsInt, year, month, day, refForUpdateCurrentTodoData }} />
+      <CreateTodo
+        {...{ unitsAsInt, year, month, day, refForUpdateCurrentTodoData }}
+      />
       <Todos
         // with key: re-create State / re-use Effect, so that the logic is sequential and race conditions are avoided
         // if data is cleared, clean-up and keep the state and localStorage in sync, otherwise old data will be seen
         key={[unitsAsInt, allDataCleared, todayCleared].join('-')}
-        {...{ day, month, year, unitsAsInt, helperMenuClosersRef, refForUpdateCurrentTodoData }}
+        {...{
+          day,
+          month,
+          year,
+          unitsAsInt,
+          helperMenuClosersRef,
+          refForUpdateCurrentTodoData,
+        }}
       />
     </div>
   );
@@ -131,52 +159,64 @@ interface CreateTodoProps {
   day: string;
   refForUpdateCurrentTodoData: React.RefObject<React.Dispatch<Action>>;
 }
-const CreateTodo = memo(({ unitsAsInt, year, month, day, refForUpdateCurrentTodoData }: CreateTodoProps) => {
-  // when mounts, focus on the create todo button; button preferred instead of input to avoid virtual keyboard
-  const {
-    refs: { createTodoRef },
-  } = useRefContext();
+const CreateTodo = memo(
+  ({
+    unitsAsInt,
+    year,
+    month,
+    day,
+    refForUpdateCurrentTodoData,
+  }: CreateTodoProps) => {
+    // when mounts, focus on the create todo button; button preferred instead of input to avoid virtual keyboard
+    const {
+      refs: { createTodoRef },
+    } = useRefContext();
 
-  const currentDate = useCurrentDateContext();
-  const isToday = currentDate.YMD === [year, month, day].join('-');
+    const currentDate = useCurrentDateContext();
+    const isToday = currentDate.YMD === [year, month, day].join('-');
 
-  // currentTodoData should be in sync with localStorage entry
-  function addToCurrentTodoDataAndSync(todoIdToAdd: ID) {
-    if (refForUpdateCurrentTodoData.current === null) throw new Error('updater is null');
-    addToTodoData(todoIdToAdd, ...unitsAsInt);
-    refForUpdateCurrentTodoData.current({ action: 'ADD', todoId: todoIdToAdd });
-  }
+    // currentTodoData should be in sync with localStorage entry
+    function addToCurrentTodoDataAndSync(todoIdToAdd: ID) {
+      if (refForUpdateCurrentTodoData.current === null)
+        throw new Error('updater is null');
+      addToTodoData(todoIdToAdd, ...unitsAsInt);
+      refForUpdateCurrentTodoData.current({
+        action: 'ADD',
+        todoId: todoIdToAdd,
+      });
+    }
 
-  // handlers
-  function createTodoHandler(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    const submittedFormData = new FormData(e.currentTarget);
-    const formDataReadable = Object.fromEntries(submittedFormData.entries());
-    const todoDescription = String(formDataReadable['todo-description']);
-    const idAssigned = addToAllTodos(todoDescription); // should be in sync with localStorage entry
-    if (isToday) addToTodosTemplate(idAssigned); // if it's today add it to the template
-    addToCurrentTodoDataAndSync(idAssigned);
+    // handlers
+    function createTodoHandler(e: React.FormEvent<HTMLFormElement>) {
+      e.preventDefault();
+      const submittedFormData = new FormData(e.currentTarget);
+      const formDataReadable = Object.fromEntries(submittedFormData.entries());
+      const todoDescription = String(formDataReadable['todo-description']);
+      const idAssigned = addToAllTodos(todoDescription); // should be in sync with localStorage entry
+      if (isToday) addToTodosTemplate(idAssigned); // if it's today add it to the template
+      addToCurrentTodoDataAndSync(idAssigned);
 
-    e.currentTarget.reset(); // value is reset on submit to make known value is added
-  }
+      e.currentTarget.reset(); // value is reset on submit to make known value is added
+    }
 
-  return (
-    <form onSubmit={createTodoHandler}>
-      {/* create-todo gets focus, shouldn't be re-created (keys shouldn't be used here) */}
-      <input
-        autoFocus={shouldUseAutoFocus}
-        id="create-todo"
-        ref={createTodoRef}
-        type="text"
-        name="todo-description"
-        required
-        title="task to add"
-        autoComplete="off"
-      />
-      <button>create</button>
-    </form>
-  );
-});
+    return (
+      <form onSubmit={createTodoHandler}>
+        {/* create-todo gets focus, shouldn't be re-created (keys shouldn't be used here) */}
+        <input
+          autoFocus={shouldUseAutoFocus}
+          id="create-todo"
+          ref={createTodoRef}
+          type="text"
+          name="todo-description"
+          required
+          title="task to add"
+          autoComplete="off"
+        />
+        <button>create</button>
+      </form>
+    );
+  },
+);
 
 interface TodosProps {
   unitsAsInt: [number, number, number];
@@ -192,13 +232,22 @@ type Action =
   | { action: 'ADD'; todoId: ID; todoType?: TodoType }
   | { action: 'REMOVE'; todoId: ID; todoType?: never };
 
-const Todos = ({ day, month, year, unitsAsInt, helperMenuClosersRef, refForUpdateCurrentTodoData }: TodosProps) => {
+const Todos = ({
+  day,
+  month,
+  year,
+  unitsAsInt,
+  helperMenuClosersRef,
+  refForUpdateCurrentTodoData,
+}: TodosProps) => {
   // localStorage entry cached to avoid parsing; used to initialize local states, avoiding hoisting the state up and re-rendering
   const cachedTodoData = useRef<DayTodoData>({});
 
   // only the tasks used, since values locally managed
-  const [currentTodoData, updateCurrentTodoData] = useReducer(reducerForCurrentTodoData, {}, (init) =>
-    reducerForCurrentTodoData(init, { action: 'SYNC' }),
+  const [currentTodoData, updateCurrentTodoData] = useReducer(
+    reducerForCurrentTodoData,
+    {},
+    (init) => reducerForCurrentTodoData(init, { action: 'SYNC' }),
   );
   function reducerForCurrentTodoData(
     prevData: DayTodoData,
@@ -218,7 +267,10 @@ const Todos = ({ day, month, year, unitsAsInt, helperMenuClosersRef, refForUpdat
             initialValue = '';
             break;
         }
-        return (cachedTodoData.current = { ...prevData, [todoId]: { value: initialValue } });
+        return (cachedTodoData.current = {
+          ...prevData,
+          [todoId]: { value: initialValue },
+        });
       }
       case 'REMOVE': {
         const latestData = { ...prevData };
@@ -233,7 +285,11 @@ const Todos = ({ day, month, year, unitsAsInt, helperMenuClosersRef, refForUpdat
     }
   }
 
-  useImperativeHandle(refForUpdateCurrentTodoData, () => updateCurrentTodoData, []);
+  useImperativeHandle(
+    refForUpdateCurrentTodoData,
+    () => updateCurrentTodoData,
+    [],
+  );
 
   // for rendering todos
   const currentTodoTasks = Object.keys(currentTodoData).map<ID>(parseDecimal); // by default, components are rendered in ascending order by ID
@@ -245,7 +301,16 @@ const Todos = ({ day, month, year, unitsAsInt, helperMenuClosersRef, refForUpdat
         <Todo
           // since parent has a key with date, it's unnecessary to pass it here; when date changes uncontrolled inputs will reset
           key={todoId}
-          {...{ updateCurrentTodoData, day, month, year, unitsAsInt, todoId, helperMenuClosersRef, cachedTodoData }}
+          {...{
+            updateCurrentTodoData,
+            day,
+            month,
+            year,
+            unitsAsInt,
+            todoId,
+            helperMenuClosersRef,
+            cachedTodoData,
+          }}
         />
       ))}
     </ul>
@@ -290,22 +355,37 @@ const Todo = memo(
     } = useRefContext();
     function focusOnCurrentMenuToggler() {
       const currentTodo = todoRef.current;
-      if (currentTodo !== null) (currentTodo.querySelector('.helper-menu-toggler') as HTMLElement).focus();
+      if (currentTodo !== null)
+        (
+          currentTodo.querySelector('.helper-menu-toggler') as HTMLElement
+        ).focus();
     }
     function focusWhenHelperMenuCloses() {
       const currentTodo = todoRef.current;
       if (currentTodo === null) return;
       const nextTodo = currentTodo.nextElementSibling;
-      if (nextTodo) return (nextTodo.querySelector('.helper-menu-toggler') as HTMLElement).focus(); // first try next, since replaces the removed todo
+      if (nextTodo)
+        return (
+          nextTodo.querySelector('.helper-menu-toggler') as HTMLElement
+        ).focus(); // first try next, since replaces the removed todo
       const prevTodo = currentTodo.previousElementSibling;
-      if (prevTodo) return (prevTodo.querySelector('.helper-menu-toggler') as HTMLElement).focus(); // then try previous
+      if (prevTodo)
+        return (
+          prevTodo.querySelector('.helper-menu-toggler') as HTMLElement
+        ).focus(); // then try previous
       focusOnCreateTodo(); // last resort
     }
 
     // todo value, type and description locally managed
-    const [todoValue, setTodoValue] = useState<TodoValueType>(cachedTodoData.current[todoId].value);
-    const [todoType, setTodoType] = useState<TodoType>(cachedAllTodos[todoId].type);
-    const [todoDescription, setTodoDescription] = useState(cachedAllTodos[todoId].description);
+    const [todoValue, setTodoValue] = useState<TodoValueType>(
+      cachedTodoData.current[todoId].value,
+    );
+    const [todoType, setTodoType] = useState<TodoType>(
+      cachedAllTodos[todoId].type,
+    );
+    const [todoDescription, setTodoDescription] = useState(
+      cachedAllTodos[todoId].description,
+    );
 
     // currentTodoData should be in sync with localStorage entry
     function removeFromCurrentTodoDataAndSync() {
@@ -319,7 +399,9 @@ const Todo = memo(
       setTodoDescription(todoDescription);
     }
     // for performance optimization, todoValue locally managed, hence only in sync with localStorage (not with currentTodoData)
-    function updateAndSyncTodoValue<Type extends TodoType>(value: TodoTypeValueMap[Type]) {
+    function updateAndSyncTodoValue<Type extends TodoType>(
+      value: TodoTypeValueMap[Type],
+    ) {
       updateTodoValue(todoId, ...unitsAsInt, value);
       setTodoValue(value);
     }
@@ -345,7 +427,8 @@ const Todo = memo(
     function removeFromTodoHandler() {
       // also remove it from the template if it's there and if it's today
       // make sure it's today otherwise frequencyNever-todo can remove frequencyEveryday-todo
-      if (isToday && isTodoInTodosTemplate(todoId)) removeFromTodosTemplate(todoId); // if removed, frequency is never
+      if (isToday && isTodoInTodosTemplate(todoId))
+        removeFromTodosTemplate(todoId); // if removed, frequency is never
       removeFromCurrentTodoDataAndSync();
 
       focusWhenHelperMenuCloses(); // move focus to the nearest element
@@ -434,19 +517,27 @@ interface TodoStateProps {
   todoType: TodoType;
   updateTodoValueHandler: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
-const TodoState = ({ todoValue, todoType, updateTodoValueHandler }: TodoStateProps) => {
+const TodoState = ({
+  todoValue,
+  todoType,
+  updateTodoValueHandler,
+}: TodoStateProps) => {
   const inputProps = {
     type: todoType,
     name: 'todo-state',
     onChange: updateTodoValueHandler,
     title:
-      todoType === 'checkbox' ? `Mark as ${!todoValue ? 'done' : 'undone'}.` : `Enter ${capitalizeString(todoType)}.`,
+      todoType === 'checkbox'
+        ? `Mark as ${!todoValue ? 'done' : 'undone'}.`
+        : `Enter ${capitalizeString(todoType)}.`,
   };
   switch (todoType) {
     case 'checkbox':
       return <input {...inputProps} checked={Boolean(todoValue)} />;
     case 'number':
-      return <input {...inputProps} value={avoidNaN(Number(todoValue))} step="any" />;
+      return (
+        <input {...inputProps} value={avoidNaN(Number(todoValue))} step="any" />
+      );
     case 'time':
     case 'text':
       return <input {...inputProps} value={String(todoValue)} />;
@@ -484,7 +575,10 @@ const TodoHelpers = ({
   function toggleFrequencyMenuState() {
     setFrequencyMenuState(!frequencyMenuState);
   }
-  const closeFrequencyMenu = useCallback(() => setFrequencyMenuState(false), []); // memoized to avoid unnecessary re-attaching
+  const closeFrequencyMenu = useCallback(
+    () => setFrequencyMenuState(false),
+    [],
+  ); // memoized to avoid unnecessary re-attaching
 
   const frequencyMenuButtonRef = useRef<HTMLButtonElement>(null);
   function focusOnFrequencyMenuButton() {
@@ -494,10 +588,20 @@ const TodoHelpers = ({
   // when any of the helpers are used, helper menu should be closed
   // focus should be managed when menu closes or opens
   return (
-    <div className="row-container helpers" role="menu" aria-orientation="horizontal">
+    <div
+      className="row-container helpers"
+      role="menu"
+      aria-orientation="horizontal"
+    >
       <form onSubmit={updateTodoDescriptionHandler}>
         {/* focus on first focusable item when mounts */}
-        <input autoFocus type="text" name="todo-description" required title="new task description" />
+        <input
+          autoFocus
+          type="text"
+          name="todo-description"
+          required
+          title="new task description"
+        />
         <button>update todo</button>
       </form>
       <select onChange={updateTodoTypeHandler} value={todoType}>
@@ -517,11 +621,19 @@ const TodoHelpers = ({
           aria-expanded={frequencyMenuState}
         >
           select days
-          <MemoizedFontAwesomeIcon icon={frequencyMenuState ? faXmark : faBars} />
+          <MemoizedFontAwesomeIcon
+            icon={frequencyMenuState ? faXmark : faBars}
+          />
         </button>
         {frequencyMenuState ? (
           <FrequencyMenu
-            {...{ todoId, closeFrequencyMenu, frequencyMenuButtonRef, focusOnFrequencyMenuButton, todoType }}
+            {...{
+              todoId,
+              closeFrequencyMenu,
+              frequencyMenuButtonRef,
+              focusOnFrequencyMenuButton,
+              todoType,
+            }}
           />
         ) : (
           false
@@ -547,7 +659,9 @@ const FrequencyMenu = ({
   focusOnFrequencyMenuButton,
 }: FrequencyMenuProps) => {
   const [frequencyState, setFrequencyState] = useState(() =>
-    isTodoInTodosTemplate(todoId) ? cachedTodosTemplate[todoId].frequency : frequencyNever,
+    isTodoInTodosTemplate(todoId)
+      ? cachedTodosTemplate[todoId].frequency
+      : frequencyNever,
   );
 
   function changeAndSyncFrequency(frequency: Frequency) {
@@ -580,11 +694,21 @@ const FrequencyMenu = ({
       const menuElement = frequencyMenuRef.current;
       if (!menuElement) return; // already closed
       if (e.relatedTarget === frequencyMenuButtonRef.current) return; // menu closing when toggler gets focus causes re-opening
-      if (!(e.relatedTarget instanceof Node && menuElement.contains(e.relatedTarget))) closeFrequencyMenu();
+      if (
+        !(
+          e.relatedTarget instanceof Node &&
+          menuElement.contains(e.relatedTarget)
+        )
+      )
+        closeFrequencyMenu();
     }
 
     document.addEventListener('focusout', closeFrequencyMenuOnFocusOutHandler);
-    return () => document.removeEventListener('focusout', closeFrequencyMenuOnFocusOutHandler);
+    return () =>
+      document.removeEventListener(
+        'focusout',
+        closeFrequencyMenuOnFocusOutHandler,
+      );
   }, [frequencyMenuRef, closeFrequencyMenu, frequencyMenuButtonRef]);
 
   // placement
@@ -594,20 +718,28 @@ const FrequencyMenu = ({
   useLayoutEffect(() => {
     // if there isn't enough space place it over the button
     function isSpaceUnderButtonEnough() {
-      if (frequencyMenuButtonRef.current === null || frequencyMenuRef.current === null || footerRef.current === null)
+      if (
+        frequencyMenuButtonRef.current === null ||
+        frequencyMenuRef.current === null ||
+        footerRef.current === null
+      )
         throw new Error('element is null');
-      const menuElementHeight = frequencyMenuRef.current.getBoundingClientRect().height;
-      const menuTogglerButtonBottom = frequencyMenuButtonRef.current.getBoundingClientRect().bottom;
+      const menuElementHeight =
+        frequencyMenuRef.current.getBoundingClientRect().height;
+      const menuTogglerButtonBottom =
+        frequencyMenuButtonRef.current.getBoundingClientRect().bottom;
       const footerTop = footerRef.current.getBoundingClientRect().top;
       // buttonBottom + menuHeight approach used since menuBottom changes
-      const isFooterBelowMenu = footerTop > menuTogglerButtonBottom + menuElementHeight;
+      const isFooterBelowMenu =
+        footerTop > menuTogglerButtonBottom + menuElementHeight;
       return isFooterBelowMenu;
     }
 
     function determineWhereToPlaceTheMenu() {
       const menuElement = frequencyMenuRef.current;
       if (menuElement === null) throw new Error('menu is null');
-      if (isSpaceUnderButtonEnough()) menuElement.classList.remove('over-the-button');
+      if (isSpaceUnderButtonEnough())
+        menuElement.classList.remove('over-the-button');
       else menuElement.classList.add('over-the-button');
     }
 
@@ -615,15 +747,23 @@ const FrequencyMenu = ({
 
     // on-resize re-calculate
     window.addEventListener('resize', determineWhereToPlaceTheMenu);
-    return () => window.removeEventListener('resize', determineWhereToPlaceTheMenu);
+    return () =>
+      window.removeEventListener('resize', determineWhereToPlaceTheMenu);
   }, [footerRef, frequencyMenuButtonRef]);
 
   const monThruSun = frequencyState.map((checked, dayIndex) => {
     return (
       <li key={dayIndex}>
         <label className="frequency-toggler-label toggler-text-and-icon toggler-transition">
-          <span className="unselectable">{returnWeekdayFromSunday(dayIndex)}</span>
-          <input type="checkbox" value={dayIndex} checked={Boolean(checked)} onChange={toggleCheckedHandler} />
+          <span className="unselectable">
+            {returnWeekdayFromSunday(dayIndex)}
+          </span>
+          <input
+            type="checkbox"
+            value={dayIndex}
+            checked={Boolean(checked)}
+            onChange={toggleCheckedHandler}
+          />
         </label>
       </li>
     );

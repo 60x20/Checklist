@@ -20,7 +20,9 @@ const AllDataClearedProvider = ({ children }: ChildrenProp) => {
   const [allDataCleared, increaseAllDataCleared] = useForceRender();
 
   return (
-    <allDataClearedContext.Provider value={{ allDataCleared, increaseAllDataCleared }}>
+    <allDataClearedContext.Provider
+      value={{ allDataCleared, increaseAllDataCleared }}
+    >
       {children}
     </allDataClearedContext.Provider>
   );

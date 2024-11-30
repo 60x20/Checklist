@@ -20,7 +20,9 @@ const TodayClearedProvider = ({ children }: ChildrenProp) => {
   const [todayCleared, increaseTodayCleared] = useForceRender();
 
   return (
-    <todayClearedContext.Provider value={{ todayCleared, increaseTodayCleared }}>
+    <todayClearedContext.Provider
+      value={{ todayCleared, increaseTodayCleared }}
+    >
       {children}
     </todayClearedContext.Provider>
   );

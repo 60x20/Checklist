@@ -11,7 +11,9 @@ const Main = ({ children }: ChildrenProp) => {
     <main>
       <AllDataClearedProvider>
         <TodayClearedProvider>
-          <RequestedDateValidatedProvider>{children}</RequestedDateValidatedProvider>
+          <RequestedDateValidatedProvider>
+            {children}
+          </RequestedDateValidatedProvider>
         </TodayClearedProvider>
       </AllDataClearedProvider>
     </main>

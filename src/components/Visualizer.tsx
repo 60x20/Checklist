@@ -19,7 +19,10 @@ import { cachedAllTodos, CheckboxValueType } from '../helpers/allTodosHelpers';
 
 // contexts
 import { useAllDataClearedContext } from '../providers/AllDataClearedProvider';
-import { refCallbackToFocusOnFirstItemOnMount, useRefContext } from '../providers/RefProvider';
+import {
+  refCallbackToFocusOnFirstItemOnMount,
+  useRefContext,
+} from '../providers/RefProvider';
 
 // custom hooks
 import useDocumentTitle from '../custom-hooks/useDocumentTitle';
@@ -44,7 +47,8 @@ export const MonthVisualizer = () => {
 
   // a specific month requested
   const { year, month } = useParams();
-  if (year === undefined || month === undefined) throw new Error('date is invalid');
+  if (year === undefined || month === undefined)
+    throw new Error('date is invalid');
 
   const extractedYear = extractYear(year);
   const extractedMonth = extractMonth(month);
@@ -52,7 +56,9 @@ export const MonthVisualizer = () => {
   const isValid = validateDate(extractedYear, extractedMonth);
 
   const subtitle = isValid
-    ? monthYearTruncFormatter.format(new Date([extractedYear, extractedMonth].join('-')))
+    ? monthYearTruncFormatter.format(
+        new Date([extractedYear, extractedMonth].join('-')),
+      )
     : 'invalid date';
   addSubtitleToDocumentTitle(subtitle);
 
@@ -74,22 +80,32 @@ export const MonthVisualizer = () => {
             if (dayData) {
               const dayAsString = String(day).padStart(2, '0');
               const dayTodoData = Object.entries(dayData).map(
-                ([id, todoData]: [string, LocalTodoData]): [number, LocalTodoData] => [parseDecimal(id), todoData],
+                ([id, todoData]: [string, LocalTodoData]): [
+                  number,
+                  LocalTodoData,
+                ] => [parseDecimal(id), todoData],
               );
               return (
                 <article key={day} className="day">
                   <h3 className="styled-as-p">
-                    day: <time dateTime={`${extractedYear}-${extractedMonth}-${dayAsString}`}>{dayAsString}</time>
+                    day:{' '}
+                    <time
+                      dateTime={`${extractedYear}-${extractedMonth}-${dayAsString}`}
+                    >
+                      {dayAsString}
+                    </time>
                   </h3>
                   <p>
                     completion:{' '}
                     {(() => {
                       const dayCheckedData: CheckboxValueType[] = [];
                       dayTodoData.forEach(([todoId, todoData]) => {
-                        if (cachedAllTodos[todoId].type === 'checkbox') dayCheckedData.push(todoData.value ? 1 : 0);
+                        if (cachedAllTodos[todoId].type === 'checkbox')
+                          dayCheckedData.push(todoData.value ? 1 : 0);
                       });
                       const amountOfTodos = dayCheckedData.length;
-                      const amountOfCheckedTodos = dayCheckedData.filter(Boolean).length;
+                      const amountOfCheckedTodos =
+                        dayCheckedData.filter(Boolean).length;
                       return `${amountOfCheckedTodos}/${amountOfTodos}`;
                     })()}
                   </p>
@@ -139,7 +155,10 @@ export const YearVisualizer = () => {
 
   return (
     <nav>
-      <ul className="column-container" ref={refCallbackToFocusOnFirstItemOnMount}>
+      <ul
+        className="column-container"
+        ref={refCallbackToFocusOnFirstItemOnMount}
+      >
         {
           yearEntry
             .map((monthArr, month) => {
@@ -149,7 +168,9 @@ export const YearVisualizer = () => {
                 return (
                   <li key={month} className="month">
                     <Link to={monthAsString}>
-                      <time dateTime={localDate}>{monthFormatter.format(new Date(localDate))}</time>
+                      <time dateTime={localDate}>
+                        {monthFormatter.format(new Date(localDate))}
+                      </time>
                     </Link>
                   </li>
                 );
@@ -176,7 +197,10 @@ export const AllYearsVisualizer = () => {
 
   return (
     <nav>
-      <ul className="column-container" ref={refCallbackToFocusOnFirstItemOnMount}>
+      <ul
+        className="column-container"
+        ref={refCallbackToFocusOnFirstItemOnMount}
+      >
         {allYearsDescending.map((year) => {
           const yearAsString = String(year).padStart(4, '0');
           return (

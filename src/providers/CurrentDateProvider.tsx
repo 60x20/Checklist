@@ -6,7 +6,10 @@ import { redirect, useNavigate } from 'react-router-dom';
 import ChildrenProp from '../custom-types/ChildrenProp';
 
 // helpers
-import { DateWithFormats, returnCurrentDate } from '../helpers/returnCurrentDate';
+import {
+  DateWithFormats,
+  returnCurrentDate,
+} from '../helpers/returnCurrentDate';
 import useSafeContext from '../custom-hooks/useSafeContext';
 function getTodayVisited(): string | null {
   const todayVisitedEntry = localStorage.getItem('today-visited');
@@ -56,7 +59,11 @@ const CurrentDateProvider = ({ children }: ChildrenProp) => {
     return () => clearInterval(intervalID);
   }, [currentDate.YMD, navigate]);
 
-  return <currentDateContext.Provider value={currentDate}>{children}</currentDateContext.Provider>;
+  return (
+    <currentDateContext.Provider value={currentDate}>
+      {children}
+    </currentDateContext.Provider>
+  );
 };
 
 export function useCurrentDateContext() {

@@ -2,11 +2,18 @@ import { useEffect, useLayoutEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 // contexts
-import { MenuStateContext, useMenuStateContext } from '../providers/MenuStateProvider';
+import {
+  MenuStateContext,
+  useMenuStateContext,
+} from '../providers/MenuStateProvider';
 import { useAllDataClearedContext } from '../providers/AllDataClearedProvider';
 import { useTodayClearedContext } from '../providers/TodayClearedProvider';
 import { useRequestedDateValidatedContext } from '../providers/RequestedDateValidatedProvider';
-import { focusOnFirstItemFromRef, focusOnLastItemFromRef, useRefContext } from '../providers/RefProvider';
+import {
+  focusOnFirstItemFromRef,
+  focusOnLastItemFromRef,
+  useRefContext,
+} from '../providers/RefProvider';
 
 // helpers
 import { confirmToResetAllData } from '../helpers/resetAllData';
@@ -37,7 +44,11 @@ const Menu = ({ closeTheMenu }: MenuProps) => {
   // focus management and ease of use
   const menuRef = useRef<HTMLElement>(null);
   const {
-    helpers: { focusOnCreateTodo, focusOnMenuToggler, focusOnFirstItemInsideVisualizer },
+    helpers: {
+      focusOnCreateTodo,
+      focusOnMenuToggler,
+      focusOnFirstItemInsideVisualizer,
+    },
   } = useRefContext();
   function focusOnCreateTodoAndCloseTheMenu() {
     focusOnCreateTodo(); // move focus to create-todo
@@ -57,13 +68,24 @@ const Menu = ({ closeTheMenu }: MenuProps) => {
       // if null, it's already closed; might happen since cleanup runs after rendering is complete
       if (!menuElement) return; // for example: key of a component changing / focusing during rendering / focusing inside effect cleanup
       // related target might be null, for example when window changes (using Alt Tab)
-      if (e.relatedTarget instanceof HTMLElement && e.relatedTarget.matches('#menu-toggler')) return; // menu closing when toggler gets focus causes re-opening
-      if (!(e.relatedTarget instanceof Node && menuElement.contains(e.relatedTarget))) closeTheMenu();
+      if (
+        e.relatedTarget instanceof HTMLElement &&
+        e.relatedTarget.matches('#menu-toggler')
+      )
+        return; // menu closing when toggler gets focus causes re-opening
+      if (
+        !(
+          e.relatedTarget instanceof Node &&
+          menuElement.contains(e.relatedTarget)
+        )
+      )
+        closeTheMenu();
     }
 
     // if closed, remove the event listener; if opened, add the event listener
     document.addEventListener('focusout', closeMenuOnFocusOutHandler);
-    return () => document.removeEventListener('focusout', closeMenuOnFocusOutHandler);
+    return () =>
+      document.removeEventListener('focusout', closeMenuOnFocusOutHandler);
   }, [closeTheMenu]);
   // close the menu when escape pressed (for accessibility)
   useEffect(() => {
@@ -109,7 +131,11 @@ const Menu = ({ closeTheMenu }: MenuProps) => {
   }
   let resetCurrentDayButton = <></>;
   if (isDateRequested) {
-    const unitsAsInt: [number, number, number] = [parseDecimal(year), parseDecimal(month), parseDecimal(day)]; // used as array indexes
+    const unitsAsInt: [number, number, number] = [
+      parseDecimal(year),
+      parseDecimal(month),
+      parseDecimal(day),
+    ]; // used as array indexes
 
     function resetCurrentDayHandler() {
       resetTodoData(...unitsAsInt);
@@ -144,9 +170,14 @@ const Menu = ({ closeTheMenu }: MenuProps) => {
     const relativeDate = returnDateFromToday(-i);
     prevDates.push(
       <li key={i}>
-        <Link to={relativeDate.YMD.replaceAll('-', '/')} onClick={focusOnCreateTodoAndCloseTheMenu}>
+        <Link
+          to={relativeDate.YMD.replaceAll('-', '/')}
+          onClick={focusOnCreateTodoAndCloseTheMenu}
+        >
           {i === 0 ? 'today: ' : ''}
-          <time dateTime={relativeDate.YMD}>{dayMonthYearTruncFormatter.format(new Date(relativeDate.YMD))}</time>
+          <time dateTime={relativeDate.YMD}>
+            {dayMonthYearTruncFormatter.format(new Date(relativeDate.YMD))}
+          </time>
         </Link>
       </li>,
     );
@@ -179,7 +210,9 @@ const Menu = ({ closeTheMenu }: MenuProps) => {
                 type="date"
                 required
                 min="2000-01-01"
-                defaultValue={isDateRequested ? [year, month, day].join('-') : ''}
+                defaultValue={
+                  isDateRequested ? [year, month, day].join('-') : ''
+                }
                 max="2100-12-31"
               />
             </label>

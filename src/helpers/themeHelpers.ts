@@ -1,5 +1,10 @@
 // font awesome
-import { faSun, faMoon, faCircleHalfStroke, IconDefinition } from '@fortawesome/free-solid-svg-icons';
+import {
+  faSun,
+  faMoon,
+  faCircleHalfStroke,
+  IconDefinition,
+} from '@fortawesome/free-solid-svg-icons';
 
 export const colorSchemeMediaQuery = matchMedia('(prefers-color-scheme: dark)');
 

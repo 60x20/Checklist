@@ -41,14 +41,20 @@ function returnAllTodos(): AllTodos {
   throw new Error(`"AllTodos" isn't valid`);
 }
 
-export function addToAllTodos(todoDescription: TodoDescription, todoType: TodoType = 'checkbox'): ID {
+export function addToAllTodos(
+  todoDescription: TodoDescription,
+  todoType: TodoType = 'checkbox',
+): ID {
   const localAllTodos = returnAllTodos();
   localAllTodos.push({ description: todoDescription, type: todoType });
   updateAllTodos(localAllTodos);
   return localAllTodos.length - 1; // returns the ID assigned to todoDescription
 }
 
-export function updateTodoDescription(id: ID, todoDescription: TodoDescription) {
+export function updateTodoDescription(
+  id: ID,
+  todoDescription: TodoDescription,
+) {
   const localAllTodos = returnAllTodos();
   localAllTodos[id].description = todoDescription;
   updateAllTodos(localAllTodos);

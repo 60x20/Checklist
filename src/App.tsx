@@ -1,5 +1,10 @@
 import './App.css';
-import { createHashRouter, createRoutesFromElements, RouterProvider, Route } from 'react-router-dom';
+import {
+  createHashRouter,
+  createRoutesFromElements,
+  RouterProvider,
+  Route,
+} from 'react-router-dom';
 
 // layouts
 import RootLayout from './layouts/RootLayout';
@@ -7,7 +12,12 @@ import RootLayout from './layouts/RootLayout';
 // components
 import Checklist from './components/Checklist';
 import Home from './components/Home';
-import { VisualizerLayout, AllYearsVisualizer, YearVisualizer, MonthVisualizer } from './components/Visualizer';
+import {
+  VisualizerLayout,
+  AllYearsVisualizer,
+  YearVisualizer,
+  MonthVisualizer,
+} from './components/Visualizer';
 import DataError from './components/DataError';
 
 // loaders
@@ -16,7 +26,11 @@ import { redirectToCurrentDateLoader } from './providers/CurrentDateProvider';
 // TODO: don't use hash router; used to allow refreshing
 const router = createHashRouter(
   createRoutesFromElements(
-    <Route path="/" element={<RootLayout />} loader={redirectToCurrentDateLoader}>
+    <Route
+      path="/"
+      element={<RootLayout />}
+      loader={redirectToCurrentDateLoader}
+    >
       <Route index element={<Home />} />
       <Route errorElement={<DataError />}>
         <Route path="all" element={<VisualizerLayout />}>

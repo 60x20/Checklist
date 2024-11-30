@@ -17,7 +17,8 @@ const DataError = () => {
       <h1>An error occurred.</h1>
       <p>{truncateString(String(error), 100)}</p>
       <p>
-        resetting might solve the issue: <button onClick={resetAllDataAndNavigateHandler}>reset all data</button>
+        resetting might solve the issue:{' '}
+        <button onClick={resetAllDataAndNavigateHandler}>reset all data</button>
       </p>
     </div>
   );

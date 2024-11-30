@@ -49,7 +49,9 @@ export function returnTodosTemplateForWeekday(weekday: Weekday) {
   const todosTemplateForWeekday: DayTodoData = {};
   for (const todoId in localTodosTemplate) {
     if (localTodosTemplate[todoId].frequency[weekday]) {
-      const transferableTodoData: TransferableTodoData = { ...localTodosTemplate[todoId] };
+      const transferableTodoData: TransferableTodoData = {
+        ...localTodosTemplate[todoId],
+      };
       delete transferableTodoData.frequency; // frequency only stored in todosTemplate entry
       todosTemplateForWeekday[todoId] = transferableTodoData;
     }
@@ -59,7 +61,10 @@ export function returnTodosTemplateForWeekday(weekday: Weekday) {
 
 const frequencyEveryDay: Frequency = [1, 1, 1, 1, 1, 1, 1];
 export const frequencyNever: Frequency = [0, 0, 0, 0, 0, 0, 0];
-export function addToTodosTemplate(id: ID, frequency: Frequency = frequencyEveryDay) {
+export function addToTodosTemplate(
+  id: ID,
+  frequency: Frequency = frequencyEveryDay,
+) {
   const localTodosTemplate = returnTodosTemplate();
   localTodosTemplate[id] = { value: '', frequency };
   updateTodosTemplate(localTodosTemplate);

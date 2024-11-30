@@ -7,11 +7,25 @@ import { parseDecimal } from './utils';
 import { Weekday } from './todosTemplateHelpers';
 
 const weekdayFormatter = createFormatter({ weekday: 'long' });
-export const weekdayDayMonthFormatter = createFormatter({ weekday: 'long', day: 'numeric', month: 'long' });
-export const dayMonthTruncFormatter = createFormatter({ day: 'numeric', month: 'short' });
-export const dayMonthYearTruncFormatter = createFormatter({ day: 'numeric', month: 'short', year: 'numeric' });
+export const weekdayDayMonthFormatter = createFormatter({
+  weekday: 'long',
+  day: 'numeric',
+  month: 'long',
+});
+export const dayMonthTruncFormatter = createFormatter({
+  day: 'numeric',
+  month: 'short',
+});
+export const dayMonthYearTruncFormatter = createFormatter({
+  day: 'numeric',
+  month: 'short',
+  year: 'numeric',
+});
 export const monthFormatter = createFormatter({ month: 'long' });
-export const monthYearTruncFormatter = createFormatter({ month: 'short', year: 'numeric' });
+export const monthYearTruncFormatter = createFormatter({
+  month: 'short',
+  year: 'numeric',
+});
 function createFormatter(options: Intl.DateTimeFormatOptions) {
   return new Intl.DateTimeFormat(navigator.language, options);
 }
@@ -33,7 +47,11 @@ export interface FullDate {
   month: string;
   day: string;
 }
-export function validateUnitsFromDate({ year, month, day }: FullDate): FullDate {
+export function validateUnitsFromDate({
+  year,
+  month,
+  day,
+}: FullDate): FullDate {
   // validation, in case the date is not in the desired format (failsafe)
   const extractedYear = extractYear(year);
   const extractedMonth = extractMonth(month);
@@ -56,7 +74,8 @@ export function extractMonth(month: string) {
   const monthRegexResult = month.match(monthRegex)?.[0];
   if (monthRegexResult) {
     const extractedMonth = monthRegexResult.padStart(2, '0');
-    if (parseDecimal(extractedMonth) >= 1 && parseDecimal(extractedMonth) <= 12) return extractedMonth;
+    if (parseDecimal(extractedMonth) >= 1 && parseDecimal(extractedMonth) <= 12)
+      return extractedMonth;
   }
   return '';
 }
@@ -64,12 +83,17 @@ export function extractDay(day: string) {
   const dayRegexResult = day.match(dayRegex)?.[0];
   if (dayRegexResult) {
     const extractedDay = dayRegexResult.padStart(2, '0');
-    if (parseDecimal(extractedDay) >= 1 && parseDecimal(extractedDay) <= 31) return extractedDay;
+    if (parseDecimal(extractedDay) >= 1 && parseDecimal(extractedDay) <= 31)
+      return extractedDay;
   }
   return '';
 }
 
-export function validateDate(year: string = '2000', month: string = '01', day: string = '01') {
+export function validateDate(
+  year: string = '2000',
+  month: string = '01',
+  day: string = '01',
+) {
   if (year === '' || month === '' || day === '') return false;
   dateInput.value = [year, month, day].join('-'); // returns '', if invalid
   const isValid = dateInput.checkValidity();
@@ -81,7 +105,11 @@ export function returnWeekdayFromSunday(day: number) {
   return weekdayFormatter.format(new Date(dateForSunday + day * dayInMs));
 }
 
-export function returnWeekday(year: string, month: string, day: string): Weekday {
+export function returnWeekday(
+  year: string,
+  month: string,
+  day: string,
+): Weekday {
   const weekday = new Date([year, month, day].join('-')).getDay();
   if (isNaN(weekday)) throw new Error('not a weekday');
   return weekday as Weekday;

@@ -36,7 +36,12 @@ function returnValidYearEntry(year: number): ValidYearTodoData {
 }
 
 // make sure date exists in the localStorage
-export function validateTodoData(year: number, month: number, day: number, weekday: Weekday) {
+export function validateTodoData(
+  year: number,
+  month: number,
+  day: number,
+  weekday: Weekday,
+) {
   // make sure it's not null
   if (!returnYearEntry(year)) {
     updateYearEntry(year, []); // array for months
@@ -66,7 +71,13 @@ export function returnTodoData(year: number, month: number, day: number) {
   return yearEntry[month][day];
 }
 
-export function addToTodoData(todoId: ID, year: number, month: number, day: number, type: TodoType = 'checkbox') {
+export function addToTodoData(
+  todoId: ID,
+  year: number,
+  month: number,
+  day: number,
+  type: TodoType = 'checkbox',
+) {
   const yearEntry = returnValidYearEntry(year);
   switch (type) {
     case 'number':
@@ -81,7 +92,12 @@ export function addToTodoData(todoId: ID, year: number, month: number, day: numb
   updateYearEntry(year, yearEntry);
 }
 
-export function removeFromTodoData(todoId: ID, year: number, month: number, day: number) {
+export function removeFromTodoData(
+  todoId: ID,
+  year: number,
+  month: number,
+  day: number,
+) {
   const yearEntry = returnValidYearEntry(year);
   delete yearEntry[month][day][todoId];
   updateYearEntry(year, yearEntry);

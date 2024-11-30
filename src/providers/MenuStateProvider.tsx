@@ -20,7 +20,9 @@ const MenuStateProvider = ({ children }: ChildrenProp) => {
   const closeTheMenu = useCallback(() => setMenuState(false), []); // memoized to avoid unnecessary re-attaching
 
   return (
-    <menuStateContext.Provider value={{ menuState, toggleMenuState, closeTheMenu }}>
+    <menuStateContext.Provider
+      value={{ menuState, toggleMenuState, closeTheMenu }}
+    >
       {children}
     </menuStateContext.Provider>
   );

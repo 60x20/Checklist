@@ -94,7 +94,9 @@ const RefProvider = ({ children }: ChildrenProp) => {
     },
   };
 
-  return <refContext.Provider value={valueToProvide}>{children}</refContext.Provider>;
+  return (
+    <refContext.Provider value={valueToProvide}>{children}</refContext.Provider>
+  );
 };
 
 export function useRefContext() {

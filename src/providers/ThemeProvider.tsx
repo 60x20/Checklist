@@ -1,4 +1,9 @@
-import { createContext, useCallback, useState, useSyncExternalStore } from 'react';
+import {
+  createContext,
+  useCallback,
+  useState,
+  useSyncExternalStore,
+} from 'react';
 
 // helpers
 import {
@@ -28,7 +33,9 @@ interface ThemeContext {
 const bodyClassList = document.body.classList;
 
 const ThemeProvider = ({ children }: ChildrenProp) => {
-  const [themeMode, setThemeMode] = useState<ThemeMode>(() => returnThemeMode(returnThemeEntry()));
+  const [themeMode, setThemeMode] = useState<ThemeMode>(() =>
+    returnThemeMode(returnThemeEntry()),
+  );
   function toggleThemeMode() {
     const nextThemeMode = returnThemeMode(themeMode + 1);
     changeThemeModeEntry(nextThemeMode);
@@ -40,7 +47,8 @@ const ThemeProvider = ({ children }: ChildrenProp) => {
     (handler: () => void) => {
       if (themeMode === 0) {
         colorSchemeMediaQuery.addEventListener('change', handler);
-        return () => colorSchemeMediaQuery.removeEventListener('change', handler);
+        return () =>
+          colorSchemeMediaQuery.removeEventListener('change', handler);
       }
       return () => {}; // return a dummy callback to satisfy function signature
     },
@@ -55,7 +63,11 @@ const ThemeProvider = ({ children }: ChildrenProp) => {
   else bodyClassList.remove('dark-theme');
 
   return (
-    <themeContext.Provider value={{ preferenceForDark, themeMode, toggleThemeMode }}>{children}</themeContext.Provider>
+    <themeContext.Provider
+      value={{ preferenceForDark, themeMode, toggleThemeMode }}
+    >
+      {children}
+    </themeContext.Provider>
   );
 };
 
