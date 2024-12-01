@@ -42,6 +42,7 @@ import {
   Frequency,
   Weekday,
   BooleanAsNum,
+  updateValueOnTodosTemplate,
 } from '../helpers/todosTemplateHelpers';
 import {
   cachedAllTodos,
@@ -457,6 +458,9 @@ const Todo = memo(
       const newType = e.currentTarget.value as TodoType;
       updateAndSyncTodoType(newType);
 
+      if (isTodoInTodosTemplate(todoId))
+        updateValueOnTodosTemplate(todoId, newType);
+
       resetAndSyncTodoValue(newType); // it's reset so that old value doesn't appear (otherwise checkbox => text: innerText === 1)
 
       closeHelperMenu(); // close the helper menu
@@ -651,12 +655,14 @@ interface FrequencyMenuProps {
   closeFrequencyMenu: () => void;
   frequencyMenuButtonRef: React.RefObject<HTMLButtonElement>;
   focusOnFrequencyMenuButton: () => void;
+  todoType: TodoType;
 }
 const FrequencyMenu = ({
   todoId,
   closeFrequencyMenu,
   frequencyMenuButtonRef,
   focusOnFrequencyMenuButton,
+  todoType,
 }: FrequencyMenuProps) => {
   const [frequencyState, setFrequencyState] = useState(() =>
     isTodoInTodosTemplate(todoId)
@@ -669,7 +675,7 @@ const FrequencyMenu = ({
       // frequency isn't never
       if (isTodoInTodosTemplate(todoId)) {
         updateFrequencyOnTodosTemplate(todoId, frequency); // if it exists just update it
-      } else addToTodosTemplate(todoId, frequency); // if it doesn't exist already, add it
+      } else addToTodosTemplate(todoId, frequency, todoType); // if it doesn't exist already, add it
     } else removeFromTodosTemplate(todoId); // remove it if it's never ([0, 0, 0, 0, 0, 0, 0])
 
     setFrequencyState(frequency);

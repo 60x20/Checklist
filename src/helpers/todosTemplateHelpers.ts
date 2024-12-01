@@ -1,6 +1,6 @@
 // todosTemplate: todos that used lastly, used as a template for vacant dates
 
-import { ID } from './allTodosHelpers';
+import { ID, TodoType, TodoValueType } from './allTodosHelpers';
 import { DayTodoData, LocalTodoData } from './todoDataHelpers';
 
 export type BooleanAsNum = 0 | 1;
@@ -69,10 +69,33 @@ export const frequencyNever: Frequency = [0, 0, 0, 0, 0, 0, 0];
 export function addToTodosTemplate(
   id: ID,
   frequency: Frequency = frequencyEveryDay,
+  type: TodoType = 'checkbox',
 ) {
-  const localTodosTemplate = returnTodosTemplate();
-  localTodosTemplate[id] = { value: '', frequency };
+  const localTodosTemplate = returnValidTodosTemplate();
+  localTodosTemplate[id] = {
+    value: returnInitialValueForType(type),
+    frequency,
+  };
   updateTodosTemplate(localTodosTemplate);
+}
+
+// keep value and type in sync, otherwise types might disagree:
+// (type: number, value: 0) => (type: text, value: 0 (instead of ''))
+export function updateValueOnTodosTemplate(id: ID, type: TodoType) {
+  const localTodosTemplate = returnValidTodosTemplate();
+  localTodosTemplate[id].value = returnInitialValueForType(type);
+  updateTodosTemplate(localTodosTemplate);
+}
+
+function returnInitialValueForType(type: TodoType): TodoValueType {
+  switch (type) {
+    case 'number':
+    case 'checkbox':
+      return 0;
+    case 'time':
+    case 'text':
+      return '';
+  }
 }
 
 export function updateFrequencyOnTodosTemplate(id: ID, frequency: Frequency) {
