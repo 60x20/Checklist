@@ -31,9 +31,9 @@ export function returnYearEntry(year: number): YearTodoData | null {
 }
 function returnValidYearEntry(year: number): ValidYearTodoData {
   // if year entry, along with month and day, is already validated, prefer this version to avoid nullish return
-  const yearEntry = localStorage.getItem(String(year));
-  if (yearEntry === null) throw new Error('Year entry is not valid');
-  return JSON.parse(yearEntry);
+  const yearEntry = returnYearEntry(year);
+  if (yearEntry !== null) return yearEntry as ValidYearTodoData; // validated before use
+  throw new Error('Year entry is not valid');
 }
 
 // make sure date exists in the localStorage

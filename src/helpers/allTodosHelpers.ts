@@ -41,8 +41,8 @@ function returnAllTodos(): AllTodos | null {
   return null;
 }
 function returnValidAllTodos(): AllTodos {
-  const allTodosEntry = localStorage.getItem('todos');
-  if (allTodosEntry !== null) return JSON.parse(allTodosEntry);
+  const allTodosEntry = returnAllTodos();
+  if (allTodosEntry !== null) return allTodosEntry;
   throw new Error(`"AllTodos" isn't valid`);
 }
 

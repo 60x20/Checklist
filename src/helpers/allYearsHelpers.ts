@@ -18,8 +18,8 @@ function returnAllYears(): AllYears | null {
   return null;
 }
 export function returnValidAllYears(): AllYears {
-  const yearsEntry = localStorage.getItem('years');
-  if (yearsEntry !== null) return JSON.parse(yearsEntry);
+  const yearsEntry = returnAllYears();
+  if (yearsEntry !== null) return yearsEntry;
   throw new Error(`"AllYears" isn't valid`);
 }
 

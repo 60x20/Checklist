@@ -44,8 +44,8 @@ function returnTodosTemplate(): TodosTemplate | null {
   return null;
 }
 function returnValidTodosTemplate(): TodosTemplate {
-  const todosTemplateEntry = localStorage.getItem('todos-template');
-  if (todosTemplateEntry !== null) return JSON.parse(todosTemplateEntry);
+  const todosTemplateEntry = returnTodosTemplate();
+  if (todosTemplateEntry !== null) return todosTemplateEntry;
   throw new Error(`"TodosTemplate" isn't valid`);
 }
 
