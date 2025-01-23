@@ -5,7 +5,6 @@
     "useDefineForClassFields": true,
     "lib": ["ES2023", "DOM", "DOM.Iterable"],
     "module": "ESNext",
-    "skipLibCheck": true,
 
     /* Bundler mode */
     "moduleResolution": "Bundler",
@@ -16,11 +15,13 @@
     "jsx": "react-jsx",
 
     /* Linting */
-    "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true,
-    "noUncheckedSideEffectImports": true
+    "noUncheckedSideEffectImports": true,
+
+    "types": ["react", "react-dom"],
+
+    "rootDir": "src"
   },
+  "extends": "@tsconfig/strictest/tsconfig.json",
+
   "include": ["src"]
 }
