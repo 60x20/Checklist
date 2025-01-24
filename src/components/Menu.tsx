@@ -84,8 +84,9 @@ const Menu = ({ closeTheMenu }: MenuProps) => {
 
     // if closed, remove the event listener; if opened, add the event listener
     document.addEventListener('focusout', closeMenuOnFocusOutHandler);
-    return () =>
+    return () => {
       document.removeEventListener('focusout', closeMenuOnFocusOutHandler);
+    };
   }, [closeTheMenu]);
   // close the menu when escape pressed (for accessibility)
   useEffect(() => {
@@ -99,7 +100,9 @@ const Menu = ({ closeTheMenu }: MenuProps) => {
     // if closed, remove the event listener; if opened, add the event listener
     // keydown used instead of keyup, so that when a browser popup closed with esc, menu won't close
     document.addEventListener('keydown', closeMenuHandler);
-    return () => document.removeEventListener('keydown', closeMenuHandler);
+    return () => {
+      document.removeEventListener('keydown', closeMenuHandler);
+    };
   }, [closeTheMenu, focusOnMenuToggler]);
 
   const navigate = useNavigate();

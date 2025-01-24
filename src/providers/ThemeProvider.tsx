@@ -47,8 +47,9 @@ const ThemeProvider = ({ children }: ChildrenProp) => {
     (handler: () => void) => {
       if (themeMode === 0) {
         colorSchemeMediaQuery.addEventListener('change', handler);
-        return () =>
+        return () => {
           colorSchemeMediaQuery.removeEventListener('change', handler);
+        };
       }
       return () => {}; // return a dummy callback to satisfy function signature
     },

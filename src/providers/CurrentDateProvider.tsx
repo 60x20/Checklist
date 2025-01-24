@@ -56,7 +56,9 @@ const CurrentDateProvider = ({ children }: ChildrenProp) => {
     // since currentDate gets changed, if we don't re-set the interval with the new refreshCurrentDate, we'll be using the older version
     const intervalID = setInterval(refreshCurrentDate, 3e3);
     // clean-up: clear the previous refresher, so that there's 1 refresher at a time
-    return () => clearInterval(intervalID);
+    return () => {
+      clearInterval(intervalID);
+    };
   }, [currentDate.YMD, navigate]);
 
   return (

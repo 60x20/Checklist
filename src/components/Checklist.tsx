@@ -109,7 +109,9 @@ const Checklist = () => {
   const helperMenuClosersRef = useRef<HelperMenuClosers>({});
   function closeAllHelpers() {
     Object.values(helperMenuClosersRef.current).forEach(
-      (closer: HelperMenuClosers[ID]) => closer(),
+      (closer: HelperMenuClosers[ID]) => {
+        closer();
+      },
     );
   }
 
@@ -350,7 +352,9 @@ const Todo = memo(
     function toggleHelperState() {
       setHelperState(!helperState);
     }
-    const closeHelperMenu = useCallback(() => setHelperState(false), []); // memoized since used as a dependency
+    const closeHelperMenu = useCallback(() => {
+      setHelperState(false);
+    }, []); // memoized since used as a dependency
     const {
       helpers: { focusOnCreateTodo },
     } = useRefContext();
@@ -365,15 +369,15 @@ const Todo = memo(
       const currentTodo = todoRef.current;
       if (currentTodo === null) return;
       const nextTodo = currentTodo.nextElementSibling;
-      if (nextTodo)
-        return (
-          nextTodo.querySelector('.helper-menu-toggler') as HTMLElement
-        ).focus(); // first try next, since replaces the removed todo
+      if (nextTodo) {
+        (nextTodo.querySelector('.helper-menu-toggler') as HTMLElement).focus();
+        return;
+      } // first try next, since replaces the removed todo
       const prevTodo = currentTodo.previousElementSibling;
-      if (prevTodo)
-        return (
-          prevTodo.querySelector('.helper-menu-toggler') as HTMLElement
-        ).focus(); // then try previous
+      if (prevTodo) {
+        (prevTodo.querySelector('.helper-menu-toggler') as HTMLElement).focus(); // then try previous
+        return;
+      }
       focusOnCreateTodo(); // last resort
     }
 
@@ -486,7 +490,9 @@ const Todo = memo(
             <TodoState {...{ todoValue, todoType, updateTodoValueHandler }} />
             <button
               className="toggler-icon-only helper-menu-toggler"
-              onClick={() => toggleHelperState()}
+              onClick={() => {
+                toggleHelperState();
+              }}
               title={helperState ? 'Close helpers.' : 'Open helpers.'}
               type="button"
               aria-haspopup="menu"
@@ -579,10 +585,9 @@ const TodoHelpers = ({
   function toggleFrequencyMenuState() {
     setFrequencyMenuState(!frequencyMenuState);
   }
-  const closeFrequencyMenu = useCallback(
-    () => setFrequencyMenuState(false),
-    [],
-  ); // memoized to avoid unnecessary re-attaching
+  const closeFrequencyMenu = useCallback(() => {
+    setFrequencyMenuState(false);
+  }, []); // memoized to avoid unnecessary re-attaching
 
   const frequencyMenuButtonRef = useRef<HTMLButtonElement>(null);
   function focusOnFrequencyMenuButton() {
@@ -619,7 +624,9 @@ const TodoHelpers = ({
           type="button"
           ref={frequencyMenuButtonRef}
           className="toggler-text-and-icon"
-          onClick={() => toggleFrequencyMenuState()}
+          onClick={() => {
+            toggleFrequencyMenuState();
+          }}
           title={frequencyMenuState ? 'Close menu.' : 'Open menu.'}
           aria-haspopup="menu"
           aria-expanded={frequencyMenuState}
@@ -710,11 +717,12 @@ const FrequencyMenu = ({
     }
 
     document.addEventListener('focusout', closeFrequencyMenuOnFocusOutHandler);
-    return () =>
+    return () => {
       document.removeEventListener(
         'focusout',
         closeFrequencyMenuOnFocusOutHandler,
       );
+    };
   }, [frequencyMenuRef, closeFrequencyMenu, frequencyMenuButtonRef]);
 
   // placement
@@ -753,8 +761,9 @@ const FrequencyMenu = ({
 
     // on-resize re-calculate
     window.addEventListener('resize', determineWhereToPlaceTheMenu);
-    return () =>
+    return () => {
       window.removeEventListener('resize', determineWhereToPlaceTheMenu);
+    };
   }, [footerRef, frequencyMenuButtonRef]);
 
   const monThruSun = frequencyState.map((checked, dayIndex) => {

@@ -26,7 +26,9 @@ const Header = () => {
         className="toggler-icon-only"
         id="menu-toggler"
         ref={menuTogglerRef}
-        onClick={() => toggleMenuState()}
+        onClick={() => {
+          toggleMenuState();
+        }}
         title={menuState ? 'Close menu.' : 'Open menu.'}
         aria-haspopup="menu"
         aria-controls="menu"
@@ -38,7 +40,9 @@ const Header = () => {
         type="button"
         className="toggler-text-and-icon toggler-transition"
         id="theme-toggler"
-        onClick={() => toggleThemeMode()}
+        onClick={() => {
+          toggleThemeMode();
+        }}
         title={`Switch to ${themeModeData[returnThemeMode(themeMode + 1)].asWord} theme.`}
       >
         <span className={preferenceForDark ? 'moon-color' : 'sun-color'}>
