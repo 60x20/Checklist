@@ -20,9 +20,9 @@ const requestedDateValidatedContext = createContext<PartialFullDate | null>(
 type PartialFullDate = Partial<FullDate>;
 
 const invalidFullDate: PartialFullDate = {
-  year: undefined,
-  month: undefined,
-  day: undefined,
+  // year: undefined,
+  // month: undefined,
+  // day: undefined,
 };
 
 const RequestedDateValidatedProvider = ({ children }: ChildrenProp) => {
