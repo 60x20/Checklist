@@ -3,12 +3,12 @@ import { useParams } from 'react-router-dom';
 
 // helpers
 import {
-  FullDate,
+  type FullDate,
   validateUnitsFromDate,
 } from '../helpers/validateUnitsFromDate';
 
 // types
-import ChildrenProp from '../custom-types/ChildrenProp';
+import type ChildrenProp from '../custom-types/ChildrenProp';
 
 // custom hooks
 import useSafeContext from '../custom-hooks/useSafeContext';

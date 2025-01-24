@@ -5,7 +5,7 @@ import useForceRender from '../custom-hooks/useForceRender';
 import useSafeContext from '../custom-hooks/useSafeContext';
 
 // types
-import ChildrenProp from '../custom-types/ChildrenProp';
+import type ChildrenProp from '../custom-types/ChildrenProp';
 
 const allDataClearedContext = createContext<AllDataClearedContext | null>(null);
 

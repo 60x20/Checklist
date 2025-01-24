@@ -1,6 +1,6 @@
 // All Todos: binds todo data to unique ids, used to access todo data
 
-import { BooleanAsNum } from './todosTemplateHelpers';
+import type { BooleanAsNum } from './todosTemplateHelpers';
 
 // allTodos cached to avoid unnecessary parsing, hence faster
 export let cachedAllTodos = returnAllTodos()!; // validated before use

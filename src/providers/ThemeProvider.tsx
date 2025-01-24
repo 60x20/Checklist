@@ -13,11 +13,11 @@ import {
   themeModeData,
   returnThemeEntry,
   isDarkPreferred,
-  ThemeMode,
+  type ThemeMode,
 } from '../helpers/themeHelpers';
 
 // types
-import ChildrenProp from '../custom-types/ChildrenProp';
+import type ChildrenProp from '../custom-types/ChildrenProp';
 
 // custom hooks
 import useSafeContext from '../custom-hooks/useSafeContext';

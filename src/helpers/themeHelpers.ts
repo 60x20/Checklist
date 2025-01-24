@@ -3,7 +3,7 @@ import {
   faSun,
   faMoon,
   faCircleHalfStroke,
-  IconDefinition,
+  type IconDefinition,
 } from '@fortawesome/free-solid-svg-icons';
 
 export const colorSchemeMediaQuery = matchMedia('(prefers-color-scheme: dark)');

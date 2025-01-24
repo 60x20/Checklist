@@ -13,7 +13,7 @@ import {
 // font awesome
 import {
   FontAwesomeIcon,
-  FontAwesomeIconProps,
+  type FontAwesomeIconProps,
 } from '@fortawesome/react-fontawesome';
 import { faBars, faXmark } from '@fortawesome/free-solid-svg-icons';
 const MemoizedFontAwesomeIcon = memo((props: FontAwesomeIconProps) => (
@@ -39,9 +39,9 @@ import {
   isTodoInTodosTemplate,
   frequencyNever,
   updateFrequencyOnTodosTemplate,
-  Frequency,
-  Weekday,
-  BooleanAsNum,
+  type Frequency,
+  type Weekday,
+  type BooleanAsNum,
   updateValueOnTodosTemplate,
 } from '../helpers/todosTemplateHelpers';
 import {
@@ -49,11 +49,11 @@ import {
   addToAllTodos,
   updateTodoDescription,
   updateTodoType,
-  ID,
-  TodoType,
-  TodoValueType,
-  TodoTypeValueMap,
-  CheckboxValueType,
+  type ID,
+  type TodoType,
+  type TodoValueType,
+  type TodoTypeValueMap,
+  type CheckboxValueType,
 } from '../helpers/allTodosHelpers';
 import {
   returnTodoData,
@@ -61,7 +61,7 @@ import {
   addToTodoData,
   removeFromTodoData,
   updateTodoValue,
-  DayTodoData,
+  type DayTodoData,
 } from '../helpers/todoDataHelpers';
 import {
   dayMonthTruncFormatter,

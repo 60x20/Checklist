@@ -1,9 +1,12 @@
 // TODO: IndexedDB might be used instead of LocalStorage, due to how structured the data is
 // and this might help with localization of state
 
-import { returnTodosTemplateForWeekday, Weekday } from './todosTemplateHelpers';
+import {
+  returnTodosTemplateForWeekday,
+  type Weekday,
+} from './todosTemplateHelpers';
 import { addToAllYears } from './allYearsHelpers';
-import { ID, TodoType, TodoTypeValueMap } from './allTodosHelpers';
+import type { ID, TodoType, TodoTypeValueMap } from './allTodosHelpers';
 
 // since the type is stored globally and can change without local values adapting, types and values might disagree
 // though, this only happens when reading from the store; when writing, make sure types and values agree

@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 
 // contexts
 import {
-  MenuStateContext,
+  type MenuStateContext,
   useMenuStateContext,
 } from '../providers/MenuStateProvider';
 import { useAllDataClearedContext } from '../providers/AllDataClearedProvider';

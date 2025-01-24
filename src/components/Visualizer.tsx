@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck, faXmark } from '@fortawesome/free-solid-svg-icons';
 
 // helpers
-import { AllYears, returnValidAllYears } from '../helpers/allYearsHelpers';
+import { type AllYears, returnValidAllYears } from '../helpers/allYearsHelpers';
 import {
   extractYear,
   extractMonth,
@@ -13,9 +13,15 @@ import {
   monthFormatter,
   monthYearTruncFormatter,
 } from '../helpers/validateUnitsFromDate';
-import { LocalTodoData, returnYearEntry } from '../helpers/todoDataHelpers';
+import {
+  type LocalTodoData,
+  returnYearEntry,
+} from '../helpers/todoDataHelpers';
 import { parseDecimal, truncateString } from '../helpers/utils';
-import { cachedAllTodos, CheckboxValueType } from '../helpers/allTodosHelpers';
+import {
+  cachedAllTodos,
+  type CheckboxValueType,
+} from '../helpers/allTodosHelpers';
 
 // contexts
 import { useAllDataClearedContext } from '../providers/AllDataClearedProvider';

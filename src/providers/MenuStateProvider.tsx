@@ -2,7 +2,7 @@ import { createContext, useCallback, useState } from 'react';
 import useSafeContext from '../custom-hooks/useSafeContext';
 
 // types
-import ChildrenProp from '../custom-types/ChildrenProp';
+import type ChildrenProp from '../custom-types/ChildrenProp';
 
 const menuStateContext = createContext<MenuStateContext | null>(null);
 

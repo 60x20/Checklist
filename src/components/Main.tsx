@@ -4,7 +4,7 @@ import TodayClearedProvider from '../providers/TodayClearedProvider';
 import RequestedDateValidatedProvider from '../providers/RequestedDateValidatedProvider';
 
 // types
-import ChildrenProp from '../custom-types/ChildrenProp';
+import type ChildrenProp from '../custom-types/ChildrenProp';
 
 const Main = ({ children }: ChildrenProp) => {
   return (

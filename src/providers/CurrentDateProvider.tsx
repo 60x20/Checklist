@@ -3,11 +3,11 @@ import { createContext, useState, useEffect } from 'react';
 import { redirect, useNavigate } from 'react-router-dom';
 
 // types
-import ChildrenProp from '../custom-types/ChildrenProp';
+import type ChildrenProp from '../custom-types/ChildrenProp';
 
 // helpers
 import {
-  DateWithFormats,
+  type DateWithFormats,
   returnCurrentDate,
 } from '../helpers/returnCurrentDate';
 import useSafeContext from '../custom-hooks/useSafeContext';

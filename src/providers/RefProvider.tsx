@@ -5,7 +5,7 @@ import { shouldUseAutoFocus } from '../helpers/keyboardDetection';
 import useSafeContext from '../custom-hooks/useSafeContext';
 
 // types
-import ChildrenProp from '../custom-types/ChildrenProp';
+import type ChildrenProp from '../custom-types/ChildrenProp';
 
 const refContext = createContext<RefContext | null>(null);
 

@@ -1,7 +1,7 @@
 // todosTemplate: todos that used lastly, used as a template for vacant dates
 
-import { ID, TodoType, TodoValueType } from './allTodosHelpers';
-import { DayTodoData, LocalTodoData } from './todoDataHelpers';
+import type { ID, TodoType, TodoValueType } from './allTodosHelpers';
+import type { DayTodoData, LocalTodoData } from './todoDataHelpers';
 
 export type BooleanAsNum = 0 | 1;
 

@@ -4,7 +4,7 @@ import { dayInMs } from './returnCurrentDate';
 import { parseDecimal } from './utils';
 
 // types
-import { Weekday } from './todosTemplateHelpers';
+import type { Weekday } from './todosTemplateHelpers';
 
 const weekdayFormatter = createFormatter({ weekday: 'long' });
 export const weekdayDayMonthFormatter = createFormatter({
