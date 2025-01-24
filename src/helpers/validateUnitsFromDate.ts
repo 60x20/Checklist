@@ -89,11 +89,7 @@ export function extractDay(day: string) {
   return '';
 }
 
-export function validateDate(
-  year: string = '2000',
-  month: string = '01',
-  day: string = '01',
-) {
+export function validateDate(year = '2000', month = '01', day = '01') {
   if (year === '' || month === '' || day === '') return false;
   dateInput.value = [year, month, day].join('-'); // returns '', if invalid
   const isValid = dateInput.checkValidity();

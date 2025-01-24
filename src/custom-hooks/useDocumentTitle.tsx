@@ -4,7 +4,7 @@ const originalTitle = document.title;
 
 export default function useDocumentTitle(
   mainTitle: string = originalTitle,
-  subtitle: string = '',
+  subtitle = '',
 ) {
   // layout effect preferred to decrease the delay
   useLayoutEffect(() => {
