@@ -14,7 +14,7 @@ export function validateAllYears() {
 
 function returnAllYears(): AllYears | null {
   const yearsEntry = localStorage.getItem('years');
-  if (yearsEntry !== null) return JSON.parse(yearsEntry);
+  if (yearsEntry !== null) return JSON.parse(yearsEntry) as AllYears;
   return null;
 }
 export function returnValidAllYears(): AllYears {

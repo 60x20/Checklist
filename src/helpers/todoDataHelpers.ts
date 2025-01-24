@@ -27,7 +27,7 @@ function updateYearEntry(year: number, todoData: YearTodoData) {
 
 export function returnYearEntry(year: number): YearTodoData | null {
   const yearEntry = localStorage.getItem(String(year));
-  if (yearEntry !== null) return JSON.parse(yearEntry);
+  if (yearEntry !== null) return JSON.parse(yearEntry) as YearTodoData;
   return null;
 }
 function returnValidYearEntry(year: number): ValidYearTodoData {

@@ -16,7 +16,7 @@ export type ThemeMode = 0 | 1 | 2;
 
 export function returnThemeEntry(): ThemeMode | null {
   const themeEntry = localStorage.getItem('theme');
-  if (themeEntry !== null) return JSON.parse(themeEntry);
+  if (themeEntry !== null) return JSON.parse(themeEntry) as ThemeMode;
   return null;
 }
 

@@ -38,7 +38,8 @@ export function validateTodosTemplate() {
 
 function returnTodosTemplate(): TodosTemplate | null {
   const todosTemplateEntry = localStorage.getItem('todos-template');
-  if (todosTemplateEntry !== null) return JSON.parse(todosTemplateEntry);
+  if (todosTemplateEntry !== null)
+    return JSON.parse(todosTemplateEntry) as TodosTemplate;
   return null;
 }
 function returnValidTodosTemplate(): TodosTemplate {

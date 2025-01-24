@@ -37,7 +37,7 @@ export function validateAllTodos() {
 
 function returnAllTodos(): AllTodos | null {
   const allTodosEntry = localStorage.getItem('todos');
-  if (allTodosEntry !== null) return JSON.parse(allTodosEntry);
+  if (allTodosEntry !== null) return JSON.parse(allTodosEntry) as AllTodos;
   return null;
 }
 function returnValidAllTodos(): AllTodos {

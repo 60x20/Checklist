@@ -13,7 +13,8 @@ import {
 import useSafeContext from '../custom-hooks/useSafeContext';
 function getTodayVisited(): string | null {
   const todayVisitedEntry = localStorage.getItem('today-visited');
-  if (todayVisitedEntry !== null) return JSON.parse(todayVisitedEntry);
+  if (todayVisitedEntry !== null)
+    return JSON.parse(todayVisitedEntry) as string;
   return null;
 }
 function updateTodayVisited(newDate: string) {
