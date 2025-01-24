@@ -51,7 +51,7 @@ const ThemeProvider = ({ children }: ChildrenProp) => {
           colorSchemeMediaQuery.removeEventListener('change', handler);
         };
       }
-      return () => {}; // return a dummy callback to satisfy function signature
+      return () => undefined; // return a dummy callback to satisfy function signature
     },
     [themeMode],
   );
