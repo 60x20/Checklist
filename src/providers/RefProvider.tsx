@@ -16,9 +16,7 @@ interface RefContext {
     menuTogglerRef: React.RefObject<HTMLButtonElement>;
     footerRef: React.RefObject<HTMLElement>;
   };
-  helpers: {
-    [helperFunc: string]: () => void;
-  };
+  helpers: Record<string, () => void>;
 }
 
 // reset value

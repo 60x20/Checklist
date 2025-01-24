@@ -17,9 +17,7 @@ export type Frequency = [
   BooleanAsNum,
 ];
 type TemplateTodoData = LocalTodoData & { frequency: Frequency };
-interface TodosTemplate extends DayTodoData {
-  [id: number]: TemplateTodoData;
-}
+type TodosTemplate = Record<ID, TemplateTodoData> & DayTodoData;
 // TemplateTodoData can be converted into TodoData by deleting the frequency
 type TransferableTodoData = LocalTodoData & { frequency?: Frequency };
 

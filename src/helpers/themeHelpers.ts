@@ -35,9 +35,7 @@ export function returnThemeMode(themeMode: ThemeMode | number | null) {
   }
 }
 
-type ThemeModeData = {
-  [Prop in ThemeMode]: ThemeModeDatum;
-};
+type ThemeModeData = Record<ThemeMode, ThemeModeDatum>;
 interface ThemeModeDatum {
   asWord: string;
   icon: IconDefinition;

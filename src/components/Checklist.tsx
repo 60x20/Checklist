@@ -81,9 +81,7 @@ import {
 import useDocumentTitle from '../custom-hooks/useDocumentTitle';
 
 // types
-interface HelperMenuClosers {
-  [id: ID]: () => void;
-}
+type HelperMenuClosers = Record<ID, () => void>;
 
 const mainTitle = 'Checklist'; // will be put in document.title
 const addSubtitleToDocumentTitle = useDocumentTitle.bind(globalThis, mainTitle);

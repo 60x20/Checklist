@@ -15,9 +15,7 @@ export interface LocalTodoData<Type extends TodoType = TodoType> {
 }
 
 type Nullish = null | undefined; // helpful if indexes might be undefined or null due to JSON.stringify
-export interface DayTodoData {
-  [id: number]: LocalTodoData;
-}
+export type DayTodoData = Record<ID, LocalTodoData>;
 type MonthTodoData = (DayTodoData | Nullish)[]; // there are vacant indexes, so that days and indexes match
 type YearTodoData = (MonthTodoData | Nullish)[]; // there are vacant indexes, so that months and indexes match
 type ValidMonthTodoData = DayTodoData[]; // can be used if a specific date (year-month-day) is validated
