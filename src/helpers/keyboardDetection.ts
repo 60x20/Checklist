@@ -5,5 +5,5 @@
 // (HEURISTIC)
 // avoid virtualKeyboard on mobile devices or devices with touch-screen
 const usesVirtualKeyboard =
-  navigator.maxTouchPoints > 0 || /Mobi/.test(navigator.userAgent);
+  navigator.maxTouchPoints > 0 || navigator.userAgent.includes('Mobi');
 export const shouldUseAutoFocus = !usesVirtualKeyboard;
