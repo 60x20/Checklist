@@ -359,21 +359,19 @@ const Todo = memo(
     function focusOnCurrentMenuToggler() {
       const currentTodo = todoRef.current;
       if (currentTodo !== null)
-        (
-          currentTodo.querySelector('.helper-menu-toggler') as HTMLElement
-        ).focus();
+        currentTodo.querySelector<HTMLElement>('.helper-menu-toggler')?.focus();
     }
     function focusWhenHelperMenuCloses() {
       const currentTodo = todoRef.current;
       if (currentTodo === null) return;
       const nextTodo = currentTodo.nextElementSibling;
       if (nextTodo) {
-        (nextTodo.querySelector('.helper-menu-toggler') as HTMLElement).focus();
+        nextTodo.querySelector<HTMLElement>('.helper-menu-toggler')?.focus();
         return;
       } // first try next, since replaces the removed todo
       const prevTodo = currentTodo.previousElementSibling;
       if (prevTodo) {
-        (prevTodo.querySelector('.helper-menu-toggler') as HTMLElement).focus(); // then try previous
+        prevTodo.querySelector<HTMLElement>('.helper-menu-toggler')?.focus(); // then try previous
         return;
       }
       focusOnCreateTodo(); // last resort
