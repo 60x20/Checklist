@@ -63,7 +63,7 @@ export function validateUnitsFromDate({
 }
 
 export function extractYear(year: string) {
-  const yearRegexResult = year.match(yearRegex)?.[0];
+  const yearRegexResult = yearRegex.exec(year)?.[0];
   if (yearRegexResult) {
     const extractedYear = yearRegexResult.padStart(4, '20');
     if (parseDecimal(extractedYear) !== 0) return extractedYear;
@@ -71,7 +71,7 @@ export function extractYear(year: string) {
   return '';
 }
 export function extractMonth(month: string) {
-  const monthRegexResult = month.match(monthRegex)?.[0];
+  const monthRegexResult = monthRegex.exec(month)?.[0];
   if (monthRegexResult) {
     const extractedMonth = monthRegexResult.padStart(2, '0');
     if (parseDecimal(extractedMonth) >= 1 && parseDecimal(extractedMonth) <= 12)
@@ -80,7 +80,7 @@ export function extractMonth(month: string) {
   return '';
 }
 export function extractDay(day: string) {
-  const dayRegexResult = day.match(dayRegex)?.[0];
+  const dayRegexResult = dayRegex.exec(day)?.[0];
   if (dayRegexResult) {
     const extractedDay = dayRegexResult.padStart(2, '0');
     if (parseDecimal(extractedDay) >= 1 && parseDecimal(extractedDay) <= 31)
