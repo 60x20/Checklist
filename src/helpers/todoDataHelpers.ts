@@ -1,5 +1,8 @@
-// TODO: IndexedDB might be used instead of LocalStorage, due to how structured the data is
-// and this might help with localization of state
+/**
+ * @todo
+ * IndexedDB might be used instead of LocalStorage, due to how structured the data is
+ * and this might help with localization of state
+ */
 
 import {
   returnTodosTemplateForWeekday,

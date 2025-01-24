@@ -23,7 +23,10 @@ import DataError from './components/DataError';
 // loaders
 import { redirectToCurrentDateLoader } from './providers/CurrentDateProvider';
 
-// TODO: don't use hash router; used to allow refreshing
+/**
+ * @todo Don't use hash router.
+ * It's used to allow refreshing the page.
+ */
 const router = createHashRouter(
   createRoutesFromElements(
     <Route

@@ -293,8 +293,8 @@ const Todos = ({
   );
 
   // for rendering todos
+  /** @todo ordering can be changed by changing the way this array is created, without preventing memoization of components */
   const currentTodoTasks = Object.keys(currentTodoData).map<ID>(parseDecimal); // by default, components are rendered in ascending order by ID
-  // TODO: ordering can be changed by changing the way this array is created, without avoiding memoization of components
 
   return (
     <ul className="column-container" id="todos">
