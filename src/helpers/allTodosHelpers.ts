@@ -3,6 +3,7 @@
 import type { BooleanAsNum } from './todosTemplateHelpers';
 
 // allTodos cached to avoid unnecessary parsing, hence faster
+// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 export let cachedAllTodos = returnAllTodos()!; // validated before use
 
 export interface TodoTypeValueMap {

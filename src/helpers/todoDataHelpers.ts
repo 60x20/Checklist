@@ -53,6 +53,7 @@ export function validateTodoData(
     addToAllYears(year);
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const yearEntry = returnYearEntry(year)!; // the previous logic validates the entry
 
   if (!yearEntry[month]) {

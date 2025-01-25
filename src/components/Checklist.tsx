@@ -788,6 +788,7 @@ const FrequencyMenu = ({
     );
   });
   // since sunday uses 0 instead of 7 (due to .getDay()), we need to put it at the end to get a mon-sun list
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   monThruSun[6] = monThruSun.shift()!;
 
   return (
