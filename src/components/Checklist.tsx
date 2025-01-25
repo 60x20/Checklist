@@ -402,8 +402,10 @@ const Todo = memo(
       setTodoDescription(todoDescription);
     }
     // for performance optimization, todoValue locally managed, hence only in sync with localStorage (not with currentTodoData)
-    function updateAndSyncTodoValue<Type extends TodoType>(
-      value: TodoTypeValueMap[Type],
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-parameters
+    function updateAndSyncTodoValue<Type extends TodoType = never>(
+      // make sure value is according to the type, and type is always passed
+      value: NoInfer<TodoTypeValueMap[Type]>,
     ) {
       updateTodoValue(todoId, ...unitsAsInt, value);
       setTodoValue(value);
