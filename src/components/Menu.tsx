@@ -167,7 +167,7 @@ const Menu = ({ closeTheMenu }: MenuProps) => {
   }
 
   // for creating links relative to today
-  const prevDates: JSX.Element[] = [];
+  const prevDates: React.ReactElement[] = [];
   const prevDayAmount = 3 + 1; // 1 for today
   for (let i = 0; i < prevDayAmount; i++) {
     const relativeDate = returnDateFromToday(-i);
