@@ -192,7 +192,9 @@ const CreateTodo = memo(
       e.preventDefault();
       const submittedFormData = new FormData(e.currentTarget);
       const formDataReadable = Object.fromEntries(submittedFormData.entries());
-      const todoDescription = String(formDataReadable['todo-description']);
+      const todoDescription = formDataReadable['todo-description'];
+      if (typeof todoDescription !== 'string')
+        throw new Error('todoDescription is not a string');
       const idAssigned = addToAllTodos(todoDescription); // should be in sync with localStorage entry
       if (isToday) addToTodosTemplate(idAssigned); // if it's today add it to the template
       addToCurrentTodoDataAndSync(idAssigned);
@@ -470,7 +472,9 @@ const Todo = memo(
       e.preventDefault();
       const submittedFormData = new FormData(e.currentTarget);
       const formDataReadable = Object.fromEntries(submittedFormData.entries());
-      const todoDescription = String(formDataReadable['todo-description']);
+      const todoDescription = formDataReadable['todo-description'];
+      if (typeof todoDescription !== 'string')
+        throw new Error('todoDescription is not a string');
       updateTodoDescriptionAndSync(todoDescription);
 
       closeHelperMenu(); // close the helper menu
