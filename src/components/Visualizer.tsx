@@ -112,7 +112,7 @@ export const MonthVisualizer = () => {
                       const amountOfTodos = dayCheckedData.length;
                       const amountOfCheckedTodos =
                         dayCheckedData.filter(Boolean).length;
-                      return `${amountOfCheckedTodos}/${amountOfTodos}`;
+                      return `${String(amountOfCheckedTodos)}/${String(amountOfTodos)}`;
                     })()}
                   </p>
                   <ul>
