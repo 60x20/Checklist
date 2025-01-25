@@ -19,3 +19,10 @@ export function parseDecimal(str: string) {
 export function avoidNaN(num: number) {
   return num ? num : 0;
 }
+
+export function assertCondition(
+  condition: boolean,
+  message: string,
+): asserts condition {
+  if (!condition) throw new Error(message);
+}
