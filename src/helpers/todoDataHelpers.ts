@@ -108,12 +108,14 @@ export function removeFromTodoData(
   updateYearEntry(year, yearEntry);
 }
 
-export function updateTodoValue<Type extends TodoType>(
+// eslint-disable-next-line @typescript-eslint/no-unnecessary-type-parameters
+export function updateTodoValue<Type extends TodoType = never>(
   todoId: ID,
   year: number,
   month: number,
   day: number,
-  value: TodoTypeValueMap[Type],
+  // make sure value is according to the type, and type is always passed
+  value: NoInfer<TodoTypeValueMap[Type]>,
 ) {
   const yearEntry = returnValidYearEntry(year);
   yearEntry[month][day][todoId].value = value;

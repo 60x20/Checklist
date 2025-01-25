@@ -407,7 +407,7 @@ const Todo = memo(
       // make sure value is according to the type, and type is always passed
       value: NoInfer<TodoTypeValueMap[Type]>,
     ) {
-      updateTodoValue(todoId, ...unitsAsInt, value);
+      updateTodoValue<Type>(todoId, ...unitsAsInt, value);
       setTodoValue(value);
     }
     function resetAndSyncTodoValue(newType: TodoType) {
