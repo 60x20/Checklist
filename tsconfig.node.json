@@ -18,6 +18,8 @@
     "allowJs": true,
     "checkJs": true,
 
+    "types": ["node"],
+
     "rootDir": "./"
   },
   "extends": "@tsconfig/strictest/tsconfig.json",
