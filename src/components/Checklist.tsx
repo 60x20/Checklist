@@ -277,6 +277,7 @@ const Todos = ({
       }
       case 'REMOVE': {
         const latestData = { ...prevData };
+        // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
         delete latestData[todoId];
         return (cachedTodoData.current = latestData); // keeping cache in sync
       }
@@ -579,6 +580,7 @@ const TodoHelpers = ({
     const helperMenuClosers = helperMenuClosersRef.current;
     helperMenuClosers[todoId] = closeHelperMenu;
     return () => {
+      // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
       delete helperMenuClosers[todoId];
     };
   }, [closeHelperMenu, helperMenuClosersRef, todoId]);

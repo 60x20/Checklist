@@ -104,6 +104,7 @@ export function removeFromTodoData(
   day: number,
 ) {
   const yearEntry = returnValidYearEntry(year);
+  // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
   delete yearEntry[month][day][todoId];
   updateYearEntry(year, yearEntry);
 }

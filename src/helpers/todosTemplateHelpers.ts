@@ -105,6 +105,7 @@ export function updateFrequencyOnTodosTemplate(id: ID, frequency: Frequency) {
 
 export function removeFromTodosTemplate(idToRemove: ID) {
   const localTodosTemplate = returnValidTodosTemplate();
+  // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
   delete localTodosTemplate[idToRemove];
   updateTodosTemplate(localTodosTemplate);
 }
