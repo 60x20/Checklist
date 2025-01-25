@@ -22,7 +22,7 @@ type TodosTemplate = Record<ID, TemplateTodoData> & DayTodoData;
 type TransferableTodoData = LocalTodoData & { frequency?: Frequency };
 
 // todosTemplate cached to avoid unnecessary parsing
-export let cachedTodosTemplate = returnTodosTemplate()!; // validated before use
+export let cachedTodosTemplate = returnTodosTemplate()!; // though the value can be initially null, it's validated before use
 
 function updateTodosTemplate(ObjectOfIds: TodosTemplate) {
   localStorage.setItem('todos-template', JSON.stringify(ObjectOfIds));
