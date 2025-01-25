@@ -24,6 +24,7 @@ export function changeThemeModeEntry(themeMode: ThemeMode) {
   localStorage.setItem('theme', JSON.stringify(themeMode));
 }
 
+// eslint-disable-next-line @typescript-eslint/no-redundant-type-constituents
 export function returnThemeMode(themeMode: ThemeMode | number | null) {
   switch (themeMode) {
     case 1:
