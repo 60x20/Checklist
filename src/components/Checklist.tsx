@@ -72,7 +72,7 @@ import {
 import { shouldUseAutoFocus } from '../helpers/keyboardDetection';
 import {
   assertCondition,
-  avoidNaN,
+  avoidNaNWithEmptyString,
   capitalizeString,
   isArrTruthy,
   parseDecimal,
@@ -454,7 +454,9 @@ const Todo = memo(
           break;
         }
         case 'number': {
-          const number = avoidNaN(e.currentTarget.valueAsNumber);
+          // keep NaN, render it as an empty string, so that value can be completely cleared
+          // otherwise since React implements 'change' event as 'input', value cannot be cleared
+          const number = e.currentTarget.valueAsNumber;
           updateAndSyncTodoValue<typeof todoType>(number);
           break;
         }
@@ -558,7 +560,12 @@ const TodoState = ({
       return <input {...inputProps} checked={Boolean(todoValue)} />;
     case 'number':
       return (
-        <input {...inputProps} value={avoidNaN(Number(todoValue))} step="any" />
+        <input
+          {...inputProps}
+          // reset the value if NaN, otherwise value cannot be fully cleared
+          value={avoidNaNWithEmptyString(Number(todoValue))}
+          step="any"
+        />
       );
     case 'time':
     case 'text':

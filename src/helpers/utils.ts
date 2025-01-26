@@ -16,8 +16,11 @@ export function parseDecimal(str: string) {
   return parseInt(str, 10);
 }
 
-export function avoidNaN(num: number) {
-  return num ? num : 0;
+// export function avoidNaN(num: number) {
+//   return num ? num : 0;
+// }
+export function avoidNaNWithEmptyString(num: number) {
+  return isNaN(num) ? '' : num;
 }
 
 export function assertCondition(
