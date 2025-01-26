@@ -3,7 +3,7 @@ import globals from 'globals';
 import reactRefresh from 'eslint-plugin-react-refresh';
 import tseslint from 'typescript-eslint';
 
-/** @ts-ignore @see {@link https://github.com/facebook/react/issues/30119} */
+/** @ts-expect-error @see {@link https://github.com/facebook/react/issues/30119} */
 import reactHooks from 'eslint-plugin-react-hooks';
 
 export default tseslint.config({
