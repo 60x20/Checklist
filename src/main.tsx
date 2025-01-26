@@ -4,9 +4,12 @@ import { createRoot } from 'react-dom/client';
 // components
 import App from './App';
 
+// helpers
+import { assertCondition } from './helpers/utils';
+
 const rootElement = document.getElementById('root');
 
-if (rootElement === null) throw new Error('No root found');
+assertCondition(rootElement !== null, 'No root found');
 
 createRoot(rootElement).render(
   <StrictMode>

@@ -1,7 +1,7 @@
 import { dayInMs } from './returnCurrentDate';
 
 // helpers
-import { parseDecimal } from './utils';
+import { assertCondition, parseDecimal } from './utils';
 
 // types
 import type { Weekday } from './todosTemplateHelpers';
@@ -107,6 +107,6 @@ export function returnWeekday(
   day: string,
 ): Weekday {
   const weekday = new Date([year, month, day].join('-')).getDay();
-  if (isNaN(weekday)) throw new Error('not a weekday');
+  assertCondition(!isNaN(weekday), 'not a weekday');
   return weekday as Weekday;
 }

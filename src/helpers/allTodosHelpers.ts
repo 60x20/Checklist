@@ -1,5 +1,8 @@
 // All Todos: binds todo data to unique ids, used to access todo data
 
+// helpers
+import { assertCondition } from './utils';
+
 import type { BooleanAsNum } from './todosTemplateHelpers';
 
 // allTodos cached to avoid unnecessary parsing, hence faster
@@ -43,8 +46,8 @@ function returnAllTodos(): AllTodos | null {
 }
 function returnValidAllTodos(): AllTodos {
   const allTodosEntry = returnAllTodos();
-  if (allTodosEntry !== null) return allTodosEntry;
-  throw new Error(`"AllTodos" isn't valid`);
+  assertCondition(allTodosEntry !== null, `"AllTodos" isn't valid`);
+  return allTodosEntry;
 }
 
 export function addToAllTodos(

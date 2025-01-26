@@ -17,7 +17,11 @@ import {
   type LocalTodoData,
   returnYearEntry,
 } from '../helpers/todoDataHelpers';
-import { parseDecimal, truncateString } from '../helpers/utils';
+import {
+  assertCondition,
+  parseDecimal,
+  truncateString,
+} from '../helpers/utils';
 import {
   cachedAllTodos,
   type CheckboxValueType,
@@ -53,8 +57,7 @@ export const MonthVisualizer = () => {
 
   // a specific month requested
   const { year, month } = useParams();
-  if (year === undefined || month === undefined)
-    throw new Error('date is invalid');
+  assertCondition(year !== undefined && month !== undefined, 'date is invalid');
 
   const extractedYear = extractYear(year);
   const extractedMonth = extractMonth(month);
@@ -144,7 +147,7 @@ export const YearVisualizer = () => {
 
   // a specific year requested
   const { year } = useParams();
-  if (year === undefined) throw new Error('year is invalid');
+  assertCondition(year !== undefined, 'year is invalid');
 
   const extractedYear = extractYear(year);
 

@@ -1,5 +1,8 @@
 // All years: years that have an entry in the local storage
 
+// helpers
+import { assertCondition } from './utils';
+
 export type AllYears = number[];
 
 function updateAllYears(arrayOfYears: AllYears) {
@@ -19,8 +22,8 @@ function returnAllYears(): AllYears | null {
 }
 export function returnValidAllYears(): AllYears {
   const yearsEntry = returnAllYears();
-  if (yearsEntry !== null) return yearsEntry;
-  throw new Error(`"AllYears" isn't valid`);
+  assertCondition(yearsEntry !== null, `"AllYears" isn't valid`);
+  return yearsEntry;
 }
 
 export function addToAllYears(year: number) {

@@ -71,6 +71,7 @@ import {
 } from '../helpers/validateUnitsFromDate';
 import { shouldUseAutoFocus } from '../helpers/keyboardDetection';
 import {
+  assertCondition,
   avoidNaN,
   capitalizeString,
   isArrTruthy,
@@ -88,8 +89,10 @@ const addSubtitleToDocumentTitle = useDocumentTitle.bind(globalThis, mainTitle);
 
 const Checklist = () => {
   const { year, month, day } = useRequestedDateValidatedContext();
-  if (year === undefined || month === undefined || day === undefined)
-    throw new Error(`requested date isn't valid`);
+  assertCondition(
+    year !== undefined && month !== undefined && day !== undefined,
+    `requested date isn't valid`,
+  );
   const { allDataCleared } = useAllDataClearedContext(); // when changes, new data will be brought
   const { todayCleared } = useTodayClearedContext(); // when changes, new data will be brought
 
@@ -178,8 +181,10 @@ const CreateTodo = memo(
 
     // currentTodoData should be in sync with localStorage entry
     function addToCurrentTodoDataAndSync(todoIdToAdd: ID) {
-      if (refForUpdateCurrentTodoData.current === null)
-        throw new Error('updater is null');
+      assertCondition(
+        refForUpdateCurrentTodoData.current !== null,
+        'updater is null',
+      );
       addToTodoData(todoIdToAdd, ...unitsAsInt);
       refForUpdateCurrentTodoData.current({
         action: 'ADD',
@@ -193,8 +198,10 @@ const CreateTodo = memo(
       const submittedFormData = new FormData(e.currentTarget);
       const formDataReadable = Object.fromEntries(submittedFormData.entries());
       const todoDescription = formDataReadable['todo-description'];
-      if (typeof todoDescription !== 'string')
-        throw new Error('todoDescription is not a string');
+      assertCondition(
+        typeof todoDescription === 'string',
+        'todoDescription is not a string',
+      );
       const idAssigned = addToAllTodos(todoDescription); // should be in sync with localStorage entry
       if (isToday) addToTodosTemplate(idAssigned); // if it's today add it to the template
       addToCurrentTodoDataAndSync(idAssigned);
@@ -476,8 +483,10 @@ const Todo = memo(
       const submittedFormData = new FormData(e.currentTarget);
       const formDataReadable = Object.fromEntries(submittedFormData.entries());
       const todoDescription = formDataReadable['todo-description'];
-      if (typeof todoDescription !== 'string')
-        throw new Error('todoDescription is not a string');
+      assertCondition(
+        typeof todoDescription === 'string',
+        'todoDescription is not a string',
+      );
       updateTodoDescriptionAndSync(todoDescription);
 
       closeHelperMenu(); // close the helper menu
@@ -736,12 +745,12 @@ const FrequencyMenu = ({
   useLayoutEffect(() => {
     // if there isn't enough space place it over the button
     function isSpaceUnderButtonEnough() {
-      if (
-        frequencyMenuButtonRef.current === null ||
-        frequencyMenuRef.current === null ||
-        footerRef.current === null
-      )
-        throw new Error('element is null');
+      assertCondition(
+        frequencyMenuButtonRef.current !== null &&
+          frequencyMenuRef.current !== null &&
+          footerRef.current !== null,
+        'element is null',
+      );
       const menuElementHeight =
         frequencyMenuRef.current.getBoundingClientRect().height;
       const menuTogglerButtonBottom =
@@ -755,7 +764,7 @@ const FrequencyMenu = ({
 
     function determineWhereToPlaceTheMenu() {
       const menuElement = frequencyMenuRef.current;
-      if (menuElement === null) throw new Error('menu is null');
+      assertCondition(menuElement !== null, 'menu is null');
       if (isSpaceUnderButtonEnough())
         menuElement.classList.remove('over-the-button');
       else menuElement.classList.add('over-the-button');

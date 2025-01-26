@@ -1,5 +1,8 @@
 // todosTemplate: todos that were used recently, used as a template for vacant dates
 
+// helpers
+import { assertCondition } from './utils';
+
 import type { ID, TodoType, TodoValueType } from './allTodosHelpers';
 import type { DayTodoData, LocalTodoData } from './todoDataHelpers';
 
@@ -45,8 +48,8 @@ function returnTodosTemplate(): TodosTemplate | null {
 }
 function returnValidTodosTemplate(): TodosTemplate {
   const todosTemplateEntry = returnTodosTemplate();
-  if (todosTemplateEntry !== null) return todosTemplateEntry;
-  throw new Error(`"TodosTemplate" isn't valid`);
+  assertCondition(todosTemplateEntry !== null, `"TodosTemplate" isn't valid`);
+  return todosTemplateEntry;
 }
 
 export function returnTodosTemplateForWeekday(weekday: Weekday) {
