@@ -16,6 +16,7 @@
 
     /* Linting */
     "noUncheckedSideEffectImports": true,
+    "noUncheckedIndexedAccess": false, // turned off because it caused too many false positives, and workaround is complicated
 
     "types": ["react", "react-dom"],
 
