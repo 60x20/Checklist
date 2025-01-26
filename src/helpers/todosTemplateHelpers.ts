@@ -1,4 +1,4 @@
-// todosTemplate: todos that used lastly, used as a template for vacant dates
+// todosTemplate: todos that were used recently, used as a template for vacant dates
 
 import type { ID, TodoType, TodoValueType } from './allTodosHelpers';
 import type { DayTodoData, LocalTodoData } from './todoDataHelpers';
