@@ -11,11 +11,6 @@ export function isArrTruthy(arr: unknown[]) {
   return arr.some(Boolean);
 }
 
-/** Parses as a decimal integer. This shouldn't be used if number isn't necessarily an integer. */
-export function parseDecimal(str: string) {
-  return parseInt(str, 10);
-}
-
 // export function avoidNaN(num: number) {
 //   return num ? num : 0;
 // }
