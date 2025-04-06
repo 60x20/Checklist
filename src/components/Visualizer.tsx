@@ -17,11 +17,7 @@ import {
   type LocalTodoData,
   returnYearEntry,
 } from '../helpers/todoDataHelpers';
-import {
-  assertCondition,
-  parseDecimal,
-  truncateString,
-} from '../helpers/utils';
+import { assertCondition, truncateString } from '../helpers/utils';
 import {
   cachedAllTodos,
   type CheckboxValueType,
@@ -73,11 +69,11 @@ export const MonthVisualizer = () => {
 
   if (!isValid) return <p>invalid date</p>;
 
-  const yearAsInt = parseDecimal(extractedYear);
+  const yearAsInt = Number(extractedYear);
   const yearEntry = returnYearEntry(yearAsInt);
   if (!yearEntry) return <p>no data for year</p>;
 
-  const monthAsInt = parseDecimal(extractedMonth);
+  const monthAsInt = Number(extractedMonth);
   const monthEntry = yearEntry[monthAsInt];
   if (!monthEntry) return <p>no data for month</p>;
 
@@ -92,7 +88,7 @@ export const MonthVisualizer = () => {
                 ([id, todoData]: [string, LocalTodoData]): [
                   number,
                   LocalTodoData,
-                ] => [parseDecimal(id), todoData],
+                ] => [Number(id), todoData],
               );
               return (
                 <article key={day} className="day">
@@ -158,7 +154,7 @@ export const YearVisualizer = () => {
 
   if (!isValid) return <p>invalid date</p>;
 
-  const yearAsInt = parseDecimal(extractedYear);
+  const yearAsInt = Number(extractedYear);
   const yearEntry = returnYearEntry(yearAsInt);
   if (!yearEntry) return <p>no data for year</p>;
 
