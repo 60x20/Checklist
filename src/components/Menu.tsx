@@ -20,7 +20,6 @@ import { confirmToResetAllData } from '../helpers/resetAllData';
 import { returnDateFromToday } from '../helpers/returnCurrentDate';
 import { resetTodoData } from '../helpers/todoDataHelpers';
 import { dayMonthYearTruncFormatter } from '../helpers/validateUnitsFromDate';
-import { parseDecimal } from '../helpers/utils';
 
 const MenuWrapper = () => {
   const { menuState, closeTheMenu } = useMenuStateContext();
@@ -135,9 +134,9 @@ const Menu = ({ closeTheMenu }: MenuProps) => {
   let resetCurrentDayButton = <></>;
   if (isDateRequested) {
     const unitsAsInt: [number, number, number] = [
-      parseDecimal(year),
-      parseDecimal(month),
-      parseDecimal(day),
+      Number(year),
+      Number(month),
+      Number(day),
     ]; // used as array indexes
 
     function resetCurrentDayHandler() {
