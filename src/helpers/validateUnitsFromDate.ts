@@ -62,6 +62,7 @@ export function validateUnitsFromDate({
     : { year: '2000', month: '01', day: '01' };
 }
 
+/** returns a year in the range `'0001'-'9999'` or `''` as a failure */
 export function extractYear(year: string) {
   const yearRegexResult = yearRegex.exec(year)?.[0];
   if (yearRegexResult) {
@@ -70,6 +71,7 @@ export function extractYear(year: string) {
   }
   return '';
 }
+/** returns a month in the range `'01'-'12'` or `''` as a failure */
 export function extractMonth(month: string) {
   const monthRegexResult = monthRegex.exec(month)?.[0];
   if (monthRegexResult) {
@@ -79,6 +81,7 @@ export function extractMonth(month: string) {
   }
   return '';
 }
+/** returns a day in the range `'01'-'31'` or `''` as a failure */
 export function extractDay(day: string) {
   const dayRegexResult = dayRegex.exec(day)?.[0];
   if (dayRegexResult) {
