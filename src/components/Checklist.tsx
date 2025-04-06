@@ -75,7 +75,6 @@ import {
   avoidNaNWithEmptyString,
   capitalizeString,
   isArrTruthy,
-  parseDecimal,
 } from '../helpers/utils';
 
 // custom hooks
@@ -100,7 +99,7 @@ const Checklist = () => {
 
   // converted into numbers so that they are considered array indexes
   const unitsAsInt: [number, number, number] = useMemo(
-    () => [parseDecimal(year), parseDecimal(month), parseDecimal(day)],
+    () => [Number(year), Number(month), Number(day)],
     [day, month, year],
   ); // used as dependency
 
@@ -304,7 +303,7 @@ const Todos = ({
 
   // for rendering todos
   /** @todo ordering can be changed by changing the way this array is created, without preventing memoization of components */
-  const currentTodoTasks = Object.keys(currentTodoData).map<ID>(parseDecimal); // by default, components are rendered in ascending order by ID
+  const currentTodoTasks = Object.keys(currentTodoData).map<ID>(Number); // by default, components are rendered in ascending order by ID
 
   return (
     <ul className="column-container" id="todos">
@@ -710,7 +709,7 @@ const FrequencyMenu = ({
 
   // handlers
   function toggleCheckedHandler(e: React.ChangeEvent<HTMLInputElement>) {
-    const dayIndex = parseDecimal(e.currentTarget.value) as Weekday;
+    const dayIndex = Number(e.currentTarget.value) as Weekday;
     const dayState: BooleanAsNum = e.currentTarget.checked ? 1 : 0; // 1-0 used instead of true-false, to save space
     const newFrequency: Frequency = [...frequencyState];
     newFrequency[dayIndex] = dayState;
