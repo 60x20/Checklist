@@ -1,7 +1,7 @@
 import { dayInMs } from './returnCurrentDate';
 
 // helpers
-import { assertCondition, parseDecimal } from './utils';
+import { assertCondition } from './utils';
 
 // types
 import type { Weekday } from './todosTemplateHelpers';
@@ -66,7 +66,7 @@ export function extractYear(year: string) {
   const yearRegexResult = yearRegex.exec(year)?.[0];
   if (yearRegexResult) {
     const extractedYear = yearRegexResult.padStart(4, '20');
-    if (parseDecimal(extractedYear) !== 0) return extractedYear;
+    if (Number(extractedYear) !== 0) return extractedYear; // year 0 doesn't exist
   }
   return '';
 }
@@ -74,7 +74,7 @@ export function extractMonth(month: string) {
   const monthRegexResult = monthRegex.exec(month)?.[0];
   if (monthRegexResult) {
     const extractedMonth = monthRegexResult.padStart(2, '0');
-    if (parseDecimal(extractedMonth) >= 1 && parseDecimal(extractedMonth) <= 12)
+    if (Number(extractedMonth) >= 1 && Number(extractedMonth) <= 12)
       return extractedMonth;
   }
   return '';
@@ -83,7 +83,7 @@ export function extractDay(day: string) {
   const dayRegexResult = dayRegex.exec(day)?.[0];
   if (dayRegexResult) {
     const extractedDay = dayRegexResult.padStart(2, '0');
-    if (parseDecimal(extractedDay) >= 1 && parseDecimal(extractedDay) <= 31)
+    if (Number(extractedDay) >= 1 && Number(extractedDay) <= 31)
       return extractedDay;
   }
   return '';
