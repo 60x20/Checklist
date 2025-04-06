@@ -69,7 +69,7 @@ export function extractYear(year: string) {
     const extractedYear = yearRegexResult.padStart(4, '20');
     if (Number(extractedYear) !== 0) return extractedYear; // year 0 doesn't exist
   }
-  return '';
+  return ''; /** @todo maybe return `null` or `string | ''` to make the failure more obvious */
 }
 /** returns a month in the range `'01'-'12'` or `''` as a failure */
 export function extractMonth(month: string) {
@@ -79,7 +79,7 @@ export function extractMonth(month: string) {
     if (Number(extractedMonth) >= 1 && Number(extractedMonth) <= 12)
       return extractedMonth;
   }
-  return '';
+  return ''; /** @todo maybe return `null` or `string | ''` to make the failure more obvious */
 }
 /** returns a day in the range `'01'-'31'` or `''` as a failure */
 export function extractDay(day: string) {
@@ -89,7 +89,7 @@ export function extractDay(day: string) {
     if (Number(extractedDay) >= 1 && Number(extractedDay) <= 31)
       return extractedDay;
   }
-  return '';
+  return ''; /** @todo maybe return `null` or `string | ''` to make the failure more obvious */
 }
 
 export function validateDate(year = '2000', month = '01', day = '01') {
