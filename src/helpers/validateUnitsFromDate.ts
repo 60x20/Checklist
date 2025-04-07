@@ -110,6 +110,6 @@ export function returnWeekday(
   day: string,
 ): Weekday {
   const weekday = new Date([year, month, day].join('-')).getDay();
-  assertCondition(!isNaN(weekday), 'not a weekday');
+  assertCondition(!isNaN(weekday), 'returnWeekday always gets a valid date');
   return weekday as Weekday;
 }
