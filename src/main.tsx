@@ -9,7 +9,7 @@ import { assertCondition } from './helpers/utils';
 
 const rootElement = document.getElementById('root');
 
-assertCondition(rootElement !== null, 'No root found');
+assertCondition(rootElement !== null, 'root always exists');
 
 createRoot(rootElement).render(
   <StrictMode>
