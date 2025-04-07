@@ -90,7 +90,7 @@ const Checklist = () => {
   const { year, month, day } = useRequestedDateValidatedContext();
   assertCondition(
     year !== undefined && month !== undefined && day !== undefined,
-    `requested date isn't valid`,
+    'Checklist only renders if url includes a year, month and a day',
   );
   const { allDataCleared } = useAllDataClearedContext(); // when changes, new data will be brought
   const { todayCleared } = useTodayClearedContext(); // when changes, new data will be brought
@@ -182,7 +182,7 @@ const CreateTodo = memo(
     function addToCurrentTodoDataAndSync(todoIdToAdd: ID) {
       assertCondition(
         refForUpdateCurrentTodoData.current !== null,
-        'updater is null',
+        'ref will be initialized before updater can be used since it runs through user interaction',
       );
       addToTodoData(todoIdToAdd, ...unitsAsInt);
       refForUpdateCurrentTodoData.current({
@@ -199,7 +199,7 @@ const CreateTodo = memo(
       const todoDescription = formDataReadable['todo-description'];
       assertCondition(
         typeof todoDescription === 'string',
-        'todoDescription is not a string',
+        'todo-description is a text input so the value is always a string',
       );
       const idAssigned = addToAllTodos(todoDescription); // should be in sync with localStorage entry
       if (isToday) addToTodosTemplate(idAssigned); // if it's today add it to the template
@@ -486,7 +486,7 @@ const Todo = memo(
       const todoDescription = formDataReadable['todo-description'];
       assertCondition(
         typeof todoDescription === 'string',
-        'todoDescription is not a string',
+        'todo-description is a text input so the value is always a string',
       );
       updateTodoDescriptionAndSync(todoDescription);
 
@@ -755,7 +755,7 @@ const FrequencyMenu = ({
         frequencyMenuButtonRef.current !== null &&
           frequencyMenuRef.current !== null &&
           footerRef.current !== null,
-        'element is null',
+        'since menu opens through user interaction, both footer and button will be present when layout effect runs',
       );
       const menuElementHeight =
         frequencyMenuRef.current.getBoundingClientRect().height;
@@ -770,7 +770,10 @@ const FrequencyMenu = ({
 
     function determineWhereToPlaceTheMenu() {
       const menuElement = frequencyMenuRef.current;
-      assertCondition(menuElement !== null, 'menu is null');
+      assertCondition(
+        menuElement !== null,
+        'ref is initialized before layout effect runs',
+      );
       if (isSpaceUnderButtonEnough())
         menuElement.classList.remove('over-the-button');
       else menuElement.classList.add('over-the-button');
