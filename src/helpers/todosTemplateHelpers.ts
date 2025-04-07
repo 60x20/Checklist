@@ -48,7 +48,10 @@ function returnTodosTemplate(): TodosTemplate | null {
 }
 function returnValidTodosTemplate(): TodosTemplate {
   const todosTemplateEntry = returnTodosTemplate();
-  assertCondition(todosTemplateEntry !== null, `"TodosTemplate" isn't valid`);
+  assertCondition(
+    todosTemplateEntry !== null,
+    `"TodosTemplate" always saved properly`,
+  );
   return todosTemplateEntry;
 }
 
