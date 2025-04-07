@@ -53,7 +53,10 @@ export const MonthVisualizer = () => {
 
   // a specific month requested
   const { year, month } = useParams();
-  assertCondition(year !== undefined && month !== undefined, 'date is invalid');
+  assertCondition(
+    year !== undefined && month !== undefined,
+    'MonthVisualizer only renders if url includes both a year and a month',
+  );
 
   const extractedYear = extractYear(year);
   const extractedMonth = extractMonth(month);
@@ -143,7 +146,10 @@ export const YearVisualizer = () => {
 
   // a specific year requested
   const { year } = useParams();
-  assertCondition(year !== undefined, 'year is invalid');
+  assertCondition(
+    year !== undefined,
+    'YearVisualizer only renders if url includes a year',
+  );
 
   const extractedYear = extractYear(year);
 
