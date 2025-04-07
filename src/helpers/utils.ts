@@ -20,7 +20,8 @@ export function avoidNaNWithEmptyString(num: number) {
 
 export function assertCondition(
   condition: boolean,
-  message: string,
+  reason: string,
 ): asserts condition {
-  if (!condition) throw new Error(message);
+  if (!condition)
+    throw new Error(`Assertion failed. Reason for assertion: ${reason}`);
 }
