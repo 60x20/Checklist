@@ -38,7 +38,7 @@ export function returnYearEntry(year: number): YearTodoData | null {
 function returnValidYearEntry(year: number): ValidYearTodoData {
   // if year entry, along with month and day, is already validated, prefer this version to avoid nullish return
   const yearEntry = returnYearEntry(year);
-  assertCondition(yearEntry !== null, 'Year entry is not valid');
+  assertCondition(yearEntry !== null, 'Year entry always saved properly');
   return yearEntry as ValidYearTodoData; // validated before use
 }
 
