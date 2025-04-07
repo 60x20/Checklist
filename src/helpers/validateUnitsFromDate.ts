@@ -82,7 +82,7 @@ export function extractMonth(month: string) {
   return ''; /** @todo maybe return `null` or `string | ''` to make the failure more obvious */
 }
 /** returns a day in the range `'01'-'31'` or `''` as a failure */
-export function extractDay(day: string) {
+function extractDay(day: string) {
   const dayRegexResult = dayRegex.exec(day)?.[0];
   if (dayRegexResult) {
     const extractedDay = dayRegexResult.padStart(2, '0');
