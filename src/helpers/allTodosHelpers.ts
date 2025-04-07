@@ -46,7 +46,7 @@ function returnAllTodos(): AllTodos | null {
 }
 function returnValidAllTodos(): AllTodos {
   const allTodosEntry = returnAllTodos();
-  assertCondition(allTodosEntry !== null, `"AllTodos" isn't valid`);
+  assertCondition(allTodosEntry !== null, `"AllTodos" always saved properly`);
   return allTodosEntry;
 }
 
