@@ -22,7 +22,7 @@ function returnAllYears(): AllYears | null {
 }
 export function returnValidAllYears(): AllYears {
   const yearsEntry = returnAllYears();
-  assertCondition(yearsEntry !== null, `"AllYears" isn't valid`);
+  assertCondition(yearsEntry !== null, `"AllYears" always saved properly`);
   return yearsEntry;
 }
 
