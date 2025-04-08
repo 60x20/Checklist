@@ -12,7 +12,7 @@ export function isArrTruthy(arr: unknown[]) {
 }
 
 // export function avoidNaN(num: number) {
-//   return num ? num : 0;
+//   return num || 0;
 // }
 export function avoidNaNWithEmptyString(num: number) {
   return isNaN(num) ? '' : num;
