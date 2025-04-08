@@ -30,18 +30,6 @@ function createFormatter(options: Intl.DateTimeFormatOptions) {
   return new Intl.DateTimeFormat(navigator.language, options);
 }
 
-// should be greedy, otherwise data will be lost
-const yearRegex = /\d{4}|\d{2}/;
-const monthRegex = /\d{1,2}/;
-const dayRegex = /\d{1,2}/;
-
-// date input is used instead of Date.parse for validation, because Date.parse is lenient
-// for example (Feb 31): Date.parse('2000-02-31') === Date.parse('2000-03-02')
-// Date.parse considers 'Feb 31' as 'Feb 29 + 2 days'
-const dateInput = document.createElement('input');
-dateInput.type = 'date';
-dateInput.required = true; // so that empty dates are invalid
-
 export interface FullDate {
   year: string;
   month: string;
@@ -62,6 +50,10 @@ export function validateUnitsFromDate({
     : { year: '2000', month: '01', day: '01' };
 }
 
+// should be greedy, otherwise data will be lost
+const yearRegex = /\d{4}|\d{2}/;
+const monthRegex = /\d{1,2}/;
+const dayRegex = /\d{1,2}/;
 /** returns a year in the range `'0001'-'9999'` or `''` as a failure */
 export function extractYear(year: string) {
   const yearRegexResult = yearRegex.exec(year)?.[0];
@@ -92,6 +84,12 @@ function extractDay(day: string) {
   return ''; /** @todo maybe return `null` or `string | ''` to make the failure more obvious */
 }
 
+// date input is used instead of Date.parse for validation, because Date.parse is lenient
+// for example (Feb 31): Date.parse('2000-02-31') === Date.parse('2000-03-02')
+// Date.parse considers 'Feb 31' as 'Feb 29 + 2 days'
+const dateInput = document.createElement('input');
+dateInput.type = 'date';
+dateInput.required = true; // so that empty dates are invalid
 export function validateDate(year = '2000', month = '01', day = '01') {
   if (year === '' || month === '' || day === '') return false;
   dateInput.value = [year, month, day].join('-'); // returns '', if invalid
