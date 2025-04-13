@@ -1,6 +1,5 @@
 import js from '@eslint/js';
 import globals from 'globals';
-import reactRefresh from 'eslint-plugin-react-refresh';
 import tseslint from 'typescript-eslint';
 
 /** @ts-expect-error @see {@link https://github.com/facebook/react/issues/30119} */
@@ -28,6 +27,5 @@ export default tseslint.config({
   },
   plugins: {
     'react-hooks': reactHooks,
-    'react-refresh': reactRefresh,
   },
 });
