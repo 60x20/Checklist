@@ -86,7 +86,7 @@ type HelperMenuClosers = Record<ID, () => void>;
 const mainTitle = 'Checklist'; // will be put in document.title
 const addSubtitleToDocumentTitle = useDocumentTitle.bind(globalThis, mainTitle);
 
-const Checklist = () => {
+function Checklist() {
   const { year, month, day } = useRequestedDateValidatedContext();
   assertCondition(
     year !== undefined && month !== undefined && day !== undefined,
@@ -151,7 +151,7 @@ const Checklist = () => {
       />
     </div>
   );
-};
+}
 
 export default Checklist;
 
@@ -241,14 +241,14 @@ type Action =
   | { action: 'ADD'; todoId: ID; todoType?: TodoType }
   | { action: 'REMOVE'; todoId: ID; todoType?: never };
 
-const Todos = ({
+function Todos({
   day,
   month,
   year,
   unitsAsInt,
   helperMenuClosersRef,
   refForUpdateCurrentTodoData,
-}: TodosProps) => {
+}: TodosProps) {
   // localStorage entry cached to avoid parsing; used to initialize local states, avoiding hoisting the state up and re-rendering
   const cachedTodoData = useRef<DayTodoData>({});
 
@@ -325,7 +325,7 @@ const Todos = ({
       ))}
     </ul>
   );
-};
+}
 
 interface TodoProps {
   updateCurrentTodoData: React.Dispatch<Action>;
@@ -540,11 +540,11 @@ interface TodoStateProps {
   todoType: TodoType;
   updateTodoValueHandler: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
-const TodoState = ({
+function TodoState({
   todoValue,
   todoType,
   updateTodoValueHandler,
-}: TodoStateProps) => {
+}: TodoStateProps) {
   const inputProps = {
     type: todoType,
     name: 'todo-state',
@@ -570,7 +570,7 @@ const TodoState = ({
     case 'text':
       return <input {...inputProps} value={String(todoValue)} />;
   }
-};
+}
 
 interface TodoHelpersProps {
   todoId: ID;
@@ -581,7 +581,7 @@ interface TodoHelpersProps {
   closeHelperMenu: () => void;
   helperMenuClosersRef: React.MutableRefObject<HelperMenuClosers>;
 }
-const TodoHelpers = ({
+function TodoHelpers({
   todoId,
   updateTodoDescriptionHandler,
   todoType,
@@ -589,7 +589,7 @@ const TodoHelpers = ({
   removeFromTodoHandler,
   closeHelperMenu,
   helperMenuClosersRef,
-}: TodoHelpersProps) => {
+}: TodoHelpersProps) {
   useEffect(() => {
     // store the helperMenu closer in ref, will be used to close all at once
     const helperMenuClosers = helperMenuClosersRef.current;
@@ -674,7 +674,7 @@ const TodoHelpers = ({
       </button>
     </div>
   );
-};
+}
 
 interface FrequencyMenuProps {
   todoId: ID;
@@ -683,13 +683,13 @@ interface FrequencyMenuProps {
   focusOnFrequencyMenuButton: () => void;
   todoType: TodoType;
 }
-const FrequencyMenu = ({
+function FrequencyMenu({
   todoId,
   closeFrequencyMenu,
   frequencyMenuButtonRef,
   focusOnFrequencyMenuButton,
   todoType,
-}: FrequencyMenuProps) => {
+}: FrequencyMenuProps) {
   const [frequencyState, setFrequencyState] = useState(() =>
     isTodoInTodosTemplate(todoId)
       ? cachedTodosTemplate[todoId].frequency
@@ -826,4 +826,4 @@ const FrequencyMenu = ({
       {monThruSun}
     </ul>
   );
-};
+}

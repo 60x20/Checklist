@@ -37,7 +37,7 @@ export function redirectToCurrentDateLoader() {
 
 const currentDateContext = createContext<DateWithFormats | null>(null);
 
-const CurrentDateProvider = ({ children }: ChildrenProp) => {
+function CurrentDateProvider({ children }: ChildrenProp) {
   const navigate = useNavigate();
 
   const [currentDate, setCurrentDateState] = useState(returnCurrentDate);
@@ -67,7 +67,7 @@ const CurrentDateProvider = ({ children }: ChildrenProp) => {
       {children}
     </currentDateContext.Provider>
   );
-};
+}
 
 export function useCurrentDateContext() {
   return useSafeContext(currentDateContext);

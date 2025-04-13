@@ -25,7 +25,7 @@ const invalidFullDate: PartialFullDate = {
   // day: undefined,
 };
 
-const RequestedDateValidatedProvider = ({ children }: ChildrenProp) => {
+function RequestedDateValidatedProvider({ children }: ChildrenProp) {
   const requestedDateAsParams = useParams();
   const { year, month, day } = requestedDateAsParams;
   // if any of them are undefined, validation will throw, so immediately return {}; can happen because of menu
@@ -39,7 +39,7 @@ const RequestedDateValidatedProvider = ({ children }: ChildrenProp) => {
       {children}
     </requestedDateValidatedContext.Provider>
   );
-};
+}
 
 export function useRequestedDateValidatedContext() {
   return useSafeContext(requestedDateValidatedContext);

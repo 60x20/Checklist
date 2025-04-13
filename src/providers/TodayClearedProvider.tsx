@@ -14,7 +14,7 @@ interface TodayClearedContext {
   increaseTodayCleared: React.DispatchWithoutAction;
 }
 
-const TodayClearedProvider = ({ children }: ChildrenProp) => {
+function TodayClearedProvider({ children }: ChildrenProp) {
   // inform the children, if clear occurs; let them clean-up
 
   const [todayCleared, increaseTodayCleared] = useForceRender();
@@ -26,7 +26,7 @@ const TodayClearedProvider = ({ children }: ChildrenProp) => {
       {children}
     </todayClearedContext.Provider>
   );
-};
+}
 
 export function useTodayClearedContext() {
   return useSafeContext(todayClearedContext);

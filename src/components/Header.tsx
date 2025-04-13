@@ -12,7 +12,7 @@ import { faBars, faXmark } from '@fortawesome/free-solid-svg-icons';
 // helpers
 import { returnThemeMode, themeModeData } from '../helpers/themeHelpers';
 
-const Header = () => {
+function Header() {
   const { menuState, toggleMenuState } = useMenuStateContext();
   const { preferenceForDark, themeMode, toggleThemeMode } = useThemeContext();
   const {
@@ -57,6 +57,6 @@ const Header = () => {
       </h2>
     </header>
   );
-};
+}
 
 export default Header;

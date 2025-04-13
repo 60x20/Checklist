@@ -21,11 +21,11 @@ import { returnDateFromToday } from '../helpers/returnCurrentDate';
 import { resetTodoData } from '../helpers/todoDataHelpers';
 import { dayMonthYearTruncFormatter } from '../helpers/validateUnitsFromDate';
 
-const MenuWrapper = () => {
+function MenuWrapper() {
   const { menuState, closeTheMenu } = useMenuStateContext();
 
   return menuState ? <Menu {...{ closeTheMenu }} /> : <></>;
-};
+}
 
 export default MenuWrapper;
 
@@ -33,7 +33,7 @@ interface MenuProps {
   closeTheMenu: MenuStateContext['closeTheMenu'];
 }
 
-const Menu = ({ closeTheMenu }: MenuProps) => {
+function Menu({ closeTheMenu }: MenuProps) {
   const { year, month, day } = useRequestedDateValidatedContext();
   const isDateRequested = year && month && day;
 
@@ -240,4 +240,4 @@ const Menu = ({ closeTheMenu }: MenuProps) => {
       </div>
     </aside>
   );
-};
+}

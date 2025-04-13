@@ -30,7 +30,7 @@ document.addEventListener('keydown', (e) => {
   }
 });
 
-const RootLayout = () => {
+function RootLayout() {
   // validation for localStorage entries; they must exist
   validateTodosTemplate();
   validateAllTodos();
@@ -54,6 +54,6 @@ const RootLayout = () => {
       </ThemeProvider>
     </>
   );
-};
+}
 
 export default RootLayout;

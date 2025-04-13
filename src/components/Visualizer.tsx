@@ -36,7 +36,7 @@ import useDocumentTitle from '../custom-hooks/useDocumentTitle';
 const mainTitle = 'Visualize'; // will be put in document.title
 const addSubtitleToDocumentTitle = useDocumentTitle.bind(globalThis, mainTitle);
 
-export const VisualizerLayout = () => {
+export function VisualizerLayout() {
   const {
     refs: { visualizerRef },
   } = useRefContext();
@@ -46,9 +46,9 @@ export const VisualizerLayout = () => {
       <Outlet />
     </div>
   );
-};
+}
 
-export const MonthVisualizer = () => {
+export function MonthVisualizer() {
   useAllDataClearedContext(); // when data is cleared, re-render
 
   // a specific month requested
@@ -139,9 +139,9 @@ export const MonthVisualizer = () => {
       }
     </div>
   );
-};
+}
 
-export const YearVisualizer = () => {
+export function YearVisualizer() {
   useAllDataClearedContext(); // when data is cleared, re-render
 
   // a specific year requested
@@ -192,9 +192,9 @@ export const YearVisualizer = () => {
       </ul>
     </nav>
   );
-};
+}
 
-export const AllYearsVisualizer = () => {
+export function AllYearsVisualizer() {
   useAllDataClearedContext(); // when data is cleared, re-render
 
   addSubtitleToDocumentTitle('Years');
@@ -225,4 +225,4 @@ export const AllYearsVisualizer = () => {
       </ul>
     </nav>
   );
-};
+}

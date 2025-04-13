@@ -6,7 +6,7 @@ import RequestedDateValidatedProvider from '../providers/RequestedDateValidatedP
 // types
 import type ChildrenProp from '../custom-types/ChildrenProp';
 
-const Main = ({ children }: ChildrenProp) => {
+function Main({ children }: ChildrenProp) {
   return (
     <main>
       <AllDataClearedProvider>
@@ -18,6 +18,6 @@ const Main = ({ children }: ChildrenProp) => {
       </AllDataClearedProvider>
     </main>
   );
-};
+}
 
 export default Main;

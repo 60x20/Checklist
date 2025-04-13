@@ -14,7 +14,7 @@ interface AllDataClearedContext {
   increaseAllDataCleared: React.DispatchWithoutAction;
 }
 
-const AllDataClearedProvider = ({ children }: ChildrenProp) => {
+function AllDataClearedProvider({ children }: ChildrenProp) {
   // inform the children, if clear occurs; let them clean-up
 
   const [allDataCleared, increaseAllDataCleared] = useForceRender();
@@ -26,7 +26,7 @@ const AllDataClearedProvider = ({ children }: ChildrenProp) => {
       {children}
     </allDataClearedContext.Provider>
   );
-};
+}
 
 export function useAllDataClearedContext() {
   return useSafeContext(allDataClearedContext);

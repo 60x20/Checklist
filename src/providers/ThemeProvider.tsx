@@ -32,7 +32,7 @@ interface ThemeContext {
 
 const bodyClassList = document.body.classList;
 
-const ThemeProvider = ({ children }: ChildrenProp) => {
+function ThemeProvider({ children }: ChildrenProp) {
   const [themeMode, setThemeMode] = useState<ThemeMode>(() =>
     returnThemeMode(returnThemeEntry()),
   );
@@ -70,7 +70,7 @@ const ThemeProvider = ({ children }: ChildrenProp) => {
       {children}
     </themeContext.Provider>
   );
-};
+}
 
 export function useThemeContext() {
   return useSafeContext(themeContext);
