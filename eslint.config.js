@@ -10,11 +10,11 @@ export default tseslint.config({
     js.configs.recommended,
     ...tseslint.configs.strictTypeChecked,
     ...tseslint.configs.stylisticTypeChecked,
+    reactHooks.configs['recommended-latest'],
   ],
   rules: {
     '@typescript-eslint/consistent-type-imports': 'error',
     '@typescript-eslint/consistent-type-exports': 'error',
-    ...reactHooks.configs.recommended.rules,
   },
   files: ['src/**/*.{ts,tsx}'],
   languageOptions: {
@@ -24,8 +24,5 @@ export default tseslint.config({
       projectService: true,
       tsconfigRootDir: import.meta.dirname,
     },
-  },
-  plugins: {
-    'react-hooks': reactHooks,
   },
 });
