@@ -6,7 +6,7 @@ import RequestedDateValidatedProvider from '../providers/RequestedDateValidatedP
 // types
 import type ChildrenProp from '../custom-types/ChildrenProp';
 
-function Main({ children }: ChildrenProp) {
+export default function Main({ children }: ChildrenProp) {
   return (
     <main>
       <AllDataClearedProvider>
@@ -19,5 +19,3 @@ function Main({ children }: ChildrenProp) {
     </main>
   );
 }
-
-export default Main;

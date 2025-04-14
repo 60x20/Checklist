@@ -21,13 +21,11 @@ import { returnDateFromToday } from '../helpers/returnCurrentDate';
 import { resetTodoData } from '../helpers/todoDataHelpers';
 import { dayMonthYearTruncFormatter } from '../helpers/validateUnitsFromDate';
 
-function MenuWrapper() {
+export default function MenuWrapper() {
   const { menuState, closeTheMenu } = useMenuStateContext();
 
   return menuState ? <Menu {...{ closeTheMenu }} /> : <></>;
 }
-
-export default MenuWrapper;
 
 interface MenuProps {
   closeTheMenu: MenuStateContext['closeTheMenu'];

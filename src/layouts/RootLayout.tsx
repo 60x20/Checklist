@@ -30,7 +30,7 @@ document.addEventListener('keydown', (e) => {
   }
 });
 
-function RootLayout() {
+export default function RootLayout() {
   // validation for localStorage entries; they must exist
   validateTodosTemplate();
   validateAllTodos();
@@ -55,5 +55,3 @@ function RootLayout() {
     </>
   );
 }
-
-export default RootLayout;

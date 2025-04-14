@@ -86,7 +86,7 @@ type HelperMenuClosers = Record<ID, () => void>;
 const mainTitle = 'Checklist'; // will be put in document.title
 const addSubtitleToDocumentTitle = useDocumentTitle.bind(globalThis, mainTitle);
 
-function Checklist() {
+export default function Checklist() {
   const { year, month, day } = useRequestedDateValidatedContext();
   assertCondition(
     year !== undefined && month !== undefined && day !== undefined,
@@ -153,7 +153,6 @@ function Checklist() {
   );
 }
 
-export default Checklist;
 
 interface CreateTodoProps {
   unitsAsInt: [number, number, number];

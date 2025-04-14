@@ -59,7 +59,7 @@ export function focusOnLastItemFromRef(ref: React.RefObject<HTMLElement>) {
   focusFromEl(lastItem);
 }
 
-function RefProvider({ children }: ChildrenProp) {
+export default function RefProvider({ children }: ChildrenProp) {
   const createTodoRef = useRef<HTMLInputElement>(null);
   function focusOnCreateTodo() {
     // avoid focusing on editable regions on mobile since it causes an annoying visual keyboard
@@ -100,5 +100,3 @@ function RefProvider({ children }: ChildrenProp) {
 export function useRefContext() {
   return useSafeContext(refContext);
 }
-
-export default RefProvider;

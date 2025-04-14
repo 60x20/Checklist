@@ -10,7 +10,7 @@ import { weekdayDayMonthFormatter } from '../helpers/validateUnitsFromDate';
 // custom hooks
 import useDocumentTitle from '../custom-hooks/useDocumentTitle';
 
-function Home() {
+export default function Home() {
   const currentDate = useCurrentDateContext();
 
   useDocumentTitle(undefined, 'Home'); // add to original title
@@ -32,5 +32,3 @@ function Home() {
     </div>
   );
 }
-
-export default Home;

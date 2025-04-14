@@ -4,7 +4,7 @@ import { useLocation, useNavigate, useRouteError } from 'react-router-dom';
 import { confirmToResetAllData } from '../helpers/resetAllData';
 import { truncateString } from '../helpers/utils';
 
-function DataError() {
+export default function DataError() {
   const error = useRouteError();
   const navigate = useNavigate();
   const { pathname } = useLocation();
@@ -23,5 +23,3 @@ function DataError() {
     </div>
   );
 }
-
-export default DataError;

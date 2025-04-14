@@ -1,6 +1,5 @@
 import { useReducer } from 'react';
 
-function useForceRender() {
+export default function useForceRender() {
   return useReducer((prev: number) => prev + 1, 0);
 }
-export default useForceRender;

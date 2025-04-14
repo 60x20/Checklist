@@ -50,8 +50,6 @@ const router = createHashRouter(
 // since hash router parses location.hash, base is always relative to the place of index.html
 // so, hosting from subdirectories won't cause problems
 
-function App() {
+export default function App() {
   return <RouterProvider router={router} />;
 }
-
-export default App;

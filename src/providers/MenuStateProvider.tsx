@@ -12,7 +12,7 @@ export interface MenuStateContext {
   closeTheMenu: () => void;
 }
 
-function MenuStateProvider({ children }: ChildrenProp) {
+export default function MenuStateProvider({ children }: ChildrenProp) {
   const [menuState, setMenuState] = useState(false);
   function toggleMenuState() {
     setMenuState(!menuState);
@@ -33,5 +33,3 @@ function MenuStateProvider({ children }: ChildrenProp) {
 export function useMenuStateContext() {
   return useSafeContext(menuStateContext);
 }
-
-export default MenuStateProvider;
