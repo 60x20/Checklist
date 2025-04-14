@@ -154,7 +154,6 @@ export default function Checklist() {
   );
 }
 
-
 interface CreateTodoProps {
   unitsAsInt: [number, number, number];
   year: string;
