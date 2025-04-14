@@ -33,7 +33,8 @@ import {
 // custom hooks
 import useDocumentTitle from '../custom-hooks/useDocumentTitle';
 
-const mainTitle = 'Visualize'; // will be put in document.title
+/** will be put in document.title */
+const mainTitle = 'Visualize';
 const addSubtitleToDocumentTitle = useDocumentTitle.bind(globalThis, mainTitle);
 
 export function VisualizerLayout() {
