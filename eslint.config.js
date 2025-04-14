@@ -1,8 +1,6 @@
 import js from '@eslint/js';
 import globals from 'globals';
 import tseslint from 'typescript-eslint';
-
-/** @ts-expect-error @see {@link https://github.com/facebook/react/issues/30119} */
 import reactHooks from 'eslint-plugin-react-hooks';
 
 export default tseslint.config({
