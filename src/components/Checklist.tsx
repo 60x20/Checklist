@@ -99,6 +99,7 @@ export default function Checklist() {
   const dateRequested = new Date([year, month, day].join('-'));
 
   // converted into numbers so that they are considered array indexes
+  /** @todo rename to unitsYMDAsInt */
   const unitsAsInt: [number, number, number] = useMemo(
     () => [Number(year), Number(month), Number(day)],
     [day, month, year],
