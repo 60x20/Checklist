@@ -7,7 +7,7 @@ export function truncateString(str: string, maxCharSize = 10) {
   return str.length > maxCharSize ? str.substring(0, maxCharSize) + '...' : str;
 }
 
-/** Returns true if the array has at least 1 truthy member */
+/** @returns true if the array has at least 1 truthy member */
 export function isArrTruthy(arr: unknown[]) {
   return arr.some(Boolean);
 }

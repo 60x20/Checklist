@@ -54,7 +54,7 @@ export function validateUnitsFromDate({
 const yearRegex = /\d{4}|\d{2}/;
 const monthRegex = /\d{1,2}/;
 const dayRegex = /\d{1,2}/;
-/** returns a year in the range `'0001'-'9999'` or `''` as a failure */
+/** @returns a year in the range `'0001'-'9999'` or `''` as a failure */
 export function extractYear(year: string) {
   const yearRegexResult = yearRegex.exec(year)?.[0];
   if (yearRegexResult) {
@@ -63,7 +63,7 @@ export function extractYear(year: string) {
   }
   return ''; /** @todo maybe return `null` or `string | ''` to make the failure more obvious */
 }
-/** returns a month in the range `'01'-'12'` or `''` as a failure */
+/** @returns a month in the range `'01'-'12'` or `''` as a failure */
 export function extractMonth(month: string) {
   const monthRegexResult = monthRegex.exec(month)?.[0];
   if (monthRegexResult) {
@@ -73,7 +73,7 @@ export function extractMonth(month: string) {
   }
   return ''; /** @todo maybe return `null` or `string | ''` to make the failure more obvious */
 }
-/** returns a day in the range `'01'-'31'` or `''` as a failure */
+/** @returns a day in the range `'01'-'31'` or `''` as a failure */
 function extractDay(day: string) {
   const dayRegexResult = dayRegex.exec(day)?.[0];
   if (dayRegexResult) {
