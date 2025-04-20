@@ -13,7 +13,7 @@ export default tseslint.config({
   rules: {
     '@typescript-eslint/consistent-type-imports': 'error',
     '@typescript-eslint/consistent-type-exports': 'error',
-    'func-style': ['error', 'declaration'],
+    'func-style': ['error', 'declaration'], // functions are clearer and hoistable
   },
   files: ['src/**/*.{ts,tsx}'],
   languageOptions: {
