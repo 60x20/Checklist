@@ -3,6 +3,11 @@ import globals from 'globals';
 import tseslint from 'typescript-eslint';
 import reactHooks from 'eslint-plugin-react-hooks';
 
+// non-forwards-compatible plugins
+import { fixupPluginRules } from '@eslint/compat';
+// @ts-expect-error no-types
+import filenames from 'eslint-plugin-filenames';
+
 export default tseslint.config({
   extends: [
     js.configs.recommended,
@@ -14,6 +19,7 @@ export default tseslint.config({
     '@typescript-eslint/consistent-type-imports': 'error',
     '@typescript-eslint/consistent-type-exports': 'error',
     'func-style': ['error', 'declaration'], // functions are clearer and hoistable
+    'filenames/match-exported': 'error', // default exports should match filename for readability
   },
   files: ['src/**/*.{ts,tsx}'],
   languageOptions: {
@@ -23,5 +29,8 @@ export default tseslint.config({
       projectService: true,
       tsconfigRootDir: import.meta.dirname,
     },
+  },
+  plugins: {
+    filenames: fixupPluginRules(filenames),
   },
 });
