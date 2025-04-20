@@ -21,7 +21,7 @@ import { returnDateFromToday } from '../helpers/returnCurrentDate';
 import { resetTodoData } from '../helpers/todoDataHelpers';
 import { dayMonthYearTruncFormatter } from '../helpers/validateUnitsFromDate';
 
-export default function MenuWrapper() {
+export function MenuWrapper() {
   const { menuState, closeTheMenu } = useMenuStateContext();
 
   return menuState ? <Menu {...{ closeTheMenu }} /> : <></>;
