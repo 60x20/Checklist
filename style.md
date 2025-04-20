@@ -12,6 +12,7 @@
 ## [Prefer function declarations for named functions](https://google.github.io/styleguide/tsguide.html#function-declarations)
 
 - Function declarations are clearer and hoistable.
+- Prefer [arrow functions](https://google.github.io/styleguide/tsguide.html#function-expressions) for callbacks since they are simpler and bind `this`.
 
 ## [Avoid default exports](https://google.github.io/styleguide/tsguide.html#exports)
 

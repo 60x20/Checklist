@@ -18,7 +18,8 @@ export default tseslint.config({
   rules: {
     '@typescript-eslint/consistent-type-imports': 'error',
     '@typescript-eslint/consistent-type-exports': 'error',
-    'func-style': ['error', 'declaration'], // functions are clearer and hoistable
+    'func-style': ['error', 'declaration'], // function declarations are clearer and hoistable
+    'prefer-arrow-callback': 'error', // arrow-callbacks are simpler than function expressions
     'filenames/match-exported': 'error', // default exports should match filename for readability
   },
   files: ['src/**/*.{ts,tsx}'],
