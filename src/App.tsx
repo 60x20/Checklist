@@ -23,6 +23,9 @@ import DataError from './components/DataError';
 // loaders
 import { redirectToCurrentDateLoader } from './providers/CurrentDateProvider';
 
+// sync when another instance changes the storage to avoid errors
+import './helpers/syncWindows';
+
 /**
  * @todo Don't use hash router.
  * It's used to allow refreshing the page.
