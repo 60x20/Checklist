@@ -12,11 +12,6 @@ import CurrentDateProvider from '../providers/CurrentDateProvider';
 import ThemeProvider from '../providers/ThemeProvider';
 import RefProvider from '../providers/RefProvider';
 
-// validators
-import { validateTodosTemplate } from '../helpers/todosTemplateHelpers';
-import { validateAllTodos } from '../helpers/allTodosHelpers';
-import { validateAllYears } from '../helpers/allYearsHelpers';
-
 // make checkboxes interactable with 'enter'
 document.addEventListener('keydown', (e) => {
   // keydown preferred since keyup can trigger on a checkbox after keydown pressed on a button that moves the focus
@@ -31,11 +26,6 @@ document.addEventListener('keydown', (e) => {
 });
 
 export default function RootLayout() {
-  // validation for localStorage entries; they must exist
-  validateTodosTemplate();
-  validateAllTodos();
-  validateAllYears();
-
   return (
     <>
       <ThemeProvider>
