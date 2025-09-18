@@ -6,8 +6,9 @@ import { assertCondition } from './utils';
 import type { BooleanAsNum } from './todosTemplateHelpers';
 
 // allTodos cached to avoid unnecessary parsing, hence faster
-// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-export let cachedAllTodos = returnAllTodos()!; // though the value can be initially null, it's validated before use
+// validate since the value can be initially null
+validateAllTodos();
+export let cachedAllTodos = returnValidAllTodos();
 
 export interface TodoTypeValueMap {
   checkbox: BooleanAsNum;
