@@ -1,12 +1,8 @@
-import { validateTodosTemplate } from '../helpers/todosTemplateHelpers';
-import { validateAllTodos } from '../helpers/allTodosHelpers';
-import { validateAllYears } from './allYearsHelpers';
+import { validateEntries } from './validateEntries';
 
 function resetAllData() {
   localStorage.clear();
-  validateTodosTemplate();
-  validateAllTodos();
-  validateAllYears();
+  validateEntries(); // validate so entries can still be read
 }
 
 export function confirmToResetAllData() {
