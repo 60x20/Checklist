@@ -9,6 +9,8 @@ function updateAllYears(arrayOfYears: AllYears) {
   localStorage.setItem('years', JSON.stringify(arrayOfYears));
 }
 
+// validate before it can be accessed so it's always valid
+validateAllYears();
 export function validateAllYears() {
   if (!returnAllYears()) {
     updateAllYears([]);
