@@ -25,8 +25,9 @@ type TodosTemplate = Record<ID, TemplateTodoData> & DayTodoData;
 type TransferableTodoData = LocalTodoData & { frequency?: Frequency };
 
 // todosTemplate cached to avoid unnecessary parsing
-// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-export let cachedTodosTemplate = returnTodosTemplate()!; // though the value can be initially null, it's validated before use
+// validate since the value can be initially null
+validateTodosTemplate();
+export let cachedTodosTemplate = returnValidTodosTemplate();
 
 function updateTodosTemplate(ObjectOfIds: TodosTemplate) {
   localStorage.setItem('todos-template', JSON.stringify(ObjectOfIds));
