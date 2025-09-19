@@ -265,17 +265,16 @@ function Todos({
     switch (action) {
       // keeping cache in sync; value used for initialization
       case 'ADD': {
-        let initialValue: TodoValueType = '';
-        switch (todoType) {
-          case 'number':
-          case 'checkbox':
-            initialValue = 0;
-            break;
-          case 'time':
-          case 'text':
-            initialValue = '';
-            break;
-        }
+        const initialValue: TodoValueType = (() => {
+          switch (todoType) {
+            case 'number':
+            case 'checkbox':
+              return 0;
+            case 'time':
+            case 'text':
+              return '';
+          }
+        })();
         return (cachedTodoData.current = {
           ...prevData,
           [todoId]: { value: initialValue },
