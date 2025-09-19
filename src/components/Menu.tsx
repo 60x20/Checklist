@@ -128,27 +128,28 @@ function Menu({ closeTheMenu }: MenuProps) {
       focusOnCreateTodoAndCloseTheMenu();
     }
   }
-  let resetCurrentDayButton = <></>;
-  if (isDateRequested) {
-    const unitsAsInt: [number, number, number] = [
-      Number(year),
-      Number(month),
-      Number(day),
-    ]; // used as array indexes
+  const resetCurrentDayButton = (() => {
+    if (isDateRequested) {
+      const unitsAsInt: [number, number, number] = [
+        Number(year),
+        Number(month),
+        Number(day),
+      ]; // used as array indexes
 
-    function resetCurrentDayHandler() {
-      resetTodoData(...unitsAsInt);
-      increaseTodayCleared(); // informing checklist
+      function resetCurrentDayHandler() {
+        resetTodoData(...unitsAsInt);
+        increaseTodayCleared(); // informing checklist
 
-      focusOnCreateTodoAndCloseTheMenu();
-    }
+        focusOnCreateTodoAndCloseTheMenu();
+      }
 
-    resetCurrentDayButton = (
-      <button type="button" onClick={resetCurrentDayHandler}>
-        reset current day
-      </button>
-    );
-  }
+      return (
+        <button type="button" onClick={resetCurrentDayHandler}>
+          reset current day
+        </button>
+      );
+    } else return <></>;
+  })();
 
   function menuKeyPressFocusHandler(e: React.KeyboardEvent<HTMLElement>) {
     // if (e.target && e.target.matches('input[type="text"], input:not([type])')) return; // allowing default behavior
