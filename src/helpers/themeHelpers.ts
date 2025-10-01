@@ -27,10 +27,9 @@ export function changeThemeModeEntry(themeMode: ThemeMode) {
 // eslint-disable-next-line @typescript-eslint/no-redundant-type-constituents
 export function returnThemeMode(themeMode: ThemeMode | number | null) {
   switch (themeMode) {
-    case 1:
-      return 1; // light
-    case 2:
-      return 2; // dark
+    case 1: // light
+    case 2: // dark
+      return themeMode;
     default:
       return 0; // auto, also a fallback (if it's null, or bigger than 2)
   }
