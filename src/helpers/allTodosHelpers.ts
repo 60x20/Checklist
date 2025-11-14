@@ -32,7 +32,7 @@ function updateAllTodos(arrayOfTodoData: AllTodos) {
   localStorage.setItem('todos', JSON.stringify(arrayOfTodoData));
 }
 function updateAllTodosAndCache(arrayOfTodoData: AllTodos) {
-  localStorage.setItem('todos', JSON.stringify(arrayOfTodoData));
+  updateAllTodos(arrayOfTodoData);
 
   cachedAllTodos = arrayOfTodoData; // keeping cached version in sync
 }
