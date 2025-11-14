@@ -7,7 +7,7 @@ import type { BooleanAsNum } from './todosTemplateHelpers';
 
 // allTodos cached to avoid unnecessary parsing, hence faster
 // validate since the value can be initially null
-validateAllTodosAndSyncCache();
+validateAllTodos();
 export let cachedAllTodos = returnValidAllTodos();
 
 export interface TodoTypeValueMap {
@@ -28,12 +28,20 @@ type TodoDescription = GlobalTodoData['description'];
 export type ID = number;
 type AllTodos = GlobalTodoData[];
 
+function updateAllTodos(arrayOfTodoData: AllTodos) {
+  localStorage.setItem('todos', JSON.stringify(arrayOfTodoData));
+}
 function updateAllTodosAndCache(arrayOfTodoData: AllTodos) {
   localStorage.setItem('todos', JSON.stringify(arrayOfTodoData));
 
   cachedAllTodos = arrayOfTodoData; // keeping cached version in sync
 }
 
+function validateAllTodos() {
+  if (!returnAllTodos()) {
+    updateAllTodos([]);
+  }
+}
 export function validateAllTodosAndSyncCache() {
   if (!returnAllTodos()) {
     updateAllTodosAndCache([]);
