@@ -33,7 +33,7 @@ function updateTodosTemplate(ObjectOfIds: TodosTemplate) {
   localStorage.setItem('todos-template', JSON.stringify(ObjectOfIds));
 }
 function updateTodosTemplateAndCache(ObjectOfIds: TodosTemplate) {
-  localStorage.setItem('todos-template', JSON.stringify(ObjectOfIds));
+  updateTodosTemplate(ObjectOfIds);
 
   cachedTodosTemplate = ObjectOfIds; // keeping cached version in sync
 }
