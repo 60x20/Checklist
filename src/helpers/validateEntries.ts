@@ -4,7 +4,7 @@ import { validateAllYears } from './allYearsHelpers';
 import { validateTodosTemplateAndSyncCache } from './todosTemplateHelpers';
 
 /** validates localStorage entries, which is necessary for rendering */
-export function validateEntries() {
+export function validateEntriesAndSyncCache() {
   validateTodosTemplateAndSyncCache();
   validateAllTodosAndSyncCache();
   validateAllYears();

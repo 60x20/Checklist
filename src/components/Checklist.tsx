@@ -34,21 +34,21 @@ import {
 // helpers
 import {
   cachedTodosTemplate,
-  addToTodosTemplate,
-  removeFromTodosTemplate,
+  addToTodosTemplateAndCache,
+  removeFromTodosTemplateAndCache,
   isTodoInTodosTemplate,
   frequencyNever,
-  updateFrequencyOnTodosTemplate,
+  updateFrequencyOnTodosTemplateAndCache,
   type Frequency,
   type Weekday,
   type BooleanAsNum,
-  updateValueOnTodosTemplate,
+  updateValueOnTodosTemplateAndCache,
 } from '../helpers/todosTemplateHelpers';
 import {
   cachedAllTodos,
-  addToAllTodos,
-  updateTodoDescription,
-  updateTodoType,
+  addToAllTodosAndCache,
+  updateTodoDescriptionAndCache,
+  updateTodoTypeAndCache,
   type ID,
   type TodoType,
   type TodoValueType,
@@ -201,8 +201,8 @@ const CreateTodo = memo(
         typeof todoDescription === 'string',
         'todo-description is a text input so the value is always a string',
       );
-      const idAssigned = addToAllTodos(todoDescription); // should be in sync with localStorage entry
-      if (isToday) addToTodosTemplate(idAssigned); // if it's today add it to the template
+      const idAssigned = addToAllTodosAndCache(todoDescription); // should be in sync with localStorage entry
+      if (isToday) addToTodosTemplateAndCache(idAssigned); // if it's today add it to the template
       addToCurrentTodoDataAndSync(idAssigned);
 
       e.currentTarget.reset(); // value is reset on submit to make known value is added
@@ -404,7 +404,7 @@ const Todo = memo(
 
     // todoDescription should be in sync with localStorage entry
     function updateTodoDescriptionAndSync(todoDescription: string) {
-      updateTodoDescription(todoId, todoDescription);
+      updateTodoDescriptionAndCache(todoId, todoDescription);
       setTodoDescription(todoDescription);
     }
     // for performance optimization, todoValue locally managed, hence only in sync with localStorage (not with currentTodoData)
@@ -430,7 +430,7 @@ const Todo = memo(
     }
     // for performance optimization, todoType locally managed
     function updateAndSyncTodoType(type: TodoType) {
-      updateTodoType(todoId, type);
+      updateTodoTypeAndCache(todoId, type);
       setTodoType(type);
     }
 
@@ -439,7 +439,7 @@ const Todo = memo(
       // also remove it from the template if it's there and if it's today
       // make sure it's today otherwise frequencyNever-todo can remove frequencyEveryday-todo
       if (isToday && isTodoInTodosTemplate(todoId))
-        removeFromTodosTemplate(todoId); // if removed, frequency is never
+        removeFromTodosTemplateAndCache(todoId); // if removed, frequency is never
       removeFromCurrentTodoDataAndSync();
 
       focusWhenHelperMenuCloses(); // move focus to the nearest element
@@ -471,7 +471,7 @@ const Todo = memo(
       updateAndSyncTodoType(newType);
 
       if (isTodoInTodosTemplate(todoId))
-        updateValueOnTodosTemplate(todoId, newType);
+        updateValueOnTodosTemplateAndCache(todoId, newType);
 
       resetAndSyncTodoValue(newType); // it's reset so that old value doesn't appear (otherwise checkbox => text: innerText === 1)
 
@@ -699,9 +699,9 @@ function FrequencyMenu({
     if (isArrTruthy(frequency)) {
       // frequency isn't never
       if (isTodoInTodosTemplate(todoId)) {
-        updateFrequencyOnTodosTemplate(todoId, frequency); // if it exists just update it
-      } else addToTodosTemplate(todoId, frequency, todoType); // if it doesn't exist already, add it
-    } else removeFromTodosTemplate(todoId); // remove it if it's never ([0, 0, 0, 0, 0, 0, 0])
+        updateFrequencyOnTodosTemplateAndCache(todoId, frequency); // if it exists just update it
+      } else addToTodosTemplateAndCache(todoId, frequency, todoType); // if it doesn't exist already, add it
+    } else removeFromTodosTemplateAndCache(todoId); // remove it if it's never ([0, 0, 0, 0, 0, 0, 0])
 
     setFrequencyState(frequency);
   }

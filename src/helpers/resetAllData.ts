@@ -1,8 +1,8 @@
-import { validateEntries } from './validateEntries';
+import { validateEntriesAndSyncCache } from './validateEntries';
 
 function resetAllData() {
   localStorage.clear();
-  validateEntries(); // validate so entries can still be read
+  validateEntriesAndSyncCache(); // validate so entries can still be read and ensure cache is in sync
 }
 
 export function confirmToResetAllData() {

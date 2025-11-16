@@ -81,7 +81,7 @@ export function returnTodosTemplateForWeekday(weekday: Weekday) {
 
 const frequencyEveryDay: Frequency = [1, 1, 1, 1, 1, 1, 1];
 export const frequencyNever: Frequency = [0, 0, 0, 0, 0, 0, 0];
-export function addToTodosTemplate(
+export function addToTodosTemplateAndCache(
   id: ID,
   frequency: Frequency = frequencyEveryDay,
   type: TodoType = 'checkbox',
@@ -96,7 +96,7 @@ export function addToTodosTemplate(
 
 // keep value and type in sync, otherwise types might disagree:
 // (type: number, value: 0) => (type: text, value: 0 (instead of ''))
-export function updateValueOnTodosTemplate(id: ID, type: TodoType) {
+export function updateValueOnTodosTemplateAndCache(id: ID, type: TodoType) {
   const localTodosTemplate = returnValidTodosTemplate();
   localTodosTemplate[id].value = returnInitialValueForType(type);
   updateTodosTemplateAndCache(localTodosTemplate);
@@ -113,13 +113,16 @@ function returnInitialValueForType(type: TodoType): TodoValueType {
   }
 }
 
-export function updateFrequencyOnTodosTemplate(id: ID, frequency: Frequency) {
+export function updateFrequencyOnTodosTemplateAndCache(
+  id: ID,
+  frequency: Frequency,
+) {
   const localTodosTemplate = returnValidTodosTemplate();
   localTodosTemplate[id].frequency = frequency;
   updateTodosTemplateAndCache(localTodosTemplate);
 }
 
-export function removeFromTodosTemplate(idToRemove: ID) {
+export function removeFromTodosTemplateAndCache(idToRemove: ID) {
   const localTodosTemplate = returnValidTodosTemplate();
   // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
   delete localTodosTemplate[idToRemove];

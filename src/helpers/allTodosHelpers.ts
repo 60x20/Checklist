@@ -59,7 +59,7 @@ function returnValidAllTodos(): AllTodos {
   return allTodosEntry;
 }
 
-export function addToAllTodos(
+export function addToAllTodosAndCache(
   todoDescription: TodoDescription,
   todoType: TodoType = 'checkbox',
 ): ID {
@@ -69,7 +69,7 @@ export function addToAllTodos(
   return localAllTodos.length - 1; // returns the ID assigned to todoDescription
 }
 
-export function updateTodoDescription(
+export function updateTodoDescriptionAndCache(
   id: ID,
   todoDescription: TodoDescription,
 ) {
@@ -78,7 +78,7 @@ export function updateTodoDescription(
   updateAllTodosAndCache(localAllTodos);
 }
 
-export function updateTodoType(id: ID, todoType: TodoType) {
+export function updateTodoTypeAndCache(id: ID, todoType: TodoType) {
   const localAllTodos = returnValidAllTodos();
   localAllTodos[id].type = todoType;
   updateAllTodosAndCache(localAllTodos);
