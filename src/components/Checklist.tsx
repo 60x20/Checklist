@@ -698,9 +698,9 @@ function FrequencyMenu({
   function changeAndSyncFrequency(frequency: Frequency) {
     if (isArrTruthy(frequency)) {
       // frequency isn't never
-      if (isTodoInTodosTemplate(todoId)) {
+      if (isTodoInTodosTemplate(todoId))
         updateFrequencyOnTodosTemplateAndCache(todoId, frequency); // if it exists just update it
-      } else addToTodosTemplateAndCache(todoId, frequency, todoType); // if it doesn't exist already, add it
+      else addToTodosTemplateAndCache(todoId, frequency, todoType); // if it doesn't exist already, add it
     } else removeFromTodosTemplateAndCache(todoId); // remove it if it's never ([0, 0, 0, 0, 0, 0, 0])
 
     setFrequencyState(frequency);

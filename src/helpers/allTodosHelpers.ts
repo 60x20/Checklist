@@ -38,14 +38,10 @@ function updateAllTodosAndCache(arrayOfTodoData: AllTodos) {
 }
 
 function validateAllTodos() {
-  if (!returnAllTodos()) {
-    updateAllTodos([]);
-  }
+  if (!returnAllTodos()) updateAllTodos([]);
 }
 export function validateAllTodosAndSyncCache() {
-  if (!returnAllTodos()) {
-    updateAllTodosAndCache([]);
-  }
+  if (!returnAllTodos()) updateAllTodosAndCache([]);
 }
 
 function returnAllTodos(): AllTodos | null {

@@ -12,9 +12,7 @@ function updateAllYears(arrayOfYears: AllYears) {
 // validate before it can be accessed so it's always valid
 validateAllYears();
 export function validateAllYears() {
-  if (!returnAllYears()) {
-    updateAllYears([]);
-  }
+  if (!returnAllYears()) updateAllYears([]);
 }
 
 function returnAllYears(): AllYears | null {

@@ -19,6 +19,7 @@ export default tseslint.config({
     '@typescript-eslint/consistent-type-imports': 'error',
     '@typescript-eslint/consistent-type-exports': 'error',
     '@typescript-eslint/switch-exhaustiveness-check': 'error',
+    curly: ['error', 'multi-or-nest'], // for simplicity avoid blocks for single statements, but allow them for complex ones
     'func-style': ['error', 'declaration'], // function declarations are clearer and hoistable
     'prefer-arrow-callback': 'error', // arrow-callbacks are simpler than function expressions
     'filenames/match-exported': 'error', // default exports should match filename for readability

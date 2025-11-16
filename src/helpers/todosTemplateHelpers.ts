@@ -39,14 +39,10 @@ function updateTodosTemplateAndCache(ObjectOfIds: TodosTemplate) {
 }
 
 function validateTodosTemplate() {
-  if (!returnTodosTemplate()) {
-    updateTodosTemplate({});
-  }
+  if (!returnTodosTemplate()) updateTodosTemplate({});
 }
 export function validateTodosTemplateAndSyncCache() {
-  if (!returnTodosTemplate()) {
-    updateTodosTemplateAndCache({});
-  }
+  if (!returnTodosTemplate()) updateTodosTemplateAndCache({});
 }
 
 function returnTodosTemplate(): TodosTemplate | null {
