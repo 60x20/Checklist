@@ -26,15 +26,23 @@ type TransferableTodoData = LocalTodoData & { frequency?: Frequency };
 
 // todosTemplate cached to avoid unnecessary parsing
 // validate since the value can be initially null
-validateTodosTemplateAndSyncCache();
+validateTodosTemplate();
 export let cachedTodosTemplate = returnValidTodosTemplate();
 
+function updateTodosTemplate(ObjectOfIds: TodosTemplate) {
+  localStorage.setItem('todos-template', JSON.stringify(ObjectOfIds));
+}
 function updateTodosTemplateAndCache(ObjectOfIds: TodosTemplate) {
   localStorage.setItem('todos-template', JSON.stringify(ObjectOfIds));
 
   cachedTodosTemplate = ObjectOfIds; // keeping cached version in sync
 }
 
+function validateTodosTemplate() {
+  if (!returnTodosTemplate()) {
+    updateTodosTemplate({});
+  }
+}
 export function validateTodosTemplateAndSyncCache() {
   if (!returnTodosTemplate()) {
     updateTodosTemplateAndCache({});
