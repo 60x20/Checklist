@@ -1,11 +1,11 @@
 // validators
 import { validateAllTodosAndSyncCache } from './allTodosHelpers';
 import { validateAllYears } from './allYearsHelpers';
-import { validateTodosTemplate } from './todosTemplateHelpers';
+import { validateTodosTemplateAndSyncCache } from './todosTemplateHelpers';
 
 /** validates localStorage entries, which is necessary for rendering */
 export function validateEntries() {
-  validateTodosTemplate();
+  validateTodosTemplateAndSyncCache();
   validateAllTodosAndSyncCache();
   validateAllYears();
 }

@@ -26,18 +26,18 @@ type TransferableTodoData = LocalTodoData & { frequency?: Frequency };
 
 // todosTemplate cached to avoid unnecessary parsing
 // validate since the value can be initially null
-validateTodosTemplate();
+validateTodosTemplateAndSyncCache();
 export let cachedTodosTemplate = returnValidTodosTemplate();
 
-function updateTodosTemplate(ObjectOfIds: TodosTemplate) {
+function updateTodosTemplateAndCache(ObjectOfIds: TodosTemplate) {
   localStorage.setItem('todos-template', JSON.stringify(ObjectOfIds));
 
   cachedTodosTemplate = ObjectOfIds; // keeping cached version in sync
 }
 
-export function validateTodosTemplate() {
+export function validateTodosTemplateAndSyncCache() {
   if (!returnTodosTemplate()) {
-    updateTodosTemplate({});
+    updateTodosTemplateAndCache({});
   }
 }
 
@@ -83,7 +83,7 @@ export function addToTodosTemplate(
     value: returnInitialValueForType(type),
     frequency,
   };
-  updateTodosTemplate(localTodosTemplate);
+  updateTodosTemplateAndCache(localTodosTemplate);
 }
 
 // keep value and type in sync, otherwise types might disagree:
@@ -91,7 +91,7 @@ export function addToTodosTemplate(
 export function updateValueOnTodosTemplate(id: ID, type: TodoType) {
   const localTodosTemplate = returnValidTodosTemplate();
   localTodosTemplate[id].value = returnInitialValueForType(type);
-  updateTodosTemplate(localTodosTemplate);
+  updateTodosTemplateAndCache(localTodosTemplate);
 }
 
 function returnInitialValueForType(type: TodoType): TodoValueType {
@@ -108,14 +108,14 @@ function returnInitialValueForType(type: TodoType): TodoValueType {
 export function updateFrequencyOnTodosTemplate(id: ID, frequency: Frequency) {
   const localTodosTemplate = returnValidTodosTemplate();
   localTodosTemplate[id].frequency = frequency;
-  updateTodosTemplate(localTodosTemplate);
+  updateTodosTemplateAndCache(localTodosTemplate);
 }
 
 export function removeFromTodosTemplate(idToRemove: ID) {
   const localTodosTemplate = returnValidTodosTemplate();
   // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
   delete localTodosTemplate[idToRemove];
-  updateTodosTemplate(localTodosTemplate);
+  updateTodosTemplateAndCache(localTodosTemplate);
 }
 
 export function isTodoInTodosTemplate(todoId: ID) {
