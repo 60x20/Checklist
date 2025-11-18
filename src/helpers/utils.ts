@@ -8,7 +8,7 @@ export function truncateString(str: string, maxCharSize = 10) {
 }
 
 /** @returns `true` if the array has at least 1 truthy member */
-export function isArrTruthy(arr: unknown[]) {
+export function isArrTruthy(arr: readonly unknown[]) {
   return arr.some(Boolean);
 }
 

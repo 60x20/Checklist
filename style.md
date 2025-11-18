@@ -18,3 +18,7 @@
 
 - Non-default exports add type-safety.
 - Exception: If the filename matches the export name, default exports can be used since they stand out and the syntax is cleaner.
+
+## [Use Readonly to ensure immutability](https://github.com/danvk/effective-typescript/blob/main/samples/ch-types/readonly.md)
+
+- Marking parameters and `state` variables as readonly ensures immutability.

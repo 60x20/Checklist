@@ -259,9 +259,9 @@ function Todos({
     (init) => reducerForCurrentTodoData(init, { action: 'SYNC' }),
   );
   function reducerForCurrentTodoData(
-    prevData: DayTodoData,
+    prevData: Readonly<DayTodoData>,
     { action, todoId, todoType = 'checkbox' }: Action,
-  ): DayTodoData {
+  ): Readonly<DayTodoData> {
     switch (action) {
       // keeping cache in sync; value used for initialization
       case 'ADD': {
@@ -689,10 +689,11 @@ function FrequencyMenu({
   focusOnFrequencyMenuButton,
   todoType,
 }: FrequencyMenuProps) {
-  const [frequencyState, setFrequencyState] = useState(() =>
-    isTodoInTodosTemplate(todoId)
-      ? cachedTodosTemplate[todoId].frequency
-      : frequencyNever,
+  const [frequencyState, setFrequencyState] = useState<Readonly<Frequency>>(
+    () =>
+      isTodoInTodosTemplate(todoId)
+        ? cachedTodosTemplate[todoId].frequency
+        : frequencyNever,
   );
 
   function changeAndSyncFrequency(frequency: Frequency) {

@@ -40,7 +40,8 @@ const currentDateContext = createContext<DateWithFormats | null>(null);
 export default function CurrentDateProvider({ children }: ChildrenProp) {
   const navigate = useNavigate();
 
-  const [currentDate, setCurrentDateState] = useState(returnCurrentDate);
+  const [currentDate, setCurrentDateState] =
+    useState<Readonly<DateWithFormats>>(returnCurrentDate);
 
   // interval that checks to see if current date has changed
   useEffect(() => {
