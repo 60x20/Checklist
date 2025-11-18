@@ -30,7 +30,6 @@ export function MenuWrapper() {
 interface MenuProps {
   closeTheMenu: MenuStateContext['closeTheMenu'];
 }
-
 function Menu({ closeTheMenu }: MenuProps) {
   const { year, month, day } = useRequestedDateValidatedContext();
   const isDateRequested = year && month && day;
