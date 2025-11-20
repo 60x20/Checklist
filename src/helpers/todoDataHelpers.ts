@@ -12,6 +12,7 @@ import {
 } from './todosTemplateHelpers';
 import { addToAllYears } from './allYearsHelpers';
 import type { ID, TodoType, TodoTypeValueMap } from './allTodosHelpers';
+import type { FullDateInt } from './validateUnitsFromDate';
 
 // since the type is stored globally and can change without local values adapting, types and values might disagree
 // though, this only happens when reading from the store; when writing, make sure types and values agree
@@ -44,9 +45,7 @@ function returnValidYearEntry(year: number): ValidYearTodoData {
 
 // make sure date exists in the localStorage
 export function validateTodoData(
-  year: number,
-  month: number,
-  day: number,
+  { year, month, day }: FullDateInt,
   weekday: Weekday,
 ) {
   // make sure it's not null
@@ -73,16 +72,14 @@ export function validateTodoData(
   }
 }
 
-export function returnTodoData(year: number, month: number, day: number) {
+export function returnTodoData({ year, month, day }: FullDateInt) {
   const yearEntry = returnValidYearEntry(year);
   return yearEntry[month][day];
 }
 
 export function addToTodoData(
   todoId: ID,
-  year: number,
-  month: number,
-  day: number,
+  { year, month, day }: FullDateInt,
   type: TodoType = 'checkbox',
 ) {
   const yearEntry = returnValidYearEntry(year);
@@ -101,9 +98,7 @@ export function addToTodoData(
 
 export function removeFromTodoData(
   todoId: ID,
-  year: number,
-  month: number,
-  day: number,
+  { year, month, day }: FullDateInt,
 ) {
   const yearEntry = returnValidYearEntry(year);
   // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
@@ -114,9 +109,7 @@ export function removeFromTodoData(
 // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-parameters
 export function updateTodoValue<Type extends TodoType = never>(
   todoId: ID,
-  year: number,
-  month: number,
-  day: number,
+  { year, month, day }: FullDateInt,
   // make sure value is according to the type, and type is always passed
   value: NoInfer<TodoTypeValueMap[Type]>,
 ) {
@@ -125,7 +118,7 @@ export function updateTodoValue<Type extends TodoType = never>(
   updateYearEntry(year, yearEntry);
 }
 
-export function resetTodoData(year: number, month: number, day: number) {
+export function resetTodoData({ year, month, day }: FullDateInt) {
   const yearEntry = returnValidYearEntry(year);
   yearEntry[month][day] = {};
   updateYearEntry(year, yearEntry);

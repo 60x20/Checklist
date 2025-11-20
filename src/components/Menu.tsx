@@ -19,7 +19,10 @@ import {
 import { confirmToResetAllData } from '../helpers/resetAllData';
 import { returnDateFromToday } from '../helpers/returnCurrentDate';
 import { resetTodoData } from '../helpers/todoDataHelpers';
-import { dayMonthYearTruncFormatter } from '../helpers/validateUnitsFromDate';
+import {
+  dayMonthYearTruncFormatter,
+  type FullDateInt,
+} from '../helpers/validateUnitsFromDate';
 
 // types
 import { type DateUnitsIntYMD } from '../custom-types/DateUnits';
@@ -132,14 +135,14 @@ function Menu({ closeTheMenu }: MenuProps) {
   }
   const resetCurrentDayButton = (() => {
     if (isDateRequested) {
-      const unitsAsInt: DateUnitsIntYMD = [
-        Number(year),
-        Number(month),
-        Number(day),
-      ]; // used as array indexes
+      const unitsAsInt: FullDateInt = {
+        year: Number(year),
+        month: Number(month),
+        day: Number(day),
+      }; // used as array indexes
 
       function resetCurrentDayHandler() {
-        resetTodoData(...unitsAsInt);
+        resetTodoData(unitsAsInt);
         increaseTodayCleared(); // informing checklist
 
         focusOnCreateTodoAndCloseTheMenu();

@@ -65,6 +65,7 @@ import {
 } from '../helpers/todoDataHelpers';
 import {
   dayMonthTruncFormatter,
+  type FullDateInt,
   type FullDateStr,
   returnWeekday,
   returnWeekdayFromSunday,
@@ -101,9 +102,12 @@ export default function Checklist() {
   const dateRequested = new Date([year, month, day].join('-'));
 
   // converted into numbers so that they are considered array indexes
-  /** @todo rename to unitsYMDAsInt */
-  const unitsAsInt: DateUnitsIntYMD = useMemo(
-    () => [Number(year), Number(month), Number(day)],
+  const unitsAsInt: FullDateInt = useMemo(
+    () => ({
+      year: Number(year),
+      month: Number(month),
+      day: Number(day),
+    }),
     [day, month, year],
   ); // used as dependency
 
@@ -143,7 +147,7 @@ export default function Checklist() {
       <Todos
         // with key: re-create State / re-use Effect, so that the logic is sequential and race conditions are avoided
         // if data is cleared, clean-up and keep the state and localStorage in sync, otherwise old data will be seen
-        key={[unitsAsInt, allDataCleared, todayCleared].join('-')}
+        key={[Object.values(unitsAsInt), allDataCleared, todayCleared].join()}
         {...{
           day,
           month,
@@ -158,7 +162,7 @@ export default function Checklist() {
 }
 
 interface CreateTodoProps extends FullDateStr {
-  unitsAsInt: DateUnitsIntYMD;
+  unitsAsInt: FullDateInt;
   refForUpdateCurrentTodoData: React.RefObject<React.Dispatch<Action>>;
 }
 const CreateTodo = memo(
@@ -183,7 +187,7 @@ const CreateTodo = memo(
         refForUpdateCurrentTodoData.current !== null,
         'ref will be initialized before updater can be used since it runs through user interaction',
       );
-      addToTodoData(todoIdToAdd, ...unitsAsInt);
+      addToTodoData(todoIdToAdd, unitsAsInt);
       refForUpdateCurrentTodoData.current({
         action: 'ADD',
         todoId: todoIdToAdd,
@@ -232,7 +236,7 @@ type Action =
   | { action: 'REMOVE'; todoId: ID; todoType?: never };
 
 interface TodosProps extends FullDateStr {
-  unitsAsInt: DateUnitsIntYMD;
+  unitsAsInt: FullDateInt;
   helperMenuClosersRef: React.MutableRefObject<HelperMenuClosers>;
   refForUpdateCurrentTodoData: React.RefObject<React.Dispatch<Action>>;
 }
@@ -283,8 +287,8 @@ function Todos({
       }
       case 'SYNC': {
         // syncing with localStorage entry initially or when the key changes
-        validateTodoData(...unitsAsInt, returnWeekday({ year, month, day })); // if it doesn't exist create it
-        return (cachedTodoData.current = returnTodoData(...unitsAsInt)); // keeping cache in sync
+        validateTodoData(unitsAsInt, returnWeekday({ year, month, day })); // if it doesn't exist create it
+        return (cachedTodoData.current = returnTodoData(unitsAsInt)); // keeping cache in sync
       }
     }
   }
@@ -326,7 +330,7 @@ interface TodoProps extends FullDateStr {
   todoId: ID;
   helperMenuClosersRef: React.MutableRefObject<HelperMenuClosers>;
   cachedTodoData: React.MutableRefObject<DayTodoData>;
-  unitsAsInt: DateUnitsIntYMD;
+  unitsAsInt: FullDateInt;
 }
 const Todo = memo(
   ({
@@ -390,7 +394,7 @@ const Todo = memo(
 
     // currentTodoData should be in sync with localStorage entry
     function removeFromCurrentTodoDataAndSync() {
-      removeFromTodoData(todoId, ...unitsAsInt);
+      removeFromTodoData(todoId, unitsAsInt);
       updateCurrentTodoData({ action: 'REMOVE', todoId });
     }
 
@@ -405,7 +409,7 @@ const Todo = memo(
       // make sure value is according to the type, and type is always passed
       value: NoInfer<TodoTypeValueMap[Type]>,
     ) {
-      updateTodoValue<Type>(todoId, ...unitsAsInt, value);
+      updateTodoValue<Type>(todoId, unitsAsInt, value);
       setTodoValue(value);
     }
     function resetAndSyncTodoValue(newType: TodoType) {
