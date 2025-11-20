@@ -30,7 +30,7 @@ function createFormatter(options: Intl.DateTimeFormatOptions) {
   return new Intl.DateTimeFormat(navigator.language, options);
 }
 
-export interface FullDate {
+export interface FullDateStr {
   year: string;
   month: string;
   day: string;
@@ -39,7 +39,7 @@ export function validateUnitsFromDate({
   year,
   month,
   day,
-}: FullDate): FullDate {
+}: FullDateStr): FullDateStr {
   // validation, in case the date is not in the desired format (failsafe)
   const extractedYear = extractYear(year);
   const extractedMonth = extractMonth(month);
