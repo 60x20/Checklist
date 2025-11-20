@@ -84,7 +84,6 @@ import useDocumentTitle from '../custom-hooks/useDocumentTitle';
 
 // types
 type HelperMenuClosers = Record<ID, () => void>;
-import { type DateUnitsIntYMD } from '../custom-types/DateUnits';
 
 /** will be put in document.title */
 const mainTitle = 'Checklist';

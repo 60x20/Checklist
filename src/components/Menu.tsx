@@ -24,9 +24,6 @@ import {
   type FullDateInt,
 } from '../helpers/validateUnitsFromDate';
 
-// types
-import { type DateUnitsIntYMD } from '../custom-types/DateUnits';
-
 export function MenuWrapper() {
   const { menuState, closeTheMenu } = useMenuStateContext();
 
