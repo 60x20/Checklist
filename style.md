@@ -22,3 +22,7 @@
 ## [Use Readonly to ensure immutability](https://github.com/danvk/effective-typescript/blob/main/samples/ch-types/readonly.md)
 
 - Marking parameters and `state` variables as readonly ensures immutability.
+
+## [Avoid positional parameters of the same type](https://github.com/danvk/effective-typescript/blob/main/samples/ch-design/same-type-params.md)
+
+- Positional parameters of the same type are easy to mix up.
