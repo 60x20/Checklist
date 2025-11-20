@@ -11,6 +11,8 @@ import {
   type Weekday,
 } from './todosTemplateHelpers';
 import { addToAllYears } from './allYearsHelpers';
+
+// types
 import type { ID, TodoType, TodoTypeValueMap } from './allTodosHelpers';
 import type { FullDateInt } from './validateUnitsFromDate';
 
