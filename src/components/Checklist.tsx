@@ -228,7 +228,6 @@ const CreateTodo = memo(
   },
 );
 
-
 type Action =
   | { action: 'SYNC'; todoId?: never; todoType?: never }
   | { action: 'ADD'; todoId: ID; todoType?: TodoType }
