@@ -228,6 +228,12 @@ const CreateTodo = memo(
   },
 );
 
+
+type Action =
+  | { action: 'SYNC'; todoId?: never; todoType?: never }
+  | { action: 'ADD'; todoId: ID; todoType?: TodoType }
+  | { action: 'REMOVE'; todoId: ID; todoType?: never };
+
 interface TodosProps {
   unitsAsInt: DateUnitsIntYMD;
   year: string;
@@ -236,12 +242,6 @@ interface TodosProps {
   helperMenuClosersRef: React.MutableRefObject<HelperMenuClosers>;
   refForUpdateCurrentTodoData: React.RefObject<React.Dispatch<Action>>;
 }
-
-type Action =
-  | { action: 'SYNC'; todoId?: never; todoType?: never }
-  | { action: 'ADD'; todoId: ID; todoType?: TodoType }
-  | { action: 'REMOVE'; todoId: ID; todoType?: never };
-
 function Todos({
   day,
   month,
