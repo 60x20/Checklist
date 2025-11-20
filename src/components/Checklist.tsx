@@ -65,6 +65,7 @@ import {
 } from '../helpers/todoDataHelpers';
 import {
   dayMonthTruncFormatter,
+  type FullDateStr,
   returnWeekday,
   returnWeekdayFromSunday,
   weekdayDayMonthFormatter,
@@ -156,11 +157,8 @@ export default function Checklist() {
   );
 }
 
-interface CreateTodoProps {
+interface CreateTodoProps extends FullDateStr {
   unitsAsInt: DateUnitsIntYMD;
-  year: string;
-  month: string;
-  day: string;
   refForUpdateCurrentTodoData: React.RefObject<React.Dispatch<Action>>;
 }
 const CreateTodo = memo(
@@ -233,11 +231,8 @@ type Action =
   | { action: 'ADD'; todoId: ID; todoType?: TodoType }
   | { action: 'REMOVE'; todoId: ID; todoType?: never };
 
-interface TodosProps {
+interface TodosProps extends FullDateStr {
   unitsAsInt: DateUnitsIntYMD;
-  year: string;
-  month: string;
-  day: string;
   helperMenuClosersRef: React.MutableRefObject<HelperMenuClosers>;
   refForUpdateCurrentTodoData: React.RefObject<React.Dispatch<Action>>;
 }
@@ -326,15 +321,12 @@ function Todos({
   );
 }
 
-interface TodoProps {
+interface TodoProps extends FullDateStr {
   updateCurrentTodoData: React.Dispatch<Action>;
   todoId: ID;
   helperMenuClosersRef: React.MutableRefObject<HelperMenuClosers>;
   cachedTodoData: React.MutableRefObject<DayTodoData>;
   unitsAsInt: DateUnitsIntYMD;
-  year: string;
-  month: string;
-  day: string;
 }
 const Todo = memo(
   ({
