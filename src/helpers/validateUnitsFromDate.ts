@@ -44,7 +44,11 @@ export function validateUnitsFromDate({
   const extractedYear = extractYear(year);
   const extractedMonth = extractMonth(month);
   const extractedDay = extractDay(day);
-  const isValid = validateDate(extractedYear, extractedMonth, extractedDay);
+  const isValid = validateDate({
+    year: extractedYear,
+    month: extractedMonth,
+    day: extractedDay,
+  });
   return isValid
     ? { year: extractedYear, month: extractedMonth, day: extractedDay }
     : { year: '2000', month: '01', day: '01' };
@@ -90,7 +94,11 @@ function extractDay(day: string) {
 const dateInput = document.createElement('input');
 dateInput.type = 'date';
 dateInput.required = true; // so that empty dates are invalid
-export function validateDate(year = '2000', month = '01', day = '01') {
+export function validateDate({
+  year = '2000',
+  month = '01',
+  day = '01',
+}: Partial<FullDateStr>) {
   if (year === '' || month === '' || day === '') return false;
   dateInput.value = [year, month, day].join('-'); // returns '', if invalid
   const isValid = dateInput.checkValidity();
@@ -102,11 +110,7 @@ export function returnWeekdayFromSunday(day: number) {
   return weekdayFormatter.format(new Date(dateForSunday + day * dayInMs));
 }
 
-export function returnWeekday(
-  year: string,
-  month: string,
-  day: string,
-): Weekday {
+export function returnWeekday({ year, month, day }: FullDateStr): Weekday {
   const weekday = new Date([year, month, day].join('-')).getDay();
   assertCondition(!isNaN(weekday), 'returnWeekday always gets a valid date');
   return weekday as Weekday;

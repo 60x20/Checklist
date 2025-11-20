@@ -59,7 +59,7 @@ export function MonthVisualizer() {
   const extractedYear = extractYear(year);
   const extractedMonth = extractMonth(month);
 
-  const isValid = validateDate(extractedYear, extractedMonth);
+  const isValid = validateDate({ year: extractedYear, month: extractedMonth });
 
   const subtitle = isValid
     ? monthYearTruncFormatter.format(
@@ -148,7 +148,7 @@ export function YearVisualizer() {
 
   const extractedYear = extractYear(year);
 
-  const isValid = validateDate(extractedYear);
+  const isValid = validateDate({ year: extractedYear });
 
   const subtitle = isValid ? extractedYear : 'invalid year';
   addSubtitleToDocumentTitle(subtitle);
