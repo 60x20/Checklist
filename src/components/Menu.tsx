@@ -21,6 +21,9 @@ import { returnDateFromToday } from '../helpers/returnCurrentDate';
 import { resetTodoData } from '../helpers/todoDataHelpers';
 import { dayMonthYearTruncFormatter } from '../helpers/validateUnitsFromDate';
 
+// types
+import { type DateUnitsIntYMD } from '../custom-types/DateUnits';
+
 export function MenuWrapper() {
   const { menuState, closeTheMenu } = useMenuStateContext();
 
@@ -129,7 +132,7 @@ function Menu({ closeTheMenu }: MenuProps) {
   }
   const resetCurrentDayButton = (() => {
     if (isDateRequested) {
-      const unitsAsInt: [number, number, number] = [
+      const unitsAsInt: DateUnitsIntYMD = [
         Number(year),
         Number(month),
         Number(day),

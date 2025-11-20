@@ -82,6 +82,7 @@ import useDocumentTitle from '../custom-hooks/useDocumentTitle';
 
 // types
 type HelperMenuClosers = Record<ID, () => void>;
+import { type DateUnitsIntYMD } from '../custom-types/DateUnits';
 
 /** will be put in document.title */
 const mainTitle = 'Checklist';
@@ -100,7 +101,7 @@ export default function Checklist() {
 
   // converted into numbers so that they are considered array indexes
   /** @todo rename to unitsYMDAsInt */
-  const unitsAsInt: [number, number, number] = useMemo(
+  const unitsAsInt: DateUnitsIntYMD = useMemo(
     () => [Number(year), Number(month), Number(day)],
     [day, month, year],
   ); // used as dependency
@@ -156,7 +157,7 @@ export default function Checklist() {
 }
 
 interface CreateTodoProps {
-  unitsAsInt: [number, number, number];
+  unitsAsInt: DateUnitsIntYMD;
   year: string;
   month: string;
   day: string;
@@ -228,7 +229,7 @@ const CreateTodo = memo(
 );
 
 interface TodosProps {
-  unitsAsInt: [number, number, number];
+  unitsAsInt: DateUnitsIntYMD;
   year: string;
   month: string;
   day: string;
@@ -331,7 +332,7 @@ interface TodoProps {
   todoId: ID;
   helperMenuClosersRef: React.MutableRefObject<HelperMenuClosers>;
   cachedTodoData: React.MutableRefObject<DayTodoData>;
-  unitsAsInt: [number, number, number];
+  unitsAsInt: DateUnitsIntYMD;
   year: string;
   month: string;
   day: string;
