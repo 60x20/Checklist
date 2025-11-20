@@ -13,10 +13,7 @@ import {
   monthFormatter,
   monthYearTruncFormatter,
 } from '../helpers/validateUnitsFromDate';
-import {
-  type LocalTodoData,
-  returnYearEntry,
-} from '../helpers/todoDataHelpers';
+import { returnYearEntry } from '../helpers/todoDataHelpers';
 import { assertCondition, truncateString } from '../helpers/utils';
 import {
   cachedAllTodos,
@@ -89,10 +86,7 @@ export function MonthVisualizer() {
             if (dayData) {
               const dayAsString = String(day).padStart(2, '0');
               const dayTodoData = Object.entries(dayData).map(
-                ([id, todoData]: [string, LocalTodoData]): [
-                  number,
-                  LocalTodoData,
-                ] => [Number(id), todoData],
+                ([id, todoData]) => [Number(id), todoData] as const,
               );
               return (
                 <article key={day} className="day">
