@@ -13,13 +13,10 @@ import type ChildrenProp from '../custom-types/ChildrenProp';
 // custom hooks
 import useSafeContext from '../custom-hooks/useSafeContext';
 
-const requestedDateValidatedContext = createContext<PartialFullDateStr | null>(
-  null,
-);
+const requestedDateValidatedContext =
+  createContext<Partial<FullDateStr> | null>(null);
 
-type PartialFullDateStr = Partial<FullDateStr>;
-
-const invalidFullDate: PartialFullDateStr = {
+const invalidFullDate: Partial<FullDateStr> = {
   // year: undefined,
   // month: undefined,
   // day: undefined,
