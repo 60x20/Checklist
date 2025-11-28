@@ -63,7 +63,7 @@ export function MonthVisualizer() {
 
   const subtitle = isValid
     ? monthYearTruncFormatter.format(
-        new Date([extractedYear, extractedMonth].join('-')),
+        new Date(`${extractedYear}-${extractedMonth}`),
       )
     : 'invalid date';
   addSubtitleToDocumentTitle(subtitle);
@@ -170,7 +170,7 @@ export function YearVisualizer() {
             .map((monthArr, month) => {
               if (monthArr) {
                 const monthAsString = String(month).padStart(2, '0');
-                const localDate = [extractedYear, monthAsString].join('-');
+                const localDate = `${extractedYear}-${monthAsString}`;
                 return (
                   <li key={month} className="month">
                     <Link to={monthAsString}>

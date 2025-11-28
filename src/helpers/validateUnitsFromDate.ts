@@ -105,7 +105,7 @@ export function validateDate({
   day = '01',
 }: Partial<FullDateStr>) {
   if (year === '' || month === '' || day === '') return false;
-  dateInput.value = [year, month, day].join('-'); // assigns '', if invalid
+  dateInput.value = `${year}-${month}-${day}`; // assigns '', if invalid
   const isValid = dateInput.checkValidity();
   return isValid;
 }
@@ -116,7 +116,7 @@ export function returnWeekdayFromSunday(day: number) {
 }
 
 export function returnWeekday({ year, month, day }: FullDateStr): Weekday {
-  const weekday = new Date([year, month, day].join('-')).getDay();
+  const weekday = new Date(`${year}-${month}-${day}`).getDay();
   assertCondition(!isNaN(weekday), 'returnWeekday always gets a valid date');
   return weekday as Weekday;
 }

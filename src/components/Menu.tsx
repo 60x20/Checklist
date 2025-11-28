@@ -212,9 +212,7 @@ function Menu({ closeTheMenu }: MenuProps) {
                 type="date"
                 required
                 min="2000-01-01"
-                defaultValue={
-                  isDateRequested ? [year, month, day].join('-') : ''
-                }
+                defaultValue={isDateRequested ? `${year}-${month}-${day}` : ''}
                 max="2100-12-31"
               />
             </label>

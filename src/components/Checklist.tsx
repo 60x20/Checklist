@@ -98,7 +98,7 @@ export default function Checklist() {
   const { allDataCleared } = useAllDataClearedContext(); // when changes, new data will be brought
   const { todayCleared } = useTodayClearedContext(); // when changes, new data will be brought
 
-  const dateRequested = new Date([year, month, day].join('-'));
+  const dateRequested = new Date(`${year}-${month}-${day}`);
 
   // converted into numbers so that they are considered array indexes
   const unitsAsInt: FullDateInt = useMemo(
@@ -178,7 +178,7 @@ const CreateTodo = memo(
     } = useRefContext();
 
     const currentDate = useCurrentDateContext();
-    const isToday = currentDate.YMD === [year, month, day].join('-');
+    const isToday = currentDate.YMD === `${year}-${month}-${day}`;
 
     // currentTodoData should be in sync with localStorage entry
     function addToCurrentTodoDataAndSync(todoIdToAdd: ID) {
@@ -343,7 +343,7 @@ const Todo = memo(
     cachedTodoData,
   }: TodoProps) => {
     const currentDate = useCurrentDateContext();
-    const isToday = currentDate.YMD === [year, month, day].join('-');
+    const isToday = currentDate.YMD === `${year}-${month}-${day}`;
 
     // for easier focus management
     const todoRef = useRef<HTMLLIElement>(null);
