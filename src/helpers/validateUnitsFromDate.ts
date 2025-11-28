@@ -105,7 +105,7 @@ export function validateDate({
   day = '01',
 }: Partial<FullDateStr>) {
   if (year === '' || month === '' || day === '') return false;
-  dateInput.value = [year, month, day].join('-'); // returns '', if invalid
+  dateInput.value = [year, month, day].join('-'); // assigns '', if invalid
   const isValid = dateInput.checkValidity();
   return isValid;
 }
