@@ -1,9 +1,9 @@
 export const dayInMs = 1000 * 60 * 60 * 24;
 
 export interface DateWithFormats {
-  DMY: string;
+  // DMY: string;
   YMD: string;
-  date: { year: number; month: string; day: string };
+  // date: { year: number; month: string; day: string };
 }
 
 function returnDate(date: Date): DateWithFormats {
@@ -12,9 +12,9 @@ function returnDate(date: Date): DateWithFormats {
   const day = String(date.getDate()).padStart(2, '0');
 
   return {
-    DMY: [day, month, year].join('-'),
+    // DMY: [day, month, year].join('-'),
     YMD: [year, month, day].join('-'),
-    date: { year, month, day },
+    // date: { year, month, day },
   };
 }
 
