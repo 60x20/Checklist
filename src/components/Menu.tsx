@@ -173,12 +173,12 @@ function Menu({ closeTheMenu }: MenuProps) {
     prevDates.push(
       <li key={i}>
         <Link
-          to={relativeDate.YMD.replaceAll('-', '/')}
+          to={relativeDate.replaceAll('-', '/')}
           onClick={focusOnCreateTodoAndCloseTheMenu}
         >
           {i === 0 ? 'today: ' : ''}
-          <time dateTime={relativeDate.YMD}>
-            {dayMonthYearTruncFormatter.format(new Date(relativeDate.YMD))}
+          <time dateTime={relativeDate}>
+            {dayMonthYearTruncFormatter.format(new Date(relativeDate))}
           </time>
         </Link>
       </li>,

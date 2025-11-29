@@ -178,7 +178,7 @@ const CreateTodo = memo(
     } = useRefContext();
 
     const currentDate = useCurrentDateContext();
-    const isToday = currentDate.YMD === `${year}-${month}-${day}`;
+    const isToday = currentDate === `${year}-${month}-${day}`;
 
     // currentTodoData should be in sync with localStorage entry
     function addToCurrentTodoDataAndSync(todoIdToAdd: ID) {
@@ -343,7 +343,7 @@ const Todo = memo(
     cachedTodoData,
   }: TodoProps) => {
     const currentDate = useCurrentDateContext();
-    const isToday = currentDate.YMD === `${year}-${month}-${day}`;
+    const isToday = currentDate === `${year}-${month}-${day}`;
 
     // for easier focus management
     const todoRef = useRef<HTMLLIElement>(null);
