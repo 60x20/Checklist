@@ -17,6 +17,7 @@ function getTodayVisited(): string | null {
     return JSON.parse(todayVisitedEntry) as string;
   return null;
 }
+/** @todo rename to lastVisitedDay since todayVisited sounds like a boolean */
 function updateTodayVisited(newDate: string) {
   // by storing only the current date, instead of all the dates, we're cleaning up
   localStorage.setItem('today-visited', JSON.stringify(newDate));
