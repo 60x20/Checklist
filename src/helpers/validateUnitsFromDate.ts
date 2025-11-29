@@ -46,9 +46,9 @@ export function validateUnitsFromDate({
   day,
 }: FullDateStr): FullDateStr {
   // validation, in case the date is not in the desired format (failsafe)
-  const extractedYear = extractYear(year);
-  const extractedMonth = extractMonth(month);
-  const extractedDay = extractDay(day);
+  const extractedYear = extractYear(year) ?? '2000';
+  const extractedMonth = extractMonth(month) ?? '01';
+  const extractedDay = extractDay(day) ?? '01';
   const isValid = validateDate({
     year: extractedYear,
     month: extractedMonth,

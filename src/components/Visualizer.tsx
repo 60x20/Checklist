@@ -56,8 +56,8 @@ export function MonthVisualizer() {
     'MonthVisualizer only renders if url includes both a year and a month',
   );
 
-  const extractedYear = extractYear(year);
-  const extractedMonth = extractMonth(month);
+  const extractedYear = extractYear(year) ?? '';
+  const extractedMonth = extractMonth(month) ?? '';
 
   const isValid = validateDate({ year: extractedYear, month: extractedMonth });
 
@@ -146,7 +146,7 @@ export function YearVisualizer() {
     'YearVisualizer only renders if url includes a year',
   );
 
-  const extractedYear = extractYear(year);
+  const extractedYear = extractYear(year) ?? '';
 
   const isValid = validateDate({ year: extractedYear });
 
