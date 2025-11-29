@@ -63,16 +63,16 @@ export function validateUnitsFromDate({
 const yearRegex = /\d{4}|\d{2}/;
 const monthRegex = /\d{1,2}/;
 const dayRegex = /\d{1,2}/;
-/** @returns a year in the range `'0001'-'9999'` or `''` as a failure */
+/** @returns a year in the range `'0001'-'9999'` or `null` as a failure */
 export function extractYear(year: string) {
   const yearRegexResult = yearRegex.exec(year)?.[0];
   if (yearRegexResult) {
     const extractedYear = yearRegexResult.padStart(4, '20');
     if (Number(extractedYear) !== 0) return extractedYear; // year 0 doesn't exist
   }
-  return ''; /** @todo maybe return `null` or `string | ''` to make the failure more obvious */
+  return null; // null is preferred to ensure failure is handled even with optional parameters
 }
-/** @returns a month in the range `'01'-'12'` or `''` as a failure */
+/** @returns a month in the range `'01'-'12'` or `null` as a failure */
 export function extractMonth(month: string) {
   const monthRegexResult = monthRegex.exec(month)?.[0];
   if (monthRegexResult) {
@@ -80,9 +80,9 @@ export function extractMonth(month: string) {
     if (Number(extractedMonth) >= 1 && Number(extractedMonth) <= 12)
       return extractedMonth;
   }
-  return ''; /** @todo maybe return `null` or `string | ''` to make the failure more obvious */
+  return null; // null is preferred to ensure failure is handled even with optional parameters
 }
-/** @returns a day in the range `'01'-'31'` or `''` as a failure */
+/** @returns a day in the range `'01'-'31'` or `null` as a failure */
 function extractDay(day: string) {
   const dayRegexResult = dayRegex.exec(day)?.[0];
   if (dayRegexResult) {
@@ -90,7 +90,7 @@ function extractDay(day: string) {
     if (Number(extractedDay) >= 1 && Number(extractedDay) <= 31)
       return extractedDay;
   }
-  return ''; /** @todo maybe return `null` or `string | ''` to make the failure more obvious */
+  return null; // null is preferred to ensure failure is handled even with optional parameters
 }
 
 // date input is used instead of Date.parse for validation, because Date.parse is lenient
