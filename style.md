@@ -26,3 +26,8 @@
 ## [Avoid positional parameters of the same type](https://github.com/danvk/effective-typescript/blob/main/samples/ch-design/same-type-params.md)
 
 - Positional parameters of the same type are easy to mix up.
+
+## [Prefer a distinct type for failure](https://github.com/danvk/effective-typescript/blob/main/samples/ch-design/in-domain-null.md)
+
+- Using a distinct type for failure makes the failure obvious.
+- Prefer `null` over `undefined` to ensure the failure is handled even with optional parameters.
