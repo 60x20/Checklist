@@ -104,7 +104,6 @@ export function checkDateValidity({
   month = '01',
   day = '01',
 }: Partial<FullDateStr>) {
-  if (year === '' || month === '' || day === '') return false;
   dateInput.value = `${year}-${month}-${day}`; // assigns '', if invalid
   const isValid = dateInput.checkValidity();
   return isValid;
