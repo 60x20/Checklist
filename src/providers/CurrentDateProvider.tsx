@@ -4,12 +4,10 @@ import { redirect, useNavigate } from 'react-router-dom';
 
 // types
 import type ChildrenProp from '../custom-types/ChildrenProp';
+import type { DateAsYMD } from '../helpers/validateUnitsFromDate';
 
 // helpers
-import {
-  type DateAsYMD,
-  returnCurrentDate,
-} from '../helpers/returnCurrentDate';
+import { returnCurrentDate } from '../helpers/returnCurrentDate';
 import useSafeContext from '../custom-hooks/useSafeContext';
 function getTodayVisited(): string | null {
   const todayVisitedEntry = localStorage.getItem('today-visited');

@@ -85,6 +85,8 @@ type YYYY = string & { _brand: 'YYYY' }; // branded instead since too complex
 type MM = Exclude<`0${Digits}`, '00'> | '10' | '11' | '12';
 /** a day in the range `'01'-'31'` */
 type DD = Exclude<`${'0' | '1' | '2'}${Digits}`, '00'> | '30' | '31';
+/** a date in the format `YYYY-MM-DD` */
+export type DateAsYMD = `${YYYY}-${MM}-${DD}`;
 // should be greedy, otherwise data will be lost
 const yearRegex = /\d{4}|\d{2}/;
 const monthRegex = /\d{1,2}/;
