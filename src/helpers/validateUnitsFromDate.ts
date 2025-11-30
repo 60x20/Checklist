@@ -52,6 +52,8 @@ const validDefaultDate: ValidDateStr = {
 };
 const {
   year: defaultYYYY,
+  month: defaultMM,
+  day: defaultDD,
 } = validDefaultDate;
 export function validateUnitsFromDate({
   year,
@@ -62,8 +64,8 @@ export function validateUnitsFromDate({
 
   // fallback to a valid value to ensure validity
   const extractedYear = extractYear(year) ?? defaultYYYY;
-  const extractedMonth = extractMonth(month) ?? '01';
-  const extractedDay = extractDay(day) ?? '01';
+  const extractedMonth = extractMonth(month) ?? defaultMM;
+  const extractedDay = extractDay(day) ?? defaultDD;
 
   const isValid = checkDateValidity({
     year: extractedYear,
@@ -127,8 +129,8 @@ dateInput.required = true; // so that empty dates are invalid
 // to be able to check the validity of non-full dates, allow omission with defaults
 export function checkDateValidity({
   year = defaultYYYY,
-  month = '01',
-  day = '01',
+  month = defaultMM,
+  day = defaultDD,
 }: Partial<ValidDateStr>) {
   dateInput.value = `${year}-${month}-${day}`; // assigns '', if invalid
   const isValid = dateInput.checkValidity();
