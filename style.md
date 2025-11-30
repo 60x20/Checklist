@@ -34,5 +34,5 @@
 
 ## [Make illegal states unrepresentable](https://github.com/danvk/effective-typescript/blob/main/samples/ch-design/valid-states.md) and [prefer precise types](https://github.com/danvk/effective-typescript/blob/main/samples/ch-design/avoid-strings.md) or [brands](https://github.com/danvk/effective-typescript/blob/main/samples/ch-recipes/brands.md)
 
-- Making illegal states unrepresentable, precise types and brands increase type safety and reduce implementation complexity.
+- Making illegal states unrepresentable, precise types and brands increase confidence and type safety, and reduce implementation complexity.
 - Note: Big unions might hurt performance.
