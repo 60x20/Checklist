@@ -45,6 +45,14 @@ export interface ValidDateStr {
   month: MM;
   day: DD;
 }
+const validDefaultDate: ValidDateStr = {
+  year: '2000' as YYYY,
+  month: '01',
+  day: '01',
+};
+const {
+  year: defaultYYYY,
+} = validDefaultDate;
 export function validateUnitsFromDate({
   year,
   month,
@@ -53,7 +61,7 @@ export function validateUnitsFromDate({
   // validation, in case the date is not in the desired format
 
   // fallback to a valid value to ensure validity
-  const extractedYear = extractYear(year) ?? '2000';
+  const extractedYear = extractYear(year) ?? defaultYYYY;
   const extractedMonth = extractMonth(month) ?? '01';
   const extractedDay = extractDay(day) ?? '01';
 
@@ -64,12 +72,13 @@ export function validateUnitsFromDate({
   });
   return isValid
     ? { year: extractedYear, month: extractedMonth, day: extractedDay }
-    : { year: '2000', month: '01', day: '01' };
+    : validDefaultDate;
 }
 
 type Digits = '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9';
 /** a year in the range `'0001'-'9999'` */
-type YYYY = Exclude<`${Digits}${Digits}${Digits}${Digits}`, '0000'>;
+// type YYYY = Exclude<`${Digits}${Digits}${Digits}${Digits}`, '0000'>;
+type YYYY = string & { _brand: 'YYYY' }; // branded instead since too complex
 /** a month in the range `'01'-'12'` */
 type MM = Exclude<`0${Digits}`, '00'> | '10' | '11' | '12';
 /** a day in the range `'01'-'31'` */
@@ -117,7 +126,7 @@ dateInput.required = true; // so that empty dates are invalid
 // expect an already valid date to ensure the date is likely to be valid
 // to be able to check the validity of non-full dates, allow omission with defaults
 export function checkDateValidity({
-  year = '2000',
+  year = defaultYYYY,
   month = '01',
   day = '01',
 }: Partial<ValidDateStr>) {
