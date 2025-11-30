@@ -92,7 +92,7 @@ const addSubtitleToDocumentTitle = useDocumentTitle.bind(globalThis, mainTitle);
 export default function Checklist() {
   const { year, month, day } = useRequestedDateValidatedContext();
   assertCondition(
-    year !== undefined && month !== undefined && day !== undefined,
+    day !== undefined, // only checking one ensures validity of all
     'Checklist only renders if url includes a year, month and a day',
   );
   const { allDataCleared } = useAllDataClearedContext(); // when changes, new data will be brought

@@ -35,7 +35,7 @@ interface MenuProps {
 }
 function Menu({ closeTheMenu }: MenuProps) {
   const { year, month, day } = useRequestedDateValidatedContext();
-  const isDateRequested = year && month && day;
+  const isDateRequested = day !== undefined; // only checking one ensures validity of all
 
   const { increaseAllDataCleared } = useAllDataClearedContext();
   const { increaseTodayCleared } = useTodayClearedContext();
