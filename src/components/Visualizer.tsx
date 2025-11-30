@@ -9,7 +9,7 @@ import { type AllYears, returnValidAllYears } from '../helpers/allYearsHelpers';
 import {
   extractYear,
   extractMonth,
-  validateDate,
+  checkDateValidity,
   monthFormatter,
   monthYearTruncFormatter,
 } from '../helpers/validateUnitsFromDate';
@@ -59,7 +59,10 @@ export function MonthVisualizer() {
   // if null, fallback to empty string so validation fails
   const extractedYear = extractYear(year) ?? '';
   const extractedMonth = extractMonth(month) ?? '';
-  const isValid = validateDate({ year: extractedYear, month: extractedMonth });
+  const isValid = checkDateValidity({
+    year: extractedYear,
+    month: extractedMonth,
+  });
 
   const subtitle = isValid
     ? monthYearTruncFormatter.format(
@@ -148,7 +151,7 @@ export function YearVisualizer() {
 
   // if null, fallback to empty string so validation fails
   const extractedYear = extractYear(year) ?? '';
-  const isValid = validateDate({ year: extractedYear });
+  const isValid = checkDateValidity({ year: extractedYear });
 
   const subtitle = isValid ? extractedYear : 'invalid year';
   addSubtitleToDocumentTitle(subtitle);

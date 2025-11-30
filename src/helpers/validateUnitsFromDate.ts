@@ -49,7 +49,7 @@ export function validateUnitsFromDate({
   const extractedYear = extractYear(year) ?? '2000';
   const extractedMonth = extractMonth(month) ?? '01';
   const extractedDay = extractDay(day) ?? '01';
-  const isValid = validateDate({
+  const isValid = checkDateValidity({
     year: extractedYear,
     month: extractedMonth,
     day: extractedDay,
@@ -99,7 +99,7 @@ function extractDay(day: string) {
 const dateInput = document.createElement('input');
 dateInput.type = 'date';
 dateInput.required = true; // so that empty dates are invalid
-export function validateDate({
+export function checkDateValidity({
   year = '2000',
   month = '01',
   day = '01',
