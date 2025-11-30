@@ -114,6 +114,8 @@ function extractDay(day: string): DD | null {
 const dateInput = document.createElement('input');
 dateInput.type = 'date';
 dateInput.required = true; // so that empty dates are invalid
+// expect an already valid date to ensure the date is likely to be valid
+// to be able to check the validity of non-full dates, allow omission with defaults
 export function checkDateValidity({
   year = '2000',
   month = '01',
