@@ -35,16 +35,21 @@ export interface FullDateInt {
   month: number;
   day: number;
 }
-export interface FullDateStr {
+interface FullDateStr {
   year: string;
   month: string;
   day: string;
+}
+export interface ValidDateStr {
+  year: YYYY;
+  month: MM;
+  day: DD;
 }
 export function validateUnitsFromDate({
   year,
   month,
   day,
-}: FullDateStr): FullDateStr {
+}: FullDateStr): ValidDateStr {
   // validation, in case the date is not in the desired format
 
   // fallback to a valid value to ensure validity
@@ -62,36 +67,43 @@ export function validateUnitsFromDate({
     : { year: '2000', month: '01', day: '01' };
 }
 
+type Digits = '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9';
+/** a year in the range `'0001'-'9999'` */
+type YYYY = Exclude<`${Digits}${Digits}${Digits}${Digits}`, '0000'>;
+/** a month in the range `'01'-'12'` */
+type MM = Exclude<`0${Digits}`, '00'> | '10' | '11' | '12';
+/** a day in the range `'01'-'31'` */
+type DD = Exclude<`${'0' | '1' | '2'}${Digits}`, '00'> | '30' | '31';
 // should be greedy, otherwise data will be lost
 const yearRegex = /\d{4}|\d{2}/;
 const monthRegex = /\d{1,2}/;
 const dayRegex = /\d{1,2}/;
 /** @returns a year in the range `'0001'-'9999'` or `null` as a failure */
-export function extractYear(year: string) {
+export function extractYear(year: string): YYYY | null {
   const yearRegexResult = yearRegex.exec(year)?.[0];
   if (yearRegexResult) {
     const extractedYear = yearRegexResult.padStart(4, '20');
-    if (Number(extractedYear) !== 0) return extractedYear; // year 0 doesn't exist
+    if (Number(extractedYear) !== 0) return extractedYear as YYYY; // year 0 doesn't exist
   }
   return null; // null is preferred to ensure failure is handled even with optional parameters
 }
 /** @returns a month in the range `'01'-'12'` or `null` as a failure */
-export function extractMonth(month: string) {
+export function extractMonth(month: string): MM | null {
   const monthRegexResult = monthRegex.exec(month)?.[0];
   if (monthRegexResult) {
     const extractedMonth = monthRegexResult.padStart(2, '0');
     if (Number(extractedMonth) >= 1 && Number(extractedMonth) <= 12)
-      return extractedMonth;
+      return extractedMonth as MM;
   }
   return null; // null is preferred to ensure failure is handled even with optional parameters
 }
 /** @returns a day in the range `'01'-'31'` or `null` as a failure */
-function extractDay(day: string) {
+function extractDay(day: string): DD | null {
   const dayRegexResult = dayRegex.exec(day)?.[0];
   if (dayRegexResult) {
     const extractedDay = dayRegexResult.padStart(2, '0');
     if (Number(extractedDay) >= 1 && Number(extractedDay) <= 31)
-      return extractedDay;
+      return extractedDay as DD;
   }
   return null; // null is preferred to ensure failure is handled even with optional parameters
 }
@@ -106,7 +118,7 @@ export function checkDateValidity({
   year = '2000',
   month = '01',
   day = '01',
-}: Partial<FullDateStr>) {
+}: Partial<ValidDateStr>) {
   dateInput.value = `${year}-${month}-${day}`; // assigns '', if invalid
   const isValid = dateInput.checkValidity();
   return isValid;
@@ -117,7 +129,7 @@ export function returnWeekdayFromSunday(day: number) {
   return weekdayFormatter.format(new Date(dateForSunday + day * dayInMs));
 }
 
-export function returnWeekday({ year, month, day }: FullDateStr): Weekday {
+export function returnWeekday({ year, month, day }: ValidDateStr): Weekday {
   const weekday = new Date(`${year}-${month}-${day}`).getDay();
   assertCondition(!isNaN(weekday), 'returnWeekday always gets a valid date');
   return weekday as Weekday;

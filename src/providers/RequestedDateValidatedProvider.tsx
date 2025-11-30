@@ -3,8 +3,8 @@ import { useParams } from 'react-router-dom';
 
 // helpers
 import {
-  type FullDateStr,
   validateUnitsFromDate,
+  type ValidDateStr,
 } from '../helpers/validateUnitsFromDate';
 
 // types
@@ -14,7 +14,7 @@ import type ChildrenProp from '../custom-types/ChildrenProp';
 import useSafeContext from '../custom-hooks/useSafeContext';
 
 const requestedDateValidatedContext = createContext<
-  FullDateStr | FullyInvalidDate | null
+  ValidDateStr | FullyInvalidDate | null
 >(null);
 
 interface FullyInvalidDate {

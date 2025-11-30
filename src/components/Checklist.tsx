@@ -66,9 +66,9 @@ import {
 import {
   dayMonthTruncFormatter,
   type FullDateInt,
-  type FullDateStr,
   returnWeekday,
   returnWeekdayFromSunday,
+  type ValidDateStr,
   weekdayDayMonthFormatter,
 } from '../helpers/validateUnitsFromDate';
 import { shouldUseAutoFocus } from '../helpers/keyboardDetection';
@@ -160,7 +160,7 @@ export default function Checklist() {
   );
 }
 
-interface CreateTodoProps extends FullDateStr {
+interface CreateTodoProps extends ValidDateStr {
   unitsAsInt: FullDateInt;
   refForUpdateCurrentTodoData: React.RefObject<React.Dispatch<Action>>;
 }
@@ -234,7 +234,7 @@ type Action =
   | { action: 'ADD'; todoId: ID; todoType?: TodoType }
   | { action: 'REMOVE'; todoId: ID; todoType?: never };
 
-interface TodosProps extends FullDateStr {
+interface TodosProps extends ValidDateStr {
   unitsAsInt: FullDateInt;
   helperMenuClosersRef: React.MutableRefObject<HelperMenuClosers>;
   refForUpdateCurrentTodoData: React.RefObject<React.Dispatch<Action>>;
@@ -324,7 +324,7 @@ function Todos({
   );
 }
 
-interface TodoProps extends FullDateStr {
+interface TodoProps extends ValidDateStr {
   updateCurrentTodoData: React.Dispatch<Action>;
   todoId: ID;
   helperMenuClosersRef: React.MutableRefObject<HelperMenuClosers>;
