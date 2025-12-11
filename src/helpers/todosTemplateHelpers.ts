@@ -92,7 +92,7 @@ export function addToTodosTemplateAndCache(
 }
 
 // keep value and type in sync, otherwise types might disagree:
-// (type: number, value: 0) => (type: text, value: 0 (instead of ''))
+// (type: 'number', value: 0) => (type: 'text', value: 0 (instead of ''))
 export function updateValueOnTodosTemplateAndCache(id: ID, type: TodoType) {
   const localTodosTemplate = returnValidTodosTemplate();
   localTodosTemplate[id].value = returnInitialValueForType(type);
