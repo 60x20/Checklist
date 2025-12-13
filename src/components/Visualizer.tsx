@@ -12,6 +12,7 @@ import {
   checkDateValidity,
   monthFormatter,
   monthYearTruncFormatter,
+  convertValidDateUnitStrIntoInt,
 } from '../helpers/validateUnitsFromDate';
 import { returnYearEntry } from '../helpers/todoDataHelpers';
 import { assertCondition, truncateString } from '../helpers/utils';
@@ -78,7 +79,7 @@ export function MonthVisualizer() {
 
   if (!isValid) return <p>invalid date</p>;
 
-  const yearAsInt = Number(extractedYear);
+  const yearAsInt = convertValidDateUnitStrIntoInt(extractedYear);
   const yearEntry = returnYearEntry(yearAsInt);
   if (!yearEntry) return <p>no data for year</p>;
 
@@ -168,7 +169,7 @@ export function YearVisualizer() {
 
   if (!isValid) return <p>invalid date</p>;
 
-  const yearAsInt = Number(extractedYear);
+  const yearAsInt = convertValidDateUnitStrIntoInt(extractedYear);
   const yearEntry = returnYearEntry(yearAsInt);
   if (!yearEntry) return <p>no data for year</p>;
 

@@ -82,10 +82,16 @@ export function convertValidDateStrIntoInt({
   day,
 }: ValidDateStr): ValidDateInt {
   return {
-    year: Number(year) as YearInt,
-    month: Number(month) as MonthInt,
-    day: Number(day) as DayInt,
+    year: convertValidDateUnitStrIntoInt(year),
+    month: convertValidDateUnitStrIntoInt(month),
+    day: convertValidDateUnitStrIntoInt(day),
   };
+}
+export function convertValidDateUnitStrIntoInt(year: YYYY): YearInt;
+export function convertValidDateUnitStrIntoInt(month: MM): MonthInt;
+export function convertValidDateUnitStrIntoInt(day: DD): DayInt;
+export function convertValidDateUnitStrIntoInt(dateUnit: YYYY | MM | DD) {
+  return Number(dateUnit);
 }
 
 type Digits = '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9';
