@@ -14,7 +14,7 @@ import { addToAllYears } from './allYearsHelpers';
 
 // types
 import type { ID, TodoType, TodoTypeValueMap } from './allTodosHelpers';
-import type { FullDateInt } from './validateUnitsFromDate';
+import type { FullDateInt, YearInt } from './validateUnitsFromDate';
 
 // since the type is stored globally and can change without local values adapting, types and values might disagree
 // though, this only happens when reading from the store; when writing, make sure types and values agree
@@ -29,16 +29,16 @@ type YearTodoData = (MonthTodoData | Nullish)[]; // there are vacant indexes, so
 type ValidMonthTodoData = DayTodoData[]; // can be used if a specific date (year-month-day) is validated
 type ValidYearTodoData = ValidMonthTodoData[]; // can be used if a specific date (year-month-day) is validated
 
-function updateYearEntry(year: number, todoData: YearTodoData) {
+function updateYearEntry(year: YearInt, todoData: YearTodoData) {
   localStorage.setItem(String(year), JSON.stringify(todoData));
 }
 
-export function returnYearEntry(year: number): YearTodoData | null {
+export function returnYearEntry(year: YearInt): YearTodoData | null {
   const yearEntry = localStorage.getItem(String(year));
   if (yearEntry !== null) return JSON.parse(yearEntry) as YearTodoData;
   return null;
 }
-function returnValidYearEntry(year: number): ValidYearTodoData {
+function returnValidYearEntry(year: YearInt): ValidYearTodoData {
   // if year entry, along with month and day, is already validated, prefer this version to avoid nullish return
   const yearEntry = returnYearEntry(year);
   assertCondition(yearEntry !== null, 'Year entry always saved properly');

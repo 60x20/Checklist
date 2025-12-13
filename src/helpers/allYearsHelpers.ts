@@ -2,8 +2,9 @@
 
 // helpers
 import { assertCondition } from './utils';
+import type { YearInt } from './validateUnitsFromDate';
 
-export type AllYears = number[];
+export type AllYears = YearInt[];
 
 function updateAllYears(arrayOfYears: AllYears) {
   localStorage.setItem('years', JSON.stringify(arrayOfYears));
@@ -26,7 +27,7 @@ export function returnValidAllYears(): AllYears {
   return yearsEntry;
 }
 
-export function addToAllYears(year: number) {
+export function addToAllYears(year: YearInt) {
   const allYears = returnValidAllYears();
   allYears.push(year);
   updateAllYears(allYears);

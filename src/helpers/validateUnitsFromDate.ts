@@ -78,6 +78,12 @@ export function validateUnitsFromDate({
 }
 
 type Digits = '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9';
+/** an integer year in the range `[1, 9999]` */
+export type YearInt = number & { _brand: 'year' };
+/** an integer month in the range `[1, 12]` */
+export type MonthInt = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
+/** an integer day in the range `[1, 31]` */
+export type DayInt = number & { _brand: 'day' };
 /** a year in the range `'0001'-'9999'` */
 // type YYYY = Exclude<`${Digits}${Digits}${Digits}${Digits}`, '0000'>;
 type YYYY = string & { _brand: 'YYYY' }; // branded instead since too complex
