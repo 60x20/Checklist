@@ -20,8 +20,8 @@ import { confirmToResetAllData } from '../helpers/resetAllData';
 import { returnDateFromToday } from '../helpers/returnCurrentDate';
 import { resetTodoData } from '../helpers/todoDataHelpers';
 import {
+  convertValidDateStrIntoInt,
   dayMonthYearTruncFormatter,
-  type FullDateInt,
 } from '../helpers/validateUnitsFromDate';
 
 export function MenuWrapper() {
@@ -132,11 +132,7 @@ function Menu({ closeTheMenu }: MenuProps) {
   }
   const resetCurrentDayButton = (() => {
     if (isDateRequested) {
-      const unitsAsInt: FullDateInt = {
-        year: Number(year),
-        month: Number(month),
-        day: Number(day),
-      }; // used as array indexes
+      const unitsAsInt = convertValidDateStrIntoInt({ year, month, day }); // used as array indexes
 
       function resetCurrentDayHandler() {
         resetTodoData(unitsAsInt);

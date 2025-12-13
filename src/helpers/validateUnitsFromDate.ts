@@ -35,6 +35,11 @@ export interface FullDateInt {
   month: number;
   day: number;
 }
+export interface ValidDateInt {
+  year: YearInt;
+  month: MonthInt;
+  day: DayInt;
+}
 interface FullDateStr {
   year: string;
   month: string;
@@ -75,6 +80,17 @@ export function validateUnitsFromDate({
   return isValid
     ? { year: extractedYear, month: extractedMonth, day: extractedDay }
     : validDefaultDate;
+}
+export function convertValidDateStrIntoInt({
+  year,
+  month,
+  day,
+}: ValidDateStr): ValidDateInt {
+  return {
+    year: Number(year) as YearInt,
+    month: Number(month) as MonthInt,
+    day: Number(day) as DayInt,
+  };
 }
 
 type Digits = '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9';

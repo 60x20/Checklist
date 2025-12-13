@@ -64,10 +64,11 @@ import {
   type DayTodoData,
 } from '../helpers/todoDataHelpers';
 import {
+  convertValidDateStrIntoInt,
   dayMonthTruncFormatter,
-  type FullDateInt,
   returnWeekday,
   returnWeekdayFromSunday,
+  type ValidDateInt,
   type ValidDateStr,
   weekdayDayMonthFormatter,
 } from '../helpers/validateUnitsFromDate';
@@ -101,12 +102,8 @@ export default function Checklist() {
   const dateRequested = new Date(`${year}-${month}-${day}`);
 
   // converted into numbers so that they are considered array indexes
-  const unitsAsInt: FullDateInt = useMemo(
-    () => ({
-      year: Number(year),
-      month: Number(month),
-      day: Number(day),
-    }),
+  const unitsAsInt: ValidDateInt = useMemo(
+    () => convertValidDateStrIntoInt({ year, month, day }),
     [day, month, year],
   ); // used as dependency
 
@@ -161,7 +158,7 @@ export default function Checklist() {
 }
 
 interface CreateTodoProps extends ValidDateStr {
-  unitsAsInt: FullDateInt;
+  unitsAsInt: ValidDateInt;
   refForUpdateCurrentTodoData: React.RefObject<React.Dispatch<Action>>;
 }
 const CreateTodo = memo(
@@ -235,7 +232,7 @@ type Action =
   | { action: 'REMOVE'; todoId: ID; todoType?: never };
 
 interface TodosProps extends ValidDateStr {
-  unitsAsInt: FullDateInt;
+  unitsAsInt: ValidDateInt;
   helperMenuClosersRef: React.MutableRefObject<HelperMenuClosers>;
   refForUpdateCurrentTodoData: React.RefObject<React.Dispatch<Action>>;
 }
@@ -329,7 +326,7 @@ interface TodoProps extends ValidDateStr {
   todoId: ID;
   helperMenuClosersRef: React.MutableRefObject<HelperMenuClosers>;
   cachedTodoData: React.MutableRefObject<DayTodoData>;
-  unitsAsInt: FullDateInt;
+  unitsAsInt: ValidDateInt;
 }
 const Todo = memo(
   ({
