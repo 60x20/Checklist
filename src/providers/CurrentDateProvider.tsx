@@ -9,14 +9,14 @@ import type { DateAsYMD } from '../helpers/validateUnitsFromDate';
 // helpers
 import { returnCurrentDate } from '../helpers/returnCurrentDate';
 import useSafeContext from '../custom-hooks/useSafeContext';
-function getTodayVisited(): string | null {
+function getTodayVisited(): DateAsYMD | null {
   const todayVisitedEntry = localStorage.getItem('today-visited');
   if (todayVisitedEntry !== null)
-    return JSON.parse(todayVisitedEntry) as string;
+    return JSON.parse(todayVisitedEntry) as DateAsYMD;
   return null;
 }
 /** @todo rename to lastVisitedDay since todayVisited sounds like a boolean */
-function updateTodayVisited(newDate: string) {
+function updateTodayVisited(newDate: DateAsYMD) {
   // by storing only the current date, instead of all the dates, we're cleaning up
   localStorage.setItem('today-visited', JSON.stringify(newDate));
 }
