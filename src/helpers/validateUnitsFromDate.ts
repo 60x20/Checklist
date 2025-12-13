@@ -30,11 +30,6 @@ function createFormatter(options: Intl.DateTimeFormatOptions) {
   return new Intl.DateTimeFormat(navigator.language, options);
 }
 
-export interface FullDateInt {
-  year: number;
-  month: number;
-  day: number;
-}
 export interface ValidDateInt {
   year: YearInt;
   month: MonthInt;
