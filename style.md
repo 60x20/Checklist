@@ -36,3 +36,7 @@
 
 - Making illegal states unrepresentable, precise types and brands increase confidence and type safety, and reduce implementation complexity.
 - Note: Big unions might hurt performance.
+
+## [Make argument types as generic as possible](https://github.com/danvk/effective-typescript/blob/main/samples/ch-design/loose-accept-strict-produce.md)
+
+- Using a more generic argument type, as long as it doesn't affect the implementation, is more convenient.
