@@ -9,7 +9,7 @@ export default function useDocumentTitle(
   // layout effect preferred to decrease the delay
   useLayoutEffect(() => {
     // when mounts or subtitle changes, use the titles
-    document.title = subtitle ? [mainTitle, subtitle].join(' - ') : mainTitle;
+    document.title = subtitle ? `${mainTitle} - ${subtitle}` : mainTitle;
   }, [mainTitle, subtitle]);
   useLayoutEffect(() => {
     // when unmounts, revert back to the original

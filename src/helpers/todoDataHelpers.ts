@@ -11,7 +11,10 @@ import {
   type Weekday,
 } from './todosTemplateHelpers';
 import { addToAllYears } from './allYearsHelpers';
+
+// types
 import type { ID, TodoType, TodoTypeValueMap } from './allTodosHelpers';
+import type { ValidDateInt, YearInt } from './validateUnitsFromDate';
 
 // since the type is stored globally and can change without local values adapting, types and values might disagree
 // though, this only happens when reading from the store; when writing, make sure types and values agree
@@ -26,16 +29,16 @@ type YearTodoData = (MonthTodoData | Nullish)[]; // there are vacant indexes, so
 type ValidMonthTodoData = DayTodoData[]; // can be used if a specific date (year-month-day) is validated
 type ValidYearTodoData = ValidMonthTodoData[]; // can be used if a specific date (year-month-day) is validated
 
-function updateYearEntry(year: number, todoData: YearTodoData) {
+function updateYearEntry(year: YearInt, todoData: YearTodoData) {
   localStorage.setItem(String(year), JSON.stringify(todoData));
 }
 
-export function returnYearEntry(year: number): YearTodoData | null {
+export function returnYearEntry(year: YearInt): YearTodoData | null {
   const yearEntry = localStorage.getItem(String(year));
   if (yearEntry !== null) return JSON.parse(yearEntry) as YearTodoData;
   return null;
 }
-function returnValidYearEntry(year: number): ValidYearTodoData {
+function returnValidYearEntry(year: YearInt): ValidYearTodoData {
   // if year entry, along with month and day, is already validated, prefer this version to avoid nullish return
   const yearEntry = returnYearEntry(year);
   assertCondition(yearEntry !== null, 'Year entry always saved properly');
@@ -44,9 +47,7 @@ function returnValidYearEntry(year: number): ValidYearTodoData {
 
 // make sure date exists in the localStorage
 export function validateTodoData(
-  year: number,
-  month: number,
-  day: number,
+  { year, month, day }: ValidDateInt,
   weekday: Weekday,
 ) {
   // make sure it's not null
@@ -73,16 +74,14 @@ export function validateTodoData(
   }
 }
 
-export function returnTodoData(year: number, month: number, day: number) {
+export function returnTodoData({ year, month, day }: ValidDateInt) {
   const yearEntry = returnValidYearEntry(year);
   return yearEntry[month][day];
 }
 
 export function addToTodoData(
   todoId: ID,
-  year: number,
-  month: number,
-  day: number,
+  { year, month, day }: ValidDateInt,
   type: TodoType = 'checkbox',
 ) {
   const yearEntry = returnValidYearEntry(year);
@@ -101,9 +100,7 @@ export function addToTodoData(
 
 export function removeFromTodoData(
   todoId: ID,
-  year: number,
-  month: number,
-  day: number,
+  { year, month, day }: ValidDateInt,
 ) {
   const yearEntry = returnValidYearEntry(year);
   // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
@@ -114,9 +111,7 @@ export function removeFromTodoData(
 // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-parameters
 export function updateTodoValue<Type extends TodoType = never>(
   todoId: ID,
-  year: number,
-  month: number,
-  day: number,
+  { year, month, day }: ValidDateInt,
   // make sure value is according to the type, and type is always passed
   value: NoInfer<TodoTypeValueMap[Type]>,
 ) {
@@ -125,7 +120,7 @@ export function updateTodoValue<Type extends TodoType = never>(
   updateYearEntry(year, yearEntry);
 }
 
-export function resetTodoData(year: number, month: number, day: number) {
+export function resetTodoData({ year, month, day }: ValidDateInt) {
   const yearEntry = returnValidYearEntry(year);
   yearEntry[month][day] = {};
   updateYearEntry(year, yearEntry);

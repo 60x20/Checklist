@@ -30,6 +30,7 @@ export function returnThemeMode(themeMode: ThemeMode | number | null) {
     case 1: // light
     case 2: // dark
       return themeMode;
+    case 0:
     case null:
     default:
       return 0; // auto, also a fallback (if it's null, or bigger than 2)

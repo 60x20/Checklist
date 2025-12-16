@@ -22,9 +22,9 @@ export default function Home() {
         Today:{' '}
         <Link
           ref={refCallbackForFocusOnMount}
-          to={currentDate.YMD.replaceAll('-', '/')}
+          to={currentDate.replaceAll('-', '/')}
         >
-          <time dateTime={currentDate.YMD}>
+          <time dateTime={currentDate}>
             {weekdayDayMonthFormatter.format(new Date())}
           </time>
         </Link>

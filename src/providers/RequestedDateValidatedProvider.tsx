@@ -3,8 +3,8 @@ import { useParams } from 'react-router-dom';
 
 // helpers
 import {
-  type FullDate,
   validateUnitsFromDate,
+  type ValidDateStr,
 } from '../helpers/validateUnitsFromDate';
 
 // types
@@ -13,13 +13,16 @@ import type ChildrenProp from '../custom-types/ChildrenProp';
 // custom hooks
 import useSafeContext from '../custom-hooks/useSafeContext';
 
-const requestedDateValidatedContext = createContext<PartialFullDate | null>(
-  null,
-);
+const requestedDateValidatedContext = createContext<
+  ValidDateStr | FullyInvalidDate | null
+>(null);
 
-type PartialFullDate = Partial<FullDate>;
-
-const invalidFullDate: PartialFullDate = {
+interface FullyInvalidDate {
+  year?: never;
+  month?: never;
+  day?: never;
+}
+const fullyInvalidDate: FullyInvalidDate = {
   // year: undefined,
   // month: undefined,
   // day: undefined,
@@ -34,7 +37,7 @@ export default function RequestedDateValidatedProvider({
   const requestedDateValidated =
     year && month && day
       ? validateUnitsFromDate({ year, month, day })
-      : invalidFullDate;
+      : fullyInvalidDate;
 
   return (
     <requestedDateValidatedContext.Provider value={requestedDateValidated}>

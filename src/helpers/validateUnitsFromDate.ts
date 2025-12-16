@@ -30,58 +30,118 @@ function createFormatter(options: Intl.DateTimeFormatOptions) {
   return new Intl.DateTimeFormat(navigator.language, options);
 }
 
-export interface FullDate {
+export interface ValidDateInt {
+  year: YearInt;
+  month: MonthInt;
+  day: DayInt;
+}
+interface FullDateStr {
   year: string;
   month: string;
   day: string;
 }
+export interface ValidDateStr {
+  year: YYYY;
+  month: MM;
+  day: DD;
+}
+const validDefaultDate: ValidDateStr = {
+  year: '2000' as YYYY,
+  month: '01',
+  day: '01',
+};
+const {
+  year: defaultYYYY,
+  month: defaultMM,
+  day: defaultDD,
+} = validDefaultDate;
 export function validateUnitsFromDate({
   year,
   month,
   day,
-}: FullDate): FullDate {
-  // validation, in case the date is not in the desired format (failsafe)
-  const extractedYear = extractYear(year);
-  const extractedMonth = extractMonth(month);
-  const extractedDay = extractDay(day);
-  const isValid = validateDate(extractedYear, extractedMonth, extractedDay);
+}: FullDateStr): ValidDateStr {
+  // validation, in case the date is not in the desired format
+
+  // fallback to a valid value to ensure validity
+  const extractedYear = extractYear(year) ?? defaultYYYY;
+  const extractedMonth = extractMonth(month) ?? defaultMM;
+  const extractedDay = extractDay(day) ?? defaultDD;
+
+  const isValid = checkDateValidity({
+    year: extractedYear,
+    month: extractedMonth,
+    day: extractedDay,
+  });
   return isValid
     ? { year: extractedYear, month: extractedMonth, day: extractedDay }
-    : { year: '2000', month: '01', day: '01' };
+    : validDefaultDate;
+}
+export function convertValidDateStrIntoInt({
+  year,
+  month,
+  day,
+}: ValidDateStr): ValidDateInt {
+  return {
+    year: convertValidDateUnitStrIntoInt(year),
+    month: convertValidDateUnitStrIntoInt(month),
+    day: convertValidDateUnitStrIntoInt(day),
+  };
+}
+export function convertValidDateUnitStrIntoInt(year: YYYY): YearInt;
+export function convertValidDateUnitStrIntoInt(month: MM): MonthInt;
+export function convertValidDateUnitStrIntoInt(day: DD): DayInt;
+export function convertValidDateUnitStrIntoInt(dateUnit: YYYY | MM | DD) {
+  return Number(dateUnit);
 }
 
+type Digits = '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9';
+/** an integer year in the range `[1, 9999]` */
+export type YearInt = number & { _brand: 'year' };
+/** an integer month in the range `[1, 12]` */
+export type MonthInt = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
+/** an integer day in the range `[1, 31]` */
+export type DayInt = number & { _brand: 'day' };
+/** a year in the range `'0001'-'9999'` */
+// type YYYY = Exclude<`${Digits}${Digits}${Digits}${Digits}`, '0000'>;
+type YYYY = string & { _brand: 'YYYY' }; // branded instead since too complex
+/** a month in the range `'01'-'12'` */
+type MM = Exclude<`0${Digits}`, '00'> | '10' | '11' | '12';
+/** a day in the range `'01'-'31'` */
+type DD = Exclude<`${'0' | '1' | '2'}${Digits}`, '00'> | '30' | '31';
+/** a date in the format `YYYY-MM-DD` */
+export type DateAsYMD = `${YYYY}-${MM}-${DD}`;
 // should be greedy, otherwise data will be lost
 const yearRegex = /\d{4}|\d{2}/;
 const monthRegex = /\d{1,2}/;
 const dayRegex = /\d{1,2}/;
-/** @returns a year in the range `'0001'-'9999'` or `''` as a failure */
-export function extractYear(year: string) {
+/** @returns a year in the range `'0001'-'9999'` or `null` as a failure */
+export function extractYear(year: string): YYYY | null {
   const yearRegexResult = yearRegex.exec(year)?.[0];
   if (yearRegexResult) {
     const extractedYear = yearRegexResult.padStart(4, '20');
-    if (Number(extractedYear) !== 0) return extractedYear; // year 0 doesn't exist
+    if (Number(extractedYear) !== 0) return extractedYear as YYYY; // year 0 doesn't exist
   }
-  return ''; /** @todo maybe return `null` or `string | ''` to make the failure more obvious */
+  return null; // null is preferred to ensure failure is handled even with optional parameters
 }
-/** @returns a month in the range `'01'-'12'` or `''` as a failure */
-export function extractMonth(month: string) {
+/** @returns a month in the range `'01'-'12'` or `null` as a failure */
+export function extractMonth(month: string): MM | null {
   const monthRegexResult = monthRegex.exec(month)?.[0];
   if (monthRegexResult) {
     const extractedMonth = monthRegexResult.padStart(2, '0');
     if (Number(extractedMonth) >= 1 && Number(extractedMonth) <= 12)
-      return extractedMonth;
+      return extractedMonth as MM;
   }
-  return ''; /** @todo maybe return `null` or `string | ''` to make the failure more obvious */
+  return null; // null is preferred to ensure failure is handled even with optional parameters
 }
-/** @returns a day in the range `'01'-'31'` or `''` as a failure */
-function extractDay(day: string) {
+/** @returns a day in the range `'01'-'31'` or `null` as a failure */
+function extractDay(day: string): DD | null {
   const dayRegexResult = dayRegex.exec(day)?.[0];
   if (dayRegexResult) {
     const extractedDay = dayRegexResult.padStart(2, '0');
     if (Number(extractedDay) >= 1 && Number(extractedDay) <= 31)
-      return extractedDay;
+      return extractedDay as DD;
   }
-  return ''; /** @todo maybe return `null` or `string | ''` to make the failure more obvious */
+  return null; // null is preferred to ensure failure is handled even with optional parameters
 }
 
 // date input is used instead of Date.parse for validation, because Date.parse is lenient
@@ -90,9 +150,14 @@ function extractDay(day: string) {
 const dateInput = document.createElement('input');
 dateInput.type = 'date';
 dateInput.required = true; // so that empty dates are invalid
-export function validateDate(year = '2000', month = '01', day = '01') {
-  if (year === '' || month === '' || day === '') return false;
-  dateInput.value = [year, month, day].join('-'); // returns '', if invalid
+// expect an already valid date to ensure the date is likely to be valid
+// to be able to check the validity of non-full dates, allow omission with defaults
+export function checkDateValidity({
+  year = defaultYYYY,
+  month = defaultMM,
+  day = defaultDD,
+}: Partial<ValidDateStr>) {
+  dateInput.value = `${year}-${month}-${day}`; // assigns '', if invalid
   const isValid = dateInput.checkValidity();
   return isValid;
 }
@@ -102,12 +167,8 @@ export function returnWeekdayFromSunday(day: number) {
   return weekdayFormatter.format(new Date(dateForSunday + day * dayInMs));
 }
 
-export function returnWeekday(
-  year: string,
-  month: string,
-  day: string,
-): Weekday {
-  const weekday = new Date([year, month, day].join('-')).getDay();
+export function returnWeekday({ year, month, day }: ValidDateStr): Weekday {
+  const weekday = new Date(`${year}-${month}-${day}`).getDay();
   assertCondition(!isNaN(weekday), 'returnWeekday always gets a valid date');
   return weekday as Weekday;
 }

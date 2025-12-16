@@ -2,8 +2,8 @@
 import { useRef } from 'react';
 
 function depsShallowlyEqual(
-  firstDeps: unknown[] | null,
-  secondDeps: unknown[] | null,
+  firstDeps: readonly unknown[] | null,
+  secondDeps: readonly unknown[] | null,
 ) {
   if (firstDeps === null || secondDeps === null) return false;
 

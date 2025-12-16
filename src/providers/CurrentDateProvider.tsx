@@ -4,20 +4,19 @@ import { redirect, useNavigate } from 'react-router-dom';
 
 // types
 import type ChildrenProp from '../custom-types/ChildrenProp';
+import type { DateAsYMD } from '../helpers/validateUnitsFromDate';
 
 // helpers
-import {
-  type DateWithFormats,
-  returnCurrentDate,
-} from '../helpers/returnCurrentDate';
+import { returnCurrentDate } from '../helpers/returnCurrentDate';
 import useSafeContext from '../custom-hooks/useSafeContext';
-function getTodayVisited(): string | null {
+function getTodayVisited(): DateAsYMD | null {
   const todayVisitedEntry = localStorage.getItem('today-visited');
   if (todayVisitedEntry !== null)
-    return JSON.parse(todayVisitedEntry) as string;
+    return JSON.parse(todayVisitedEntry) as DateAsYMD;
   return null;
 }
-function updateTodayVisited(newDate: string) {
+/** @todo rename to lastVisitedDay since todayVisited sounds like a boolean */
+function updateTodayVisited(newDate: DateAsYMD) {
   // by storing only the current date, instead of all the dates, we're cleaning up
   localStorage.setItem('today-visited', JSON.stringify(newDate));
 }
@@ -28,14 +27,14 @@ export function redirectToCurrentDateLoader() {
   // do it only once per date, otherwise url won't be changeable
   // localStorage preferred over sessionStorage, so that when links opened in new tab, this doesn't trigger
   const currentDate = returnCurrentDate();
-  if (getTodayVisited() !== currentDate.YMD) {
-    updateTodayVisited(currentDate.YMD);
-    return redirect(currentDate.YMD.replaceAll('-', '/'));
+  if (getTodayVisited() !== currentDate) {
+    updateTodayVisited(currentDate);
+    return redirect(currentDate.replaceAll('-', '/'));
   }
   return null;
 }
 
-const currentDateContext = createContext<DateWithFormats | null>(null);
+const currentDateContext = createContext<DateAsYMD | null>(null);
 
 export default function CurrentDateProvider({ children }: ChildrenProp) {
   const navigate = useNavigate();
@@ -46,11 +45,10 @@ export default function CurrentDateProvider({ children }: ChildrenProp) {
   useEffect(() => {
     function refreshCurrentDate() {
       const latestDate = returnCurrentDate();
-      // since returnCurrentDate returns an object, validation is done manually
-      if (latestDate.YMD !== currentDate.YMD) {
+      if (latestDate !== currentDate) {
         setCurrentDateState(latestDate);
-        navigate(latestDate.YMD.replaceAll('-', '/')); // if currentDate changes, go to the new date
-        updateTodayVisited(latestDate.YMD); // if currentDate changes, update todayVisited entry, so that url is changeable
+        navigate(latestDate.replaceAll('-', '/')); // if currentDate changes, go to the new date
+        updateTodayVisited(latestDate); // if currentDate changes, update todayVisited entry, so that url is changeable
       }
     }
 
@@ -60,7 +58,7 @@ export default function CurrentDateProvider({ children }: ChildrenProp) {
     return () => {
       clearInterval(intervalID);
     };
-  }, [currentDate.YMD, navigate]);
+  }, [currentDate, navigate]);
 
   return (
     <currentDateContext.Provider value={currentDate}>

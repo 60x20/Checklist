@@ -10,14 +10,15 @@ export type BooleanAsNum = 0 | 1;
 
 export type Weekday = 0 | 1 | 2 | 3 | 4 | 5 | 6;
 
+// sunday is 0 instead of 7 due to .getDay()
 export type Frequency = [
-  BooleanAsNum,
-  BooleanAsNum,
-  BooleanAsNum,
-  BooleanAsNum,
-  BooleanAsNum,
-  BooleanAsNum,
-  BooleanAsNum,
+  sunday: BooleanAsNum,
+  monday: BooleanAsNum,
+  tuesday: BooleanAsNum,
+  wednesday: BooleanAsNum,
+  thursday: BooleanAsNum,
+  friday: BooleanAsNum,
+  saturday: BooleanAsNum,
 ];
 type TemplateTodoData = LocalTodoData & { frequency: Frequency };
 type TodosTemplate = Record<ID, TemplateTodoData> & DayTodoData;
@@ -91,7 +92,7 @@ export function addToTodosTemplateAndCache(
 }
 
 // keep value and type in sync, otherwise types might disagree:
-// (type: number, value: 0) => (type: text, value: 0 (instead of ''))
+// (type: 'number', value: 0) => (type: 'text', value: 0 (instead of ''))
 export function updateValueOnTodosTemplateAndCache(id: ID, type: TodoType) {
   const localTodosTemplate = returnValidTodosTemplate();
   localTodosTemplate[id].value = returnInitialValueForType(type);

@@ -19,7 +19,10 @@ import {
 import { confirmToResetAllData } from '../helpers/resetAllData';
 import { returnDateFromToday } from '../helpers/returnCurrentDate';
 import { resetTodoData } from '../helpers/todoDataHelpers';
-import { dayMonthYearTruncFormatter } from '../helpers/validateUnitsFromDate';
+import {
+  convertValidDateStrIntoInt,
+  dayMonthYearTruncFormatter,
+} from '../helpers/validateUnitsFromDate';
 
 export function MenuWrapper() {
   const { menuState, closeTheMenu } = useMenuStateContext();
@@ -30,10 +33,9 @@ export function MenuWrapper() {
 interface MenuProps {
   closeTheMenu: MenuStateContext['closeTheMenu'];
 }
-
 function Menu({ closeTheMenu }: MenuProps) {
   const { year, month, day } = useRequestedDateValidatedContext();
-  const isDateRequested = year && month && day;
+  const isDateRequested = day !== undefined; // only checking one ensures validity of all
 
   const { increaseAllDataCleared } = useAllDataClearedContext();
   const { increaseTodayCleared } = useTodayClearedContext();
@@ -130,14 +132,10 @@ function Menu({ closeTheMenu }: MenuProps) {
   }
   const resetCurrentDayButton = (() => {
     if (isDateRequested) {
-      const unitsAsInt: [number, number, number] = [
-        Number(year),
-        Number(month),
-        Number(day),
-      ]; // used as array indexes
+      const unitsAsInt = convertValidDateStrIntoInt({ year, month, day }); // used as array indexes
 
       function resetCurrentDayHandler() {
-        resetTodoData(...unitsAsInt);
+        resetTodoData(unitsAsInt);
         increaseTodayCleared(); // informing checklist
 
         focusOnCreateTodoAndCloseTheMenu();
@@ -171,12 +169,12 @@ function Menu({ closeTheMenu }: MenuProps) {
     prevDates.push(
       <li key={i}>
         <Link
-          to={relativeDate.YMD.replaceAll('-', '/')}
+          to={relativeDate.replaceAll('-', '/')}
           onClick={focusOnCreateTodoAndCloseTheMenu}
         >
           {i === 0 ? 'today: ' : ''}
-          <time dateTime={relativeDate.YMD}>
-            {dayMonthYearTruncFormatter.format(new Date(relativeDate.YMD))}
+          <time dateTime={relativeDate}>
+            {dayMonthYearTruncFormatter.format(new Date(relativeDate))}
           </time>
         </Link>
       </li>,
@@ -210,9 +208,7 @@ function Menu({ closeTheMenu }: MenuProps) {
                 type="date"
                 required
                 min="2000-01-01"
-                defaultValue={
-                  isDateRequested ? [year, month, day].join('-') : ''
-                }
+                defaultValue={isDateRequested ? `${year}-${month}-${day}` : ''}
                 max="2100-12-31"
               />
             </label>

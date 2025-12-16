@@ -64,9 +64,12 @@ import {
   type DayTodoData,
 } from '../helpers/todoDataHelpers';
 import {
+  convertValidDateStrIntoInt,
   dayMonthTruncFormatter,
   returnWeekday,
   returnWeekdayFromSunday,
+  type ValidDateInt,
+  type ValidDateStr,
   weekdayDayMonthFormatter,
 } from '../helpers/validateUnitsFromDate';
 import { shouldUseAutoFocus } from '../helpers/keyboardDetection';
@@ -90,18 +93,17 @@ const addSubtitleToDocumentTitle = useDocumentTitle.bind(globalThis, mainTitle);
 export default function Checklist() {
   const { year, month, day } = useRequestedDateValidatedContext();
   assertCondition(
-    year !== undefined && month !== undefined && day !== undefined,
+    day !== undefined, // only checking one ensures validity of all
     'Checklist only renders if url includes a year, month and a day',
   );
   const { allDataCleared } = useAllDataClearedContext(); // when changes, new data will be brought
   const { todayCleared } = useTodayClearedContext(); // when changes, new data will be brought
 
-  const dateRequested = new Date([year, month, day].join('-'));
+  const dateRequested = new Date(`${year}-${month}-${day}`);
 
   // converted into numbers so that they are considered array indexes
-  /** @todo rename to unitsYMDAsInt */
-  const unitsAsInt: [number, number, number] = useMemo(
-    () => [Number(year), Number(month), Number(day)],
+  const unitsAsInt: ValidDateInt = useMemo(
+    () => convertValidDateStrIntoInt({ year, month, day }),
     [day, month, year],
   ); // used as dependency
 
@@ -141,7 +143,7 @@ export default function Checklist() {
       <Todos
         // with key: re-create State / re-use Effect, so that the logic is sequential and race conditions are avoided
         // if data is cleared, clean-up and keep the state and localStorage in sync, otherwise old data will be seen
-        key={[unitsAsInt, allDataCleared, todayCleared].join('-')}
+        key={[Object.values(unitsAsInt), allDataCleared, todayCleared].join()}
         {...{
           day,
           month,
@@ -155,11 +157,8 @@ export default function Checklist() {
   );
 }
 
-interface CreateTodoProps {
-  unitsAsInt: [number, number, number];
-  year: string;
-  month: string;
-  day: string;
+interface CreateTodoProps extends ValidDateStr {
+  unitsAsInt: ValidDateInt;
   refForUpdateCurrentTodoData: React.RefObject<React.Dispatch<Action>>;
 }
 const CreateTodo = memo(
@@ -176,7 +175,7 @@ const CreateTodo = memo(
     } = useRefContext();
 
     const currentDate = useCurrentDateContext();
-    const isToday = currentDate.YMD === [year, month, day].join('-');
+    const isToday = currentDate === `${year}-${month}-${day}`;
 
     // currentTodoData should be in sync with localStorage entry
     function addToCurrentTodoDataAndSync(todoIdToAdd: ID) {
@@ -184,7 +183,7 @@ const CreateTodo = memo(
         refForUpdateCurrentTodoData.current !== null,
         'ref will be initialized before updater can be used since it runs through user interaction',
       );
-      addToTodoData(todoIdToAdd, ...unitsAsInt);
+      addToTodoData(todoIdToAdd, unitsAsInt);
       refForUpdateCurrentTodoData.current({
         action: 'ADD',
         todoId: todoIdToAdd,
@@ -227,20 +226,16 @@ const CreateTodo = memo(
   },
 );
 
-interface TodosProps {
-  unitsAsInt: [number, number, number];
-  year: string;
-  month: string;
-  day: string;
-  helperMenuClosersRef: React.MutableRefObject<HelperMenuClosers>;
-  refForUpdateCurrentTodoData: React.RefObject<React.Dispatch<Action>>;
-}
-
 type Action =
   | { action: 'SYNC'; todoId?: never; todoType?: never }
   | { action: 'ADD'; todoId: ID; todoType?: TodoType }
   | { action: 'REMOVE'; todoId: ID; todoType?: never };
 
+interface TodosProps extends ValidDateStr {
+  unitsAsInt: ValidDateInt;
+  helperMenuClosersRef: React.MutableRefObject<HelperMenuClosers>;
+  refForUpdateCurrentTodoData: React.RefObject<React.Dispatch<Action>>;
+}
 function Todos({
   day,
   month,
@@ -259,9 +254,9 @@ function Todos({
     (init) => reducerForCurrentTodoData(init, { action: 'SYNC' }),
   );
   function reducerForCurrentTodoData(
-    prevData: DayTodoData,
+    prevData: Readonly<DayTodoData>,
     { action, todoId, todoType = 'checkbox' }: Action,
-  ): DayTodoData {
+  ): Readonly<DayTodoData> {
     switch (action) {
       // keeping cache in sync; value used for initialization
       case 'ADD': {
@@ -288,8 +283,8 @@ function Todos({
       }
       case 'SYNC': {
         // syncing with localStorage entry initially or when the key changes
-        validateTodoData(...unitsAsInt, returnWeekday(year, month, day)); // if it doesn't exist create it
-        return (cachedTodoData.current = returnTodoData(...unitsAsInt)); // keeping cache in sync
+        validateTodoData(unitsAsInt, returnWeekday({ year, month, day })); // if it doesn't exist create it
+        return (cachedTodoData.current = returnTodoData(unitsAsInt)); // keeping cache in sync
       }
     }
   }
@@ -326,15 +321,12 @@ function Todos({
   );
 }
 
-interface TodoProps {
+interface TodoProps extends ValidDateStr {
   updateCurrentTodoData: React.Dispatch<Action>;
   todoId: ID;
   helperMenuClosersRef: React.MutableRefObject<HelperMenuClosers>;
   cachedTodoData: React.MutableRefObject<DayTodoData>;
-  unitsAsInt: [number, number, number];
-  year: string;
-  month: string;
-  day: string;
+  unitsAsInt: ValidDateInt;
 }
 const Todo = memo(
   ({
@@ -348,7 +340,7 @@ const Todo = memo(
     cachedTodoData,
   }: TodoProps) => {
     const currentDate = useCurrentDateContext();
-    const isToday = currentDate.YMD === [year, month, day].join('-');
+    const isToday = currentDate === `${year}-${month}-${day}`;
 
     // for easier focus management
     const todoRef = useRef<HTMLLIElement>(null);
@@ -398,7 +390,7 @@ const Todo = memo(
 
     // currentTodoData should be in sync with localStorage entry
     function removeFromCurrentTodoDataAndSync() {
-      removeFromTodoData(todoId, ...unitsAsInt);
+      removeFromTodoData(todoId, unitsAsInt);
       updateCurrentTodoData({ action: 'REMOVE', todoId });
     }
 
@@ -413,7 +405,7 @@ const Todo = memo(
       // make sure value is according to the type, and type is always passed
       value: NoInfer<TodoTypeValueMap[Type]>,
     ) {
-      updateTodoValue<Type>(todoId, ...unitsAsInt, value);
+      updateTodoValue<Type>(todoId, unitsAsInt, value);
       setTodoValue(value);
     }
     function resetAndSyncTodoValue(newType: TodoType) {
@@ -689,10 +681,11 @@ function FrequencyMenu({
   focusOnFrequencyMenuButton,
   todoType,
 }: FrequencyMenuProps) {
-  const [frequencyState, setFrequencyState] = useState(() =>
-    isTodoInTodosTemplate(todoId)
-      ? cachedTodosTemplate[todoId].frequency
-      : frequencyNever,
+  const [frequencyState, setFrequencyState] = useState<Readonly<Frequency>>(
+    () =>
+      isTodoInTodosTemplate(todoId)
+        ? cachedTodosTemplate[todoId].frequency
+        : frequencyNever,
   );
 
   function changeAndSyncFrequency(frequency: Frequency) {
