@@ -106,7 +106,7 @@ function Menu({ closeTheMenu }: MenuProps) {
 
   const navigate = useNavigate();
   // throttling, otherwise performance issues might occur
-  const dateToGo = useRef<string>('');
+  const dateToGo = useRef('');
   const timeoutSet = useRef<number | undefined>(undefined);
   function goToRequestedDateHandler(e: React.ChangeEvent<HTMLInputElement>) {
     // if requestedDate is invalid, don't continue

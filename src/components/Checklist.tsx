@@ -378,6 +378,7 @@ const Todo = memo(
     }
 
     // todo value, type and description locally managed
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-arguments -- ensure correct type is used
     const [todoValue, setTodoValue] = useState<TodoValueType>(
       cachedTodoData.current[todoId].value,
     );
