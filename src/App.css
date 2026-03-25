@@ -80,6 +80,7 @@ ul {
   width: var(--toggler-button-height);
   aspect-ratio: 1;
   font-size: 1rem !important;
+  padding: 0; /* since width is fixed, avoid padding consuming space to allow icon */
 }
 .toggler-text-and-icon {
   display: flex;
