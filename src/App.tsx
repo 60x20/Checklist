@@ -2,9 +2,9 @@ import './App.css';
 import {
   createHashRouter,
   createRoutesFromElements,
-  RouterProvider,
   Route,
-} from 'react-router-dom';
+} from 'react-router';
+import { RouterProvider } from 'react-router/dom';
 
 // layouts
 import RootLayout from './layouts/RootLayout';

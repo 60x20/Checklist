@@ -1,6 +1,6 @@
 import { createContext, useState, useEffect } from 'react';
 
-import { redirect, useNavigate } from 'react-router-dom';
+import { redirect, useNavigate } from 'react-router';
 
 // types
 import type ChildrenProp from '../custom-types/ChildrenProp';

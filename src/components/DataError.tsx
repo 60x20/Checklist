@@ -1,4 +1,4 @@
-import { useLocation, useNavigate, useRouteError } from 'react-router-dom';
+import { useLocation, useNavigate, useRouteError } from 'react-router';
 
 // helpers
 import { confirmToResetAllData } from '../helpers/resetAllData';
