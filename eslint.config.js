@@ -23,6 +23,11 @@ export default tseslint.config({
     'prefer-arrow-callback': 'error', // arrow-callbacks are simpler than function expressions
     'no-restricted-syntax': ['error', 'TSTupleType > :not(TSNamedTupleMember)'], // naming clears ambiguity
     'filenames/match-exported': 'error', // default exports should match filename for readability
+    /* turn off since too annoying */
+    '@typescript-eslint/no-misused-promises': [
+      'error',
+      { checksVoidReturn: false },
+    ],
   },
   files: ['src/**/*.{ts,tsx}'],
   languageOptions: {
