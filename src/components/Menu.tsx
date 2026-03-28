@@ -14,6 +14,7 @@ import {
   focusOnLastItemFromRef,
   useRefContext,
 } from '../providers/RefProvider';
+import { useCurrentDateContext } from '../providers/CurrentDateProvider';
 
 // helpers
 import { confirmToResetAllData } from '../helpers/resetAllData';
@@ -36,6 +37,8 @@ interface MenuProps {
 function Menu({ closeTheMenu }: MenuProps) {
   const { year, month, day } = useRequestedDateValidatedContext();
   const isDateRequested = day !== undefined; // only checking one ensures validity of all
+
+  const currentDate = useCurrentDateContext();
 
   const { increaseAllDataCleared } = useAllDataClearedContext();
   const { increaseTodayCleared } = useTodayClearedContext();
@@ -208,7 +211,9 @@ function Menu({ closeTheMenu }: MenuProps) {
                 type="date"
                 required
                 min="2000-01-01"
-                defaultValue={isDateRequested ? `${year}-${month}-${day}` : ''}
+                defaultValue={
+                  isDateRequested ? `${year}-${month}-${day}` : currentDate
+                }
                 max="2100-12-31"
               />
             </label>
