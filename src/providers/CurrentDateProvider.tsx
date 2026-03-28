@@ -43,11 +43,11 @@ export default function CurrentDateProvider({ children }: ChildrenProp) {
 
   // interval that checks to see if current date has changed
   useEffect(() => {
-    function refreshCurrentDate() {
+    async function refreshCurrentDate() {
       const latestDate = returnCurrentDate();
       if (latestDate !== currentDate) {
+        await navigate(latestDate.replaceAll('-', '/')); // if currentDate changes, go to the new date
         setCurrentDateState(latestDate);
-        navigate(latestDate.replaceAll('-', '/')); // if currentDate changes, go to the new date
         updateTodayVisited(latestDate); // if currentDate changes, update todayVisited entry, so that url is changeable
       }
     }

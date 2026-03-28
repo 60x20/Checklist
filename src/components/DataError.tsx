@@ -8,8 +8,8 @@ export default function DataError() {
   const error = useRouteError();
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  function resetAllDataAndNavigateHandler() {
-    if (confirmToResetAllData()) navigate(pathname); // if reset, then refresh; pathname used over (0) to avoid re-loading
+  async function resetAllDataAndNavigateHandler() {
+    if (confirmToResetAllData()) await navigate(pathname); // if reset, then refresh; pathname used over (0) to avoid re-loading
   }
 
   return (

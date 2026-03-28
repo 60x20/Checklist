@@ -114,8 +114,8 @@ function Menu({ closeTheMenu }: MenuProps) {
       const requestedDate = e.currentTarget.value;
       dateToGo.current = requestedDate;
       // only set a timeout if there isn't any (otherwise multiple navigation would occur)
-      timeoutSet.current ??= setTimeout(() => {
-        navigate(dateToGo.current.replaceAll('-', '/'));
+      timeoutSet.current ??= setTimeout(async () => {
+        await navigate(dateToGo.current.replaceAll('-', '/'));
         // reset, so that old data doesn't cause problems
         dateToGo.current = '';
         timeoutSet.current = undefined;
