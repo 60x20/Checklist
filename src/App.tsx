@@ -49,21 +49,10 @@ const router = createHashRouter(
       <Route path="*" element={<Home />} />
     </Route>,
   ),
-  {
-    future: {
-      v7_relativeSplatPath: true,
-      v7_fetcherPersist: true,
-      v7_normalizeFormMethod: true,
-      v7_partialHydration: true,
-      v7_skipActionErrorRevalidation: true,
-    },
-  },
 );
 // since hash router parses location.hash, base is always relative to the place of index.html
 // so, hosting from subdirectories won't cause problems
 
 export default function App() {
-  return (
-    <RouterProvider router={router} future={{ v7_startTransition: true }} />
-  );
+  return <RouterProvider router={router} />;
 }
