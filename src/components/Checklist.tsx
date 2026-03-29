@@ -249,6 +249,7 @@ function Todos({
 
   // only the tasks used, since values locally managed
   const [currentTodoData, updateCurrentTodoData] = useReducer(
+    // eslint-disable-next-line react-hooks/immutability -- accessible since hoisted
     reducerForCurrentTodoData,
     {},
     (init) => reducerForCurrentTodoData(init, { action: 'SYNC' }),
