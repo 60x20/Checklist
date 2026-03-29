@@ -159,7 +159,7 @@ export default function Checklist() {
 
 interface CreateTodoProps extends ValidDateStr {
   unitsAsInt: ValidDateInt;
-  refForUpdateCurrentTodoData: React.RefObject<React.Dispatch<Action>>;
+  refForUpdateCurrentTodoData: React.RefObject<React.Dispatch<Action> | null>;
 }
 const CreateTodo = memo(
   ({
@@ -233,8 +233,8 @@ type Action =
 
 interface TodosProps extends ValidDateStr {
   unitsAsInt: ValidDateInt;
-  helperMenuClosersRef: React.MutableRefObject<HelperMenuClosers>;
-  refForUpdateCurrentTodoData: React.RefObject<React.Dispatch<Action>>;
+  helperMenuClosersRef: React.RefObject<HelperMenuClosers>;
+  refForUpdateCurrentTodoData: React.RefObject<React.Dispatch<Action> | null>;
 }
 function Todos({
   day,
@@ -324,8 +324,8 @@ function Todos({
 interface TodoProps extends ValidDateStr {
   updateCurrentTodoData: React.Dispatch<Action>;
   todoId: ID;
-  helperMenuClosersRef: React.MutableRefObject<HelperMenuClosers>;
-  cachedTodoData: React.MutableRefObject<DayTodoData>;
+  helperMenuClosersRef: React.RefObject<HelperMenuClosers>;
+  cachedTodoData: React.RefObject<DayTodoData>;
   unitsAsInt: ValidDateInt;
 }
 const Todo = memo(
@@ -573,7 +573,7 @@ interface TodoHelpersProps {
   updateTodoTypeHandler: (e: React.ChangeEvent<HTMLSelectElement>) => void;
   removeFromTodoHandler: () => void;
   closeHelperMenu: () => void;
-  helperMenuClosersRef: React.MutableRefObject<HelperMenuClosers>;
+  helperMenuClosersRef: React.RefObject<HelperMenuClosers>;
 }
 function TodoHelpers({
   todoId,
@@ -673,7 +673,7 @@ function TodoHelpers({
 interface FrequencyMenuProps {
   todoId: ID;
   closeFrequencyMenu: () => void;
-  frequencyMenuButtonRef: React.RefObject<HTMLButtonElement>;
+  frequencyMenuButtonRef: React.RefObject<HTMLButtonElement | null>;
   focusOnFrequencyMenuButton: () => void;
   todoType: TodoType;
 }

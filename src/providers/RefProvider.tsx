@@ -11,10 +11,10 @@ const refContext = createContext<RefContext | null>(null);
 
 interface RefContext {
   refs: {
-    createTodoRef: React.RefObject<HTMLInputElement>;
-    visualizerRef: React.RefObject<HTMLDivElement>;
-    menuTogglerRef: React.RefObject<HTMLButtonElement>;
-    footerRef: React.RefObject<HTMLElement>;
+    createTodoRef: React.RefObject<HTMLInputElement | null>;
+    visualizerRef: React.RefObject<HTMLDivElement | null>;
+    menuTogglerRef: React.RefObject<HTMLButtonElement | null>;
+    footerRef: React.RefObject<HTMLElement | null>;
   };
   helpers: Record<string, () => void>;
 }
@@ -31,7 +31,7 @@ interface RefContext {
 function focusFromEl(el: Element | null) {
   if (el instanceof HTMLElement) el.focus();
 }
-export function focusFromRef(ref: React.RefObject<HTMLElement>) {
+export function focusFromRef(ref: React.RefObject<HTMLElement | null>) {
   focusFromEl(ref.current);
 }
 export function refCallbackForFocusOnMount(el: HTMLElement | null) {
@@ -46,13 +46,13 @@ function focusOnFirstItemFromEl(el: HTMLElement) {
   const firstItem = el.querySelector('a, button, input');
   focusFromEl(firstItem);
 }
-export function focusOnFirstItemFromRef(ref: React.RefObject<HTMLElement>) {
+export function focusOnFirstItemFromRef(ref: React.RefObject<HTMLElement | null>) {
   if (ref.current) focusOnFirstItemFromEl(ref.current);
 }
 export function refCallbackToFocusOnFirstItemOnMount(el: HTMLElement | null) {
   if (el) focusOnFirstItemFromEl(el); // might be null since react executes the callback when element unmounts
 }
-export function focusOnLastItemFromRef(ref: React.RefObject<HTMLElement>) {
+export function focusOnLastItemFromRef(ref: React.RefObject<HTMLElement | null>) {
   if (!ref.current) return;
   const allItems = ref.current.querySelectorAll('a, button, input');
   const lastItem = allItems[allItems.length - 1];
