@@ -15,6 +15,9 @@ function fileProtocol(): Plugin {
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [react(), fileProtocol()],
+  plugins: [
+    react(),
+    ...(process.env['offline'] === 'true' ? [fileProtocol()] : []),
+  ],
   base: './', // since assets are hosted relative to index.html, keep them relative to it
 });
