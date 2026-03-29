@@ -159,7 +159,7 @@ export default function Checklist() {
 
 interface CreateTodoProps extends ValidDateStr {
   unitsAsInt: ValidDateInt;
-  refForUpdateCurrentTodoData: React.RefObject<React.Dispatch<Action>>;
+  refForUpdateCurrentTodoData: TodosProps['refForUpdateCurrentTodoData'];
 }
 const CreateTodo = memo(
   ({
@@ -191,7 +191,7 @@ const CreateTodo = memo(
     }
 
     // handlers
-    function createTodoHandler(e: React.FormEvent<HTMLFormElement>) {
+    function createTodoHandler(e: React.SubmitEvent<HTMLFormElement>) {
       e.preventDefault();
       const submittedFormData = new FormData(e.currentTarget);
       const formDataReadable = Object.fromEntries(submittedFormData.entries());
@@ -233,8 +233,8 @@ type Action =
 
 interface TodosProps extends ValidDateStr {
   unitsAsInt: ValidDateInt;
-  helperMenuClosersRef: React.MutableRefObject<HelperMenuClosers>;
-  refForUpdateCurrentTodoData: React.RefObject<React.Dispatch<Action>>;
+  helperMenuClosersRef: React.RefObject<HelperMenuClosers>;
+  refForUpdateCurrentTodoData: React.RefObject<React.Dispatch<Action> | null>;
 }
 function Todos({
   day,
@@ -249,6 +249,7 @@ function Todos({
 
   // only the tasks used, since values locally managed
   const [currentTodoData, updateCurrentTodoData] = useReducer(
+    // eslint-disable-next-line react-hooks/immutability -- accessible since hoisted
     reducerForCurrentTodoData,
     {},
     (init) => reducerForCurrentTodoData(init, { action: 'SYNC' }),
@@ -324,8 +325,8 @@ function Todos({
 interface TodoProps extends ValidDateStr {
   updateCurrentTodoData: React.Dispatch<Action>;
   todoId: ID;
-  helperMenuClosersRef: React.MutableRefObject<HelperMenuClosers>;
-  cachedTodoData: React.MutableRefObject<DayTodoData>;
+  helperMenuClosersRef: TodosProps['helperMenuClosersRef'];
+  cachedTodoData: React.RefObject<DayTodoData>;
   unitsAsInt: ValidDateInt;
 }
 const Todo = memo(
@@ -378,6 +379,7 @@ const Todo = memo(
     }
 
     // todo value, type and description locally managed
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-arguments -- ensure correct type is used
     const [todoValue, setTodoValue] = useState<TodoValueType>(
       cachedTodoData.current[todoId].value,
     );
@@ -470,7 +472,9 @@ const Todo = memo(
       closeHelperMenu(); // close the helper menu
       focusOnCurrentMenuToggler(); // move focus to the current todoToggler
     }
-    function updateTodoDescriptionHandler(e: React.FormEvent<HTMLFormElement>) {
+    function updateTodoDescriptionHandler(
+      e: React.SubmitEvent<HTMLFormElement>,
+    ) {
       e.preventDefault();
       const submittedFormData = new FormData(e.currentTarget);
       const formDataReadable = Object.fromEntries(submittedFormData.entries());
@@ -565,12 +569,12 @@ function TodoState({
 
 interface TodoHelpersProps {
   todoId: ID;
-  updateTodoDescriptionHandler: (e: React.FormEvent<HTMLFormElement>) => void;
+  updateTodoDescriptionHandler: (e: React.SubmitEvent<HTMLFormElement>) => void;
   todoType: TodoType;
   updateTodoTypeHandler: (e: React.ChangeEvent<HTMLSelectElement>) => void;
   removeFromTodoHandler: () => void;
   closeHelperMenu: () => void;
-  helperMenuClosersRef: React.MutableRefObject<HelperMenuClosers>;
+  helperMenuClosersRef: TodosProps['helperMenuClosersRef'];
 }
 function TodoHelpers({
   todoId,
@@ -670,7 +674,7 @@ function TodoHelpers({
 interface FrequencyMenuProps {
   todoId: ID;
   closeFrequencyMenu: () => void;
-  frequencyMenuButtonRef: React.RefObject<HTMLButtonElement>;
+  frequencyMenuButtonRef: React.RefObject<HTMLButtonElement | null>;
   focusOnFrequencyMenuButton: () => void;
   todoType: TodoType;
 }

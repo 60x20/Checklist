@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 
 // contexts
 import { useCurrentDateContext } from '../providers/CurrentDateProvider';

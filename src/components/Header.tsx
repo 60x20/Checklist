@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 
 // context providers
 import { useMenuStateContext } from '../providers/MenuStateProvider';

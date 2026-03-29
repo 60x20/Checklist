@@ -1,5 +1,5 @@
 import { useEffect, useLayoutEffect, useRef } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router';
 
 // contexts
 import {
@@ -14,6 +14,7 @@ import {
   focusOnLastItemFromRef,
   useRefContext,
 } from '../providers/RefProvider';
+import { useCurrentDateContext } from '../providers/CurrentDateProvider';
 
 // helpers
 import { confirmToResetAllData } from '../helpers/resetAllData';
@@ -36,6 +37,8 @@ interface MenuProps {
 function Menu({ closeTheMenu }: MenuProps) {
   const { year, month, day } = useRequestedDateValidatedContext();
   const isDateRequested = day !== undefined; // only checking one ensures validity of all
+
+  const currentDate = useCurrentDateContext();
 
   const { increaseAllDataCleared } = useAllDataClearedContext();
   const { increaseTodayCleared } = useTodayClearedContext();
@@ -106,7 +109,7 @@ function Menu({ closeTheMenu }: MenuProps) {
 
   const navigate = useNavigate();
   // throttling, otherwise performance issues might occur
-  const dateToGo = useRef<string>('');
+  const dateToGo = useRef('');
   const timeoutSet = useRef<number | undefined>(undefined);
   function goToRequestedDateHandler(e: React.ChangeEvent<HTMLInputElement>) {
     // if requestedDate is invalid, don't continue
@@ -114,8 +117,8 @@ function Menu({ closeTheMenu }: MenuProps) {
       const requestedDate = e.currentTarget.value;
       dateToGo.current = requestedDate;
       // only set a timeout if there isn't any (otherwise multiple navigation would occur)
-      timeoutSet.current ??= setTimeout(() => {
-        navigate(dateToGo.current.replaceAll('-', '/'));
+      timeoutSet.current ??= setTimeout(async () => {
+        await navigate(dateToGo.current.replaceAll('-', '/'));
         // reset, so that old data doesn't cause problems
         dateToGo.current = '';
         timeoutSet.current = undefined;
@@ -208,7 +211,9 @@ function Menu({ closeTheMenu }: MenuProps) {
                 type="date"
                 required
                 min="2000-01-01"
-                defaultValue={isDateRequested ? `${year}-${month}-${day}` : ''}
+                defaultValue={
+                  isDateRequested ? `${year}-${month}-${day}` : currentDate
+                }
                 max="2100-12-31"
               />
             </label>
