@@ -159,7 +159,7 @@ export default function Checklist() {
 
 interface CreateTodoProps extends ValidDateStr {
   unitsAsInt: ValidDateInt;
-  refForUpdateCurrentTodoData: React.RefObject<React.Dispatch<Action> | null>;
+  refForUpdateCurrentTodoData: TodosProps['refForUpdateCurrentTodoData'];
 }
 const CreateTodo = memo(
   ({
@@ -325,7 +325,7 @@ function Todos({
 interface TodoProps extends ValidDateStr {
   updateCurrentTodoData: React.Dispatch<Action>;
   todoId: ID;
-  helperMenuClosersRef: React.RefObject<HelperMenuClosers>;
+  helperMenuClosersRef: TodosProps['helperMenuClosersRef'];
   cachedTodoData: React.RefObject<DayTodoData>;
   unitsAsInt: ValidDateInt;
 }
@@ -574,7 +574,7 @@ interface TodoHelpersProps {
   updateTodoTypeHandler: (e: React.ChangeEvent<HTMLSelectElement>) => void;
   removeFromTodoHandler: () => void;
   closeHelperMenu: () => void;
-  helperMenuClosersRef: React.RefObject<HelperMenuClosers>;
+  helperMenuClosersRef: TodosProps['helperMenuClosersRef'];
 }
 function TodoHelpers({
   todoId,
