@@ -6,6 +6,30 @@ updates:
       interval: "monthly"
 
     groups:
+      # React
+      react-related:
+        patterns:
+          - "react*"
+          - "@types/react*"
+
+      # Linting
+      linting:
+        patterns:
+          - "eslint*"
+          - "@eslint/*"
+          - "typescript-eslint"
+
+      # Vite
+      vite:
+        patterns:
+          - "vite"
+          - "@vitejs/*"
+
+      # Fortawesome
+      fontawesome:
+        patterns:
+          - "@fortawesome/*"
+
       # group minor & patch updates to reduce noise
       minor-and-patch:
         patterns:
