@@ -12,7 +12,7 @@ export default tseslint.config({
     js.configs.recommended,
     ...tseslint.configs.strictTypeChecked,
     ...tseslint.configs.stylisticTypeChecked,
-    reactHooks.configs['recommended-latest'],
+    reactHooks.configs.flat['recommended-latest'],
   ],
   rules: {
     '@typescript-eslint/consistent-type-imports': 'error',
