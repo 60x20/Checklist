@@ -191,7 +191,7 @@ const CreateTodo = memo(
     }
 
     // handlers
-    function createTodoHandler(e: React.FormEvent<HTMLFormElement>) {
+    function createTodoHandler(e: React.SubmitEvent<HTMLFormElement>) {
       e.preventDefault();
       const submittedFormData = new FormData(e.currentTarget);
       const formDataReadable = Object.fromEntries(submittedFormData.entries());
@@ -471,7 +471,9 @@ const Todo = memo(
       closeHelperMenu(); // close the helper menu
       focusOnCurrentMenuToggler(); // move focus to the current todoToggler
     }
-    function updateTodoDescriptionHandler(e: React.FormEvent<HTMLFormElement>) {
+    function updateTodoDescriptionHandler(
+      e: React.SubmitEvent<HTMLFormElement>,
+    ) {
       e.preventDefault();
       const submittedFormData = new FormData(e.currentTarget);
       const formDataReadable = Object.fromEntries(submittedFormData.entries());
@@ -566,7 +568,7 @@ function TodoState({
 
 interface TodoHelpersProps {
   todoId: ID;
-  updateTodoDescriptionHandler: (e: React.FormEvent<HTMLFormElement>) => void;
+  updateTodoDescriptionHandler: (e: React.SubmitEvent<HTMLFormElement>) => void;
   todoType: TodoType;
   updateTodoTypeHandler: (e: React.ChangeEvent<HTMLSelectElement>) => void;
   removeFromTodoHandler: () => void;
