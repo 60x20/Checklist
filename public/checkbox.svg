@@ -1,0 +1,28 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="150"
+  height="150"
+  viewBox="0 0 100 100"
+>
+  <!-- Green square with black border -->
+  <rect
+    x="3.5"
+    y="3.5"
+    width="93"
+    height="93"
+    rx="8"
+    fill="#34C759"
+    stroke="#1C1C1C"
+    stroke-width="4"
+  />
+
+  <!-- White checkmark -->
+  <path
+    d="M27 50 L43 68 L75 29"
+    fill="none"
+    stroke="#FFFFFF"
+    stroke-width="11"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+</svg>
