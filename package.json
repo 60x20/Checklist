@@ -4,10 +4,10 @@
   "type": "module",
   "scripts": {
     "dev": "vite --host",
+    "preview": "vite preview",
     "build": "tsc -b && vite build",
     "build-offline": "set \"offline=true\" && npm run build",
-    "lint": "eslint .",
-    "preview": "vite preview"
+    "lint": "eslint ."
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^7.2.0",
