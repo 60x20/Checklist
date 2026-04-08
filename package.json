@@ -7,7 +7,8 @@
     "preview": "vite preview",
     "build": "tsc -b && vite build",
     "build-offline": "set \"offline=true\" && npm run build",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "changelog": "auto-changelog --template keepachangelog --unreleased"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^7.2.0",
@@ -25,6 +26,7 @@
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^5.2.0",
+    "auto-changelog": "^2.5.0",
     "eslint": "^9.39.4",
     "eslint-plugin-filenames": "^1.3.2",
     "eslint-plugin-react-hooks": "^7.0.1",
