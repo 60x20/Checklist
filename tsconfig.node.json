@@ -23,5 +23,6 @@
     "rootDir": "./"
   },
   "extends": "@tsconfig/strictest/tsconfig.json",
-  "files": ["./vite.config.ts", "./eslint.config.js"]
+  "files": ["./vite.config.ts", "./eslint.config.js"],
+  "include": ["scripts"]
 }

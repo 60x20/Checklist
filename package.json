@@ -8,6 +8,7 @@
     "build": "tsc -b && vite build",
     "build-offline": "set \"offline=true\" && npm run build",
     "lint": "eslint .",
+    "add-version-tags": "node ./scripts/add-version-tags.ts",
     "changelog": "auto-changelog --template keepachangelog --unreleased --commit-limit 0 --starting-version v1.4.0"
   },
   "dependencies": {
