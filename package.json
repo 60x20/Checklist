@@ -8,7 +8,7 @@
     "build": "tsc -b && vite build",
     "build-offline": "set \"offline=true\" && npm run build",
     "lint": "eslint .",
-    "changelog": "auto-changelog --template keepachangelog --unreleased --commit-limit 0"
+    "changelog": "auto-changelog --template keepachangelog --unreleased --commit-limit 0 --starting-version v1.4.0"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^7.2.0",
