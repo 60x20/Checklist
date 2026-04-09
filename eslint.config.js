@@ -29,7 +29,7 @@ export default tseslint.config({
       { checksVoidReturn: false },
     ],
   },
-  files: ['src/**/*.{ts,tsx}'],
+  files: ['src/**/*.{ts,tsx}', 'scripts/*.ts', './*.{js,ts}'],
   languageOptions: {
     ecmaVersion: 2020,
     parserOptions: {
