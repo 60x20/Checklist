@@ -4,7 +4,7 @@ import reactHooks from 'eslint-plugin-react-hooks';
 
 // non-forwards-compatible plugins
 import { fixupPluginRules } from '@eslint/compat';
-// @ts-expect-error no-types
+// @ts-expect-error -- no-types
 import filenames from 'eslint-plugin-filenames';
 
 export default tseslint.config({
