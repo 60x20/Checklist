@@ -38,6 +38,7 @@ export default tseslint.config({
     },
   },
   plugins: {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     filenames: fixupPluginRules(filenames),
   },
 });
