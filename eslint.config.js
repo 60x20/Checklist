@@ -1,3 +1,4 @@
+import { defineConfig } from 'eslint/config';
 import js from '@eslint/js';
 import tseslint from 'typescript-eslint';
 import reactHooks from 'eslint-plugin-react-hooks';
@@ -7,7 +8,7 @@ import { fixupPluginRules } from '@eslint/compat';
 // @ts-expect-error -- no-types
 import filenames from 'eslint-plugin-filenames';
 
-export default tseslint.config({
+export default defineConfig({
   extends: [
     js.configs.recommended,
     ...tseslint.configs.strictTypeChecked,
