@@ -33,10 +33,7 @@ export default defineConfig({
   files: ['src/**/*.{ts,tsx}', 'scripts/*.ts', './*.{js,ts}'],
   languageOptions: {
     ecmaVersion: 2020,
-    parserOptions: {
-      projectService: true,
-      tsconfigRootDir: import.meta.dirname,
-    },
+    parserOptions: { projectService: true },
   },
   plugins: {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
