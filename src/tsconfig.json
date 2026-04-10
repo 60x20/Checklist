@@ -20,9 +20,9 @@
 
     "types": ["react", "react-dom"],
 
-    "rootDir": "src"
+    "rootDir": "./"
   },
   "extends": "@tsconfig/strictest/tsconfig.json",
 
-  "include": ["src"]
+  "include": ["./"]
 }
