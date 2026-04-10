@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "vite --host",
     "preview": "vite preview",
-    "build": "tsc -b && vite build",
+    "build": "tsc -p ./src/tsconfig.json && vite build",
     "build-offline": "set \"offline=true\" && npm run build",
     "lint": "eslint .",
     "add-version-tags": "node ./scripts/add-version-tags.ts",
